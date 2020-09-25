@@ -1,0 +1,414 @@
+     <div class="slider">
+        <form class="col-12 "  [formGroup]="updateDataForm">
+
+            <div class="row">
+                <div class="col-4">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Matrícula</label>
+                                    <input class="form-control col-sm-12 form-control-sm" formControlName="mat_matricula_psicologo"  autofocus  />
+                                    <div *ngIf="updateDataForm.controls['mat_matricula_psicologo'].errors?.required && updateDataForm.controls['mat_matricula_psicologo'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+    
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Matrícula nacional</label>
+                                    <input class="form-control col-sd-12 form-control-sm" formControlName="mat_matricula_psicologo_nacional"    />
+                                    <div *ngIf="updateDataForm.controls['mat_matricula_psicologo_nacional'].errors?.required && updateDataForm.controls['mat_matricula_psicologo_nacional'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+                 
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Apellido</label>
+                                    <input  type="text"  class="form-control col-sd-12 form-control-sm" formControlName="mat_apellido"    />
+                                    <div *ngIf="updateDataForm.controls['mat_apellido'].errors?.required && updateDataForm.controls['mat_apellido'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+    
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Nombre</label>
+                                    <input  type="text"  class="form-control col-sd-12 form-control-sm" formControlName="mat_nombre"    />
+                                    <div *ngIf="updateDataForm.controls['mat_nombre'].errors?.required && updateDataForm.controls['mat_nombre'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+    
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >DNI</label>
+                                    <input  type="text"  class="form-control col-sd-12 form-control-sm" formControlName="mat_dni"    />
+                                    <div *ngIf="updateDataForm.controls['mat_dni'].errors?.required && updateDataForm.controls['mat_dni'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+    
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Sexo</label>
+                                    <div class="row">
+                                        <div class="col-4"><p-radioButton name="groupname121"  formControlName="mat_sexo"   value="M" label="MASCULINO"  inputId="optsm"></p-radioButton></div>
+                                        <div class="col-4"><p-radioButton name="groupname121"  formControlName="mat_sexo"   value="F" label="FEMENINO"  inputId="optsf"></p-radioButton></div>                    
+                                      </div>  
+                                  
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Fecha nacimiento</label>
+                                    <div class="form-group ">
+                                    <p-calendar [inputStyle]="{'height':'29.1px'}"  formControlName="mat_fecha_nacimiento"     [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">              </p-calendar>                                        
+                                    <div *ngIf="updateDataForm.controls['mat_fecha_nacimiento'].errors?.required && updateDataForm.controls['mat_fecha_nacimiento'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Fecha egreso</label>
+                                    <div class="form-group ">
+                                    <p-calendar [inputStyle]="{'height':'29.1px'}"  formControlName="mat_fecha_egreso"     [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">              </p-calendar>                                        
+                                    <div *ngIf="updateDataForm.controls['mat_fecha_egreso'].errors?.required && updateDataForm.controls['mat_fecha_egreso'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Fecha matrícula</label>
+                                    <div class="form-group ">
+                                    <p-calendar [inputStyle]="{'height':'29.1px'}"  formControlName="mat_fecha_matricula"     [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">              </p-calendar>                                        
+                                    <div *ngIf="updateDataForm.controls['mat_fecha_matricula'].errors?.required && updateDataForm.controls['mat_fecha_matricula'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+    
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >CUIT</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_cuit"    />
+                                    <div *ngIf="updateDataForm.controls['mat_cuit'].errors?.required && updateDataForm.controls['mat_cuit'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+        
+                  
+
+                </div>
+                <div class="col-4">
+
+
+                  
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Número ingresos brutos</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_ning_bto"    />
+                                    <div *ngIf="updateDataForm.controls['mat_ning_bto'].errors?.required && updateDataForm.controls['mat_ning_bto'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Banco</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_banco"    />
+                                    <div *ngIf="updateDataForm.controls['mat_banco'].errors?.required && updateDataForm.controls['mat_banco'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >CBU</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_cbu"    />
+                                    <div *ngIf="updateDataForm.controls['mat_cbu'].errors?.required && updateDataForm.controls['mat_cbu'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Historia de psicólogo</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_historial"    />
+                                    <div *ngIf="updateDataForm.controls['mat_historial'].errors?.required && updateDataForm.controls['mat_historial'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+
+          
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Email</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_email"    />
+                                    <div *ngIf="updateDataForm.controls['mat_email'].errors?.required && updateDataForm.controls['mat_email'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+            
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Número de cuenta</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_num_cuenta"    />
+                                    <div *ngIf="updateDataForm.controls['mat_num_cuenta'].errors?.required && updateDataForm.controls['mat_num_cuenta'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+                  
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Estado matrícula</label>                                      
+                                    <div class="row">
+                                        <div class="col-4"><p-radioButton name="groupnameestado"  formControlName="mat_estado_matricula"   value="A" label="ACTIVO"  inputId="optea"></p-radioButton></div>
+                                        <div class="col-4"><p-radioButton name="groupnameestado"  formControlName="mat_estado_matricula"   value="P" label="PASIVO"  inputId="optep"></p-radioButton></div>                    
+                                    </div>  
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Especialidad</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_especialidad"    />
+                                    <div *ngIf="updateDataForm.controls['mat_especialidad'].errors?.required && updateDataForm.controls['mat_especialidad'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Orientación</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_orientacion"    />
+                                    <div *ngIf="updateDataForm.controls['mat_orientacion'].errors?.required && updateDataForm.controls['mat_orientacion'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Abordaje</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_abordaje"    />
+                                    <div *ngIf="updateDataForm.controls['mat_abordaje'].errors?.required && updateDataForm.controls['mat_abordaje'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    
+            
+
+
+
+
+
+
+                </div>
+
+                <div class="col-4">
+
+                    
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Fallecido</label>                              
+                                    <div class="row">
+                                        <div class="col-4"><p-radioButton name="groupnamefa"  formControlName="mat_fallecido"   value="S" label="SI"  inputId="optfs"></p-radioButton></div>
+                                        <div class="col-4"><p-radioButton name="groupnamefa"  formControlName="mat_fallecido"   value="N" label="NO"  inputId="optfn"></p-radioButton></div>                    
+                                      </div>  
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Excento</label>                                        
+                                    <div class="row">
+                                        <div class="col-4"><p-radioButton name="groupname12"  formControlName="mat_excento"   value="S" label="SI"  inputId="optes"></p-radioButton></div>
+                                        <div class="col-4"><p-radioButton name="groupname12"  formControlName="mat_excento"   value="N" label="NO"  inputId="opten"></p-radioButton></div>                    
+                                    </div>  
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Folio</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_nro_folio"    />
+                                    <div *ngIf="updateDataForm.controls['mat_nro_folio'].errors?.required && updateDataForm.controls['mat_nro_folio'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Acta</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_nro_acta"    />
+                                    <div *ngIf="updateDataForm.controls['mat_nro_acta'].errors?.required && updateDataForm.controls['mat_nro_acta'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Localidad</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_localidad"    />
+                                    <div *ngIf="updateDataForm.controls['mat_localidad'].errors?.required && updateDataForm.controls['mat_localidad'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Domicilio particular</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_domicilio_particular"    />
+                                    <div *ngIf="updateDataForm.controls['mat_domicilio_particular'].errors?.required && updateDataForm.controls['mat_domicilio_particular'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Domicilio laboral</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_domicilio_laboral"    />
+                                    <div *ngIf="updateDataForm.controls['mat_domicilio_laboral'].errors?.required && updateDataForm.controls['mat_domicilio_laboral'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Lugar laboral</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_lugar_laboral"    />
+                                    <div *ngIf="updateDataForm.controls['mat_lugar_laboral'].errors?.required && updateDataForm.controls['mat_lugar_laboral'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Teléfono particular</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_tel_particular"    />
+                                    <div *ngIf="updateDataForm.controls['mat_tel_particular'].errors?.required && updateDataForm.controls['mat_tel_particular'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group ">
+                                    <label  >Teléfono laboral</label>
+                                    <input type="text" class="form-control col-sd-12 form-control-sm" formControlName="mat_tel_laboral"    />
+                                    <div *ngIf="updateDataForm.controls['mat_tel_laboral'].errors?.required && updateDataForm.controls['mat_tel_laboral'].touched" class="alert alert-warning">
+                                            * Este campo es requerido
+                                    </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button  [disabled]="!updateDataForm.valid" class="btn btn-info  btn-block"  (click)="actualizarDatos()" >GUARDAR</button>
+                
+        </div>
+        </form>
+        <p-footer>
+          
+        </p-footer>
+     </div>
+    
+        
+           
+       

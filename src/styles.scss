@@ -1,1 +1,1282 @@
 /* You can add global styles to this file, and also import other style files */
+/****************FUENTES PARA USAR ******************/
+
+@import url('https://fonts.googleapis.com/css?family=Liu+Jian+Mao+Cao|Open+Sans|Oxygen&display=swap');
+
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans|Open+Sans|Oxygen&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap');
+/*@import "~@angular/material/prebuilt-themes/indigo-pink.css";*/
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat+Alternates&display=swap');
+
+
+/* ---------- MODIFICA LA ESTETICA DE UNA COLUMNA DE FORMA DINAMICA --------- */
+
+$custom-grid: var(--custom-primary-color);
+//$color-menu: #a8dadc;
+ $color-menu: #457b9d; 
+$color-menu-text: #f1faee;
+$background-soft : #caf0f8;
+
+.change-grid-color {
+    color: $custom-grid!important;
+    font-weight: bold;
+    font-family: 'Oxygen', sans-serif;
+  }
+
+h6{
+    font-family: 'Montserrat', sans-serif !important ;
+}
+
+label{
+    font-family: 'Montserrat', sans-serif !important ;
+}
+
+a{
+    font-family: 'Montserrat', sans-serif !important ;
+}
+
+.background-fondo{
+    background-color: $background-soft;
+}
+.fondor-relleno{
+    width: 100%;
+    height: 100%;
+}
+
+%font-open-sans{
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+.texto-oepn-sans
+{
+  font-family: 'Open Sans', sans-serif;
+}
+
+
+.texto-roboto
+{
+  font-family: 'Roboto', sans-serif;
+
+}
+
+.texto-monserrat
+{
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+.texto-monserrat-alternat
+{
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+
+.prime-table{
+    text-align:center;
+    font-size:12px;
+  } 
+
+  
+  
+  .ui-calendar button {
+    right: 0;
+    top: 0;
+}
+
+
+// DEFINO LA FUENTE DE FORMA GLOBAL
+
+* {
+    @extend %font-open-sans ;
+}
+
+/****************** TAG A ************************/
+
+.a-success {
+    background-color: rgb(38, 166, 154);
+    color: rgb(232, 245, 233);
+    border-radius: 8;
+  }
+
+
+/******* PROPIEDADES DE FLEX BOX **/
+.flexbox{
+    display: flex;
+    justify-content: center ;
+    align-items: stretch; /* valor por defecto en flexbox*/
+}
+.flex-principal-columnas{
+    flex:5;
+    margin-right: 20px;
+}
+
+.flex-sidebar-columnas{
+    flex:1;
+}
+
+.flex-menubar-columnas{
+    flex:1;
+}
+
+.flexbox-margin-left{
+    margin: auto auto 20px auto  ;
+}
+
+.flexbox-margin-right{
+    margin: auto  auto 20px auto;    
+}
+
+.flexbox-margin-center{
+    margin: auto auto auto auto;
+}
+
+.flexbox-padding{
+    padding: 20px;    
+}
+
+.flexbox-max-height{
+    max-height: 30px;
+  overflow: auto;
+}
+
+
+
+/*************************FIN FLEX BOX**************************/
+
+
+.ui-calendar {
+    display: block;
+}
+
+
+.main-div{
+    height: 92vh;
+}
+
+.popup-div-width{
+    width: 90vw;
+}
+
+
+
+
+.my-hover {
+    cursor: pointer;
+}
+
+
+
+.icon-color-user-setting{
+    color: #E0E0E0!important;
+}
+
+.icon-color-clinica-setting{
+    color: #D0E6A5!important;
+}
+
+.icon-color-loader{
+    color: #9C27B0!important;
+}
+
+
+.icon-color-rosa{
+    color: #ef233c!important;
+}
+
+.icon-color-informacion{
+    color: #457b9d!important;
+}
+
+.icon-color-usuario{
+    color: #00BCD4!important;
+}
+
+.icon-color-verde-oscuro{
+    color: #00a896!important;
+}
+
+.icon-color-clinica{
+    color: #C0CA33!important;
+}
+
+.icon-color-config{
+    color: #ECEFF1!important;
+}
+
+.icon-color-quit{
+    color: #DD2C00!important;
+}
+
+.ui-tooltip-text.ui-shadow.ui-corner-all {
+    background-color: #EFEBE9;
+color:#3b0404;
+}
+
+.ui-tooltip-arrow.ui-shadow.ui-corner-all{
+    background-color: #AED581 !important;
+}
+
+
+.icon-color-red{
+    color: #f4511e!important;
+}
+.icon-color-red:hover{
+    color: #ff7043!important;
+}
+
+.icon-color-purple{
+    color: #9575cd!important;    
+}
+.icon-color-purple:hover{
+    color: #ab47bc!important;    
+}
+
+.icon-color-green{
+    color: #229954!important;
+}
+.icon-color-green:hover{
+    color: #229954!important;
+}
+
+.icon-color-blue{
+    color: #2980B9!important; 
+}
+.icon-color-blue:hover{
+    color: #2980B9!important;
+}
+
+
+.icon-color-green-light{
+    color: #689f38!important; 
+}
+.icon-color-green-light:hover{
+    color: #689f38!important;
+}
+
+
+.icon-color-red-light{
+    color: #E74C3C!important; 
+}
+.icon-color-red-light:hover{
+    color: #E74C3C!important;
+}
+
+.icon-color-orange-light{
+    color: #F39C12!important; 
+}
+.icon-color-orange-light:hover{
+    color: #F39C12!important;
+}
+
+
+.icon-color-notificacion-light{
+    color: #9C27B0!important; 
+}
+
+.icon-color-notificacion-light:hover{
+    color: #BA68C8!important;
+}
+
+.text-white{
+    color: #EFEBE9!important;
+}
+
+text-danger-bold{
+    color: rgb(245, 127, 23) !important;
+    font-weight: bold !important;
+}
+
+
+
+
+.fondo-body {
+    background: #fafafa;
+}
+
+
+/*COLORES */
+.error{ color: #D50000 !important; }
+.advertencia { color: #FFC300  !important; }
+.informacion { color: #01579B  !important; }
+.exito { color: #B2FF59  !important; } 
+.gris { color: #616161 !important; }
+.blanco { color: #FFFFFF !important; }
+
+
+/* animacion con un subrayado*/
+
+/* Simple CSS3 Fade-in Animation */
+.underlineHover:after {
+  display: block;
+  left: 0;
+  bottom: -10px;
+  width: 0;
+  height: 2px;
+  background-color: #56baed;
+  content: "";
+  transition: width 0.2s;
+}
+
+.underlineHover:hover {
+  color: #0d0d0d;
+}
+
+.underlineHover:hover:after{
+  width: 100%;
+}
+
+
+.modal {
+   
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+/**************** ANIMACIONES ******************/
+
+.image-loading {
+    -webkit-animation: rotation 2s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    from {
+            -webkit-transform: rotate(0deg);
+    }
+    to {
+            -webkit-transform: rotate(359deg);
+    }
+}
+
+
+/**************** fIN ANIMACIONES ******************/
+
+
+
+.es-observacion {
+    background-color: #90CAF9!important;
+    color: #757575   !important;
+} 
+
+/***************************ESTADO ATENCION ************************/ 
+
+
+/************ CURSORES ***********************/
+
+
+.auto            { cursor: auto; }
+.deafult         { cursor: default; }
+.none            { cursor: none; }
+.context-menu    { cursor: context-menu; }
+.help            { cursor: help; }
+.pointer         { cursor: pointer; }
+.progress        { cursor: progress; }
+.wait            { cursor: wait; }
+.cell            { cursor: cell; }
+.crosshair       { cursor: crosshair; }
+.text            { cursor: text; }
+.vertical-text   { cursor: vertical-text; }
+.alias           { cursor: alias; }
+.copy            { cursor: copy; }
+.move            { cursor: move; }
+.no-drop         { cursor: no-drop; }
+.not-allowed     { cursor: not-allowed; }
+.all-scroll      { cursor: all-scroll; }
+.col-resize      { cursor: col-resize; }
+.row-resize      { cursor: row-resize; }
+.n-resize        { cursor: n-resize; }
+.e-resize        { cursor: e-resize; }
+.s-resize        { cursor: s-resize; }
+.w-resize        { cursor: w-resize; }
+.ns-resize       { cursor: ns-resize; }
+.ew-resize       { cursor: ew-resize; }
+.ne-resize       { cursor: ne-resize; }
+.nw-resize       { cursor: nw-resize; }
+.se-resize       { cursor: se-resize; }
+.sw-resize       { cursor: sw-resize; }
+.nesw-resize     { cursor: nesw-resize; }
+.nwse-resize     { cursor: nwse-resize; }
+
+
+/*******scroll panel******/
+
+
+
+.custom .ui-scrollpanel-wrapper {
+    border-right: 9px solid #f4f4f4; 
+}
+
+.custom .ui-scrollpanel-bar {
+    background-color: #F9A825; 
+    opacity: 1; 
+    transition: background-color .3s; 
+}
+
+.custom .ui-scrollpanel-bar:hover {
+    background-color: #F57F17;
+}
+
+.head-border{
+    border-radius: 6px 6px 0px 0px;
+-moz-border-radius: 6px 6px 0px 0px;
+-webkit-border-radius: 6px 6px 0px 0px;
+border: 1px  #AED581!important;
+
+
+}
+
+.ui-panel-images {
+    width      : 100%;
+    height     : 100%;
+    object-fit : contain;
+  }
+
+
+  .navbar-main {
+    background-color: #5C6BC0;
+
+     /*padding:  3px;*/
+  }
+
+  .navbar-1 {
+    /*background-color: #3b5998;*/ 
+    background-color: #884EA0;
+     font-size: 22px;
+    padding:  10px;
+  }
+  
+  /* Define what each icon button should look like */
+  .button {
+    color: white;
+    display: inline-block; /* Inline elements with width and height. TL;DR they make the icon buttons stack from left-to-right instead of top-to-bottom */
+    position: relative; /* All 'absolute'ly positioned elements are relative to this one */
+    padding: 5px 10px ; /* Add some padding so it looks nice */
+  }
+  
+  /* Make the badge float in the top right corner of the button */
+  .button__badge {
+    background-color: #fa3e3e;
+    border-radius: 4px;
+    color: white;
+   
+    padding:  3px;
+    font-size: 12px;
+    
+    position: absolute; /* Position the badge within the relatively positioned button */
+    top: 0;
+    right: 3;
+  }
+
+
+  /**ç
+  alineaciones*/
+
+  .alineacion-flexbox { 
+    display: flex; 
+    justify-content: space-between;
+  }
+
+
+  /******
+    tooltip
+  *******/
+
+  
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /***
+
+  ESTILO DE LA BARRA
+  */
+
+
+  .ui-menubar  {
+
+    
+    background: $color-menu !important;
+    color:$color-menu !important;
+    border-color: $color-menu !important;
+    font-family: 'Montserrat', sans-serif;
+    padding:  0px !important;
+    padding-left: 5px;
+
+    
+}
+
+.ui-menuitem{
+
+    background: $color-menu-text !important;
+    color: $color-menu-text !important;
+    border-color: $color-menu-text !important;
+    font-family: 'Montserrat', sans-serif;
+    margin:  0em !important;
+    padding: 0em !important;
+    border-radius: 0 !important;
+  
+}
+
+.ui-menuitem-text {
+    border-color: $color-menu !important;
+    color: $color-menu-text !important;
+    font-family: 'Montserrat', sans-serif;
+    
+}
+
+
+.ui-menu-list{
+
+    background: $color-menu !important;
+    color: $color-menu !important;
+    border-color: $color-menu !important;
+    font-family: 'Montserrat', sans-serif !important;
+    
+}
+
+.ui-menuitem-link{
+
+    background: $color-menu !important;
+    color: $color-menu !important;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0px;
+    padding: 8px !important;
+    border-radius: 0 !important;
+    border: none;
+  
+}
+
+.ui-menuitem-icon {
+   /* background-image: url('pathToYourSprite.svg');
+    background-position: 0 0; /* closed position */
+     color: #548ddb !important;
+      background: #548ddb !important;
+}
+
+
+.ui-submenu-icon{
+    color: $color-menu-text !important;
+    background: $color-menu !important;
+}
+
+
+
+.ui-tooltip .ui-tooltip-text  .ui-tooltip .ui-tooltip-text  {
+    background-color: #F18829;
+    color: #ffffff;
+}
+
+ /***
+
+FIN  ESTILO DE LA BARRA
+  */
+
+
+/************************ BOTONES ******************************/
+.btn-excel{
+    background:  #1B5E20!important; 
+    border:  #1B5E20!important;
+    border-radius: 5px;    
+    outline-color: #1B5E20!important; 
+    color: #FFFFFF!important;
+    outline: 0;
+    
+}
+
+
+
+
+
+.btn-outline-info{
+    background:  #CE93D8!important; 
+    border:  #CE93D8!important;
+    border-radius: 5px;    
+    outline-color: #CE93D8!important; 
+    outline: 0;
+}
+
+
+
+.btn-success:focus{
+    border-color:  #00B8D4!important;
+    outline:  #00B8D4 !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+
+.block-info{
+    background:  #78AEB7!important; 
+    border:  #78AEB7!important;
+    border-radius: 5px;    
+    outline-color: #78AEB7!important; 
+    outline: 0;
+}
+
+.block-info:active:focus{
+    border-color:  #78AEC7!important;
+    outline:  #78AEC7 !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.block-info:hover{
+    background: #78AEC7!important;
+    border: #78AEC7!important;
+    outline-color: #78AEC7!important; 
+    outline: 0;
+}
+
+.block-info:focus{
+    outline-color: #78AEC7!important; 
+    outline: 0;
+}
+
+
+
+
+.block-warning{
+    background:  #F18829!important; 
+    border:  #F18829!important;
+    border-radius: 5px;    
+    outline-color: #F18829!important; 
+    outline: 0;
+    color: #FFFFFF!important;
+}
+
+.block-warning:active:focus{
+    border-color:  #F18819!important;
+    outline:  #F18819 !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.block-warning:hover{
+    background: #F18819!important;
+    border: #F18819!important;
+    outline-color: #F18819!important; 
+    outline: 0;
+}
+
+.block-warning:focus{
+    outline-color: #F18819!important; 
+    outline: 0;
+}
+
+
+
+
+.block-primary{
+    background:  #B578B1!important; 
+    border:  #B578B1!important;
+    color: #FFFFFF!important;
+
+}
+
+.block-primary:active:focus{
+    border-color:  #B578B1!important;
+    outline:  #B578B1 !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.block-primary:hover{
+    background: #B578C1!important;
+    border: #B578C1!important;
+    outline-color: #B578C1!important; 
+    color: #FFFFFF!important;
+    outline: 0;
+}
+
+.block-primary:focus{
+    outline-color: #B578C1!important; 
+    outline: 0;
+}
+
+
+
+.block-danger{
+    background:  #D01C20!important; 
+    border:  #D01C20!important;
+    border-radius: 5px;    
+    outline-color: #D01C20!important; 
+    outline: 0;
+    color: #FFFFFF!important;
+}
+
+.block-danger:active:focus{
+    border-color:  #D01C00!important;
+    outline:  #D01C00 !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.block-danger:hover{
+    background: #D01C00!important;
+    border: #D01C00!important;
+    outline-color: #D01C00!important; 
+    outline: 0;
+}
+
+.block-danger:focus{
+    outline-color: #D01C00!important; 
+    outline: 0;
+}
+
+body {
+    background-color: #FFFFFF;
+    font-family: 'Montserrat Alternates', sans-serif;
+  }
+
+/* -------------------------------------------------------------------------- */
+/*                                   FLEXBOX                                  */
+/* -------------------------------------------------------------------------- */
+
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+
+
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                         ELEMENTOS NUEVOS 21-04-2020                        */
+/* -------------------------------------------------------------------------- */
+
+.icon-hover {
+    cursor: pointer;
+}
+
+.icon-color-info{
+    color: #1E88E5!important;
+}
+
+.icon-color-success{
+    color: #4CAF50!important;
+}
+
+.icon-color-warning{
+    color: #1E88E5!important;
+}
+
+.icon-color-danger{
+    color: #C62828!important;
+}
+
+
+.card-rounded {
+    border-radius: 6px;
+    margin: 15px;
+    margin-top: 3px;
+    min-width: 25px;
+    min-height: 30px;
+    background-color: #F5F5F5;
+
+}
+
+
+.texto-fecha{
+    font-family: 'Oxygen', sans-serif !important;
+    color:#EF5350 !important;
+  }
+  
+  
+  
+  .faq-section {
+    background: #fdfdfd;
+    min-height: 100vh;
+    padding: 10vh 0 0;
+  }
+  .faq-title h2 {
+  position: relative;
+  margin-bottom: 45px;
+  display: inline-block;
+  font-weight: 600;
+  line-height: 1;
+  }
+  
+  .faq-title h5 {
+    position: relative;
+    margin-bottom: 15px;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1;
+    color: #757575;
+    }
+  
+    .faq-title h5::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      width: 120px;
+      height: 2px;
+      background: #03A9F4;
+      bottom: -15px;
+      margin-left: -60px;
+    }
+  
+  .faq-title h2::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 60px;
+    height: 2px;
+    background: #E91E63;
+    bottom: -25px;
+    margin-left: -30px;
+  }
+  .faq-title p {
+  padding: 0 190px;
+  margin-bottom: 10px;
+  }
+  
+  .faq {
+  background: #FFFFFF;
+  box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  }
+  
+  .faq .card {
+  border: none;
+  background: none;
+  border-bottom: 1px dashed #CEE1F8;
+  }
+  
+  .faq .card .card-header {
+  padding: 0px;
+  border: none;
+  background: none;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  }
+  
+  .faq .card .card-header:hover {
+    background: rgba(233, 30, 99, 0.1);
+    padding-left: 10px;
+  }
+  .faq .card .card-header .faq-title {
+  width: 100%;
+  text-align: left;
+  padding: 0px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: #3B566E;
+  text-decoration: none !important;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  }
+  
+  .faq .card .card-header .faq-title .badge {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 14px;
+  float: left;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  text-align: center;
+  background: #E91E63;
+  color: #fff;
+  font-size: 12px;
+  margin-right: 20px;
+  }
+  
+  .faq .card .card-body {
+  padding: 30px;
+  padding-left: 35px;
+  padding-bottom: 16px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #6F8BA4;
+  line-height: 28px;
+  letter-spacing: 1px;
+  border-top: 1px solid #F3F8FF;
+  }
+  
+  .faq .card .card-body p {
+  margin-bottom: 14px;
+  }
+  
+  @media (max-width: 991px) {
+  .faq {
+    margin-bottom: 30px;
+  }
+  .faq .card .card-header .faq-title {
+    line-height: 26px;
+    margin-top: 10px;
+  }
+  }
+  
+  
+  
+  .card-local {
+    height: auto;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    background-color: #fff;
+  }
+  
+  .card-local div:first-child {
+    flex-basis: 35%;
+  }
+  
+  .card-local div:last-child {
+    flex-basis: 65%;
+    padding: 0 0.5rem 0.25rem;
+  }
+  
+  .card-local img {
+    display: block;
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+  }
+  
+  .card-local p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.35rem;
+  }
+  
+
+
+/* -------------------------------------------------------------------------- */
+/*                       TAGS PARA RENGLONES DE GRILLAS   SEGUN ESTADO        */
+/* -------------------------------------------------------------------------- */
+
+
+.es-activo {
+    //border-style: solid;
+  // border-color: #81C784 !important;
+    background-color: #81C784 !important;
+    color: #FFFFFF !important;
+}
+
+.es-pausado {    
+   // border-color: #FFA000 !important;
+    background-color: #FFA000 !important;
+    //color: #616161 !important;
+    color: #FFFFFF !important;
+}
+
+.es-cancelado { 
+  //  border-color: #FF5733 !important;
+    background-color: #FF5733 !important;
+    color: #FFFFFF !important;
+    
+    
+}
+
+.es-finalizado {
+    background-color: #78AEB7 !important;
+    color: #FFFFFF !important;
+}
+
+
+
+
+.border-es-activo {
+  border-left: 10px solid #81C784 !important; 
+  //border-right: 5px solid #81C784 !important; 
+}
+
+.border-es-pausado {    
+    border-left: 10px solid #FFA000 !important;
+}
+
+.border-es-cancelado { 
+    border-left: 10px solid #FF5733 !important;
+    
+    
+}
+
+.border-es-finalizado {    
+    border-left: 10px solid #78AEB7 !important;
+}
+
+.border-es-neutral {    
+    border-left: 20px solid #546E7A !important;
+}
+
+
+.back-es-activo {
+    background-color: 2px solid #81C784 !important; 
+  }
+  
+.back-es-pausado {    
+    background-color: 2px solid #FFA000 !important;
+  }
+  
+.back-es-cancelado { 
+    background-color: 2px solid #FF5733 !important;
+      
+      
+  }
+  
+.back-es-finalizado {    
+    background-color: 2px solid #78AEB7 !important;
+  }
+  
+/* -------------------------------------------------------------------------- */
+/*                                   TARJETA                                  */
+/* -------------------------------------------------------------------------- */
+
+
+.well {
+    min-height: 20px;
+    //padding: 2px;
+    margin-bottom: 20px;
+    background-color: #F5F5F5;
+    border: 1px solid #D9D9D9;
+    border-radius: 0px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    //padding-left: 15px;
+    border:0px;
+}
+
+.well-add-card
+{
+    margin-bottom:10px;
+}
+
+.thumbnail {
+    display: block;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 6px solid #D9D9D9;
+    border-radius: 15px;
+    -webkit-transition: border .2s ease-in-out;
+    -o-transition: border .2s ease-in-out;
+    transition: border .2s ease-in-out;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
+
+.card-local {
+    height: auto;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    background-color: #fff;
+    max-height: 250px;
+    width: 100%;
+  }
+  
+  .card-local div:first-child {
+    flex-basis: 35%;
+  }
+  
+  .card-local div:last-child {
+    flex-basis: 65%;
+    //padding: 0 0.5rem 0.5rem;
+  }
+  /* 
+  .card-local img {
+    display: block;
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+  } */
+  
+  .card-local p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.35rem;
+  }
+  
+  .curve {
+    border-radius: 0.35rem;
+  }
+  
+
+
+/* -------------------------------------------------------------------------- */
+/*                               COLOR DE ICONOS                              */
+/* -------------------------------------------------------------------------- */
+
+
+.icono-info{
+    color: #42A5F5!important;
+}
+
+.icono-success{
+    color: #4CAF50!important;
+} 
+
+.icono-warning{
+    color: #FFC107!important;
+}
+
+.icono-danger{
+    color: #C62828!important;
+}
+
+.icono-secondary{
+    color: #9E9E9E!important;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              BOTONES CUADRADOS                             */
+/* -------------------------------------------------------------------------- */
+
+
+.btn--block {
+    display: block;
+    width: 100%;
+  }
+
+.btn-cuadrado-secondary {
+    background-color: white;
+    border: 1px solid #cccccc;
+    //border-radius: 1rem;
+    color: #696969;
+    padding: 0.5rem;
+  
+  } 
+
+.btn-cuadrado-info {
+    background-color: white;
+    border: 1px solid #2196F3;    
+    color: #2196F3;
+    padding: 0.5rem;
+    
+  }
+
+  .btn-cuadrado-success {
+    background-color: white;
+    border: 1px solid #4CAF50;    
+    color: #388E3C;
+    padding: 0.5rem;
+    
+  }
+
+  .btn-cuadrado-warning {
+    background-color: white;
+    border: 1px solid #F57F17;    
+    color: #F57F17;
+    padding: 0.5rem;
+    
+  }
+
+
+/* -------------------------------------------------------------------------- */
+/*                              TEXTOS PERSONALES                             */
+/* -------------------------------------------------------------------------- */
+
+
+.texto-bold{
+    font-weight: bold;
+}
+.texto-info{
+    color: #00BCD4;    
+}
+
+.texto-success{
+    color: #009688;    
+}
+
+
+.texto-warning{
+    color: #F57F17;
+}
+
+.texto-danger{
+    color: #D32F2F;
+}
+
+.texto-danger-soft{
+    color: #EF5350;
+}
+
+.texto-secondary{
+    color: #37474F;
+}
+
+
+
+.texto-secondary-soft{
+    color: #9575CD;
+}
+
+.texto-terthiary-soft{
+    color: #7E57C2;
+}
+
+
+.texto-terthiary{
+    color: #673AB7;
+}
+
+.texto-menu{
+    color:#455A64;
+}
+
+
+
+
+
+
+//[ngClass]="colorEsSobreturno(agendaTurno.es_sobreturno,agendaTurno.estado)"

@@ -1,0 +1,49 @@
+<div class=" faq-title text-center pb-1 pt-2 ">
+  <h5>GESTION DE USUARIOS</h5>
+</div>
+  <div class="card-rounded card-header">
+    <div class="ml-2">   <a  (click)="nuevo()" class="icon-hover  icon-color-success"> <i class="fas fa-plus fa-lg mr-2"></i>Usuario</a>    </div> 
+  </div>
+    <div class="row m-3">
+      <p-table  #dt class="pt-2"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols" [value]="elementos"  [loading]="loading" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
+      scrollHeight="500px" [scrollable]="true"  loadingIcon="fas fa-spinner fa-2x icon-color-green"  >
+
+                 <ng-template pTemplate="header" let-columns >
+                
+                            <tr >
+                                 
+                              <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
+                                  {{col.header}}
+                                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                              </th> 
+                            
+                          </tr> 
+                          <tr>
+                          <th *ngFor="let col of columns" [ngSwitch]="col.field"  >
+                              <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'nombreyapellido'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                              <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'email'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                            
+                          </th>
+                          <th></th>
+                      </tr>
+                  </ng-template>
+                
+          <ng-template pTemplate="body" let-elementos  >
+              <tr style="height:24px"  > 
+                                    
+                <td style="width: 50%">{{elementos.nombreyapellido}}</td>
+                <td style="width: 30%">{{elementos.email}}</td>
+                <td style="width: 10%">
+                  <a  (click)="editarPermiso(elementos)" class="icon-hover "> <i class="far fa-list-alt icono-success fa-lg"></i></a>     
+                </td>
+                <td style="width: 10%">
+                  <a  (click)="editarPassword(elementos)" class="icon-hover "> <i class="fas fa-unlock-alt icono-warning fa-lg"></i></a>     
+                </td>
+                <td style="width: 10%">
+                  <a  (click)="buscar(elementos)" class="icon-hover"> <i class="fas fa-pen icon-color-info fa-lg"></i></a>     
+                </td>
+              </tr>
+          </ng-template>
+         
+      </p-table>
+    </div>

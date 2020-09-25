@@ -1,0 +1,37 @@
+<div>
+  <app-custom-preloader *ngIf="loading"></app-custom-preloader>  
+</div>
+<div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-start">
+    <p-listbox [options]="modulosUsuario" [(ngModel)]="selectedElemento" [multiple]="false" [filter]="true" optionLabel="titulo" [style]="{'width':'250px'}">
+      <p-header>
+        Modulos asignados al usuario
+      </p-header>
+      <ng-template let-elemento pTemplate="item" >    
+        <div class="ui-helper-clearfix row d-flex align-items-center">
+          <button  (click)="borrar(elemento)" class="icon-hover ml-2 mr-2 btn btn-danger btn-sm "> <i class="fas fa-trash  fa-sm"></i></button>     
+          <label style="font-size: 10px;"> {{elemento.label}}</label>
+                 
+        </div>
+      </ng-template>
+    </p-listbox>
+
+  </div>
+  <div class="d-flex justify-content-end">
+    <div>
+      <p-listbox  [options]="elementos" [(ngModel)]="selectedModulos" [multiple]="true" [checkbox]="true" [filter]="true" optionLabel="titulo" [style]="{'width':'250px'}">
+        <p-header>
+          Modulos disponibles
+        </p-header>
+        <ng-template let-elemento pTemplate="item" >    
+      
+            <label style="font-size: 10px;"> {{elemento.label}}</label>
+  
+        </ng-template>
+        
+      </p-listbox>
+      <button class="btn btn-info btn-block mt-2" (click)="guardarModulos()">Agregar seleccionados</button>
+    </div>
+   
+  </div>
+</div>

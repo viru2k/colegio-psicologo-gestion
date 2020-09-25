@@ -1,0 +1,44 @@
+     
+            <form class="col-12"  [formGroup]="updateDataForm">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group ">
+                            <label  >Obra social</label>
+                            <input class="form-control col-md-12 form-control-sm" formControlName="nombre"  autofocus  />
+                            <div *ngIf="updateDataForm.controls['nombre'].errors?.required && updateDataForm.controls['nombre'].touched" class="alert alert-warning">
+                                    * Este campo es requerido
+                            </div>
+                         </div> 
+                    </div>
+
+                    <div class="col-8">
+                        <div class="form-group ">
+                            <label  >Descripcion</label>
+                            <input class="form-control col-md-12 form-control-sm" formControlName="descripcion"    />
+                            <div *ngIf="updateDataForm.controls['descripcion'].errors?.required && updateDataForm.controls['descripcion'].touched" class="alert alert-warning">
+                                    * Este campo es requerido
+                            </div>
+                         </div> 
+                    </div>
+
+                    <div class="col-8">
+                        <div class="form-group ">
+                            <label  >Habilitado</label>                                        
+                            <div class="row">
+                                <div class="col-4"><p-radioButton name="groupname12"  formControlName="es_habilitada"   value="S" label="SI"  inputId="optes"></p-radioButton></div>
+                                <div class="col-4"><p-radioButton name="groupname12"  formControlName="es_habilitada"   value="N" label="NO"  inputId="opten"></p-radioButton></div>                    
+                            </div>  
+                         </div> 
+                    </div>
+        </div>
+             
+            </form>
+
+        
+            <p-footer>
+                    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                            <button  [disabled]="!updateDataForm.valid" class="btn btn-info texto-roboto btn-block" type="submit" (click)="guardarDatos()" >Guardar</button>
+                            
+                    </div>
+                </p-footer>
+       

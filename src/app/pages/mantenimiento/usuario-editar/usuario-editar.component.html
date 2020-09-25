@@ -1,0 +1,49 @@
+     
+            <form class="col-12"  [formGroup]="updateDataForm" >
+                <div class="row">
+                    <div class="col-8">
+                 
+                        <div class="form-group " *ngIf="!editarPassword">
+                                <label  >Nombre y apellido</label>
+                                <input class="form-control col-md-12 form-control-sm" formControlName="nombreyapellido"    />
+                                <div *ngIf="updateDataForm.controls['nombreyapellido'].errors?.required && updateDataForm.controls['nombreyapellido'].touched" class="alert alert-warning">
+                                        * Este campo es requerido
+                                </div>
+                        </div>  
+                        
+                        <div class="form-group " *ngIf="!editarPassword">
+                            <label  >Usuario</label>
+                            <input class="form-control col-md-12 form-control-sm" formControlName="email"    />
+                            <div *ngIf="updateDataForm.controls['email'].errors?.required && updateDataForm.controls['email'].touched" class="alert alert-warning">
+                                    * Este campo es requerido
+                            </div>
+                        </div>   
+
+                        <div class="form-group " *ngIf="editarPassword">
+                            <label  >Contraseña</label>
+                            <input class="form-control col-md-12 form-control-sm" formControlName="password"    />
+                            <div *ngIf="updateDataForm.controls['password'].errors?.required && updateDataForm.controls['password'].touched" class="alert alert-warning">
+                                    * Este campo es requerido
+                            </div>
+                        </div>   
+
+                        <div class="form-group " *ngIf="esNuevo">
+                            <label  >Contraseña</label>
+                            <input class="form-control col-md-12 form-control-sm" formControlName="password"    />
+                            <div *ngIf="updateDataForm.controls['password'].errors?.required && updateDataForm.controls['password'].touched" class="alert alert-warning">
+                                    * Este campo es requerido
+                            </div>
+                        </div>  
+                    </div>
+        </div>
+             
+            </form>
+            <p-toggleButton [(ngModel)]="esAdministrador" onLabel="Es administrador" offLabel="Usuario regular" onIcon="pi pi-check" offIcon="pi pi-times" [style]="{'width':'250px'}"></p-toggleButton>
+
+            <p-footer>
+                    <div class="ui-dialog-buttonpane ui-helper-clearfix mt-2 mr-2">
+                            <button   class="btn btn-info texto-roboto" type="submit" (click)="guardarDatos()" >Guardar</button>
+                            
+                    </div>
+                </p-footer>
+       
