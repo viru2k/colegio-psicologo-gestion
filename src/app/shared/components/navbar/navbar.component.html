@@ -1,6 +1,6 @@
 
 
-<div  *ngIf="loggedIn">
+
 
         
    
@@ -65,7 +65,7 @@
                                             <li role="separator" class="divider"></li>
                                             <li><a href="#"><i class="ti-settings"></i> Configuración</a></li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="#"><i class="fa fa-power-off"></i> Salir</a></li>
+                                            <li><a (click)="cerrarSesion()"><i class="fa fa-power-off"></i> Salir</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -115,6 +115,13 @@
                                     <ul aria-expanded="false" class="collapse">
                                         <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Ingreso / Egreso</a></li>    
                                         <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Informes de caja</a></li>
+                                    </ul>
+                                </li>
+
+                                <li> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fas fa-wifi  mr-1"></i><span class="hide-menu">Web</span></a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Administrar novedades</a></li>    
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Sincronizar datos</a></li>
                                     </ul>
                                 </li>
 
@@ -189,42 +196,14 @@
                 <!-- End Page wrapper  -->
                 <!-- ============================================================== -->
             </div>
-                                       <div class="mt-1">
 
-                                        <!-- ============================================================== -->
-                                        <!-- Container fluid  -->
-                                        <!-- ============================================================== -->
-                                        <div class="container-fluid">
-                                              
-                                            <!-- ============================================================== -->
-                                            <!-- Start Page Content -->
-                                            <!-- ============================================================== -->
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div >
-                                                        <div >
-                                                          
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- ============================================================== -->
-                                            <!-- End PAge Content -->
-                                            <!-- ============================================================== -->
-                                       
-                                        </div>
-                                        <!-- ============================================================== -->
-                                     
-                                    </div>
         <!-- ============================================================== -->
      
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
       
-    </div>
 
-<div class="wrapper fadeInDown" *ngIf="!loggedIn">
  
 
 
@@ -237,84 +216,3 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-  
-<div class="wrapper fadeInDown" *ngIf="!loggedIn">
-
-    <div style="background-color: #666666;">
-            <div class="limiter">
-                    <div class="container-login100">
-                            <div class="wrap-login100"> 
-                                    <form [formGroup]="loginForm"  class="login100-form validate-form" (ngSubmit)="onSubmit()">
-                                           
-                                            <span class="login100-form-title p-b-43">
-                                                    Bienvenido  
-                                            </span>
-                                        <div class="d-flex justify-content-center">
-                                                <img src="./assets/icons/alert-icons/icon-exit.png" alt="Girl in a jacket" width="128" height="128">    
-                                        </div>
-                                            
-                                         
-                                            <img >
-                                            <div class="wrap-input100 validate-input" data-validate = "Usuario válido es requerido">
-                                                    <input class="input100" type="text" name="email" formControlName="username"   autofocus>
-                                                    <span  class="focus-input100" ></span>
-                                                    <span   class="label-input100" >Usuario</span>
-                                                    
-                                            </div>
-                                            
-                                            
-                                            <div class="wrap-input100 validate-input" data-validate="Contraseña es requerida">
-                                                    <input class="input100" type="password" name="pass" formControlName="password" >
-                                                    <span class="focus-input100"></span>
-                                                    <span class="label-input100" >Contraseña</span>
-                                            </div>
-
-   
-                                            <div class=" m-2" *ngIf="loading" >
-                                                  <div class="d-flex justify-content-center">
-                                                            <p-progressSpinner [style]="{width: '50px', height: '50px'}"  animationDuration=".5s"></p-progressSpinner>
-                                                  </div>
-                                                  <div class="d-flex justify-content-center"> 
-
-                                                    <label class="texto-monserrat-alternat">{{loading_mensaje}}</label>
-                                                  </div>
-                                                   
-                                                    
-                                            </div>
-                                            <div class=" m-2" *ngIf="loading_error" >
-                                            <div class="d-flex justify-content-center"> 
-                                                            <span class="badge badge-warning texto-monserrat-alternat p-2">Usuario o contraseña incorrectos</span>
-                                                            <label class="texto-monserrat-alternat text-danger"></label>
-                                                          </div>
-                                            </div>
-
-                                            <div class="container-login100-form-btn">
-                                                    <button class="login100-form-btn texto-monserrat ">
-                                                            Ingresar
-                                                    </button>
-                                                    
-                                            </div>
-                                           
-                                            
-                                    </form>
-                                   
-                                    <div class="login100-more" style="background-image: url(assets/images/background/login.jpg);">
-                                    </div>
-                                 
-                            </div>
-                    </div>
-            </div>
-    </div>
-    </div>
-  
-  </div>  

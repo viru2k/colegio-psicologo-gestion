@@ -24,7 +24,7 @@
                             </tr> 
                             <tr>
                             <th *ngFor="let col of columns" [ngSwitch]="col.field"  >
-                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_matricula_psicologo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" [autofocus]>
+                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_matricula_psicologo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                                 <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_apellido'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                                 <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                                 <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">

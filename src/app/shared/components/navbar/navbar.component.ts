@@ -8,7 +8,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { User } from './../../../models/user.model';
 import { UserService } from './../../../services/user.service';
 import swal from 'sweetalert2';
-import * as $ from 'jquery';
 
 import { DialogService } from 'primeng/components/common/api';
 import { DatePipe } from '@angular/common';
@@ -38,16 +37,15 @@ export class NavbarComponent implements OnInit {
   public name: string;
   public email: string;
   elemento: User = null;
-  elementoModulo:[] = null;
-  loginForm: FormGroup;
-  loading = false;
-  loading_mensaje: string;
-  loading_error;
-  submitted = false;
+
+
+
+
   returnUrl: string;
   error = '';
   notificaciones = 0;
   chats;
+  currentUser = null;
 
   constructor(
     private alertServiceService: AlertServiceService,
@@ -65,91 +63,51 @@ export class NavbarComponent implements OnInit {
     this.navbarOpen = !this.navbarOpen;
   }
   ngOnInit() {
-
-   /*======== JQUERY DEL LOGUIN =========*/
-   $(document).ready
-   (function ($) {
-     "use strict";
- 
- 
-     /*==================================================================
-     [ Focus Contact2 ]*/
-     $('.input100').each(function() {
-         $(this).on('blur', function() {
-             if ($(this).val() !== "") {
-                 $(this).addClass('has-val');
-             }
-             else {
-                 $(this).removeClass('has-val');
-             }
-         })    
-     })
-   
-   
-     /*==================================================================
-     [ Validate ]*/
-     var input = $('.validate-input .input100');
- 
-     $('.validate-form').on('submit',function() {
-         var check = true;
- 
-         for(var i=0; i<input.length; i++) {
-          
-         }
- 
-         return check;
-     });
- 
- 
-     $('.validate-form .input100').each(function() {
-         $(this).focus(function() {
-            hideValidate(this);
-         });
-     });
- 
-
- 
-     function showValidate(input) {
-         var thisAlert = $(input).parent();
- 
-         $(thisAlert).addClass('alert-validate');
-     }
- 
-     function hideValidate(input) {
-         var thisAlert = $(input).parent();
- 
-         $(thisAlert).removeClass('alert-validate');
-     }
-     
- 
- });
-
-      /*======== FIN JQUERY DEL LOGUIN =========*/
-
-   this.loginForm = this.formBuilder.group({
-        username: ['', Validators.required],
-        password: ['', Validators.required]
-    });
-
-   console.log(this.f.username.value);
-   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-   if (currentUser.access_token !== '') {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    console.log(userData);
-    console.log('usuario logueado');
-    this.loggedIn = true;
-    this.username = userData.username;
-    this.name = userData.name;
-    this.email = userData.email;
-    console.log(userData.access_list);
-    this.asignarModulos(userData.access_list);
-    this.menuList();
+      
+     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+     console.log(this.currentUser);
+     if (this.currentUser) {
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      console.log(userData);
+      console.log('usuario logueado');
+      this.username = userData.username;
+      this.name = userData.name;
+      this.email = userData.email;
+      console.log(userData.access_list);
+      this.asignarModulos(userData.access_list);
    } else {
-    console.log('sin credenciales');
-    // tslint:disable-next-line: max-line-length
-    this.alertServiceService.throwAlert('error', 'Usuario o contraseña incorrectos',  'Verifique el usuario y contraseña, su sesion puede haber expirado', '500');
+    this.router.navigate(['/login']);
+   }
+
   }
+
+
+
+  asignarModulos(modulos: any) {
+    modulos.forEach(element => {
+     // console.log(element['modulo_nombre']);
+      if (element.modulo_nombre === 'mantenimiento') {
+        this.mantenimiento = false;
+      }
+      if (element.modulo_nombre === 'matricula') {
+        this.matricula = false;
+      }
+      if (element.modulo_nombre === 'tesoreria') {
+        this.tesoreria = false;
+        console.log( element.modulo_nombre);
+      }
+      if (element.modulo_nombre === 'contabilidad') {
+        this.contabilidad = false;
+      }
+      if (element.modulo_nombre === 'presidencia') {
+        this.presidencia = false;
+      }
+      
+  
+    });
+  
+    /** DESPUES DE ASIGNAR MODULOS VERIFICO LAS NOTIFICACIONES */
+  
   }
 
 accion(evt: any, overlaypanel: OverlayPanel) {
@@ -158,36 +116,6 @@ accion(evt: any, overlaypanel: OverlayPanel) {
   overlaypanel.toggle(evt);
 }
 
-ajustes() {
-  console.log('ajustes');
-}
-
-asignarModulos(modulos: any) {
-  modulos.forEach(element => {
-   // console.log(element['modulo_nombre']);
-    if (element.modulo_nombre === 'mantenimiento') {
-      this.mantenimiento = false;
-    }
-    if (element.modulo_nombre === 'matricula') {
-      this.matricula = false;
-    }
-    if (element.modulo_nombre === 'tesoreria') {
-      this.tesoreria = false;
-      console.log( element.modulo_nombre);
-    }
-    if (element.modulo_nombre === 'contabilidad') {
-      this.contabilidad = false;
-    }
-    if (element.modulo_nombre === 'presidencia') {
-      this.presidencia = false;
-    }
-    
-
-  });
-
-  /** DESPUES DE ASIGNAR MODULOS VERIFICO LAS NOTIFICACIONES */
-
-}
 
 cerrarSesion() {
 
@@ -215,91 +143,22 @@ cerrarSesion() {
   this.presidencia = true;
   this.user = null;
   this.elemento = null;
-  this.elementoModulo = [];
+  localStorage.removeItem('userData');
   window.location.reload();
   }
 });
 }
 
 
-get f() { return this.loginForm.controls; }
 
-onSubmit() {
-  this.submitted = true;
-  if (this.loginForm.invalid) {
-      return;
-  }
-
-  this.loading = true;
-  this.loading_mensaje = 'Validando usuario';
-  this.authenticationService.login(this.f.username.value, this.f.password.value)
-     // .pipe(first())
-      .subscribe(
-          data => {
-            console.log(data);
-            this.user = data;
-            const us = new User('', '', '', '', '', this.f.username.value, this.f.password.value, []);
-            localStorage.setItem('userData', JSON.stringify(us));
-            localStorage.setItem('currentUser', JSON.stringify(this.user));
-            //  this.router.navigate([this.returnUrl]);
-            this.loadUser();
-          },
-          error => {
-            console.log(error);
-            if (error === 'Las credenciales del usuario son incorrectas') {
-              this.loading_error = true;
-              this.loading = false;
-              this.loading_mensaje = '';
-             } else {
-              this.loading = false;
-              this.loading_mensaje = '';
-            }
-            this.error = error;
-          });
-}
 
 ver() {
 const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 console.log(currentUser.access_token);
 }
 
-loadUser() {
 
-this.loading = true;
-try {
-  this.loading_mensaje = 'Obteniendo modulos del usuario';
-  this.miServico.getItemInfoAndMenu(this.f.username.value)
-    .subscribe(resp => {
-    this.elemento = resp;
-    const currentUser =  JSON.parse(localStorage.getItem('currentUser'));
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    console.log(this.elemento);
-    this.elementoModulo = <any>this.elemento;
-    this.user = new User(this.elemento[0].id , this.elemento[0].email, this.elemento[0].nombreyapellido,
-    this.elemento[0].name, this.elemento[0].admin, this.elemento[0].email, currentUser.access_token, this.elementoModulo);
-    this.username = userData['username'];
-    localStorage.removeItem('userData');
-    localStorage.setItem('userData', JSON.stringify(this.user));
-    this.asignarModulos(this.elementoModulo);
-    this.loading = false;
-    this.loading_mensaje = '';
-    console.log('logueado');
-    this.loggedIn = true;
-    this.menuList();
-    },
-    error => {
-        console.log(error.message);
-        console.log(error.status);
-        localStorage.removeItem('error');
-        localStorage.setItem('error', JSON.stringify(error));
-        this.loading_mensaje = '';
-
-     });
-} catch (error) {
-}
-}
-
-
+/* 
 menuList() {
 
   this.general = [
@@ -394,10 +253,9 @@ menuList() {
 ];
 
 
-}
+} */
 
-configurarUsuario( ) {
-}
+
 
 }
 

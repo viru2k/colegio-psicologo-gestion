@@ -7,9 +7,18 @@ import { EmptyComponent } from './pages/info/empty/empty.component';
 import { ObraSocialComponent } from './pages/mantenimiento/obra-social/obra-social.component';
 import { PmoComponent } from './pages/mantenimiento/pmo/pmo.component';
 import { ConvenioComponent } from './pages/mantenimiento/convenio/convenio.component';
+import { LoginComponent } from './login/login.component';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
 
 const routes: Routes = [
 
+
+
+  { path: 'login', component: LoginComponent },
+  { path: '404', component: NotFoundComponent },
+  { path: '',
+    component: NavbarComponent,
+    children: [
 /* -------------------------------------------------------------------------- */
 /*                                  MATRICULA                                 */
 /* -------------------------------------------------------------------------- */
@@ -17,24 +26,21 @@ const routes: Routes = [
   { path: 'matricula', component: MatriculaGeneralComponent },
 
 
-/* -------------------------------------------------------------------------- */
-/*                                MANTENIMIENTO                               */
-/* -------------------------------------------------------------------------- */
-
-  { path: 'usuario', component: UsuarioComponent },
-  { path: 'mantenimiento/obra/social', component: ObraSocialComponent },
-  { path: 'mantenimiento/pmo', component: PmoComponent },
-  { path: 'mantenimiento/convenio', component: ConvenioComponent },
-
-/* -------------------------------------------------------------------------- */
-/*                                    OTROS                                   */
-/* -------------------------------------------------------------------------- */
-
-
-  { path: 'inicio', component: EmptyComponent },
-  { path: '404', component: NotFoundComponent },
-  { path: '', pathMatch: 'full', redirectTo: 'inicio' },
-  { path: '**', pathMatch: 'full', redirectTo: 'inicio' }
+  /* -------------------------------------------------------------------------- */
+  /*                                MANTENIMIENTO                               */
+  /* -------------------------------------------------------------------------- */
+  
+    { path: 'usuario', component: UsuarioComponent },
+    { path: 'mantenimiento/obra/social', component: ObraSocialComponent },
+    { path: 'mantenimiento/pmo', component: PmoComponent },
+    { path: 'mantenimiento/convenio', component: ConvenioComponent },
+  
+  /* -------------------------------------------------------------------------- */
+  /*                                    OTROS                                   */
+  /* -------------------------------------------------------------------------- */
+    ]
+ },
+  { path: '**', component: NavbarComponent }
 ];
 
 @NgModule({

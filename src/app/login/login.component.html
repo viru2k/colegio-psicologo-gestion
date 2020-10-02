@@ -1,1 +1,70 @@
-<p>login works!</p>
+
+  
+<div class="wrapper fadeInDown" >
+
+    <div style="background-color: #666666;">
+            <div class="limiter">
+                    <div class="container-login100">
+                            <div class="wrap-login100"> 
+                                    <form [formGroup]="loginForm"  class="login100-form validate-form" (ngSubmit)="onSubmit()">
+                                           
+                                            <span class="login100-form-title p-b-43">
+                                                    Bienvenido  
+                                            </span>
+                                        <div class="d-flex justify-content-center">
+                                            
+                                        </div>
+                                            
+                                         
+                                            <img >
+                                            <div class="wrap-input100 validate-input" data-validate = "Usuario válido es requerido">
+                                                    <input class="input100" type="text" name="email" formControlName="username"   autofocus>
+                                                    <span  class="focus-input100" ></span>
+                                                    <span   class="label-input100" >Usuario</span>
+                                                    
+                                            </div>
+                                            
+                                            
+                                            <div class="wrap-input100 validate-input" data-validate="Contraseña es requerida">
+                                                    <input class="input100" type="password" name="pass" formControlName="password" >
+                                                    <span class="focus-input100"></span>
+                                                    <span class="label-input100" >Contraseña</span>
+                                            </div>
+
+   
+                                            <div class=" m-2" *ngIf="loading" >
+                                                  <div class="d-flex justify-content-center">
+                                                            <p-progressSpinner [style]="{width: '50px', height: '50px'}"  animationDuration=".5s"></p-progressSpinner>
+                                                  </div>
+                                                  <div class="d-flex justify-content-center"> 
+
+                                                    <label class="texto-monserrat-alternat">{{loadingmensaje}}</label>
+                                                  </div>
+                                                   
+                                                    
+                                            </div>
+                                            <div class=" m-2" *ngIf="loadingerror" >
+                                            <div class="d-flex justify-content-center"> 
+                                                            <span class="badge badge-warning texto-monserrat-alternat p-2">Usuario o contraseña incorrectos</span>
+                                                            <label class="texto-monserrat-alternat text-danger"></label>
+                                                          </div>
+                                            </div>
+
+                                            <div class="container-login100-form-btn">
+                                                    <button class="login100-form-btn texto-monserrat " (click)="login()" >
+                                                            Ingresar
+                                                    </button>
+                                                    
+                                            </div>
+                                           
+                                            
+                                    </form>
+                                   
+                                    <div class="login100-more" [style.background]="'url(./../../assets/images/background/'+numero+'.jpg)'" width="100%" height="100%" >                                        
+                                    </div>
+                            
+                            </div>
+                    </div>
+            </div>
+    </div>
+    </div>
