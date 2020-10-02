@@ -98,8 +98,8 @@ buscar(elemento: any) {
   const ref = this.dialogService.open(PopupMatriculaEditarComponent, {
   data,
    header: 'Editar matrícula',
-   width: '100%',
-   height: '100%'
+   width: '95%',
+   height: '95%'
   });
 
   // tslint:disable-next-line: no-shadowed-variable
@@ -122,8 +122,8 @@ nuevo() {
   const ref = this.dialogService.open(PopupMatriculaEditarComponent, {
   data,
    header: 'Crear matrícula',
-   width: '100%',
-   height: '100%'
+   width: '95%',
+   height: '95%'
   });
 
   // tslint:disable-next-line: no-shadowed-variable

@@ -52,6 +52,7 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import {StepsModule} from 'primeng/steps';
 import {ColorPickerModule} from 'primeng/colorpicker';
+import {TabViewModule} from 'primeng/tabview';
 
 
 
@@ -88,6 +89,7 @@ import { ConvenioComponent } from './pages/mantenimiento/convenio/convenio.compo
 import { PopupObraSocialEditarComponent } from './pages/mantenimiento/obra-social/popup-obra-social-editar/popup-obra-social-editar.component';
 import { PopupPmoEditarComponent } from './pages/mantenimiento/obra-social/popup-pmo-editar/popup-pmo-editar.component';
 import { PopupConvenioEditarComponent } from './pages/mantenimiento/obra-social/popup-convenio-editar/popup-convenio-editar.component';
+import { LoginComponent } from './login/login.component';
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -119,7 +121,8 @@ registerLocaleData(localeEsAR, 'es-Ar');
     ConvenioComponent,
     PopupObraSocialEditarComponent,
     PopupPmoEditarComponent,
-    PopupConvenioEditarComponent
+    PopupConvenioEditarComponent,
+    LoginComponent
   ],
   imports: [
 
@@ -140,6 +143,7 @@ registerLocaleData(localeEsAR, 'es-Ar');
     CheckboxModule,
     SpinnerModule,
     ToastModule,
+    TabViewModule,
     ListboxModule,
     OverlayPanelModule,
     DynamicDialogModule,

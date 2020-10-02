@@ -35,6 +35,8 @@ export class NavbarComponent implements OnInit {
 
   public username: string;
   public puesto: string;
+  public name: string;
+  public email: string;
   elemento: User = null;
   elementoModulo:[] = null;
   loginForm: FormGroup;
@@ -138,6 +140,8 @@ export class NavbarComponent implements OnInit {
     console.log('usuario logueado');
     this.loggedIn = true;
     this.username = userData.username;
+    this.name = userData.name;
+    this.email = userData.email;
     console.log(userData.access_list);
     this.asignarModulos(userData.access_list);
     this.menuList();

@@ -1,56 +1,194 @@
 
 
-<div class="row navbar-main d-flex justify-content-between" >
-            <div class="row ml-3 navbar-main d-flex justify-content-start" *ngIf="loggedIn" >
-                            
-            </div>
-            
-    <div class="navbar-main d-flex justify-content-end mr-2" *ngIf="loggedIn" >
-
-        
-
-
-                     
-
-
-            
-
-
-    </div>
-</div>
-
 <div  *ngIf="loggedIn">
 
         
-
+   
         <div id="main-wrapper">
                 <!-- ============================================================== -->
                 <!-- Topbar header - style you can find in pages.scss -->
                 <!-- ============================================================== -->
                 <header class="topbar">
-                        <p-menubar  [model]="general" *ngIf="loggedIn" autoZIndex="false"  [autoDisplay]="false"   >
-                
-                                <div class="  mr-2 mt-1" >     
-                                        <div class="row d-flex align-items-center" >
-                                                <a  (click)="configurarUsuario()"  class=" mr-3  btn-link  btn-lg texto-monserrat icon-color-user-setting my-hover"  >
-                                                <h6 class="pb-2">   <i class="fas fa-user-circle fa-lg m-1"></i>{{username}}</h6>
-                                                </a>   
-                                                
-                                                <a  (click)="cerrarSesion()"  class=" mr-1 ml-5  btn-link  btn-lg texto-monserrat icon-color-user-setting my-hover "  >
-                                                <h5 class="pb-2"><i class="fas fa-power-off my-hover fa-lg icon-color-quit nav-links  m-1"></i></h5>
-                                                </a>
-                                </div>
-                        
-                        
-                                                                                
-                                                </div>
-                                        
-                        </p-menubar> 
-                </header>
-        </div>
-   
-                                     
+                    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                        <!-- ============================================================== -->
+                        <!-- Logo -->
+                        <!-- ============================================================== -->
+                        <div class="navbar-header">
+                            <a class="navbar-brand" routerLink="/">
+                                <!-- Logo icon --><b>
+                                    <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                                    <!-- Dark Logo icon -->
+                                    <img src="./../../../../assets/images/home.png" alt="INICIO" width="32px" height="32px" class="dark-logo" />
+                                   <span>INICIO</span> 
 
+                                </b>
+                                </a>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- End Logo -->
+                        <!-- ============================================================== -->
+                        <div class="navbar-collapse">
+                            <!-- ============================================================== -->
+                            <!-- toggle and nav items -->
+                            <!-- ============================================================== -->
+                            <ul class="navbar-nav mr-auto">
+                                <!-- This is  -->
+                                <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="fas fa-bars"></i></a> </li>
+                                <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="fas fa-bars"></i></a> </li>
+                                <li class="nav-item hidden-sm-down"></li>
+                            </ul>
+                            <!-- ============================================================== -->
+                            <!-- User profile and search -->
+                            <!-- ============================================================== -->
+                            <ul class="navbar-nav my-lg-0">
+
+                            
+                              
+                             
+                                <!-- ============================================================== -->
+                                <!-- Profile -->
+                                <!-- ============================================================== -->
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-lg"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-right animated flipInY">
+                                        <ul class="dropdown-user">
+                                            <li>
+                                                <div class="dw-user-box">
+                                                    <div class="u-img"><img src="../assets/images/user-default.png" alt="user"></div>
+                                                    <div class="u-text">
+                                                        <h4>{{name | titlecase }}</h4>
+                                                        <h6 class="text-muted">{{username}}</h6></div>
+                                                </div>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#"><i class="ti-user"></i> Mi perfil</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#"><i class="ti-settings"></i> Configuración</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#"><i class="fa fa-power-off"></i> Salir</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+                <!-- ============================================================== -->
+                <!-- End Topbar header -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Left Sidebar - style you can find in sidebar.scss  -->
+                <!-- ============================================================== -->
+                <aside class="left-sidebar">
+                    <!-- Sidebar scroll-->
+                    <div class="scroll-sidebar">
+                        <!-- Sidebar navigation-->
+                        <nav class="sidebar-nav">
+                            <ul id="sidebarnav">                             
+                                <li class="nav-devider"></li>   
+                                
+                                <li> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"   aria-expanded="false"><i class="fas fa-landmark  mr-1"></i><span class="hide-menu"> Matrículas</span></a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li><a routerLink="/matricula" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Padrón</a></li>
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Cobros</a></li>
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Pagos</a></li>
+                                    </ul>
+                                </li>
+
+                                <li> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"  aria-expanded="false"><i class="fas fa-clipboard-list  mr-1"></i> <span class="hide-menu"> Ordenes</span></a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Ingresar ordenes</a></li>
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Confección de expediente</a></li>                                        
+                                    </ul>
+                                </li>
+
+                                <li> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"  aria-expanded="false"><i class="far fa-newspaper  mr-1"></i><span class="hide-menu">Liquidación</span></a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Expedientes</a></li>
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Confección de liquidación</a></li>
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Liquidar</a></li>
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Acciones sobre liquidación</a></li>
+                                    </ul>
+                                </li>
+
+                                <li> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fas fa-money-bill-wave  mr-1"></i><span class="hide-menu">Tesoreria</span></a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Ingreso / Egreso</a></li>    
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Informes de caja</a></li>
+                                    </ul>
+                                </li>
+
+
+                                <li *ngIf="!mantenimiento"> <a class="has-arrow waves-effect waves-dark"  aria-expanded="false"><i class="fas fa-cogs mr-1"></i><span class="hide-menu">Configuración</span></a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li><a   class="has-arrow waves-effect waves-dark"  aria-expanded="false">Obras sociales</a>
+                                            <ul aria-expanded="false" class="collapse">
+                                                <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Convenio</a></li>
+                                                <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Obra social</a></li>    
+                                                <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>PMO</a></li>
+                                            </ul>
+                                        </li>    
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Comprobantes</a></li>
+                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Conceptos</a></li>
+                                        <li><a routerLink="/usuario" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Usuarios</a></li>
+                                    </ul>
+                                </li>
+                             
+
+                            </ul>
+                        </nav>
+                        <!-- End Sidebar navigation -->
+                    </div>
+                    <!-- End Sidebar scroll-->
+                </aside>
+                <!-- ============================================================== -->
+                <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Page wrapper  -->
+                <!-- ============================================================== -->
+                <div class="page-wrapper">
+                    
+                    <!-- ============================================================== -->
+                    <!-- Container fluid  -->
+                    <!-- ============================================================== -->
+                    <div class="container-fluid">
+                  
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <router-outlet  ></router-outlet> 
+                            </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- End Page Content -->
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                        <!-- Right sidebar -->
+                        <!-- ============================================================== -->
+                        <!-- .right-sidebar -->
+                        <div class="right-sidebar">
+                            <div class="slimscrollright">
+                                <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
+                                <div class="r-panel-body">
+         
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- End Right sidebar -->
+                        <!-- ============================================================== -->
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- End Container fluid  -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+
+                    <!-- ============================================================== -->
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Page wrapper  -->
+                <!-- ============================================================== -->
+            </div>
                                        <div class="mt-1">
 
                                         <!-- ============================================================== -->
@@ -65,7 +203,7 @@
                                                 <div class="col-12">
                                                     <div >
                                                         <div >
-                                                                <router-outlet  ></router-outlet> 
+                                                          
                                                         </div>
                                                     </div>
                                                 </div>

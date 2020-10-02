@@ -10,6 +10,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat+Alternates&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
 /* ---------- MODIFICA LA ESTETICA DE UNA COLUMNA DE FORMA DINAMICA --------- */
 
@@ -24,6 +25,11 @@ $background-soft : #caf0f8;
     font-weight: bold;
     font-family: 'Oxygen', sans-serif;
   }
+
+.fuente {
+   font-family: 'Montserrat', sans-serif !important ;
+}
+
 
 h6{
     font-family: 'Montserrat', sans-serif !important ;
@@ -168,6 +174,10 @@ a{
 }
 
 
+
+.icon-color-blue{
+    color: #457b9d!important;
+}
 
 .icon-color-user-setting{
     color: #E0E0E0!important;

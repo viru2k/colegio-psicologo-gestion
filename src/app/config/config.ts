@@ -1,9 +1,9 @@
 
-//export const URL_SERVICIOS = 'http://localhost/api-psicologo/public/api/';
-//export const URL_ARCHIVO = 'http://localhost/api-psicologo/public/';
+export const URL_SERVICIOS = 'http://localhost/api-psicologo/public/api/';
+export const URL_ARCHIVO = 'http://localhost/api-psicologo/public/';
 
-export const URL_SERVICIOS = 'http://psicologo/api-psicologo/public/api/';
-export const URL_ARCHIVO = 'http://psicologo/api-psicologo/public/';
+//export const URL_SERVICIOS = 'http://psicologo/api-psicologo/public/api/';
+//export const URL_ARCHIVO = 'http://psicologo/api-psicologo/public/';
 
 /***********SERVER DE PRUEBAS ********************** */
  

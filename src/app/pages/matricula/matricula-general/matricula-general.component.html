@@ -6,15 +6,15 @@
         <ng-template pTemplate="caption">
             <div class="table-header">
               <div class=" d-flex justify-content-between">
-                <div class="m-2 d-flex justify-content-start">  <button class="btn btn-info btn-sm" (click)="nuevo()"> <i class="fas fa-plus fa-sm mr-2"></i>Matricula</button>  </div> 
-                <div class="m-2 d-flex justify-content-end">  <button class="btn btn-success btn-sm" (click)="accionesmatricula()"> <i class="fas fa-search fa-sm mr-2"></i>Acciones sobre padron</button>  </div> 
+                <div class="m-2 d-flex justify-content-start">  <button class="btn btn-info btn-sm fuente" (click)="nuevo()"> <i class="fas fa-plus fa-sm mr-2 "></i>Matricula</button>  </div> 
+                <div class="m-2 d-flex justify-content-end">  <button class="btn btn-success btn-sm fuente" (click)="accionesmatricula()"> <i class="fas fa-search fa-sm mr-2"></i>Acciones sobre padron</button>  </div> 
               </div>
               
             </div>
         </ng-template>
-                   <ng-template pTemplate="header" let-columns >
+                   <ng-template pTemplate="header" let-columns  >
                   
-                              <tr >
+                              <tr  >
                                    
                                 <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
                                     {{col.header}}
@@ -24,16 +24,16 @@
                             </tr> 
                             <tr>
                             <th *ngFor="let col of columns" [ngSwitch]="col.field"  >
-                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'mat_matricula_psicologo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
-                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'mat_apellido'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
-                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'mat_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
-                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'mat_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
-                                <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_sexo" appendTo="body" defaultLabel=""   showHeader="false"  *ngIf='col.field =="mat_sexo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
-                                <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_localidad" appendTo="body" defaultLabel=""   showHeader="false"  *ngIf='col.field =="mat_localidad"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                                
-                                <input [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'mat_tel_laboral'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
-                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'mat_fecha_nacimiento'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" dateFormat="yy-mm-dd">
-                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'mat_fecha_egreso'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" dateFormat="yy-mm-dd">
-                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'mat_fecha_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" dateFormat="yy-mm-dd">
+                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_matricula_psicologo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" [autofocus]>
+                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_apellido'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                                <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" class="fuente" [options]="_mat_sexo" appendTo="body" defaultLabel=""   showHeader="false"  *ngIf='col.field =="mat_sexo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+                                <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" class="fuente" [options]="_mat_localidad" appendTo="body" defaultLabel=""   showHeader="false"  *ngIf='col.field =="mat_localidad"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                                
+                                <input   style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_tel_laboral'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                                <input   style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_fecha_nacimiento'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" dateFormat="yy-mm-dd">
+                                <input   style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_fecha_egreso'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" dateFormat="yy-mm-dd">
+                                <input   style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_fecha_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" dateFormat="yy-mm-dd">
                                
                             </th>
                             <th></th>
@@ -41,22 +41,22 @@
                     </ng-template>
        
 
-            <ng-template pTemplate="body" let-elementos  >
-                <tr style="height:24px"  > 
+                  <ng-template pTemplate="body" let-elementos >
+                <tr style="height:28px"   > 
                   <td style="width: 6%">
                       <a  (click)="buscar(elementos)" class="icon-hover"> <i class="fas fa-pen icon-color-clinica fa-lg"></i></a>     
                     </td>
                   
-                  <td style="width: 10%">{{elementos.mat_matricula_psicologo}}</td>
-                  <td style="width: 20%">{{elementos.mat_apellido}}</td>
-                  <td style="width: 20%">{{elementos.mat_nombre}}</td>
-                  <td style="width: 10%">{{elementos.mat_dni}}</td>
-                  <td style="width: 8%">{{elementos.mat_sexo}}</td>
-                  <td style="width: 12%">{{elementos.mat_localidad}}</td>                  
-                  <td style="width: 10%">{{elementos.mat_tel_laboral}}</td>
-                  <td style="width: 10%">{{elementos.mat_fecha_nacimiento | date: 'dd/MM/yyyy'}}</td>
-                  <td style="width: 10%">{{elementos.mat_fecha_egreso | date: 'dd/MM/yyyy'}}</td>
-                  <td style="width: 10%">{{elementos.mat_fecha_matricula | date: 'dd/MM/yyyy'}}</td>
+                  <td  class="fuente" style="width: 10%">{{elementos.mat_matricula_psicologo}}</td>
+                  <td  class="fuente" style="width: 20%">{{elementos.mat_apellido}}</td>
+                  <td  class="fuente" style="width: 20%">{{elementos.mat_nombre}}</td>
+                  <td  class="fuente" style="width: 10%">{{elementos.mat_dni}}</td>
+                  <td  class="fuente" style="width: 8%">{{elementos.mat_sexo}}</td>
+                  <td  class="fuente" style="width: 12%">{{elementos.mat_localidad}}</td>                  
+                  <td  class="fuente" style="width: 10%">{{elementos.mat_tel_laboral}}</td>
+                  <td  class="fuente" style="width: 10%">{{elementos.mat_fecha_nacimiento | date: 'dd/MM/yyyy'}}</td>
+                  <td  class="fuente" style="width: 10%">{{elementos.mat_fecha_egreso | date: 'dd/MM/yyyy'}}</td>
+                  <td  class="fuente" style="width: 10%">{{elementos.mat_fecha_matricula | date: 'dd/MM/yyyy'}}</td>
                   <td style="width: 6%">
                     <a  (click)="detalle($event,op,elementos)"><i class="fas fa-bars icon-color-informacion fa-lg icon-hover"></i></a>     
                   </td>
