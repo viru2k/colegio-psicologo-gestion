@@ -10,7 +10,8 @@ import { UsuarioModuloComponent } from './../usuario-modulo/usuario-modulo.compo
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
-  styleUrls: ['./usuario.component.scss']
+  styleUrls: ['./usuario.component.scss'],
+  providers: [MessageService, DialogService]
 })
 export class UsuarioComponent implements OnInit {
 

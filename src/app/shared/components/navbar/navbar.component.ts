@@ -29,6 +29,8 @@ export class NavbarComponent implements OnInit {
   tesoreria  = true;
   contabilidad = true;
   presidencia = true;
+  liquidacion = true;
+  web = true;
   
 
 
@@ -102,7 +104,12 @@ export class NavbarComponent implements OnInit {
       if (element.modulo_nombre === 'presidencia') {
         this.presidencia = false;
       }
-      
+      if (element.modulo_nombre === 'liquidacion') {
+        this.liquidacion = false;
+      }
+      if (element.modulo_nombre === 'web') {
+        this.web = false;
+      }
   
     });
   
@@ -141,6 +148,8 @@ cerrarSesion() {
   this.tesoreria = true;
   this.contabilidad = true;
   this.presidencia = true;
+  this.liquidacion = true;
+  this.web = true;
   this.user = null;
   this.elemento = null;
   localStorage.removeItem('userData');
@@ -156,105 +165,6 @@ ver() {
 const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 console.log(currentUser.access_token);
 }
-
-
-/* 
-menuList() {
-
-  this.general = [
-    {label: 'Matrícula', routerLink: '/matricula'},
-   
-    {
-
-      label: 'Liqudación',
-     
-      items: [
-        {
-          label: 'Liquidación detalle',
-          visible: !this.contabilidad,
-          items: [
-            {label: 'Historico de pagos', routerLink: '/insumo/stock/ingreso'},
-            {label: 'Detalle de liquidación', routerLink: '/insumo/stock'},
-            {label: 'Acciones sobre liquidación', routerLink: '/insumo/indicadores'},
-          ]
-      },
-        {
-            label: 'Tesoreria',
-            visible: !this.tesoreria,
-            items: [
-              {label: 'Movimientos caja',  routerLink: 'orden/produccion'},
-              {label: 'Detalle de ordenes de producción', routerLink: '/produccion/ingreso'},
-              {label: 'Proceso de producción', routerLink: '/produccion/proceso'},
-            ]
-        },
-        {
-          label: 'Contabilidad',
-          visible: !this.contabilidad,
-          items: [
-            {label: 'Archivo Banco San Juan', routerLink: 'produccion/ingreso'},
-            {label: 'Archivo Empleados', routerLink: 'produccion/asociar/insumo'},
-            {label: 'Estados contables', routerLink: 'produccion/movimientos'},
-            {label: 'Cierre de caja', routerLink: 'insumo/movimientos'},
-          ]
-      },
-
-      ]
-  },
-
-  {
-    label: 'Tesoreria',
-    visible: !this.contabilidad,
-    items: [
-      {label: 'Movimientos caja',  routerLink: 'orden/produccion'},
-      {label: 'Orden de cobro', routerLink: 'gerencia/insumo'},
-      {label: 'Detalle de cobro', routerLink: 'gerencia/insumo'},
-    ]
-  },
-
-  {
-    label: 'Presidencia',
-    items: [
-      {label: 'Informes', routerLink: 'orden/produccion'},
-      {label: 'Estado de sitación', routerLink: 'gerencia/insumo'},
-    ]
-  },
-
-
-
-  {
-
-    label: 'Mantenimiento',
-    visible: !this.mantenimiento,
-    items: [
-      {
-            label: 'Parametros',
-       
-            items: [
-              {label: 'Conceptos', routerLink: 'mantenimiento/articulo'},
-              {label: 'Comprobantes', routerLink: 'mantenimiento/insumo'},
-              {label: 'Plan de cuenta', routerLink: 'mantenimiento/articulo/confeccion'},
-            ]
-        },
-        {
-            label: 'Obra social',
-            items: [
-              {label: 'Obra social', routerLink: 'mantenimiento/obra/social'},
-              {label: 'PMO', routerLink: 'mantenimiento/pmo'},
-              {label: 'Convenios', routerLink: 'mantenimiento/convenio'}
-          ]
-      },
-      {
-       label: 'Usuario',
-
-      routerLink: 'usuario'},
-    ]
-  }
-
-];
-
-
-} */
-
 
 
 }

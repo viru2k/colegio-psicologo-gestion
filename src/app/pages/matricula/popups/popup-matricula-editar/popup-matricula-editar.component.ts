@@ -16,7 +16,8 @@ export class PopupMatriculaEditarComponent implements OnInit {
   updateDataForm: FormGroup;
   esEditar = false;
 
-  constructor(public matriculaService:MatriculaService, public config: DynamicDialogConfig, private alertServiceService: AlertServiceService, private messageService: MessageService , public ref: DynamicDialogRef, public dialogService: DialogService) {
+  constructor(public matriculaService:MatriculaService, public config: DynamicDialogConfig, private alertServiceService: AlertServiceService,
+              private messageService: MessageService , public ref: DynamicDialogRef, public dialogService: DialogService) {
 
     this.es = calendarioIdioma;
 

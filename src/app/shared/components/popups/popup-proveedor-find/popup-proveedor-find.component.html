@@ -1,0 +1,43 @@
+    <div class="row m-3">
+      <p-table  #dt class="pt-2"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols" [value]="elementos"   [loading]="loading"  columnResizeMode="expand" [responsive]="true"
+      scrollHeight="300px" [scrollable]="true"  loadingIcon="fas fa-spinner fa-2x icon-color-green"  >
+     
+
+               
+      <ng-template pTemplate="header" let-columns >
+                
+        <tr >
+             
+          <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
+              {{col.header}}
+              <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th> 
+          
+      </tr> 
+      <tr>
+      <th *ngFor="let col of columns" [ngSwitch]="col.field"  >
+      
+          <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'proveedor_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                    
+          <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'proveedor_cuit'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                    
+          <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'proveedor_direccion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                    
+      </th>
+      <th></th>
+  </tr>
+  </ng-template>
+
+                  <ng-template pTemplate="body" let-elementos  >
+                    <tr style="height:24px">
+                           
+                            <td style="width: 60%">{{elementos.proveedor_nombre}}</td>
+                            <td style="width: 20%">{{elementos.proveedor_cuit}}</td>
+                            <td style="width: 20%">{{elementos.proveedor_direccion}}</td>
+                          
+                                        
+                            <td style="width: 6%">
+                              <a  (click)="confirmar(elementos)" class="icon-hover"> <i class="far fa-check-circle icon-color-info fa-lg"></i></a>                        
+                                </td>
+                    </tr>
+                </ng-template>
+         
+      </p-table>
+    </div>

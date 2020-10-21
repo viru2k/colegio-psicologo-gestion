@@ -1,0 +1,40 @@
+<div  class="flex-container center m-3">
+    <p-progressSpinner *ngIf="loading" [style]="{width: '32px', height: '32px'}" strokeWidth="6" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+    
+  </div>
+  
+  <div>
+      <label>{{config.data._medico_nombre}}</label>
+    <div>
+        <label>Numero de comprobante </label>
+       <div>
+           <label>{{config.data._comprobante_nombre}}</label> 
+       </div>  <label>{{config.data.pto_vta}}</label>  <input type="text" class="form-control col-6 form-control-sm" [(ngModel)]="numero">
+    </div>
+    <hr>
+    <div class="d-flex justify-content-center">
+        <div  *ngIf="element">
+            <div>  <label>fecha :{{element.CbteFch}}</label> </div>
+            <div>  <label>Docuumento :{{element.DocNro}}</label> </div>
+            <div>  <label class="mt-1 text-info">Importe neto :{{element.ImpNeto}}</label> </div>
+            <div>  <label class="mt-1 text-info">Importe Iva :{{element.ImpIVA}}</label> </div>
+            <hr>
+            <div>  <label class="mt-1 text-success">Importe total :{{element.ImpTotal}}</label> </div>
+        </div>
+        
+        
+    </div>
+    <hr>
+    <div class="d-flex justify-content-center">
+        <div *ngIf="element" >
+            <div>  <label>CAE :{{element.CodAutorizacion}}</label> </div>
+            <div>  <label>Fecha vencimiento :{{element.FchVto}}</label> </div>
+    
+        </div>
+    </div>
+
+   
+    <div>
+        <button class="btn btn-info btn-block" (click)="buscarFacturaAfip()"> Buscar comprobante</button>    
+    </div>
+    

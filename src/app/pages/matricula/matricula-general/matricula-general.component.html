@@ -44,7 +44,8 @@
                   <ng-template pTemplate="body" let-elementos >
                 <tr style="height:28px"   > 
                   <td style="width: 6%">
-                      <a  (click)="buscar(elementos)" class="icon-hover"> <i class="fas fa-pen icon-color-clinica fa-lg"></i></a>     
+                      <a  (click)="buscar(elementos)" class="icon-hover"> <i class="far fa-edit fa-lg icon-color-clinica "></i></a>     
+                      
                     </td>
                   
                   <td  class="fuente" style="width: 10%">{{elementos.mat_matricula_psicologo}}</td>
@@ -65,15 +66,10 @@
            
         </p-table>
         <p-overlayPanel #op appendTo="body"  [showTransitionOptions]="'400ms'" [hideTransitionOptions]="'300ms'"  [dismissable]="true" [showCloseIcon]="true" >                                                
-            <div class=" card-header  ">
-              <h6 class="d-flex justify-content-center  icon-color-informacion">COBROS</h6>
-            </div>               
-               <span>   <a class="nav-link  icon-color-usuario my-hover" (click)="realizarCobro()"> <i class="fas fas fa-file-invoice-dollar fa-lg mr-2"></i> Cobros</a></span>               
-               <span>   <a class="nav-link icon-color-rosa my-hover" (click)="historiaPagos()"> <i class="fas fa-history fa-lg mr-2"></i>  Historia pagos/deuda</a></span>
-               <hr>
+
                <h6 class="d-flex justify-content-center  icon-color-informacion">OBRA SOCIAL</h6>
                <span>   <a class="nav-link icon-color-verde-oscuro my-hover" (click)="asociarObraSocial()"> <i class="fas fa-file-medical fa-lg mr-2"></i> Asociar obras sociales</a></span>
-               <span>   <a class="nav-link icon-color-verde-oscuro my-hover" (click)="liquidaciones()"> <i class="fas fa-file-medical fa-lg mr-2"></i> Liqudaciones</a></span>
+               <span>   <a class="nav-link icon-color-info my-hover" (click)="liquidaciones()"> <i class="fas fa-file-medical fa-lg mr-2"></i> Liquidaciones</a></span>
                
               <!-- <button class="btn-cuadrado-success  btn--block " (click)="detalleProduccion(elemento)"  >Detalle  producción</button>      -->
           </p-overlayPanel> 

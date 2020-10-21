@@ -1,0 +1,67 @@
+<div class="row ml-1 mr-5 mt-3">
+    
+    <div class="input-group mb-3 col-12">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">Concepto </span>
+        </div>
+        <input (keyup.enter)="buscarConcepto()"placeholder="Agregar concepto"  class="form-control col-12 form-control-md" [(ngModel)]="concepto" autofocus/>                  
+        <div class="input-group-append">
+            <span class="input-group-text form-control-md">
+              <a  (click)="buscarConcepto()">
+                  <img class="pointer float-left" src="assets/icons/grey/outline_search_black_18dp.png" width="24px" height="24px"  >
+              </a>
+          </span>
+          </div>
+      </div>
+
+
+      
+      <!--  <div class="row  ml-1"> <label class=" mr-2 mt-1">Alícuota : </label><p-dropdown class="mr-2 form-control-md"  [options]="elementosAlicuota" [(ngModel)]="elementoAlicuota"  optionLabel="descripcion" placeholder="Categoria"></p-dropdown>  </div> -->
+    </div>
+    <hr>
+    <div class="row ml-1 mr-5 mt-3">
+        <div class="input-group mb-3 col-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon3">Alícuota</span>
+            </div>
+            <p-dropdown class=" mr-2  col-3" (onHide)="calcularRenglon()" [style]="{'height':'35.1px'}" [options]="elementosAlicuota" [(ngModel)]="elementoAlicuota"  optionLabel="descripcion" placeholder="Categoria"></p-dropdown>
+          </div>
+        <div class="input-group mb-3 col-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon3">Cantidad</span>
+            </div>
+            <input class="mr-2 col-3" (focusout)="calcularRenglon()" (keyup.enter)="calcularRenglon()" type="number" placeholder="cantidad"  class="form-control  form-control-md" [(ngModel)]="cantidad"  />
+          </div>
+          <div class="input-group mb-3 col-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Imp. unitario</span>
+              </div>
+              <input class="col-3" (focusout)="calcularRenglon()" (keyup.enter)="calcularRenglon()" type="number" placeholder="Imp. unit"  class="form-control  form-control-md" [(ngModel)]="importe_unitario"  />
+            </div>
+      
+      
+    </div>
+    <hr>
+      <div class="row ml-1 mr-5 mt-3">    
+          <div class="input-group mb-3 col-3">
+              <div class="input-group-prepend">
+               <span class="input-group-text text-info" id="basic-addon3"><b>Subtotal</b> </span>
+              </div>
+              <input class="mr-2 "  placeholder="Imp. unit"  class="form-control  form-control-md" [(ngModel)]="subtotal"  />
+          </div>   
+          <div class="input-group mb-3 col-3">
+              <div class="input-group-prepend">
+               <span class="input-group-text text-info" id="basic-addon3"><b>IVA</b></span>
+              </div>
+              <input class="mr-2 "  placeholder="IVA"  class="form-control  form-control-md" [(ngModel)]="iva"  />    
+          </div> 
+          <div class="input-group mb-3 col-3">
+              <div class="input-group-prepend">
+              <span class="input-group-text text-success" id="basic-addon3"><b>TOTAL</b></span>
+              </div>
+              <input class="mr-2 "  placeholder="Imp. unit"  class="form-control  form-control-md" [(ngModel)]="total "  /> 
+          </div> 
+      
+      </div>
+
+<div class="row mt-4 mr-2 ml-2 mb-2">  <button class="ml-2 btn btn-info btn-md btn-block" (click)="guardarDatos()"> Guardar registro</button> </div> 

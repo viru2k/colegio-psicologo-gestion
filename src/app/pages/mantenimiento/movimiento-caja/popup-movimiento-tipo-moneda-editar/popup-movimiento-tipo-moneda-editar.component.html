@@ -1,0 +1,26 @@
+     
+            <form class="col-12"  [formGroup]="updateDataForm">
+                <div class="row">
+                    <div class="col-8">
+
+                        <div class="form-group ">
+                            <label  >Concepto</label>
+                            <input class="form-control col-md-12 form-control-sm" formControlName="mov_tipo_moneda"  autofocus  />
+                            <div *ngIf="updateDataForm.controls['mov_tipo_moneda'].errors?.required && updateDataForm.controls['mov_tipo_moneda'].touched" class="alert alert-warning">
+                                    * Este campo es requerido
+                            </div>
+                    </div> 
+                    
+                    </div>
+        </div>
+             
+            </form>
+
+        
+            <p-footer>
+                    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                            <button  [disabled]="!updateDataForm.valid" class="btn btn-info texto-roboto btn-block" type="submit" (click)="guardarDatos()" >Guardar</button>
+                            
+                    </div>
+                </p-footer>
+       

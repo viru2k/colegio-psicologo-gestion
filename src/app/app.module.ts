@@ -22,7 +22,7 @@ import { environment } from '../environments/environment';
 
 import { ExcelService } from './services/excel.service';
 import { PushNotificationService } from './services/push-notification.service';
- 
+
 /* -------------------------------------------------------------------------- */
 /*                             PRIME NG LIBRERIAS                             */
 /* -------------------------------------------------------------------------- */
@@ -77,6 +77,7 @@ import { NotFoundComponent } from './pages/info/not-found/not-found.component';
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 import { PopupUsuarioComponent } from './shared/components/popups/popup-usuario/popup-usuario.component';
 import { MatriculaGeneralComponent } from './pages/matricula/matricula-general/matricula-general.component';
+// tslint:disable-next-line: max-line-length
 import { PopupMatriculaObraSocialComponent } from './pages/matricula/popups/popup-matricula-obra-social/popup-matricula-obra-social.component';
 import { PopupMatriculaEditarComponent } from './pages/matricula/popups/popup-matricula-editar/popup-matricula-editar.component';
 import { UsuarioComponent } from './pages/mantenimiento/usuario/usuario.component';
@@ -86,10 +87,42 @@ import { UsuarioEditarComponent } from './pages/mantenimiento/usuario-editar/usu
 import { ObraSocialComponent } from './pages/mantenimiento/obra-social/obra-social.component';
 import { PmoComponent } from './pages/mantenimiento/pmo/pmo.component';
 import { ConvenioComponent } from './pages/mantenimiento/convenio/convenio.component';
+// tslint:disable-next-line: max-line-length
 import { PopupObraSocialEditarComponent } from './pages/mantenimiento/obra-social/popup-obra-social-editar/popup-obra-social-editar.component';
 import { PopupPmoEditarComponent } from './pages/mantenimiento/obra-social/popup-pmo-editar/popup-pmo-editar.component';
 import { PopupConvenioEditarComponent } from './pages/mantenimiento/obra-social/popup-convenio-editar/popup-convenio-editar.component';
 import { LoginComponent } from './login/login.component';
+import { ConceptoMatriculaComponent } from './pages/mantenimiento/concepto-matricula/concepto-matricula.component';
+import { MantenimientoComponent } from './pages/mantenimiento/mantenimiento.component';
+import { ListadoCajaComponent } from './pages/movimiento-caja/listado-caja/listado-caja.component';
+import { MovimientoCuentaComponent } from './pages/mantenimiento/movimiento-caja/movimiento-cuenta/movimiento-cuenta.component';
+// tslint:disable-next-line: max-line-length
+import { MovimientoConceptoCuentaComponent } from './pages/mantenimiento/movimiento-caja/movimiento-concepto-cuenta/movimiento-concepto-cuenta.component';
+// tslint:disable-next-line: max-line-length
+import { MovimientoTipoComprobanteComponent } from './pages/mantenimiento/movimiento-caja/movimiento-tipo-comprobante/movimiento-tipo-comprobante.component';
+// tslint:disable-next-line: max-line-length
+import { MovimientoTipoMonedaComponent } from './pages/mantenimiento/movimiento-caja/movimiento-tipo-moneda/movimiento-tipo-moneda.component';
+import { PopupMovimientoComponent } from './pages/movimiento-caja/popup-movimiento/popup-movimiento.component';
+import { PopupMovimientoConceptoCuentaEditarComponent } from './pages/mantenimiento/movimiento-caja/popup-movimiento-concepto-cuenta-editar/popup-movimiento-concepto-cuenta-editar.component';
+import { PopupMovimientoCuentaEditarComponent } from './pages/mantenimiento/movimiento-caja/popup-movimiento-cuenta-editar/popup-movimiento-cuenta-editar.component';
+import { PopupMovimientoTipoComprobanteEditarComponent } from './pages/mantenimiento/movimiento-caja/popup-movimiento-tipo-comprobante-editar/popup-movimiento-tipo-comprobante-editar.component';
+import { PopupProveedorFindComponent } from './shared/components/popups/popup-proveedor-find/popup-proveedor-find.component';
+import { FacturaElectronicaComponent } from './pages/factura/factura-electronica/factura-electronica.component';
+import { OtrasAccionesComponent } from './pages/factura/otras-acciones/otras-acciones.component';
+import { MatriculaCobroComponent } from './pages/matricula/matricula-cobro/matricula-cobro.component';
+import { MatriculaCajaComponent } from './pages/matricula/matricula-caja/matricula-caja.component';
+import { LoadingComponent } from './shared/components/loading/loading.component';
+import { PopupFindMatriculaComponent } from './shared/popups/popup-find-matricula/popup-find-matricula.component';
+import { PopupFindConceptoComponent } from './shared/popups/popup-find-concepto/popup-find-concepto.component';
+import { PopupFindComprobanteComponent } from './shared/popups/popup-find-comprobante/popup-find-comprobante.component';
+import { PopupEdiarRegistroDeudaComponent } from './shared/popups/popup-ediar-registro-deuda/popup-ediar-registro-deuda.component';
+import { PopupRealizarFacturaComponent } from './shared/popups/popup-realizar-factura/popup-realizar-factura.component';
+import { BuscarComprobanteAfipComponent } from './pages/factura/factura-electronica/popups/buscar-comprobante-afip/buscar-comprobante-afip.component';
+import { BuscarConceptoFacturaComponent } from './pages/factura/factura-electronica/popups/buscar-concepto-factura/buscar-concepto-factura.component';
+import { PopupFacturaRenglonComponent } from './pages/factura/factura-electronica/popups/popup-factura-renglon/popup-factura-renglon.component';
+// tslint:disable-next-line: max-line-length
+import { BuscarClienteFacturaComponent } from './pages/factura/factura-electronica/popups/buscar-cliente-factura/buscar-cliente-factura.component';
+
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -122,9 +155,40 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupObraSocialEditarComponent,
     PopupPmoEditarComponent,
     PopupConvenioEditarComponent,
-    LoginComponent
+    PopupMovimientoComponent,
+    PopupMovimientoConceptoCuentaEditarComponent,
+    PopupMovimientoCuentaEditarComponent,
+    PopupMovimientoTipoComprobanteEditarComponent,
+    LoginComponent,
+    ConceptoMatriculaComponent,
+    MantenimientoComponent,
+    ListadoCajaComponent,
+    MovimientoCuentaComponent,
+    MovimientoConceptoCuentaComponent,
+    MovimientoTipoComprobanteComponent,
+    MovimientoTipoMonedaComponent,
+    MatriculaCobroComponent,
+    MatriculaCajaComponent,
+    PopupProveedorFindComponent,
+    FacturaElectronicaComponent,
+    OtrasAccionesComponent,
+    LoadingComponent,
+    PopupFindMatriculaComponent,
+    PopupFindConceptoComponent,
+    PopupFindComprobanteComponent,
+    PopupEdiarRegistroDeudaComponent,
+    PopupRealizarFacturaComponent,
+    BuscarComprobanteAfipComponent,
+    BuscarConceptoFacturaComponent,
+    PopupFacturaRenglonComponent,
+    BuscarClienteFacturaComponent
   ],
   imports: [
+
+
+
+
+
 
     BrowserModule,
     FormsModule,
@@ -156,13 +220,12 @@ registerLocaleData(localeEsAR, 'es-Ar');
     ColorPickerModule,
     ToggleButtonModule,
     AutoCompleteModule,
-    
     SweetAlert2Module.forRoot(),
     AutofocusModule,
     AppRoutingModule,
 
-  ], 
-  entryComponents:[
+  ],
+  entryComponents: [
     PopupMatriculaObraSocialComponent,
     PopupMatriculaEditarComponent,
     PopupUsuarioComponent,
@@ -170,7 +233,21 @@ registerLocaleData(localeEsAR, 'es-Ar');
     UsuarioEditarComponent,
     PopupObraSocialEditarComponent,
     PopupPmoEditarComponent,
-    PopupConvenioEditarComponent
+    PopupConvenioEditarComponent,
+    PopupMovimientoComponent,
+    PopupMovimientoConceptoCuentaEditarComponent,
+    PopupMovimientoCuentaEditarComponent,
+    PopupMovimientoTipoComprobanteEditarComponent,
+    PopupProveedorFindComponent,
+    PopupFindMatriculaComponent,
+    PopupFindConceptoComponent,
+    PopupFindComprobanteComponent,
+    PopupEdiarRegistroDeudaComponent,
+    PopupRealizarFacturaComponent,
+    BuscarComprobanteAfipComponent,
+    BuscarConceptoFacturaComponent,
+    PopupFacturaRenglonComponent,
+    BuscarClienteFacturaComponent
   ],
   providers: [CurrencyPipe, DecimalPipe,
     PushNotificationService, ExcelService, { provide: LOCALE_ID, useValue: 'es-Ar' },

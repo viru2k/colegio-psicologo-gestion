@@ -299,7 +299,16 @@ text-danger-bold{
     font-weight: bold !important;
 }
 
+.es-ingreso {
+    color: #457b9d !important;
+    font-weight: bold;
+}
 
+
+.es-egreso {
+    color: #d90429!important;
+    font-weight: bold;
+}
 
 
 .fondo-body {
@@ -630,6 +639,15 @@ FIN  ESTILO DE LA BARRA
 }
 
 
+.btn-pdf{
+    background:  #e63946!important; 
+    border:  #e63946!important;
+    border-radius: 5px;    
+    outline-color: #e63946!important; 
+    color: #FFFFFF!important;
+    outline: 0;
+    
+}
 
 
 

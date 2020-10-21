@@ -1,0 +1,136 @@
+
+            <form class='col-md-12'  [formGroup]='updateDataForm' >
+                <div class='row'>
+                    <div class='col-md-6'>
+  
+                     
+
+                        <div class='form-group'>
+                          <label  >Fecha</label>   
+                            <div class=' input-group input-group-sm mb-3'>
+                              <p-calendar [inputStyle]="{'height':'29.1px'}"  [showTime]="true"   class="mr-2 " formControlName="fecha_carga"   tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="true">
+                                <ng-template pTemplate="date" let-date>
+                                        <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
+                                    </ng-template> 
+                                </p-calendar>
+                            </div>                    
+                         
+                         
+                  </div>
+
+                        <div class='form-group'>
+                            <label  >Cuenta</label>   
+                              <div class=' input-group input-group-sm mb-3'>
+                                <p-dropdown [options]="elementoCuenta" formControlName="cuenta_nombre" (onChange)="changeElementoCuenta($event)" placeholder="Cuenta" optionLabel="cuenta_nombre" [showClear]="true" [filter]="true"></p-dropdown>
+                              </div>                    
+                           
+                           
+                    </div>
+                        <div class='form-group '>
+                            <div >
+                                <label  >Concepto cuenta</label>
+                              </div> 
+                            <div class=' input-group input-group-sm mb-3'>
+                              <p-dropdown [options]="elementoConceptoCuenta" formControlName="concepto_cuenta" (onChange)="changeElementoConceptoCuenta($event)" placeholder="Concepto" optionLabel="concepto_cuenta" [showClear]="true" [filter]="true"></p-dropdown>
+                            </div>                                             
+                        </div>
+  
+                        <div class='form-group '>
+                            <div >
+                                <label  >Tipo de comprobante</label>
+                              </div> 
+                            <div class=' input-group input-group-sm mb-3'>
+                              <p-dropdown [options]="elementoTipoComprobante" formControlName="tipo_comprobante" (onChange)="changeElementoTipoComprobante($event)" placeholder="Comprobante" optionLabel="tipo_comprobante" [showClear]="true" [filter]="true"></p-dropdown>
+                            </div>                       
+                        </div>
+  
+                        <div class='form-group '>
+                            <div >
+                                <label  >Moneda</label>
+                              </div> 
+                              <div class=' input-group input-group-sm mb-3'>
+                                <p-dropdown [options]="elementoMoneda" formControlName="tipo_moneda" (onChange)="changeElementoMoneda($event)" placeholder="Comprobante" optionLabel="tipo_moneda" [showClear]="true" [filter]="true"></p-dropdown>
+                              </div>     
+                        </div>
+  
+
+                    </div>
+                   
+                    <div class='col-md-6'>
+  
+                                        
+  
+                      <div class='form-group '>
+                        <div >
+                            <label  >Descripción</label>
+                          </div> 
+                        <div class=' input-group input-group-sm mb-3'>
+                            <input  placeholder='Ingrese una descripción' class='form-control col-md-12 form-control-sm' formControlName='descripcion'   />                  
+        
+                        </div> 
+                    </div>
+  
+
+                  
+                    <div class='form-group '>
+                      <div >
+                          <label  >Proveedor</label>
+                        </div> 
+                      <div class=' input-group input-group-sm mb-3'>
+                          <input (keyup.enter)='buscarProveedor()' placeholder='Buscar proveedor' class='form-control col-md-12 form-control-sm' formControlName='nombreyapellido_proveedor'   />                  
+                          <div class='input-group-append'>
+                            <span class='input-group input-group-text form-control-sm'>
+                              <a  (click)='buscarProveedor()'>
+                                  <img class='pointer float-left' src='assets/icons/grey/outline_search_black_18dp.png' width='24px' height='24px'  >
+                              </a>
+                          </span>
+                          </div>
+                      </div> 
+                  </div>
+  
+               
+                  <div class='form-group '>
+                    <div >
+                        <label  >Factura</label>
+                      </div> 
+                    <div class=' input-group input-group-sm mb-3'>
+                        <input (keyup.enter)='buscarFactura()' placeholder='Buscar factura' class='form-control col-md-12 form-control-sm' formControlName='comprobante_numero'   />                  
+                        <div class='input-group-append'>
+                          <span class='input-group input-group-text form-control-sm'>
+                            <a  (click)='buscarFactura()'>
+                                <img class='pointer float-left' src='assets/icons/grey/outline_search_black_18dp.png' width='24px' height='24px'  >
+                            </a>
+                        </span>
+                        </div>
+                    </div> 
+                </div>
+
+                    <div class='form-group'>
+                      <label  >Importe</label>
+                      <input class='form-control col-md-12 form-control-sm' type="number" formControlName='importe' (focusout)="calcularTotal()"   (keyup.enter)="calcularTotal()"  />
+                    
+              </div>
+              <div class='form-group'>
+                  <label  >Cotización</label>
+                  <input   class='form-control col-md-12 form-control-sm' type="number" formControlName='cotizacion' (focusout)="calcularTotal()"   (keyup.enter)="calcularTotal()"   />
+              </div>
+              <div class='form-group'>
+                <label  >Total</label>
+                <input class='form-control col-md-12 form-control-sm text-info' type="number" formControlName='total'   />
+            </div>
+
+
+                   </div>
+                   
+                      
+            </div>
+    
+            </form>
+            <p-footer>
+                    <div class='ui-dialog-buttonpane ui-helper-clearfix mt-2'>
+                        <button    class="ml-2  btn btn-info btn-md btn-block" type='submit' (click)="actualizarDatos()" > <i class="fas fa-plus fa-lg mr-2"></i>Guardar</button> 
+                                              
+                    </div>
+                </p-footer>
+       
+         

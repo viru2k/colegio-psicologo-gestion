@@ -1,0 +1,34 @@
+     
+            <form class="col-12"  [formGroup]="updateDataForm">
+                <div class="row">
+                    <div class="col-8">
+
+                        <div class="form-group ">
+                            <label  >Cuenta</label>
+                            <input class="form-control col-md-12 form-control-sm" formControlName="cuenta_nombre"  autofocus  />
+                            <div *ngIf="updateDataForm.controls['cuenta_nombre'].errors?.required && updateDataForm.controls['cuenta_nombre'].touched" class="alert alert-warning">
+                                    * Este campo es requerido
+                            </div>
+                        </div> 
+
+                        <div class="form-group ">
+                            <label class="mr-1" >Tipo</label>
+                            <div class="row">
+                                <div class="col-3"><p-radioButton name="groupname" formControlName="movimiento_tipo"   value="INGRESO" label="INGRESO"  inputId="opt1"></p-radioButton></div>
+                                <div class="col-3"><p-radioButton name="groupname"  formControlName="movimiento_tipo"   value="EGRESO" label="EGRESO"  inputId="opt2"></p-radioButton></div>                               
+                              </div>  
+                        </div> 
+                    
+                    </div>
+        </div>
+             
+            </form>
+
+        
+            <p-footer>
+                    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                            <button  [disabled]="!updateDataForm.valid" class="btn btn-info texto-roboto btn-block" type="submit" (click)="guardarDatos()" >Guardar</button>
+                            
+                    </div>
+                </p-footer>
+       

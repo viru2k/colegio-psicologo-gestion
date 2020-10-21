@@ -10,23 +10,7 @@
                 <!-- ============================================================== -->
                 <header class="topbar">
                     <nav class="navbar top-navbar navbar-expand-md navbar-light">
-                        <!-- ============================================================== -->
-                        <!-- Logo -->
-                        <!-- ============================================================== -->
-                        <div class="navbar-header">
-                            <a class="navbar-brand" routerLink="/">
-                                <!-- Logo icon --><b>
-                                    <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                                    <!-- Dark Logo icon -->
-                                    <img src="./../../../../assets/images/home.png" alt="INICIO" width="32px" height="32px" class="dark-logo" />
-                                   <span>INICIO</span> 
-
-                                </b>
-                                </a>
-                        </div>
-                        <!-- ============================================================== -->
-                        <!-- End Logo -->
-                        <!-- ============================================================== -->
+                       
                         <div class="navbar-collapse">
                             <!-- ============================================================== -->
                             <!-- toggle and nav items -->
@@ -54,7 +38,7 @@
                                         <ul class="dropdown-user">
                                             <li>
                                                 <div class="dw-user-box">
-                                                    <div class="u-img"><img src="../assets/images/user-default.png" alt="user"></div>
+                                                    <div class="u-img"><img src="./assets/images/user-default.png" alt="user"></div>
                                                     <div class="u-text">
                                                         <h4>{{name | titlecase }}</h4>
                                                         <h6 class="text-muted">{{username}}</h6></div>
@@ -62,8 +46,6 @@
                                             </li>
                                             <li role="separator" class="divider"></li>
                                             <li><a href="#"><i class="ti-user"></i> Mi perfil</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a href="#"><i class="ti-settings"></i> Configuración</a></li>
                                             <li role="separator" class="divider"></li>
                                             <li><a (click)="cerrarSesion()"><i class="fa fa-power-off"></i> Salir</a></li>
                                         </ul>
@@ -85,24 +67,25 @@
                         <!-- Sidebar navigation-->
                         <nav class="sidebar-nav">
                             <ul id="sidebarnav">                             
-                                <li class="nav-devider"></li>   
+                        <!--         <li class="nav-devider"></li>    -->
                                 
-                                <li> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"   aria-expanded="false"><i class="fas fa-landmark  mr-1"></i><span class="hide-menu"> Matrículas</span></a>
+                                <li *ngIf="!matricula"> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"   aria-expanded="false"><i class="fas fa-landmark  mr-1"></i><span class="hide-menu"> Matrículas</span></a>
                                     <ul aria-expanded="false" class="collapse">
                                         <li><a routerLink="/matricula" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Padrón</a></li>
-                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Cobros</a></li>
-                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Pagos</a></li>
+                                        <li><a routerLink="/matricula/cobro" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Cobros</a></li>
+                                        <li><a routerLink="/matricula/caja" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Pagos</a></li>
+                                        <li><a routerLink="/matricula/caja" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Movimientos</a></li>
                                     </ul>
                                 </li>
 
-                                <li> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"  aria-expanded="false"><i class="fas fa-clipboard-list  mr-1"></i> <span class="hide-menu"> Ordenes</span></a>
+                                <li *ngIf="!liquidacion"> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"  aria-expanded="false"><i class="fas fa-clipboard-list  mr-1"></i> <span class="hide-menu"> Ordenes</span></a>
                                     <ul aria-expanded="false" class="collapse">
                                         <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Ingresar ordenes</a></li>
                                         <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Confección de expediente</a></li>                                        
                                     </ul>
                                 </li>
 
-                                <li> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"  aria-expanded="false"><i class="far fa-newspaper  mr-1"></i><span class="hide-menu">Liquidación</span></a>
+                                <li *ngIf="!liquidacion"> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"  aria-expanded="false"><i class="far fa-newspaper  mr-1"></i><span class="hide-menu">Liquidación</span></a>
                                     <ul aria-expanded="false" class="collapse">
                                         <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Expedientes</a></li>
                                         <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Confección de liquidación</a></li>
@@ -111,14 +94,16 @@
                                     </ul>
                                 </li>
 
-                                <li> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fas fa-money-bill-wave  mr-1"></i><span class="hide-menu">Tesoreria</span></a>
+                                <li *ngIf="!tesoreria"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fas fa-money-bill-wave  mr-1"></i><span class="hide-menu">Tesoreria</span></a>
                                     <ul aria-expanded="false" class="collapse">
-                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Ingreso / Egreso</a></li>    
+                                        <li><a routerLink="/movimiento/caja" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Movimientos de caja</a></li>    
                                         <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Informes de caja</a></li>
+                                        <li><a routerLink="/factura/electronica" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Factura electrónica</a></li>
+                                        <li><a routerLink="/factura/electronica/otras/acciones" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Opciones de facturación</a></li>
                                     </ul>
                                 </li>
 
-                                <li> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fas fa-wifi  mr-1"></i><span class="hide-menu">Web</span></a>
+                                <li *ngIf="!web"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fas fa-wifi  mr-1"></i><span class="hide-menu">Web</span></a>
                                     <ul aria-expanded="false" class="collapse">
                                         <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Administrar novedades</a></li>    
                                         <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Sincronizar datos</a></li>
@@ -130,14 +115,22 @@
                                     <ul aria-expanded="false" class="collapse">
                                         <li><a   class="has-arrow waves-effect waves-dark"  aria-expanded="false">Obras sociales</a>
                                             <ul aria-expanded="false" class="collapse">
-                                                <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Convenio</a></li>
-                                                <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Obra social</a></li>    
-                                                <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>PMO</a></li>
+                                                <li><a routerLink="/configuracion/convenio" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Convenio</a></li>
+                                                <li><a routerLink="/configuracion/obra/social" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Obra social</a></li>    
+                                                <li><a routerLink="/configuracion/pmo" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>PMO</a></li>
                                             </ul>
                                         </li>    
-                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Comprobantes</a></li>
-                                        <li><a routerLink="/" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Conceptos</a></li>
-                                        <li><a routerLink="/usuario" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Usuarios</a></li>
+
+                                        <li><a   class="has-arrow waves-effect waves-dark"  aria-expanded="false">Caja</a>
+                                            <ul aria-expanded="false" class="collapse">
+                                                <li><a routerLink="/configuracion/caja/cuenta" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Cuenta</a></li>    
+                                                <li><a routerLink="/configuracion/caja/concepto/cuenta" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Concepto de cuenta</a></li>
+                                                <li><a routerLink="/configuracion/caja/comprobante" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Comprobante</a></li>    
+                                                <li><a routerLink="/configuracion/caja/moneda" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Moneda</a></li>                                                    
+                                            </ul>
+                                        </li>                                         
+                                        <li><a routerLink="/configuracion/concepto" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Conceptos</a></li>
+                                        <li><a routerLink="/configuracion/usuario" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Usuarios</a></li>
                                     </ul>
                                 </li>
                              
