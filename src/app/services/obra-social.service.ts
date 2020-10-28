@@ -16,7 +16,6 @@ export class ObraSocialService {
   return this.http.get<any[]>(this.url + 'obra/social');
   }
 
-
   putObraSocial(val: any, id: string) {
 
   return this.http.put<any>(this.url + 'obra/social/' + id, val);
@@ -27,5 +26,8 @@ export class ObraSocialService {
   return this.http.post<any>(this.url + 'obra/social' , val);
 }
 
+getConvenioByObraSocial(obraSocialId: string) {
+  return this.http.get<any[]>(this.url + 'obra/social/convenio?obra_social_id=' + obraSocialId);
+  }
 
 }

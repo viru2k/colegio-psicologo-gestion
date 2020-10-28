@@ -8,13 +8,17 @@ import swal from 'sweetalert2';
 import {OverlayPanelModule, OverlayPanel} from 'primeng/overlaypanel';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { PopupMovimientoComponent } from './../../movimiento-caja/popup-movimiento/popup-movimiento.component';
+
+import { CobroService } from '../../../services/cobro.service';
+import { PopupFindMatriculaComponent } from './../../../shared/popups/popup-find-matricula/popup-find-matricula.component';
+
+import { PopupRealizarFacturaComponent } from './../../../shared/popups/popup-realizar-factura/popup-realizar-factura.component';
+import { PopupConceptoAgregarComponent } from './popups/popup-concepto-agregar/popup-concepto-agregar.component';
+
 import { calendarioIdioma } from './../../../config/config';
 import { ExcelService } from './../../../services/excel.service';
 import { Filter } from './../../../shared/filter';
-import { CobroService } from '../../../services/cobro.service';
-import { PopupFindMatriculaComponent } from './../../../shared/popups/popup-find-matricula/popup-find-matricula.component';
 import { AlertServiceService } from '../../../services/alert-service.service';
-import { PopupRealizarFacturaComponent } from './../../../shared/popups/popup-realizar-factura/popup-realizar-factura.component';
 
 declare const require: any;
 const jsPDF = require('jspdf');
@@ -69,19 +73,33 @@ export class MatriculaCobroComponent implements OnInit {
    
     this.cols = [
         {field: 'boton', header: '' , width: '6%'},
+        {field: 'mat_matricula', header: 'Matrícula', width: '12%' },
         {field: 'mat_nombreyapellido', header: 'Psicólogo', width: '20%' },
         {field: 'mat_concepto', header: 'Concepto', width: '20%' },         
         {field: 'mat_descripcion', header: 'Descripción', width: '25%' },
-        {field: 'mat_monto', header: 'Importe', width: '16%' },
+        {field: 'mat_monto', header: 'Valor', width: '12%' },
+        {field: 'mat_monto_final', header: 'Importe', width: '12%' },
         {field: 'mat_fecha_vencimiento', header: 'Vencimiento', width: '12%' },
         {field: 'mat_num_cuota', header: 'Cuota', width: '8%' },
-        {field: 'mat_id_plan', header: 'Plan', width: '10%' },
-        {field: 'mat_matricula', header: 'Matrícula', width: '12%' },
-        
+        {field: 'mat_id_plan', header: 'Plan', width: '8%' },
         {field: 'mat_estado', header: 'Estado' , width: '10%'},
         {field: 'id_usuario', header: 'Punto' , width: '8%'},
         ];
-   
+
+    this.columns = [
+          {title: 'Matrícula', dataKey: 'mat_matricula'},
+          {title: 'Psicólogo', dataKey: 'mat_nombreyapellido'},
+          {title: 'Concepto', dataKey: 'mat_concepto'},
+          {title: 'Descripción', dataKey: 'mat_descripcion'},
+          {title: 'Valor', dataKey: 'mat_monto'},
+          {title: 'Importe', dataKey: 'mat_monto_final'},
+          {title: 'Vencimiento', dataKey: 'mat_fecha_vencimiento'},
+          {title: 'Cuota', dataKey: 'mat_num_cuota'},
+          {title: 'Plan', dataKey: 'mat_id_plan'},
+          {title: 'Estado', dataKey: 'mat_estado'},
+          {title: 'Punto', dataKey: 'id_usuario'}
+
+      ];
       }
 
   ngOnInit() {
@@ -91,6 +109,7 @@ export class MatriculaCobroComponent implements OnInit {
     this.fechaDesde = new Date();
     this.fechaHasta = new Date();
     
+
   }
 
 
@@ -144,23 +163,23 @@ public exportarExcelDetallado(){
    seleccionados['mat_matricula'] = element.mat_matricula;    
    seleccionados['mat_nombreyapellido'] = element.mat_nombreyapellido;
    seleccionados['mat_num_cuota'] = element.mat_num_cuota;
-    seleccionados['mat_fecha_pago'] =   formatDate(element['mat_fecha_pago'], 'dd/MM/yyyy', 'es-Ar');  ;
-    seleccionados['mat_fecha_vencimiento'] =   formatDate(element['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'es-Ar');  ;
-    seleccionados['mat_concepto'] = element.mat_concepto ;
-    seleccionados['mat_descripcion'] = element.mat_descripcion;
-    seleccionados['mat_id_plan'] = element.mat_id_plan;
-    seleccionados['mat_monto'] = element.mat_monto;
-    seleccionados['id_pago_historico'] = element.id_pago_historico;
-    seleccionados['mat_estado'] = element.mat_estado;
-    seleccionados['id_usuario'] = element.id_usuario;
+   seleccionados['mat_fecha_pago'] =   formatDate(element['mat_fecha_pago'], 'dd/MM/yyyy', 'es-Ar');  ;
+   seleccionados['mat_fecha_vencimiento'] =   formatDate(element['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'es-Ar');  ;
+   seleccionados['mat_concepto'] = element.mat_concepto ;
+   seleccionados['mat_descripcion'] = element.mat_descripcion;
+   seleccionados['mat_id_plan'] = element.mat_id_plan;
+   seleccionados['mat_monto'] = element.mat_monto;
+   seleccionados['id_pago_historico'] = element.id_pago_historico;
+   seleccionados['mat_estado'] = element.mat_estado;
+   seleccionados['id_usuario'] = element.id_usuario;
     
     
    // exportar.push(seleccionados);
-    exportar[i] = seleccionados;
+   exportar[i] = seleccionados;
   //  console.log(element);
    // console.log(seleccionados);
-    seleccionados = [];
-    i++;
+   seleccionados = [];
+   i++;
   });
   this.excelService.exportAsExcelFile(  exportar, 'listado_pagos'+fecha_impresion);
 }
@@ -195,6 +214,24 @@ public exportarExcelDetallado(){
     this.sumarValoresSeleccionados(this.elementosFiltrados) ;
 }
 
+agregarConcepto() {
+
+  let data:any;
+  const ref = this.dialogService.open(PopupConceptoAgregarComponent, {
+  data,
+   header: 'Agregar concepto',
+   width: '98%',
+   height: '100%'
+  });
+
+  ref.onClose.subscribe((PopupConceptoAgregarComponent: any) => {
+     if (PopupConceptoAgregarComponent) {
+      console.log(PopupConceptoAgregarComponent);      
+      this.getDeudaByMatriculaAndEstado(this.psicologo.mat_matricula_psicologo);
+     }
+  });
+   
+}
 
 realizarFactura() {
     console.log(this.selecteditems.length);
@@ -205,13 +242,13 @@ realizarFactura() {
       data,
        header: 'Realizar factura',
        width: '98%',
-       height: '90%'
+       height: '98%'
       });
       
       ref.onClose.subscribe((PopupRealizarFacturaComponent: any) => {
          if (PopupRealizarFacturaComponent) {
-          console.log(PopupRealizarFacturaComponent);
-          this.getDeudaByMatricula(PopupRealizarFacturaComponent.mat_matricula_psicologo);
+          console.log(this.psicologo.mat_matricula_psicologo);          
+          this.getDeudaByMatriculaAndEstado(this.psicologo.mat_matricula_psicologo);
          }
       });
    
@@ -228,6 +265,8 @@ getDeudaByMatricula(mat_matricula_psicologo) {
   this.loading = true;
   this._fechaDesde = formatDate(this.fechaDesde, 'yyyy-MM-dd HH:mm', 'en');
   this._fechaHasta = formatDate(this.fechaHasta, 'yyyy-MM-dd HH:mm', 'en');
+  this.total = 0;
+  this.total_seleccionado = 0;
   console.log(userData['id']);
 
   try {
@@ -237,26 +276,31 @@ getDeudaByMatricula(mat_matricula_psicologo) {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
-          this.total =  this.total+ Number(resp[i]['mat_monto']);
+          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento'])) {
+            resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
+            this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
+          } else {
+            this.total =  this.total + Number(resp[i]['mat_monto']);
+            resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']);
+          }
+
           }
         this.realizarFiltroBusqueda(resp);
 
         this.elemento = resp;
-        console.log(resp);        
+        console.log(resp);
         }
       this.loading = false;
       },
       error => { // error path
         this.loading = false;
-          console.log(error.message);
-          console.log(error.status);
-          this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
        });
   } catch (error) {
-  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error,'');
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
   }
-
-
 }
 
 
@@ -266,6 +310,8 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo) {
   this.loading = true;
   this._fechaDesde = formatDate(this.fechaDesde, 'yyyy-MM-dd HH:mm', 'en');
   this._fechaHasta = formatDate(this.fechaHasta, 'yyyy-MM-dd HH:mm', 'en');
+  this.total = 0;
+  this.total_seleccionado = 0;
   console.log(userData['id']);
 
   try {
@@ -274,13 +320,19 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo) {
 
       if (resp[0]) {
         let i = 0;
-        for (i = 0; i < resp.length; i++) {
-          this.total =  this.total+ Number(resp[i]['mat_monto']);
+        for (i = 0; i < resp.length; i++) {          
+          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento'])) {
+            resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
+            this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
+          } else {
+            this.total =  this.total + Number(resp[i]['mat_monto']);
+            resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']);
+          }
           }
         this.realizarFiltroBusqueda(resp);
 
         this.elemento = resp;
-        console.log(resp);        
+        console.log(resp);
         }
       this.loading = false;
       },
@@ -298,27 +350,42 @@ buscarEntreFechas() {
   this.loading = true;
   this._fechaDesde = formatDate(this.fechaDesde, 'yyyy-MM-dd HH:mm', 'en');
   this._fechaHasta = formatDate(this.fechaHasta, 'yyyy-MM-dd HH:mm', 'en');
+  this.total = 0;
+  this.total_seleccionado = 0;
+
   try {
     this.cobroService.getDeudaBydMatriculaBetweenDates(this._fechaDesde, this._fechaHasta,'todos')
     .subscribe(resp => {
 
     if (resp[0]) {
-      let i = 0;
-      for (i = 0; i < resp.length; i++) {
-        this.total =  this.total+ Number(resp[i]['mat_monto']);
+      if (resp[0]) {
+        let i = 0;
+        for (i = 0; i < resp.length; i++) {
+          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento'])) {
+            resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
+            this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
+          } else {
+            this.total =  this.total + Number(resp[i]['mat_monto']);
+            resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']);
+          }
+          }
+        this.realizarFiltroBusqueda(resp);
+
+        this.elemento = resp;
+        console.log(resp);
         }
       this.realizarFiltroBusqueda(resp);
 
       this.elemento = resp;
-      console.log(resp);        
+      console.log(resp);
       }
     this.loading = false;
     },
     error => { // error path
       this.loading = false;
-        console.log(error.message);
-        console.log(error.status);
-        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+      console.log(error.message);
+      console.log(error.status);
+      this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
      });
 } catch (error) {
 this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error,'');
@@ -342,28 +409,22 @@ sumarValoresSeleccionados(vals: any) {
         // SUMO LO FILTRADO
         console.log(vals);
         this.total_seleccionado = 0;
-        let i:number;
-        let total_facturado = 0;
-        let total_original = 0;
-        let total_categoria = 0;
-        let cantidad_practica = 0;
+        let i: number;
         for (i = 0; i < vals.length; i++) {
-         this.total_seleccionado =  this.total_seleccionado+ Number(vals[i]['mat_monto']);
+         this.total_seleccionado =  this.total_seleccionado+ Number(vals[i]['mat_monto_final']);
          }
-  
 }
 
-listarDeudaTotal(matricula : string) {
+listarDeudaTotal(matricula: string) {
 
-  
-  let data:any;
+  let data: any;
   const ref = this.dialogService.open(PopupFindMatriculaComponent, {
   data,
    header: 'Buscar matricula',
    width: '98%',
    height: '100%'
   });
-  
+
   ref.onClose.subscribe((PopupFindMatriculaComponent: any) => {
      if (PopupFindMatriculaComponent) {
       console.log(PopupFindMatriculaComponent);
@@ -371,7 +432,6 @@ listarDeudaTotal(matricula : string) {
       this.getDeudaByMatricula(PopupFindMatriculaComponent.mat_matricula_psicologo);
      }
   });
-  
 }
 
 
@@ -384,7 +444,7 @@ findMatricula() {
    width: '98%',
    height: '100%'
   });
-  
+
   ref.onClose.subscribe((PopupFindMatriculaComponent: any) => {
      if (PopupFindMatriculaComponent) {
       console.log(PopupFindMatriculaComponent);
@@ -397,39 +457,37 @@ findMatricula() {
 
 
 generarPdf() {
-  /* 
+
   let _fechaEmision = formatDate(new Date(), 'dd/MM/yyyy HH:mm', 'en');
-  console.log(this.elementos);
-  if(!this.elementosFiltrados){
-    this.elementosFiltradosImpresion = this.agendaTurno;
-  }else{
-    this.elementosFiltradosImpresion = this.elementosFiltrados;
-  }
-  let fecha = formatDate(this.fechaHoy, 'dd/MM/yyyy', 'en');
+  console.log(this.selecteditems);
+  //if (!this.selecteditems) {
+
+    //let fecha = formatDate(this.fec, 'dd/MM/yyyy', 'en');
   var doc = new jsPDF('landscape');
-  
- 
+
   const pageSize = doc.internal.pageSize;
   const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
-doc.addImage(logo_clinica, 'PNG', 10, 10, 40, 11,undefined,'FAST');
+  let img = new Image();
+  img.src = './assets/images/user-default.png';
+  doc.addImage(img, 'PNG', 5, 5, 18, 18, undefined, 'FAST');
+
   doc.setLineWidth(0.4);
   doc.line(10, 30, pageWidth - 10, 30);
   doc.setFontSize(12);
-  doc.text('Agenda de pacientes', pageWidth/2, 20, null, null, 'center');
-  doc.text('Emitido : '+_fechaEmision, pageWidth/2, 24, null, null, 'center');
+  doc.text('Listado de deuda', pageWidth / 2, 20, null, null, 'center');
+  doc.text('Emitido : ' + _fechaEmision, pageWidth / 2, 24, null, null, 'center');
   doc.setFontSize(8);
-  doc.text(pageWidth-60, 20, 'Agenda del dia :' + fecha);
+  //doc.text(pageWidth-60, 20, 'Agenda del dia :' + fecha);
+  doc.autoTable(this.columns, this.selecteditems,
+        {
+          margin: {horizontal: 5, vertical: 35},
+          bodyStyles: {valign: 'top'},
+          styles: {fontSize: 7,cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify'},
+          columnStyles: {text: {cellWidth: 'auto'}}
+        }
+        );
+  window.open(doc.output('bloburl'));
 
-
-   doc.autoTable(this.columns, this.elementosFiltradosImpresion,
-      {
-        margin: {horizontal: 5, vertical: 35},    
-        bodyStyles: {valign: 'top'},
-        styles: {fontSize: 7,cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify'},
-        columnStyles: {text: {cellWidth: 'auto'}}
-      }
-      );
-      window.open(doc.output('bloburl')); */
 }
 
 
@@ -437,8 +495,8 @@ doc.addImage(logo_clinica, 'PNG', 10, 10, 40, 11,undefined,'FAST');
 /** ACCIONES */
 
 colorRow(estado: string){
- 
-    if(estado == 'INGRESO') {  
+
+    if(estado == 'INGRESO') { 
         return {'es-ingreso'  :'null' };
     }
     

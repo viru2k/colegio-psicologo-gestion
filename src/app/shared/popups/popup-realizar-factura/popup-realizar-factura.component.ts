@@ -7,7 +7,7 @@ import swal from 'sweetalert2';
 import { calendarioIdioma } from './../../../config/config';
 // tslint:disable-next-line: max-line-length
 import { DialogService } from 'primeng/components/common/api';
-import { MessageService, DynamicDialogConfig } from 'primeng/api';
+import { MessageService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/api';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { FacturaElectronicaRenglon } from './../../../models/factura-electronica-renglon.model';
 import { FacturaElectronica } from './../../../models/factura-electronica.model';
@@ -17,6 +17,7 @@ import { PopupFacturaRenglonComponent } from './../../../pages/factura/factura-e
 import { PopupProveedorFindComponent } from './../../components/popups/popup-proveedor-find/popup-proveedor-find.component';
 import { BuscarComprobanteAfipComponent } from './../../../pages/factura/factura-electronica/popups/buscar-comprobante-afip/buscar-comprobante-afip.component';
 import { PopupFindMatriculaComponent } from './../popup-find-matricula/popup-find-matricula.component';
+import { CobroService } from '../../../services/cobro.service';
 
 
 @Component({
@@ -84,8 +85,9 @@ export class PopupRealizarFacturaComponent implements OnInit {
   peticion:string;
   es_afip: string;
      movimiento: FacturaElectronicaRenglon;
-  constructor(private facturacionService: FacturacionService,
+  constructor(private facturacionService: FacturacionService, private cobroService: CobroService,
               public config: DynamicDialogConfig, public dialogService: DialogService,
+              public ref: DynamicDialogRef,
               private messageService: MessageService, private cp: CurrencyPipe ) {
 
     this.cols = [
@@ -113,12 +115,13 @@ export class PopupRealizarFacturaComponent implements OnInit {
     console.log(this.config.data);
     this.cliente = this.config.data[0].psicologo.mat_apellido + ' ' + this.config.data[0].psicologo.mat_nombre;
     this.nrodocumento =  this.config.data[0].psicologo.mat_cuit;
-    this.cargarRenglones();
+    
     this.es = calendarioIdioma;
     this.fecha = new Date();
     this.fechaDesde = new Date();
     this.fechaHasta = new Date();
     this.userData  = JSON.parse(localStorage.getItem('userData'));
+    this.cargarRenglones();
     this.getMedicosFacturan();
    
     
@@ -595,7 +598,7 @@ CrearFactura(facturaElectronica){
             toast: false,
             type: 'success',
             text: 'confeccionando PDF',
-            title: 'FACTURA Nº '+this.factura_nro +' GENERADA CORRETAMENTE',
+            title: 'COMPROBANTE Nº '+this.factura_nro +' GENERADO CORRETAMENTE',
             showConfirmButton: false,
             timer: 4000,
             onClose: () => {
@@ -751,7 +754,7 @@ cargarRenglones(){
   for (let index = 0; index < _movimiento.length; index++) {
     console.log(_movimiento[index]);
     // tslint:disable-next-line: max-line-length
-    movimiento = new FacturaElectronicaRenglon('0','0',_movimiento[index]['mat_concepto'], 1, _movimiento[index]['mat_monto'], _movimiento[index]['mat_monto'],'3', 1,'0%',0, _movimiento[index]['mat_monto']); 
+    movimiento = new FacturaElectronicaRenglon('0','0',_movimiento[index]['mat_concepto'] + ' - cuota ' +  _movimiento[index]['mat_num_cuota'] + ' - periodo ' +  formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en'), 1, _movimiento[index]['mat_monto_final'], _movimiento[index]['mat_monto_final'],'3', 1,'0%',0, _movimiento[index]['mat_monto_final'], _movimiento[index]['id_pago_historico'], formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en'), formatDate(new Date(), 'dd/MM/yyyy', 'en') ,this.userData['id']); 
     // tslint:disable-next-line: max-line-length
     _factura_alicuota_asociada  = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],(Math.round(Number(movimiento['iva']) * 100) / 100), (Math.round(Number(movimiento['mat_monto']) * 100) / 100),'0' );
     this.facturaAlicuotaAsociada.push(_factura_alicuota_asociada);
@@ -868,30 +871,6 @@ sumarValores(){
 
 }
 
-/* 
-buscarPaciente(){
-
-  let data:any;
-  const ref = this.dialogService.open(PopupPacienteObrasocialComponent, {
-  data,
-   header: 'Buscar paciente', 
-   width: '98%',
-   height: '90%'
-  });
-
-  ref.onClose.subscribe((PopupPacienteObrasocialComponent: Paciente) => {
-      if (PopupPacienteObrasocialComponent) {
-        console.log(PopupPacienteObrasocialComponent);
-
-       this.cliente =  PopupPacienteObrasocialComponent.apellido + ' ' + PopupPacienteObrasocialComponent.nombre;
-       this.nrodocumento = String(PopupPacienteObrasocialComponent.dni);
-       this.elementoDocumento =  this.elementosDocumento.find(x => x.id == 96);
-       console.log(this.nrodocumento);
-      }
-  });
-
-}
- */
 
 
 buscarCliente(){
@@ -940,9 +919,9 @@ buscarPsicologo(){
 }
 
 
-buscarFacturaAfip(){
-  console.log(this.pto_vta); 
-  console.log(this._pto_vta); 
+buscarFacturaAfip() {
+  console.log(this.pto_vta);
+  console.log(this._pto_vta);
   console.log(this._factura_nro);
   console.log(this.factura_numero);
   console.log(this.medico_id);
@@ -1043,7 +1022,9 @@ generarPDF() {
   doc.setFontStyle('normal');
   doc.setFontSize(6);
   doc.text('COD. ' + this.elementoComprobante['comprobante_codigo'], (pageWidth / 2) - 4.5, 21);
-  //doc.addImage(logo_clinica, 'PNG', 15, 12, 60.06, 12.87, undefined, 'FAST');
+  let img = new Image();
+  img.src = './assets/images/user-default.png';
+  doc.addImage(img, 'PNG', 10, 30, 18, 18, undefined, 'FAST');
   doc.setFontSize(9);
 
   doc.text(this.elementoMedicos['nombreyapellido'], 15, 35);
@@ -1131,16 +1112,63 @@ generarPDF() {
     
       margin: {vertical: 95, right: 0, horizontal: -10},
       bodyStyles: {valign: 'top'},
-      styles: {fontSize: 10, cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify', overflow: 'linebreak'},
+      styles: {fontSize: 8, cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify', overflow: 'linebreak'},
       columnStyles: {descripcion: {columnWidth: 88}, cantidad: {columnWidth: 10}, precio_unitario: {columnWidth: 25},
       alicuota_descripcion: {columnWidth: 12},  iva: {columnWidth: 25}, total_renglon: {columnWidth: 25} }
   });
   window.open(doc.output('bloburl'));
-  this.limpiarDatos();
+  
+  this.realizarCobroNotificar();
+
   }
 
 
+realizarCobroNotificar() {
+  swal({
+    title: 'Registro de cobro',
+    text: 'La factura fue generada y su registro el cobro',
+    type: 'info',
+    showCancelButton: false,
+    confirmButtonColor: '#00b4d8',
 
+    confirmButtonText: 'Continuar'
+  }).then((result) => {
+    if (result.value) {    
+      this.ref.close(this.factura_nro);
+    }
+  })
+}
+
+realizarCobro() {
+
+  this.loading = true;
+  this.peticion = 'Creando factura';
+  try {
+    this.cobroService.putDeuda(this.config.data)
+    .subscribe(resp => {
+        this.loading = false;
+        this.peticion = '';
+
+    },
+    error => { // error path
+      this.loading = false;
+      this.peticion = '';
+      console.log(error);
+      console.log(error.message);
+      swal({
+          toast: false,
+          type: 'error',
+          text: error,
+          showConfirmButton: true,
+          confirmButtonColor: '#3085d6'
+        });
+     });    
+} catch (error) {
+
+}
+
+  this.limpiarDatos();
+}
 
 
   limpiarDatos() {

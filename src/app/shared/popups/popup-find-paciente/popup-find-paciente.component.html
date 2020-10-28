@@ -1,0 +1,66 @@
+
+    <div >
+        <app-loading *ngIf="loading"> </app-loading> 
+       
+    </div>
+    
+  <div class="flexbox pb-2">
+    <div class="flex-menubar-columnas">
+        <label>Buscar </label>
+    </div>
+      <input class="form-control form-control-sm flex-principal-columnas" (keyup.enter)="buscar()" [minLength]="3" [(ngModel)]="textoBusqueda" autofocus>
+      <div class="flex-sidebar-columnas"><p-radioButton name="w"  [(ngModel)]="busqueda"   value="apellido" label="Apellido"  inputId="optw1"></p-radioButton></div>
+      <div class="flex-sidebar-columnas"><p-radioButton name="w"  [(ngModel)]="busqueda"   value="dni" label="Dni"  inputId="optw2"></p-radioButton></div>      
+
+<div class="flex-sidebar-columnas">
+      <button   class="btn btn-primary" type="submit" (click)="buscar()" >Buscar</button>
+</div>
+</div>
+  <div class="row col-md-auto justify-content-md-center animated fadeIn slow" >
+  
+ 
+  
+
+  <p-table #dt [columns]="cols" tableStyleClass="prime-table"  [value]="elementos" selectionMode="single" [resizableColumns]="true" columnResizeMode="expand"
+  [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" [scrollable]="true" scrollHeight="400px" [loading]="loading" loadingIcon=" icon-color-loader-new fas fa-spinner fa-3x " >
+ 
+      <ng-template pTemplate="caption">
+          <div class="row">
+          <div class="col-md-5" style="text-align:right">                                
+              <input  class="form-control col-md-12 form-control-sm" type="text"  placeholder="Buscar en toda la tabla" (input)="dt.filterGlobal($event.target.value, 'contains')"  >
+          </div>
+       </div>
+      </ng-template>
+
+      <ng-template pTemplate="header" let-columns >
+          <tr>
+              <th  *ngFor="let col of columns" [pSortableColumn]="col.field"    [width]="col.width" >
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+           
+          </tr>
+          <tr>
+              <th *ngFor="let col of columns" [ngSwitch]="col.field" >
+                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" >
+                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_sexo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                      
+                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+
+              </th>
+          </tr>
+      </ng-template>
+
+       <ng-template pTemplate="body" let-elementos>
+                <tr style="height:28px" [pSelectableRow]="elementos">      
+  
+      <td style="width: 70%">{{elementos.pac_nombre}}</td>       
+      <td style="width: 10%">{{elementos.pac_sexo}}</td>      
+      <td style="width: 20%">{{elementos.pac_dni}}</td>                             
+      <td style="width: 6%">                    
+        <a  (click)="confirmar(elementos)"><i class="far fa-check-circle icon-color-informacion fa-lg icon-hover"></i></a>   
+      </td>
+  </tr>
+</ng-template>
+</p-table>
+
+  </div>

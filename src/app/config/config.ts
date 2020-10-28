@@ -9,9 +9,6 @@ export const URL_ARCHIVO = 'http://localhost/api-psicologo/public/';
 
 
 
-// export const URL_SERVICIOS = 'http://192.168.1.7/api-vision/public/api/'
-
-
 export const PARAMS = 'json=';
 
 export const calendarioIdioma: any =  {

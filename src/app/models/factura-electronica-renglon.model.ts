@@ -11,6 +11,10 @@ export class FacturaElectronicaRenglon {
     alicuota_descripcion:string;
     iva:number;
     total_renglon:number;
+    id_pago_historico:string;
+    mat_fecha_vencimiento: string;
+    mat_fecha_pago: string;
+    usuario_id: string;
 
     constructor(  
     id:string,
@@ -23,7 +27,11 @@ export class FacturaElectronicaRenglon {
     alicuota:number,
     alicuota_descripcion:string,
     iva:number,
-    total_renglon:number
+    total_renglon:number,
+    id_pago_historico: string,
+    mat_fecha_vencimiento: string,
+    mat_fecha_pago: string,
+    usuario_id: string
         ){
 
             this.id = id;
@@ -37,5 +45,9 @@ export class FacturaElectronicaRenglon {
             this.alicuota_descripcion = alicuota_descripcion;
             this.iva = iva;
             this.total_renglon = total_renglon;
+            this.id_pago_historico = id_pago_historico;
+            this.mat_fecha_vencimiento = mat_fecha_vencimiento;
+            this.mat_fecha_pago = mat_fecha_pago;
+            this.usuario_id = usuario_id;
     }
 }

@@ -3,7 +3,7 @@ import { FacturacionService } from './../../../../../services/facturacion.servic
 
 import swal from 'sweetalert2';
 import { calendarioIdioma } from './../../../../../config/config';
-import { DecimalPipe, CurrencyPipe } from '@angular/common';
+import { DecimalPipe, CurrencyPipe, formatDate } from '@angular/common';
 import { DialogService, MessageService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/api';
 import { FacturaElectronicaRenglon } from './../../../../../models/factura-electronica-renglon.model';
 import { BuscarConceptoFacturaComponent } from './../buscar-concepto-factura/buscar-concepto-factura.component';
@@ -27,10 +27,12 @@ export class PopupFacturaRenglonComponent implements OnInit {
   iva:string = '0';
   total:string = '0';
   concepto:string;
+  userData: any[];
 
   constructor(private facturacionService: FacturacionService,private messageService: MessageService ,public ref: DynamicDialogRef, public config: DynamicDialogConfig ,public dialogService: DialogService,private cp: CurrencyPipe, private dp: DecimalPipe ) { }
 
   ngOnInit() {
+    this.userData  = JSON.parse(localStorage.getItem('userData'));
     this.Alicuota();
   }
 
@@ -116,7 +118,7 @@ export class PopupFacturaRenglonComponent implements OnInit {
     //this.subtotal = this.cantidad * this.importe_unitario; // SUBTOTAL REFIERE AL  VALOR SIN IVA
     this.total = this.cp.transform(_total, '', 'symbol-narrow', '1.2-2') ;
     let tmp_elemento = new FacturaElectronicaRenglon('0','0',this.concepto, this.cantidad, this.importe_unitario, _subtotal, this.elementoAlicuota['iva_id'],
-                                                       this.elementoAlicuota['porcentaje'], this.elementoAlicuota['descripcion'],_iva, _total  );
+                                                       this.elementoAlicuota['porcentaje'], this.elementoAlicuota['descripcion'],_iva, _total , '0' ,  formatDate(new Date(), 'dd/MM/yyyy', 'en') ,  formatDate(new Date(), 'dd/MM/yyyy', 'en'), this.userData['id']);
 
   console.log(tmp_elemento);
     this.ref.close(tmp_elemento);

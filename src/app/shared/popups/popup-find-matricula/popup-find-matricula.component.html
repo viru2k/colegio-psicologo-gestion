@@ -1,7 +1,7 @@
 
       <div >
         <p-table  #dt class="pt-2"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols" [value]="elementos"  [loading]="loading" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
-        scrollHeight="65vh" [scrollable]="true"  loadingIcon="fas fa-spinner fa-2x icon-color-green"  >
+        scrollHeight="65vh" [scrollable]="true"  loadingIcon=" icon-color-loader-new fas fa-spinner fa-3x"  >
   
                    <ng-template pTemplate="header" let-columns  >
                   
@@ -15,7 +15,7 @@
                             </tr> 
                             <tr>
                             <th *ngFor="let col of columns" [ngSwitch]="col.field"  >
-                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_matricula_psicologo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                                <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_matricula_psicologo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" autofocus>
                                 <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_apellido'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                                 <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                                 <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">

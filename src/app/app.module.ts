@@ -109,8 +109,7 @@ import { PopupMovimientoTipoComprobanteEditarComponent } from './pages/mantenimi
 import { PopupProveedorFindComponent } from './shared/components/popups/popup-proveedor-find/popup-proveedor-find.component';
 import { FacturaElectronicaComponent } from './pages/factura/factura-electronica/factura-electronica.component';
 import { OtrasAccionesComponent } from './pages/factura/otras-acciones/otras-acciones.component';
-import { MatriculaCobroComponent } from './pages/matricula/matricula-cobro/matricula-cobro.component';
-import { MatriculaCajaComponent } from './pages/matricula/matricula-caja/matricula-caja.component';
+
 import { LoadingComponent } from './shared/components/loading/loading.component';
 import { PopupFindMatriculaComponent } from './shared/popups/popup-find-matricula/popup-find-matricula.component';
 import { PopupFindConceptoComponent } from './shared/popups/popup-find-concepto/popup-find-concepto.component';
@@ -122,6 +121,21 @@ import { BuscarConceptoFacturaComponent } from './pages/factura/factura-electron
 import { PopupFacturaRenglonComponent } from './pages/factura/factura-electronica/popups/popup-factura-renglon/popup-factura-renglon.component';
 // tslint:disable-next-line: max-line-length
 import { BuscarClienteFacturaComponent } from './pages/factura/factura-electronica/popups/buscar-cliente-factura/buscar-cliente-factura.component';
+import { PopupFindPacienteComponent } from './shared/popups/popup-find-paciente/popup-find-paciente.component';
+import { PopupEditarPacienteComponent } from './shared/popups/popup-editar-paciente/popup-editar-paciente.component';
+import { PopupListaPacienteComponent } from './shared/popups/popup-lista-paciente/popup-lista-paciente.component';
+import { MatriculaCajaComponent } from './pages/matricula/matricula-caja/matricula-caja.component';
+import { MatriculaCobroComponent } from './pages/matricula/matricula-cobro/matricula-cobro.component';
+import { PopupConceptoAgregarComponent } from './pages/matricula/matricula-cobro/popups/popup-concepto-agregar/popup-concepto-agregar.component';
+import { OrdenIngresoComponent } from './pages/liquidacion/orden/orden-ingreso/orden-ingreso.component';
+import { OrdenAuditarComponent } from './pages/liquidacion/orden/orden-auditar/orden-auditar.component';
+import { OrdenAfectarComponent } from './pages/liquidacion/orden/orden-afectar/orden-afectar.component';
+import { PopupOrdenEditarComponent } from './pages/liquidacion/orden/popup-orden-editar/popup-orden-editar.component';
+import { PopupConceptoMatriculaEditarComponent } from './pages/mantenimiento/concepto-matricula/popup-concepto-matricula-editar/popup-concepto-matricula-editar.component';
+import { PopupFindObraSocialComponent } from './shared/popups/popup-find-obra-social/popup-find-obra-social.component';
+import { PopupFindConvenioComponent } from './shared/popups/popup-find-convenio/popup-find-convenio.component';
+
+
 
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
@@ -167,8 +181,6 @@ registerLocaleData(localeEsAR, 'es-Ar');
     MovimientoConceptoCuentaComponent,
     MovimientoTipoComprobanteComponent,
     MovimientoTipoMonedaComponent,
-    MatriculaCobroComponent,
-    MatriculaCajaComponent,
     PopupProveedorFindComponent,
     FacturaElectronicaComponent,
     OtrasAccionesComponent,
@@ -181,14 +193,24 @@ registerLocaleData(localeEsAR, 'es-Ar');
     BuscarComprobanteAfipComponent,
     BuscarConceptoFacturaComponent,
     PopupFacturaRenglonComponent,
-    BuscarClienteFacturaComponent
+    BuscarClienteFacturaComponent,
+    PopupFindPacienteComponent,
+    PopupEditarPacienteComponent,
+    PopupListaPacienteComponent,
+    MatriculaCajaComponent,    
+    MatriculaCobroComponent,
+    PopupConceptoAgregarComponent,
+    PopupConceptoMatriculaEditarComponent,
+    OrdenIngresoComponent,
+    OrdenAuditarComponent,
+    OrdenAfectarComponent,
+    MatriculaCobroComponent,
+    PopupOrdenEditarComponent,
+    PopupFindObraSocialComponent,
+    PopupFindConvenioComponent
+    
   ],
   imports: [
-
-
-
-
-
 
     BrowserModule,
     FormsModule,
@@ -224,6 +246,7 @@ registerLocaleData(localeEsAR, 'es-Ar');
     AutofocusModule,
     AppRoutingModule,
 
+
   ],
   entryComponents: [
     PopupMatriculaObraSocialComponent,
@@ -247,7 +270,16 @@ registerLocaleData(localeEsAR, 'es-Ar');
     BuscarComprobanteAfipComponent,
     BuscarConceptoFacturaComponent,
     PopupFacturaRenglonComponent,
-    BuscarClienteFacturaComponent
+    BuscarClienteFacturaComponent,
+    PopupFindPacienteComponent,
+    PopupEditarPacienteComponent,
+    PopupListaPacienteComponent,
+    PopupOrdenEditarComponent,
+    PopupConceptoMatriculaEditarComponent,
+    PopupFindObraSocialComponent,
+    PopupFindConvenioComponent
+
+    
   ],
   providers: [CurrencyPipe, DecimalPipe,
     PushNotificationService, ExcelService, { provide: LOCALE_ID, useValue: 'es-Ar' },

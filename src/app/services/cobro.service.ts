@@ -14,12 +14,10 @@ export class CobroService {
   constructor(public http: HttpClient) { }
 
   getDeudaByMatricula(matMatricula: string ) {
-    console.log('sd');
     return this.http.get<any[]>(this.url + 'cobro/by/matricula?mat_matricula=' + matMatricula);
   }
 
   getDeudaByMatriculaAndEstado(matMatricula: string , estado: string) {
-    console.log('sd');
     return this.http.get<any[]>(this.url + 'cobro/by/matricula/estado?mat_matricula=' + matMatricula + '&estado=' + estado);
   }
 
@@ -40,8 +38,21 @@ export class CobroService {
     return this.http.post<any>(this.url + 'cobro/by/matricula', element);
   }
 
-  putDeuda(element: any, id: string) {
-    return this.http.put<any>(this.url + 'cobro/by/matricula/' + id, element);
+  putDeuda(element: any) {
+    return this.http.post<any>(this.url + 'cobro/by/matricula/actualizar', element);
+  }
+
+
+  getConcepto() {
+    return this.http.get<any[]>(this.url + 'concepto');
+  }
+
+  setConcepto(element: any) {
+    return this.http.post<any>(this.url + 'concepto', element);
+  }
+
+  putConcepto(element: any, id: string) {
+    return this.http.put<any>(this.url + 'concepto/' + id, element);
   }
 
 }

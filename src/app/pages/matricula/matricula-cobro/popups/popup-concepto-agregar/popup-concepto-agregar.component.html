@@ -1,0 +1,81 @@
+
+    <div>
+        <div class="card p-1">
+
+            <div class="d-flex justify-content-between " >
+                <div class=" d-flex justify-content-start">     
+                    <div>
+                       
+                        <label  class=" ml-2 mt-1">Cantidad de cuotas :</label>
+                        <input type="number" class="form-control col-1 form-control-sm" (change)="calcularDeuda()"  [(ngModel)] ="cuotas">     
+                        <label  class=" ml-2 mr-2 mt-1">Interes :</label>
+                        <input type="number" class="form-control col-1 form-control-sm m-2" (change)="calcularDeuda()" [(ngModel)] ="interes">  
+                        <label  class=" ml-2 mr-2 mt-1">Alícuota :</label>
+                        <input type="number" class="form-control col-1 form-control-sm m-2" (change)="calcularDeuda()" [(ngModel)] ="alicuota">  
+                        <label  class=" mr-2 mt-1">Concepto seleccionado : <b>{{valor}}</b></label>       
+                        <label  class=" ml-2 mr-2 mt-1">Total : <b class="text-info">{{valorTotal|  number : '1.2-2'}}</b></label>   
+                        <button    class="btn  btn-primary  btn-sm  ml-2" (click)="calcularDeuda()" > Calcular</button>   
+                    </div>     
+                  </div>                              
+         
+            </div>
+              <div class="d-flex justify-content-between " >
+            <div class=" d-flex justify-content-start">     
+                    <label  class=" ml-2 mt-1">Concepto : {{concepto}}</label>
+              </div>      
+              <div class=" d-flex justify-content-end">
+                <button    class="  btn btn-info btn-sm mr-2"  (click)="generarConcepto()" >Generar concepto</button>  
+              </div>                       
+     
+        </div>
+    </div>
+
+          <p-table  #dt class="pt-4"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols"  [value]="elemento" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
+          scrollHeight="500px" [scrollable]="true"[loading]="loading" loadingIcon="icon-color-loader-new fas fa-spinner fa-3x">
+  
+<i class="fas fa-receipt"></i>
+          
+
+  
+                <ng-template pTemplate="header" let-columns >
+              
+                  <tr >
+                       
+                      <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activar para ordenar en forma descendente" ariaLabelAsc="Activar para ordenar en forma ascendente"></p-sortIcon>
+                      </th>                    
+                    </tr>
+                    <tr>
+                    <th *ngFor="let col of columns" [ngSwitch]="col.field" >                                                
+                        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_concepto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
+                        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_monto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
+                        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_interes'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
+                        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_descripcion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                                                                                                  
+                                    
+                    </th>
+                    <th></th>
+                </tr>
+            </ng-template>
+                
+                <ng-template pTemplate="body" let-elemento> 
+                     
+                <tr style="height:28px"  >   
+                                             
+                     <td style="width: 40%">{{elemento.mat_concepto}}</td> 
+                     <td style="width: 30%">{{elemento.mat_descripcion}}</td>     
+                     <td style="width: 20%">{{elemento.mat_monto}}</td>
+                     <td style="width: 10%">{{elemento.mat_interes}}</td>      
+                     <td style="width: 6%">                       
+                        <a  (click)="confirmar(elemento)"><i class="far fa-check-circle icon-color-informacion fa-lg icon-hover"></i></a>        
+                      </td>                                                                           
+                </tr>
+                </ng-template>
+          </p-table>
+
+      
+  
+         
+    </div>
+  
+  

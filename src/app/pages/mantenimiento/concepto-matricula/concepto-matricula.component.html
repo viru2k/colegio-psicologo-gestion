@@ -1,1 +1,64 @@
-<p>concepto-matricula works!</p>
+
+    
+        <div>
+           
+
+              <p-table  #dt class="pt-4"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols"  [value]="elemento" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
+              scrollHeight="500px" [scrollable]="true"[loading]="loading" loadingIcon="icon-color-loader-new fas fa-spinner fa-3x">
+      
+    <i class="fas fa-receipt"></i>
+              
+    
+              <ng-template pTemplate="caption">
+                
+                    <div class="d-flex justify-content-between" >
+                        <div class=" d-flex justify-content-start">     
+                            <button    class="  btn btn-success btn-sm"  (click)="nuevoRegistro()" > <i class="fas fa-plus fa-xs mr-2"></i>Concepto</button>
+                            </div> 
+                    </div>
+    
+                  
+    
+            </ng-template>
+      
+                    <ng-template pTemplate="header" let-columns >
+                  
+                      <tr >
+                           
+                          <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activar para ordenar en forma descendente" ariaLabelAsc="Activar para ordenar en forma ascendente"></p-sortIcon>
+                          </th>                    
+                        </tr>
+                        <tr>
+                        <th *ngFor="let col of columns" [ngSwitch]="col.field" >                                                
+                            <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_concepto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
+                            <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_monto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
+                            <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_interes'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
+                            <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_descripcion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                                                                                                  
+                                        
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                    
+                    <ng-template pTemplate="body" let-elemento> 
+                         
+                    <tr style="height:28px"  >   
+                        <td style="width: 6%">                       
+                            <a   (click)="editarRegistro(elemento)" ><i class="far fa-edit fa-lg icon-color-info  my-hover" ></i></a>                 
+                          </td>                                
+                         <td style="width: 40%">{{elemento.mat_concepto}}</td> 
+                         <td style="width: 30%">{{elemento.mat_descripcion}}</td>     
+                         <td style="width: 20%">{{elemento.mat_monto}}</td>
+                         <td style="width: 10%">{{elemento.mat_interes}}</td>      
+                                                                                                     
+                    </tr>
+                    </ng-template>
+              </p-table>
+            </div>
+          
+
+      
+      
+    

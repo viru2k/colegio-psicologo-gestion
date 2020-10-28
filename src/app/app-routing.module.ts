@@ -11,7 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { ConceptoMatriculaComponent } from './pages/mantenimiento/concepto-matricula/concepto-matricula.component';
 
-import { ChildRoutesModule } from './pages/child-routes.module';
+
 import { ListadoCajaComponent } from './pages/movimiento-caja/listado-caja/listado-caja.component';
 import { MovimientoCuentaComponent } from './pages/mantenimiento/movimiento-caja/movimiento-cuenta/movimiento-cuenta.component';
 // tslint:disable-next-line: max-line-length
@@ -24,6 +24,8 @@ import { MatriculaCobroComponent } from './pages/matricula/matricula-cobro/matri
 import { MatriculaCajaComponent } from './pages/matricula/matricula-caja/matricula-caja.component';
 import { FacturaElectronicaComponent } from './pages/factura/factura-electronica/factura-electronica.component';
 import { OtrasAccionesComponent } from './pages/factura/otras-acciones/otras-acciones.component';
+import { OrdenAuditarComponent } from './pages/liquidacion/orden/orden-auditar/orden-auditar.component';
+import { OrdenIngresoComponent } from './pages/liquidacion/orden/orden-ingreso/orden-ingreso.component';
 
 const routes: Routes = [
 
@@ -46,6 +48,12 @@ const routes: Routes = [
   { path: 'matricula/cobro', component: MatriculaCobroComponent },
   { path: 'matricula/caja', component: MatriculaCajaComponent },
 
+/* -------------------------------------------------------------------------- */
+/*                                    ORDER                                   */
+/* -------------------------------------------------------------------------- */
+
+{ path: 'orden/auditar', component: OrdenAuditarComponent },
+{ path: 'orden/ingreso', component: OrdenIngresoComponent },
 
   /* -------------------------------------------------------------------------- */
   /*                                MANTENIMIENTO                               */
@@ -82,6 +90,8 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
+
+
 
 
 

@@ -187,8 +187,8 @@ a{
     color: #D0E6A5!important;
 }
 
-.icon-color-loader{
-    color: #9C27B0!important;
+.icon-color-loader-new{
+    color: #e63946!important;
 }
 
 
@@ -1303,6 +1303,49 @@ body {
 }
 
 
+
+.card {
+  //  position: relative;
+    box-shadow: 0px 6px 20px 0px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;    
+    transform: translate(0);
+    //margin: 10px;
+    overflow: auto;
+    border-radius: 5px;
+  }
+  
+
+  
+  .card-img img {
+    width: 100%;
+    max-height: 230px;
+    object-position: center;
+    object-fit: cover;
+    filter: grayscale(1);
+  }
+  
+  .card:hover .card-img img{
+    filter: grayscale(0);
+  }
+  
+  .card-bottom {
+    background: #fff;
+  }
+  
+  .card-title {
+    padding: 10px 16px;
+  }
+  
+  .bottom-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-top: 1px solid #dde2e4;
+  }
+  
+  .bookmark-options {
+    display: flex;
+  }
 
 
 
