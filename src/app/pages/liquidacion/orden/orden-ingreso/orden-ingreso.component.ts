@@ -13,6 +13,8 @@ import { PopupFindConvenioComponent } from './../../../../shared/popups/popup-fi
 import { PopupFindPacienteComponent } from '../../../../shared/popups/popup-find-paciente/popup-find-paciente.component';
 import { Orden } from './../../../../models/orden.model';
 import { MatriculaService } from './../../../../services/matricula.service';
+import { PopupFindMatriculaComponent } from './../../../../shared/popups/popup-find-matricula/popup-find-matricula.component';
+import { LiquidacionService } from '../../../../services/liquidacion.service';
 
 @Component({
   selector: 'app-orden-ingreso',
@@ -22,14 +24,17 @@ import { MatriculaService } from './../../../../services/matricula.service';
 export class OrdenIngresoComponent implements OnInit {
 
   loading = false;
+  buscando = false;
   cols: any[];
   es: any;
- 
+
   elementos: any[] = [];
   elementosObraSocial: any[] = [];
-  elementoObraSocial: any[] = [];
   elementosConvenio: any[] = [];
-  elementoConvenio: any[] = [];
+  elementoConvenio: any = null;
+  elementoObraSocial: any = null;
+  elementoPaciente: any  = null;
+  elementoPsicologo: any  = null;
   selecteditems: any[] = [];
   elementosFiltrados: any[] = [];
   elementosFiltradosImpresion: any[] = [];
@@ -41,7 +46,6 @@ export class OrdenIngresoComponent implements OnInit {
   psicologo_nombre: string;
   psicologo_id: number;
   cantidad = 1;
-  elementoPaciente: any [] = [];
   paciente_nombre = '';
   paciente_id: number;
   _os_sesion: any[] = [];
@@ -49,26 +53,26 @@ export class OrdenIngresoComponent implements OnInit {
 
   orden: Orden;
 
-  constructor(private matriculaService: MatriculaService,
+  constructor(private liquidacionService: LiquidacionService,
+              private matriculaService: MatriculaService,
               private obraSocialService: ObraSocialService,
               private messageService: MessageService,
-              public dialogService: DialogService, 
+              public dialogService: DialogService,
               private alertServiceService: AlertServiceService,
               private excelService: ExcelService, private filter: Filter ) {
 
       this.cols = [
         {field: 'boton', header: '' , width: '6%'},
         {field: 'mat_matricula', header: 'Matrícula', width: '12%' },
-        {field: 'mat_nombreyapellido', header: 'Psicólogo', width: '20%' },
-        {field: 'mat_concepto', header: 'Concepto', width: '20%' },         
-        {field: 'mat_descripcion', header: 'Descripción', width: '25%' },
-        {field: 'mat_monto', header: 'Valor', width: '12%' },
-        {field: 'mat_monto_final', header: 'Importe', width: '12%' },
-        {field: 'mat_fecha_vencimiento', header: 'Vencimiento', width: '12%' },
-        {field: 'mat_num_cuota', header: 'Cuota', width: '8%' },
-        {field: 'mat_id_plan', header: 'Plan', width: '8%' },
-        {field: 'mat_estado', header: 'Estado' , width: '10%'},
-        {field: 'id_usuario', header: 'Punto' , width: '8%'},
+        {field: 'mat_apellido_nombre', header: 'Psicólogo', width: '22%' },
+        {field: 'os_fecha', header: 'Fecha', width: '12%' },
+        {field: 'os_sesion', header: 'Sesión', width: '20%' },
+        {field: 'os_sesion_codigo', header: 'Código', width: '12%' },
+        {field: 'os_precio_sesion', header: 'Valor', width: '12%' },
+        {field: 'os_cantidad', header: 'Cantidad', width: '12%' },
+        {field: 'os_precio_total', header: 'Total', width: '12%' },
+        {field: 'pac_nombre', header: 'Paciente', width: '15%' },
+        {field: 'pac_dni', header: 'DNI' , width: '10%'},        
         ];
 
       this.columns = [
@@ -119,17 +123,19 @@ export class OrdenIngresoComponent implements OnInit {
     }
   }
 
-  
+
     changeElementoObraSocial(event) {
       console.log(event.value);
+      this.elementoObraSocial = event.value;
       this.getConvenioByObraSocial(event.value);
     }
 
     changeElementoConvenio(event) {
       console.log(event.value);
-      
+      this.elementoConvenio = event.value;
+
     }
-  
+
   getConvenioByObraSocial(element: any) {
     try {
       this.loading = true;
@@ -139,10 +145,10 @@ export class OrdenIngresoComponent implements OnInit {
         let i = 0;
         if (resp[0]) {
         resp.forEach(element => {
-          resp[i].os_sesion = element.os_sesion + ' - ' + element.os_sesion_codigo + ' - ' + element.id_precio +'$';
+          resp[i].os_sesion = element.os_sesion + ' - ' + element.os_sesion_codigo + ' - ' + element.id_precio + '$';
           i++;
         });
-        this.elementoConvenio = resp;
+        this.elementosConvenio = resp;
       }
 
         this.loading = false;
@@ -160,28 +166,72 @@ export class OrdenIngresoComponent implements OnInit {
 
   buscarPsicologo() {
 
-      let data:any = this.selecteditems;
-      const ref = this.dialogService.open(PopupFindConvenioComponent, {
-      data,
-       header: 'Buscar psicólogo',
-       width: '98%',
-       height: '98%'
-      });
-      ref.onClose.subscribe((PopupRealizarFacturaComponent: any) => {
-         if (PopupRealizarFacturaComponent) {
-          console.log(PopupRealizarFacturaComponent);
-         }
-      });
+    try {
+      this.buscando = true;
+      this.matriculaService.getMatricula(this.psicologo_nombre)
+        .subscribe(resp => {
+          if (resp[0]) {
+            this.elementoPsicologo = resp[0];
+            console.log(this.elementoPsicologo);
+            // tslint:disable-next-line: max-line-length
+            this.psicologo_nombre = this.elementoPsicologo.mat_matricula_psicologo + ' ' +  this.elementoPsicologo.mat_apellido + ' ' + this.elementoPsicologo.mat_nombre ;
+            console.log(resp);
+          } else {
+            this. buscando = false;
+            const data: any = this.selecteditems;
+            const ref = this.dialogService.open(PopupFindMatriculaComponent, {
+            data,
+             header: 'Buscar psicólogo',
+             width: '98%',
+             height: '98%'
+            });
+            ref.onClose.subscribe((PopupRealizarFacturaComponent: any) => {
+               if (PopupRealizarFacturaComponent) {
+                console.log(PopupRealizarFacturaComponent);
+               }
+            });
+
+          }
+          this.buscando = false;
+        },
+        error => { // error path
+            console.log(error);
+            this.buscando = false;
+            this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', '', '500');
+         });
+    } catch (error) {
+      this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', '', '500');
+    }
+
+}
+
+buscarPsicologoLista() {
+
+
+  const ref = this.dialogService.open(PopupFindMatriculaComponent, {
+   header: 'Buscar psicólogo',
+   width: '98%',
+   height: '98%'
+  });
+  ref.onClose.subscribe((PopupFindMatriculaComponent: any) => {
+     if (PopupFindMatriculaComponent) {
+      console.log(PopupFindMatriculaComponent);
+      // tslint:disable-next-line: max-line-length
+      this.elementoPsicologo = PopupFindMatriculaComponent;
+      // tslint:disable-next-line: max-line-length
+      this.psicologo_nombre = PopupFindMatriculaComponent.mat_matricula_psicologo + ' ' + PopupFindMatriculaComponent.mat_apellido + ' ' + PopupFindMatriculaComponent.mat_nombre ;
+      console.log(this.elementoPsicologo);
+     }
+  });
 
 }
 
 buscarPaciente() {
 
-
   if (this.paciente_nombre.length >= 4) {
     this.getPacienteByDni(this.paciente_nombre);
   } else {
-     let data:any = this.paciente_nombre;
+     const data: any = this.paciente_nombre;
      const ref = this.dialogService.open(PopupFindPacienteComponent, {
     data,
      header: 'Buscar paciente',
@@ -192,19 +242,100 @@ buscarPaciente() {
      ref.onClose.subscribe((PopupFindPacienteComponent: any) => {
        if (PopupFindPacienteComponent) {
        console.log(PopupFindPacienteComponent);
+       this.elementoPaciente = PopupFindPacienteComponent;
+       this.paciente_nombre = PopupFindPacienteComponent.pac_nombre;
        }
     });
   }
+}
 
+buscarPacienteLista() {
+     const ref = this.dialogService.open(PopupFindPacienteComponent, {
+     header: 'Buscar paciente',
+     width: '98%',
+     height: '98%'
+    });
+
+     ref.onClose.subscribe((PopupFindPacienteComponent: any) => {
+       if (PopupFindPacienteComponent) {
+        console.log(PopupFindPacienteComponent);
+        this.elementoPaciente = PopupFindPacienteComponent;
+        this.paciente_nombre = PopupFindPacienteComponent.pac_nombre;
+        console.log(this.elementoPaciente);
+       }
+    });
 
 }
 
+
+
 agregar() {
- // this.orden = new Orden('0',mat_matricula, this.o)
+  const tmpfecha = formatDate(this.fecha, 'yyyy-MM-dd', 'en');
+  const total = this.cantidad * Number(this.elementoConvenio.id_precio);
+  console.log(this.elementoPsicologo );
+  this.orden = new Orden('0', this.elementoPsicologo.mat_matricula_psicologo, this.elementoObraSocial.id, this.elementoConvenio.id,
+                          this.elementoPaciente.id_paciente,  tmpfecha, this.cantidad, Number(this.elementoConvenio.id_precio),
+                          total, 'P', '0', '' );
+  console.log(this.orden);
+
+  try {
+    this.loading = true;
+    this.liquidacionService.setOrden(this.orden)
+    .subscribe(resp => {
+      console.log(resp);
+      this.loading = false;
+      this.getLiquidacionByMatriculaAndEstado();
+    },
+    error => { // error path
+      this.loading = false;
+      console.log(error.message);
+      console.log(error.status);
+      this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+    });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+}
+
+getLiquidacionByMatriculaAndEstado(){
+  try {
+    this.loading = true;
+    this.liquidacionService.getLiquidacionByMatriculaAndEstado(this.elementoPsicologo.mat_matricula_psicologo, 'P')
+    .subscribe(resp => {
+      console.log(resp);
+      this.elementos = resp;
+      this.loading = false;
+      this.realizarFiltroBusqueda(resp);
+    },
+    error => { // error path
+      this.loading = false;
+      console.log(error.message);
+      console.log(error.status);
+      this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+    });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+
+}
+
+buscarOrdenes() {
+  if (this.elementoPsicologo) {
+    this.getLiquidacionByMatriculaAndEstado();
+  }
 }
 
 limpiar() {
-
+  this.cantidad = 1;
+  this.elementoConvenio = null;
+  this.elementoObraSocial = null;
+  this.elementoPaciente = null;
+  this.elementoPsicologo = null;
+  this.elementos = [];
+  this.elementosConvenio = [];
+  this.paciente_nombre = '';
+  this.psicologo_nombre = '';
+  this.fecha = new Date();
 }
 
 getPacienteByDni(dni: string) {
@@ -214,8 +345,7 @@ getPacienteByDni(dni: string) {
     this.matriculaService.getPacienteByCondicion(dni, 'dni')
     .subscribe(resp => {
       if (resp[0]) {
-
-      this.elementoPaciente = resp;
+      this.elementoPaciente = resp[0];
       this.paciente_nombre = resp[0].pac_nombre;
       console.log(this.elementoPaciente);
     } else {
@@ -253,15 +383,15 @@ realizarFiltroBusqueda(resp: any[]) {
 
 
   resp.forEach(element => {
-    this._os_sesion.push(element['os_sesion']);
-    this._os_sesion_codigo.push(element['os_sesion_codigo']);
+    this._os_sesion.push(element.os_sesion);
+    this._os_sesion_codigo.push(element.os_sesion_codigo);
 
     /** SUMO LO FILTRADO */
-    
+
   });
-  
+
   // ELIMINO DUPLICADOS
-  this._os_sesion = this.filter.filterArray(this._os_sesion);  
+  this._os_sesion = this.filter.filterArray(this._os_sesion);
   this._os_sesion_codigo = this.filter.filterArray(this._os_sesion_codigo);
 
 

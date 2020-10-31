@@ -8,12 +8,12 @@ export class Orden {
     sesion_id: string;
     paciente_id: string;
     fecha: string;
-    cantidad: string;
-    precio_sesion: string;
-    precio_total: string;
+    cantidad: number;
+    precio_sesion: number;
+    precio_total: number;
     estado_liquidacion: string;
     liq_numero: string;
-    fecha_presentacion: number;
+    fecha_presentacion: string;
 
 
     constructor(
@@ -23,12 +23,12 @@ export class Orden {
         sesion_id: string,
         paciente_id: string,
         fecha: string,
-        cantidad: string,
-        precio_sesion: string,
-        precio_total: string,
+        cantidad: number,
+        precio_sesion: number,
+        precio_total: number,
         estado_liquidacion: string,
         liq_numero: string,
-        fecha_presentacion: number
+        fecha_presentacion: string
           ) {
         
         this.id =    id;

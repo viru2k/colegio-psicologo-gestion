@@ -16,7 +16,7 @@ getMatriculas() {
   }
 
 getMatricula(matriculaId: string) {
-    return this.http.get<any>(this.url + 'matriculas?matricula_id=' + matriculaId);
+    return this.http.get<any>(this.url + 'matricula?matricula_id=' + matriculaId);
     }
 
     getPacienteByCondicion(pacDni: string, condicion: string) {

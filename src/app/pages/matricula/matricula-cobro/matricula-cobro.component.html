@@ -49,16 +49,11 @@
                         <button    class="btn  btn-primary  btn-sm  ml-2" (click)="listarDeudaTotal()" > <i class="fas fa-receipt fa-xs mr-2"></i>Listar deuda total</button>   </div>         
                         <div class="ml-2 mr-2 "> <button    class="btn  btn-info btn-sm mr-2 pr-2"  (click)="agregarConcepto()"  >  <i class="fas fa-file-invoice-dollar fa-xs mr-2"></i> Agregar concepto</button>    </div>                
                     <div class="ml-2 d-flex justify-content-end">     <button    class="  btn btn-info btn-sm"  (click)="realizarFactura()" > <i class="fas fa-money-bill-wave fa-xs mr-2"></i>Realizar factura</button>  </div> 
-                </div>
-
-              
-
+                </div>    
         </ng-template>
   
-                <ng-template pTemplate="header" let-columns >
-              
-                  <tr >
-                       
+                <ng-template pTemplate="header" let-columns >            
+                  <tr >                       
                       <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
                             {{col.header}}
                             <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activar para ordenar en forma descendente" ariaLabelAsc="Activar para ordenar en forma ascendente"></p-sortIcon>

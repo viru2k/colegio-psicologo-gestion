@@ -20,11 +20,13 @@
                     </div> 
                   
                     <div class="ml-2 col-5">
-                        <div class=' input-group input-group-sm  d-flex align-items-center'>
-                            <input (keyup.enter)='buscarPsicologo()' placeholder='Buscar psicólogo' class='form-control   form-control-sm' [(ngModel)]='psicologo_nombre'   />              
+                        <div class=' input-group input-group-sm  d-flex align-items-center'>       
+                               
+                                <input (keyup.enter)='buscarPsicologo()' placeholder='Buscar psicólogo' class='form-control   form-control-sm'  [(ngModel)]='psicologo_nombre'  type="text"  />  
+    
                             <div class='input-group-append'>
                             <span class='input-group input-group-text form-control-sm'>
-                                <a class="pointer icon-color-blue" (click)='buscarPsicologo()'>
+                                <a class="pointer icon-color-blue" (click)='buscarPsicologoLista()'>
                                     <i class="fas fa-search  mr-2"></i>
                                 </a>
                             </span>
@@ -36,17 +38,17 @@
                 <div class=" mr-1 mt-2 d-flex align-items-center" >            
 
                     <div class="mr-1 ml-2">                
-                        <p-dropdown [options]="elementoConvenio" appendTo="body"  (onChange)="changeElementoConvenio($event)" placeholder="Convenio" optionLabel="os_sesion" [showClear]="true" [filter]="true"></p-dropdown>                                         
+                        <p-dropdown [options]="elementosConvenio" appendTo="body"  (onChange)="changeElementoConvenio($event)" placeholder="Convenio" optionLabel="os_sesion" [showClear]="true" [filter]="true"></p-dropdown>                                         
                     </div>
                     <div class="ml-2">
-                            <input  placeholder='cantidad' type="number" class='form-control  form-control-sm' [(ngModel)]='cantidad'   />                                      
+                            <input  placeholder='cantidad' type="number" class='form-control  form-control-sm'  [(ngModel)]='cantidad'   />                                      
                     </div>
                         <div class="ml-2 col-5">
                         <div class=' input-group input-group-sm '>
                             <input (keyup.enter)='buscarPaciente()' placeholder='Buscar paciente' class='form-control   form-control-sm' [(ngModel)]='paciente_nombre'   />              
                             <div class='input-group-append'>
                             <span class='input-group input-group-text form-control-sm'>
-                                <a class="pointer icon-color-blue" (click)='buscarPaciente()'>
+                                <a class="pointer icon-color-blue" (click)='buscarPacienteLista()'>
                                     <i class="fas fa-search  mr-2"></i>
                                 </a>
                             </span>
@@ -69,7 +71,7 @@
 
           <ng-template pTemplate="caption">
             <div class=" mr-1 d-flex align-items-center" >
-                <div class="ml-2">     <button    class="  btn btn-info btn-sm"  (click)="nuevo()" > <i class="fas fa-plus fa-sm mr-2"></i>Ingreso</button>  </div> 
+                <div class="ml-2">     <button    class="  btn btn-success btn-sm"  (click)="buscarOrdenes()" >Buscar ordenes de psicólogo</button>  </div> 
             </div>          
         </ng-template>
   
@@ -93,8 +95,8 @@
                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_cantidad'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">  
                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_sesion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">  
                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_total'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                          
-                        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="cuenta_nombre"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                    
-                        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion_codigo" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="tipo_comprobante"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                                            
+                        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                    
+                        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion_codigo" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion_codigo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                                            
                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                                                                                
                     </th>
@@ -110,15 +112,15 @@
                       </td>           
                      <!--    <td [ngClass]="colorString(elemento.operacion_cobro_id)" style="width: 5%"><a class="my-hover" (click)="verDetalle(elemento)">{{elemento.operacion_cobro_id}}</a></td>    -->
                         
-                        <td style="width: 16%">{{elemento.mat_matricula}}</td>      
-                        <td style="width: 12%">{{elemento.mat_apellido_nombre}}</td>      
-                        <td style="width: 10%">{{elemento.os_fecha | date: 'dd/MM/yyyy'}}</td>                          
-                        <td style="width: 16%">{{elemento.os_cantidad}}</td>    
-                        <td style="width: 20%">{{elemento.os_precio_sesion}}</td>  
-                        <td style="width: 10%">{{elemento.os_precio_total}}</td>  
-                        <td style="width: 20%">{{elemento.os_sesion}}</td>                                                                                                   
-                        <td style="width: 10%">{{elemento.os_sesion_codigo}}</td>                            
-                        <td style="width: 10%">{{elemento.pac_nombre}}</td> 
+                        <td style="width: 12%">{{elemento.mat_matricula}}</td>      
+                        <td style="width: 22%">{{elemento.mat_apellido_nombre}}</td>      
+                        <td style="width: 12%">{{elemento.os_fecha | date: 'dd/MM/yyyy'}}</td>     
+                        <td style="width: 20%">{{elemento.os_sesion}}</td>                                
+                        <td style="width: 12%">{{elemento.os_sesion_codigo}}</td>  
+                        <td style="width: 12%">{{elemento.os_precio_sesion}}</td>  
+                        <td style="width: 12%">{{elemento.os_cantidad}}</td>    
+                        <td style="width: 12%">{{elemento.os_precio_total}}</td>                                                                                                                                                                  
+                        <td style="width: 15%">{{elemento.pac_nombre}}</td> 
                         <td style="width: 10%">{{elemento.pac_dni}}</td> 
                            <td style="width: 3em">
                               <p-tableCheckbox [value]="elemento"></p-tableCheckbox>
