@@ -415,7 +415,7 @@ sumarValoresSeleccionados(vals: any) {
          }
 }
 
-listarDeudaTotal(matricula: string) {
+listarDeudaTotal() {
 
   let data: any;
   const ref = this.dialogService.open(PopupFindMatriculaComponent, {

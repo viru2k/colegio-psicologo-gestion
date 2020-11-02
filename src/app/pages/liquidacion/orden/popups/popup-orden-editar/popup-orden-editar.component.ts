@@ -57,4 +57,6 @@ export class PopupOrdenEditarComponent implements OnInit {
     }
   }
 
+  guardarDatos(){}
+
 }

@@ -83,6 +83,7 @@ this.columns = [
     this.fechaHasta = new Date();
   }
 
+  buscarOrdenes() {}
   
   buscarEntreFechas() {
   this.loading = true;
@@ -152,6 +153,72 @@ editarRegistro(element: any) {
    
 }
 
+public exportarExcelDetallado(){
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');  
+  let seleccionados: any[] = [];
+  let exportar:any[] = [];
+  let i = 0;
+  this.selecteditems.forEach(element => {
+   // console.log(element['operacion_cobro_id']);
+    seleccionados['fecha_carga'] =   formatDate(element['fecha_carga'], 'dd/MM/yyyy', 'es-Ar');  ;
+    seleccionados['cuenta_nombre'] = element.cuenta_nombre ;
+    seleccionados['tipo_comprobante'] = element.tipo_comprobante;
+    seleccionados['concepto_cuenta'] = element.concepto_cuenta;
+    seleccionados['proveedor_nombre'] = element.proveedor_nombre;
+    seleccionados['comprobante_numero'] = element.comprobante_numero ;
+    seleccionados['descripcion'] = element.descripcion;
+    seleccionados['movimiento_tipo'] = element.movimiento_tipo;
+    seleccionados['tipo_moneda'] = element.tipo_moneda;
+    seleccionados['cantidad'] = element.importe;
+    seleccionados['cotizacion'] = element.cotizacion;
+
+    seleccionados['total'] = element.total;
+   // exportar.push(seleccionados);
+    exportar[i] = seleccionados;
+  //  console.log(element);
+   // console.log(seleccionados);
+    seleccionados = [];
+    i++;
+  });
+  this.excelService.exportAsExcelFile(  exportar, 'listado_presentacion_detallado'+fecha_impresion);
+}
+
+generarPdf() {
+
+  let _fechaEmision = formatDate(new Date(), 'dd/MM/yyyy HH:mm', 'en');
+  console.log(this.selecteditems);
+  //if (!this.selecteditems) {
+
+    //let fecha = formatDate(this.fec, 'dd/MM/yyyy', 'en');
+  var doc = new jsPDF('landscape');
+
+  const pageSize = doc.internal.pageSize;
+  const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+  let img = new Image();
+  img.src = './assets/images/user-default.png';
+  doc.addImage(img, 'PNG', 5, 5, 18, 18, undefined, 'FAST');
+
+  doc.setLineWidth(0.4);
+  doc.line(10, 30, pageWidth - 10, 30);
+  doc.setFontSize(12);
+  doc.text('Listado de deuda', pageWidth / 2, 20, null, null, 'center');
+  doc.text('Emitido : ' + _fechaEmision, pageWidth / 2, 24, null, null, 'center');
+  doc.setFontSize(8);
+  //doc.text(pageWidth-60, 20, 'Agenda del dia :' + fecha);
+  doc.autoTable(this.columns, this.selecteditems,
+        {
+          margin: {horizontal: 5, vertical: 35},
+          bodyStyles: {valign: 'top'},
+          styles: {fontSize: 7,cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify'},
+          columnStyles: {text: {cellWidth: 'auto'}}
+        }
+        );
+  window.open(doc.output('bloburl'));
+
+}
+
+
+
 realizarFiltroBusqueda(resp: any[]) {
   // FILTRO LOS ELEMENTOS QUE SE VAN USAR PARA FILTRAR LA LISTA
   this._os_sesion = [];
@@ -166,6 +233,7 @@ realizarFiltroBusqueda(resp: any[]) {
   this._os_sesion = this.filter.filterArray(this._os_sesion);
   this._os_sesion_codigo = this.filter.filterArray(this._os_sesion_codigo);
 }
+
 
 
 }

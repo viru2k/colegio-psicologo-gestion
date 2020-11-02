@@ -134,7 +134,7 @@ import { PopupOrdenEditarComponent } from './pages/liquidacion/orden/popups/popu
 import { PopupConceptoMatriculaEditarComponent } from './pages/mantenimiento/concepto-matricula/popup-concepto-matricula-editar/popup-concepto-matricula-editar.component';
 import { PopupFindObraSocialComponent } from './shared/popups/popup-find-obra-social/popup-find-obra-social.component';
 import { PopupFindConvenioComponent } from './shared/popups/popup-find-convenio/popup-find-convenio.component';
-
+import { PopupMovimientoTipoMonedaEditarComponent } from './pages/mantenimiento/movimiento-caja/popup-movimiento-tipo-moneda-editar/popup-movimiento-tipo-moneda-editar.component';
 
 
 /* -------------------------------------------------------------------------- */
@@ -207,10 +207,12 @@ registerLocaleData(localeEsAR, 'es-Ar');
     MatriculaCobroComponent,
     PopupOrdenEditarComponent,
     PopupFindObraSocialComponent,
-    PopupFindConvenioComponent
+    PopupFindConvenioComponent,
+    PopupMovimientoTipoMonedaEditarComponent
     
   ],
   imports: [
+
 
 
     BrowserModule,
@@ -278,7 +280,8 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupOrdenEditarComponent,
     PopupConceptoMatriculaEditarComponent,
     PopupFindObraSocialComponent,
-    PopupFindConvenioComponent    
+    PopupFindConvenioComponent,
+    PopupMovimientoTipoMonedaEditarComponent
 
     
   ],

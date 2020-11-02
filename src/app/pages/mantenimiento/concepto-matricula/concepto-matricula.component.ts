@@ -88,12 +88,11 @@ export class ConceptoMatriculaComponent implements OnInit {
 }
 
 
-nuevoRegistro(elemento: any) {
+nuevoRegistro() {
   console.log(this.selecteditems.length);
 
-  let data: any = elemento;
+  
   const ref = this.dialogService.open(PopupConceptoMatriculaEditarComponent, {
-    data,
      header: 'Editar concepto',
      width: '98%',
      height: '98%'

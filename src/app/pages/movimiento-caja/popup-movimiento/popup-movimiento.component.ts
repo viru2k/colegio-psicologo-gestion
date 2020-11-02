@@ -85,7 +85,7 @@ export class PopupMovimientoComponent implements OnInit {
 
   }
 
-
+  buscarFactura(){}
 
   calcularTotal() {
     this.updateDataForm.patchValue({total: (this.updateDataForm.value.importe * this.updateDataForm.value.cotizacion)}) ;
