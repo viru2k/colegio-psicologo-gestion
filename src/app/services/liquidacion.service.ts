@@ -71,4 +71,26 @@ export class LiquidacionService {
       // tslint:disable-next-line: max-line-length
       return this.http.get<any>(URL_SERVICIOS + 'liquidacion/orden/by/estado/matricula?mat_matricula=' + matMatricula + '&estado=' + estado);
       }
+
+      getLiquidacionOrdenBetweenDates(fechaDesde: string, fechaHasta: string, estado: string) {
+      // tslint:disable-next-line: max-line-length
+      return this.http.get<any>(URL_SERVICIOS + 'liquidacion/orden/by/dates/estado?fecha_desde=' + fechaDesde + '&fecha_hasta=' + fechaHasta + '&estado=' + estado);
+    }
+
+    auditarOrdenes(elementos: any) {
+      return this.http.post<any[]>(URL_SERVICIOS + 'liquidacion/orden/auditar', elementos);
+      }
+
+    afectarOrdenes(elementos: any) {
+      return this.http.post<any[]>(URL_SERVICIOS + 'liquidacion/expediente/afectar', elementos);
+      }
+
+    putExpediente(elementos: any, id_os_liquidacion: string) {
+      return this.http.put<any>(URL_SERVICIOS + 'liquidacion/expediente/actualizar/' + id_os_liquidacion, elementos);
+      }
+
+    desafectarExpediente(os_liq_numero: string) {
+      // tslint:disable-next-line: max-line-length
+      return this.http.get<any>(URL_SERVICIOS + 'liquidacion/expediente/desafectar?os_liq_numero=' + os_liq_numero );
+    }
 }

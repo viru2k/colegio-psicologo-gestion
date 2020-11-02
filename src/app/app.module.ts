@@ -130,7 +130,7 @@ import { PopupConceptoAgregarComponent } from './pages/matricula/matricula-cobro
 import { OrdenIngresoComponent } from './pages/liquidacion/orden/orden-ingreso/orden-ingreso.component';
 import { OrdenAuditarComponent } from './pages/liquidacion/orden/orden-auditar/orden-auditar.component';
 import { OrdenAfectarComponent } from './pages/liquidacion/orden/orden-afectar/orden-afectar.component';
-import { PopupOrdenEditarComponent } from './pages/liquidacion/orden/popup-orden-editar/popup-orden-editar.component';
+import { PopupOrdenEditarComponent } from './pages/liquidacion/orden/popups/popup-orden-editar/popup-orden-editar.component';
 import { PopupConceptoMatriculaEditarComponent } from './pages/mantenimiento/concepto-matricula/popup-concepto-matricula-editar/popup-concepto-matricula-editar.component';
 import { PopupFindObraSocialComponent } from './shared/popups/popup-find-obra-social/popup-find-obra-social.component';
 import { PopupFindConvenioComponent } from './shared/popups/popup-find-convenio/popup-find-convenio.component';
@@ -212,6 +212,7 @@ registerLocaleData(localeEsAR, 'es-Ar');
   ],
   imports: [
 
+
     BrowserModule,
     FormsModule,
     MultiSelectModule,
@@ -277,7 +278,7 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupOrdenEditarComponent,
     PopupConceptoMatriculaEditarComponent,
     PopupFindObraSocialComponent,
-    PopupFindConvenioComponent
+    PopupFindConvenioComponent    
 
     
   ],

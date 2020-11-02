@@ -275,7 +275,7 @@ agregar() {
   console.log(this.elementoPsicologo );
   this.orden = new Orden('0', this.elementoPsicologo.mat_matricula_psicologo, this.elementoObraSocial.id, this.elementoConvenio.id,
                           this.elementoPaciente.id_paciente,  tmpfecha, this.cantidad, Number(this.elementoConvenio.id_precio),
-                          total, 'P', '0', '' );
+                          total, 'PEN', '0', '' );
   console.log(this.orden);
 
   try {
@@ -381,22 +381,14 @@ realizarFiltroBusqueda(resp: any[]) {
   this._os_sesion = [];
   this._os_sesion_codigo = [];
 
-
   resp.forEach(element => {
     this._os_sesion.push(element.os_sesion);
     this._os_sesion_codigo.push(element.os_sesion_codigo);
-
     /** SUMO LO FILTRADO */
-
   });
-
   // ELIMINO DUPLICADOS
   this._os_sesion = this.filter.filterArray(this._os_sesion);
   this._os_sesion_codigo = this.filter.filterArray(this._os_sesion_codigo);
-
-
-
-
 }
 
 

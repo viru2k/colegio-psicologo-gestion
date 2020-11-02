@@ -26,6 +26,7 @@ import { FacturaElectronicaComponent } from './pages/factura/factura-electronica
 import { OtrasAccionesComponent } from './pages/factura/otras-acciones/otras-acciones.component';
 import { OrdenAuditarComponent } from './pages/liquidacion/orden/orden-auditar/orden-auditar.component';
 import { OrdenIngresoComponent } from './pages/liquidacion/orden/orden-ingreso/orden-ingreso.component';
+import { OrdenAfectarComponent } from './pages/liquidacion/orden/orden-afectar/orden-afectar.component';
 
 const routes: Routes = [
 
@@ -52,7 +53,8 @@ const routes: Routes = [
 /*                                    ORDER                                   */
 /* -------------------------------------------------------------------------- */
 
-{ path: 'orden/auditar', component: OrdenAuditarComponent },
+{ path: 'orden/expediente/auditar', component: OrdenAuditarComponent },
+{ path: 'orden/expediente/confeccion', component: OrdenAfectarComponent },
 { path: 'orden/ingreso', component: OrdenIngresoComponent },
 
   /* -------------------------------------------------------------------------- */
@@ -90,6 +92,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
+
 
 
 
