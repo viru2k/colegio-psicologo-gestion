@@ -26,6 +26,8 @@ export class OrdenAfectarComponent implements OnInit {
   loading = false;
   elemento: any[] = null;
   elementos: any[] = [];
+  elementoObraSocial: any = null;
+  elementosObraSocial: any[] = [];
   selecteditems: any[] = [];
   elementosFiltrados: any[] = [];
   elementosFiltradosImpresion: any[] = [];
@@ -35,7 +37,7 @@ export class OrdenAfectarComponent implements OnInit {
   _fechaDesde: string;
   fechaHasta: Date;
   _fechaHasta: string;
-
+  os_nombre: string;
   _os_sesion: any[] = [];
   _os_sesion_codigo: any[] = [];
 
@@ -82,6 +84,36 @@ this.columns = [
 
     this.fechaDesde = new Date();
     this.fechaHasta = new Date();
+    this.getObraSocial();
+  }
+
+
+  getObraSocial() {
+    try {
+      this.loading = true;
+      this.obraSocialService.getObraSocial()
+      .subscribe(resp => {
+      if (resp[0]) {
+        this.elementosObraSocial = resp;
+        console.log(resp);
+      }
+
+      this.loading = false;
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+      });
+    } catch (error) {
+    this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+    }
+  }
+
+  changeElementoObraSocial(event) {
+    console.log(event.value);
+    this.elementoObraSocial = event.value;
   }
 
   buscarOrdenes() {}
@@ -92,7 +124,7 @@ this.columns = [
   this._fechaHasta = formatDate(this.fechaHasta, 'yyyy-MM-dd', 'en');
   try {
     this.loading = true;
-    this.liquidacionService.getLiquidacionOrdenBetweenDates(this._fechaDesde, this._fechaHasta, 'P')
+    this.liquidacionService.getLiquidacionOrdenBetweenDates(this._fechaDesde, this._fechaHasta, 'AUD')
     .subscribe(resp => {
       console.log(resp);
       this.elementos = resp;

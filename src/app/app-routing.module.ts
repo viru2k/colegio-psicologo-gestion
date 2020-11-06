@@ -27,6 +27,7 @@ import { OtrasAccionesComponent } from './pages/factura/otras-acciones/otras-acc
 import { OrdenAuditarComponent } from './pages/liquidacion/orden/orden-auditar/orden-auditar.component';
 import { OrdenIngresoComponent } from './pages/liquidacion/orden/orden-ingreso/orden-ingreso.component';
 import { OrdenAfectarComponent } from './pages/liquidacion/orden/orden-afectar/orden-afectar.component';
+import { NovedadesComponent } from './pages/novedades/novedades/novedades.component';
 
 const routes: Routes = [
 
@@ -72,6 +73,10 @@ const routes: Routes = [
     { path: 'configuracion/caja/comprobante', component: MovimientoTipoComprobanteComponent },
     { path: 'configuracion/caja/moneda', component: MovimientoTipoMonedaComponent },
 
+/* -------------------------------------------------------------------------- */
+/*                                 NOVEDEADES                                 */
+/* -------------------------------------------------------------------------- */
+{ path: 'novedades', component: NovedadesComponent }, 
 
 /* -------------------------------------------------------------------------- */
 /*                                    CAJA                                    */
@@ -92,6 +97,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
+
 
 
 

@@ -53,6 +53,7 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
 import {StepsModule} from 'primeng/steps';
 import {ColorPickerModule} from 'primeng/colorpicker';
 import {TabViewModule} from 'primeng/tabview';
+import {EditorModule} from 'primeng/editor';
 
 
 
@@ -135,6 +136,8 @@ import { PopupConceptoMatriculaEditarComponent } from './pages/mantenimiento/con
 import { PopupFindObraSocialComponent } from './shared/popups/popup-find-obra-social/popup-find-obra-social.component';
 import { PopupFindConvenioComponent } from './shared/popups/popup-find-convenio/popup-find-convenio.component';
 import { PopupMovimientoTipoMonedaEditarComponent } from './pages/mantenimiento/movimiento-caja/popup-movimiento-tipo-moneda-editar/popup-movimiento-tipo-moneda-editar.component';
+import { NovedadesComponent } from './pages/novedades/novedades/novedades.component';
+import { PopupNovedadesEditarComponent } from './pages/novedades/popups/popup-novedades-editar/popup-novedades-editar.component';
 
 
 /* -------------------------------------------------------------------------- */
@@ -208,7 +211,9 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupOrdenEditarComponent,
     PopupFindObraSocialComponent,
     PopupFindConvenioComponent,
-    PopupMovimientoTipoMonedaEditarComponent
+    PopupMovimientoTipoMonedaEditarComponent,
+    NovedadesComponent,
+    PopupNovedadesEditarComponent
     
   ],
   imports: [
@@ -242,6 +247,7 @@ registerLocaleData(localeEsAR, 'es-Ar');
     ProgressSpinnerModule,
     InputSwitchModule,
     PanelModule,
+    EditorModule,
     ColorPickerModule,
     ToggleButtonModule,
     AutoCompleteModule,
@@ -281,7 +287,8 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupConceptoMatriculaEditarComponent,
     PopupFindObraSocialComponent,
     PopupFindConvenioComponent,
-    PopupMovimientoTipoMonedaEditarComponent
+    PopupMovimientoTipoMonedaEditarComponent,
+    PopupNovedadesEditarComponent
 
     
   ],

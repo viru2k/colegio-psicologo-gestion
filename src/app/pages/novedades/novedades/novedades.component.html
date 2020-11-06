@@ -1,0 +1,28 @@
+
+<h5>Título de la noticia</h5>
+<input type="text" pInputText [(ngModel)]="titulo" class="mt-2 mb-4 col-12"> 
+
+
+<h5>Tipo </h5>
+<div class="row mt-2 mb-4">
+    <div class="col-4"><p-radioButton name="groupname121"   [(ngModel)]="tipo"   value="PUBLICO" label="PUBLICO"  inputId="optspu"></p-radioButton></div>
+    <div class="col-4"><p-radioButton name="groupname121"   [(ngModel)]="tipo"   value="PRIVADO" label="PRIVADO"  inputId="optspr"></p-radioButton></div>                    
+  </div>  
+
+  <div class="row mt-2 mb-4 ml-2">                
+    <p-dropdown [options]="elementosPagina" appendTo="body" [(ngModel)]="elementoPagina" (onChange)="changeElementoPagina($event)" placeholder="PAGINA" optionLabel="name" [showClear]="true" [filter]="true" autofocus></p-dropdown >                                         
+</div>
+<h5>Descripción de noticia</h5>
+<p-editor [(ngModel)]="descripcion" [style]="{'height':'320px'}" (onTextChange)="textoModificado($event)">
+    <ng-template pTemplate="header">
+        <span class="ql-formats">
+            <button type="button" class="ql-bold" aria-label="Bold"></button>
+            <button type="button" class="ql-italic" aria-label="Italic"></button>
+            <button type="button" class="ql-underline" aria-label="Underline"></button>
+        </span>
+    </ng-template>
+</p-editor>
+
+<div>
+    <button class="btn btn-info btn-block" (click)="enviarNoticia()"> Enviar</button>
+</div>

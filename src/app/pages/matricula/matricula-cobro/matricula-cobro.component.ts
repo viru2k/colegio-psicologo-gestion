@@ -276,7 +276,8 @@ getDeudaByMatricula(mat_matricula_psicologo) {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
-          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento'])) {
+       
+          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {
@@ -321,7 +322,8 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo) {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {          
-          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento'])) {
+          console.log(this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']));
+          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {
@@ -361,7 +363,7 @@ buscarEntreFechas() {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
-          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento'])) {
+          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {

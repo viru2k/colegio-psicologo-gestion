@@ -303,7 +303,7 @@ agregar() {
 getLiquidacionByMatriculaAndEstado(){
   try {
     this.loading = true;
-    this.liquidacionService.getLiquidacionByMatriculaAndEstado(this.elementoPsicologo.mat_matricula_psicologo, 'P')
+    this.liquidacionService.getLiquidacionByMatriculaAndEstado(this.elementoPsicologo.mat_matricula_psicologo, 'PEN')
     .subscribe(resp => {
       console.log(resp);
       this.elementos = resp;

@@ -91,7 +91,7 @@ this.columns = [
   this._fechaHasta = formatDate(this.fechaHasta, 'yyyy-MM-dd', 'en');
   try {
     this.loading = true;
-    this.liquidacionService.getLiquidacionOrdenBetweenDates(this._fechaDesde, this._fechaHasta, 'P')
+    this.liquidacionService.getLiquidacionOrdenBetweenDates(this._fechaDesde, this._fechaHasta, 'PEN')
     .subscribe(resp => {
       console.log(resp);
       this.elementos = resp;
