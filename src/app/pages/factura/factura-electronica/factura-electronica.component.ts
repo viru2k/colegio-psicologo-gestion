@@ -97,7 +97,7 @@ export class FacturaElectronicaComponent implements OnInit {
      ];  
 
      
-     this.columns = [
+    this.columns = [
       {title: 'Descripcion', dataKey: 'descripcion'},
       {title: 'Can', dataKey: 'cantidad'},
       {title: 'Precio unit.', dataKey: 'precio_unitario'},
@@ -113,7 +113,7 @@ export class FacturaElectronicaComponent implements OnInit {
     this.fechaDesde = new Date();
     this.fechaHasta = new Date();
     this.userData  = JSON.parse(localStorage.getItem('userData'));
-   this.getMedicosFacturan();
+    this.getMedicosFacturan();
    
     
   }
@@ -124,8 +124,8 @@ export class FacturaElectronicaComponent implements OnInit {
       this.selecteditemRegistro = elementos;
     }
   
-      console.log(this.selecteditemRegistro);
-      overlaypanel.toggle(event);
+    console.log(this.selecteditemRegistro);
+    overlaypanel.toggle(event);
     }
   
   actualizarFecha(event){
@@ -163,9 +163,9 @@ export class FacturaElectronicaComponent implements OnInit {
       error => { // error path
         this.loading = false;
         this.peticion = '';
-          console.log(error.message);
-          console.log(error.status);
-          swal({
+        console.log(error.message);
+        console.log(error.status);
+        swal({
             toast: false,
             type: 'error',
             text: error.message,
@@ -186,17 +186,17 @@ export class FacturaElectronicaComponent implements OnInit {
       this.facturacionService.TipoConceptosDisponibles(this.medico_id)
       .subscribe(resp => {      
         this.loading = false;
-          this.elementos = resp;
-          this.loading = false;
-          this.peticion = '';
-          console.log(resp);
+        this.elementos = resp;
+        this.loading = false;
+        this.peticion = '';
+        console.log(resp);
       },
       error => { // error path
         this.loading = false;
         this.peticion = '';
-          console.log(error.message);
-          console.log(error.status);
-          swal({
+        console.log(error.message);
+        console.log(error.status);
+        swal({
             toast: false,
             type: 'error',
             text: error.message,
@@ -225,9 +225,9 @@ export class FacturaElectronicaComponent implements OnInit {
       error => { // error path
         this.loading = false;
         this.peticion = '';
-          console.log(error.message);
-          console.log(error.status);
-          swal({
+        console.log(error.message);
+        console.log(error.status);
+        swal({
             toast: false,
             type: 'error',
             text: error.message,
@@ -256,9 +256,9 @@ export class FacturaElectronicaComponent implements OnInit {
       error => { // error path
         this.loading = false;
         this.peticion = '';
-          console.log(error.message);
-          console.log(error.status);
-          swal({
+        console.log(error.message);
+        console.log(error.status);
+        swal({
             toast: false,
             type: 'error',
             text: error.message,
@@ -286,7 +286,7 @@ export class FacturaElectronicaComponent implements OnInit {
           console.log( this.elementosMedicos);
           this.elementoMedicos = this.elementosMedicos['0'];
           console.log(this.elementoMedicos['id']);
-        this.medico_id = this.elementoMedicos['id'];
+          this.medico_id = this.elementoMedicos['id'];
         
           // UNA VEZ QUE TENGO EL DATO DEL MEDICO PROCEDO A BUSCAR TODOS LOS DEMAS CAMPOS
 
@@ -299,9 +299,9 @@ export class FacturaElectronicaComponent implements OnInit {
       error => { // error path
         this.loading = false;
         this.peticion = '';
-          console.log(error.message);
-          console.log(error.status);
-          swal({
+        console.log(error.message);
+        console.log(error.status);
+        swal({
             toast: false,
             type: 'error',
             text: error.message,
@@ -338,9 +338,9 @@ export class FacturaElectronicaComponent implements OnInit {
       error => { // error path
         this.loading = false;
         this.peticion = '';
-          console.log(error.message);
-          console.log(error.status);
-          swal({
+        console.log(error.message);
+        console.log(error.status);
+        swal({
             toast: false,
             type: 'error',
             text: error.message,
@@ -370,9 +370,9 @@ export class FacturaElectronicaComponent implements OnInit {
       error => { // error path
         this.loading = false;
         this.peticion = '';
-          console.log(error.message);
-          console.log(error.status);
-          swal({
+        console.log(error.message);
+        console.log(error.status);
+        swal({
             toast: false,
             type: 'error',
             text: error.message,
@@ -398,14 +398,14 @@ export class FacturaElectronicaComponent implements OnInit {
           this.peticion = '';
           console.log(  this.elementosDocumento);
          //  this.elementoDocumento = this.elementosDocumento[7];
-           this.elementoDocumento =  this.elementosDocumento.find(x => x.id == this.elementoMedicos['factura_documento_comprador_id']);
+          this.elementoDocumento =  this.elementosDocumento.find(x => x.id == this.elementoMedicos['factura_documento_comprador_id']);
       },
       error => { // error path
         this.loading = false;
         this.peticion = '';
-          console.log(error.message);
-          console.log(error.status);
-          swal({
+        console.log(error.message);
+        console.log(error.status);
+        swal({
             toast: false,
             type: 'error',
             text: error.message,
@@ -433,23 +433,23 @@ export class FacturaElectronicaComponent implements OnInit {
               resp[i]['punto_vta'] =  this.padLeft(resp[i]['punto_vta'], '0', 4);
               i++;
             });
-          this.elementosPtoVta = resp;
+            this.elementosPtoVta = resp;
           // DE ACUERDO AL PUNTO DE VENTA POR DEFECTO LO PRE SELECCIONO
         // console.log( this.elementosPtoVta.find(x => x.id == this.elementoMedicos['factura_punto_vta_id']));
-          this.elementoPtoVta =  this.elementosPtoVta.find(x => x.id == this.elementoMedicos['factura_punto_vta_id']);
-          this.pto_vta =  this.elementoPtoVta['punto_vta'];
+            this.elementoPtoVta =  this.elementosPtoVta.find(x => x.id == this.elementoMedicos['factura_punto_vta_id']);
+            this.pto_vta =  this.elementoPtoVta['punto_vta'];
         //  this._pto_vta =  this.elementoPtoVta['punto_vta'];
-          this.loading = false;
-          this.peticion = '';
-          console.log(this.elementosPtoVta);
-          this.Comprobante();
+            this.loading = false;
+            this.peticion = '';
+            console.log(this.elementosPtoVta);
+            this.Comprobante();
       },
       error => { // error path
         this.loading = false;
         this.peticion = '';
-          console.log(error.message);
-          console.log(error.status);
-          swal({
+        console.log(error.message);
+        console.log(error.status);
+        swal({
             toast: false,
             type: 'error',
             text: error.message,
@@ -481,9 +481,9 @@ export class FacturaElectronicaComponent implements OnInit {
       error => { // error path
         this.loading = false;
         this.peticion = '';
-          console.log(error.message);
-          console.log(error.status);
-          swal({
+        console.log(error.message);
+        console.log(error.status);
+        swal({
             toast: false,
             type: 'error',
             text: error.message,
@@ -519,16 +519,16 @@ guardarDatos(){
   // tslint:disable-next-line: max-line-length
   (Math.round(this.subtotal * 100) / 100), this.subtotal_excento,(Math.round(this.subtotal_iva * 100) / 100),(Math.round(this.total * 100) / 100) ,
   this.facturaAlicuotaAsociada,this.elementos, '','', this.elementoMedicos['id'], this.observacion,this.elementoCondicionIva['categoria_iva'], this.es_afip);
-   console.log(facturaElectronica);
+  console.log(facturaElectronica);
   
   
-   if((Number(this.elementoDocumento['id']) === 86 )||(Number(this.elementoDocumento['id']) === 80)) {
+  if((Number(this.elementoDocumento['id']) === 86 )||(Number(this.elementoDocumento['id']) === 80)) {
      console.log(Number(this.elementoDocumento['id']));
      console.log(this.nrodocumento.length);
      if(this.nrodocumento.length === 11){
       console.log(Number(this.elementoDocumento['id']));
      // this.generarPDF();
-     this.CrearFactura(facturaElectronica);
+      this.CrearFactura(facturaElectronica);
      }else{
     
       swal({
@@ -543,13 +543,13 @@ guardarDatos(){
      }
    }
 
-   if ((Number(this.elementoDocumento['id']) !== 86 ) && (Number(this.elementoDocumento['id']) !== 80)) {
+  if ((Number(this.elementoDocumento['id']) !== 86 ) && (Number(this.elementoDocumento['id']) !== 80)) {
     console.log(Number(this.elementoDocumento['id']));
     console.log(this.nrodocumento.length);
     if((this.nrodocumento.length <=8)&&(this.nrodocumento.length >=5)){
       console.log(Number(this.elementoDocumento['id']));
      // this.generarPDF();
-     this.CrearFactura(facturaElectronica);
+      this.CrearFactura(facturaElectronica);
     }else{
      swal({
        toast: false,
@@ -619,9 +619,9 @@ CrearFactura(facturaElectronica){
     error => { // error path
       this.loading = false;
       this.peticion = '';
-        console.log(error);
-        console.log(error.message);
-        swal({
+      console.log(error);
+      console.log(error.message);
+      swal({
           toast: false,
           type: 'error',
           text: error,
@@ -640,7 +640,7 @@ obtenerMedico(){
   this._medico_nombre = this.elementoMedicos['nombreyapellido'];
   this.loading = true;
   this.peticion = 'Obteniendo ultima factura y punto de venta';
-   console.log(this.elementoComprobante);
+  console.log(this.elementoComprobante);
   try {
     
     this.facturacionService.getDatoMedico(this.medico_id)
@@ -648,29 +648,29 @@ obtenerMedico(){
    
       this.loading = false;
       this.peticion = '';
-        console.log(  resp);
+      console.log(  resp);
 
 /* -------------------------------------------------------------------------- */
 /*                      OBTENGO MUESTRO EL PUNTO DE VENTA                     */
 /* -------------------------------------------------------------------------- */
 
-        this.elementoPtoVta =  this.elementosPtoVta.find(x => x.id == resp[0]['punto_vta']);
-        this.pto_vta =  this.elementoPtoVta['punto_vta'];
-        console.log(resp[0]['punto_vta']);
+      this.elementoPtoVta =  this.elementosPtoVta.find(x => x.id == resp[0]['punto_vta']);
+      this.pto_vta =  this.elementoPtoVta['punto_vta'];
+      console.log(resp[0]['punto_vta']);
 
 /* -------------------------------------------------------------------------- */
 /*                           OBTENGO EL COMPROBANTE                           */
 /* -------------------------------------------------------------------------- */
 
-this.elementoComprobante =  this.elementosComprobante.find(x => x.id == resp[0]['factura_comprobante_id']);
+      this.elementoComprobante =  this.elementosComprobante.find(x => x.id == resp[0]['factura_comprobante_id']);
 
     },
     error => { // error path
       this.loading = false;
       this.peticion = '';
-        console.log(error);
-        console.log(error.status);
-        swal({
+      console.log(error);
+      console.log(error.status);
+      swal({
           toast: false,
           type: 'error',
           text: error,
@@ -700,11 +700,11 @@ onElementoDocumento(){
 obtenerUltimaFactura(){
   this.loading = true;
   this.peticion = 'Obteniendo ultima factura y punto de venta';
-   console.log(this.elementoComprobante);
-   this._comprobante_nombre = this.comprobante_id = this.elementoComprobante['descripcion'];
-   this.comprobante_id = this.elementoComprobante['id'];
-   this.es_afip = this.elementoComprobante['es_afip'];
-   console.log(this.es_afip);
+  console.log(this.elementoComprobante);
+  this._comprobante_nombre = this.comprobante_id = this.elementoComprobante['descripcion'];
+  this.comprobante_id = this.elementoComprobante['id'];
+  this.es_afip = this.elementoComprobante['es_afip'];
+  console.log(this.es_afip);
   try {
     
     this.facturacionService.GetLastVoucher(this.pto_vta,this.elementoComprobante['id'],this.medico_id)
@@ -712,17 +712,17 @@ obtenerUltimaFactura(){
    
       this.loading = false;
       this.peticion = '';
-        resp = resp+1;
-        console.log(  resp);
-        this.factura_numero = String(resp);
-        this.factura_numero_ceros =this.padLeft(String(resp),'0',8);
+      resp = resp+1;
+      console.log(  resp);
+      this.factura_numero = String(resp);
+      this.factura_numero_ceros =this.padLeft(String(resp),'0',8);
     },
     error => { // error path
       this.loading = false;
       this.peticion = '';
-        console.log(error);
-        console.log(error.status);
-        swal({
+      console.log(error);
+      console.log(error.status);
+      swal({
           toast: false,
           type: 'error',
           text: error,
@@ -758,18 +758,18 @@ agregarRenglon(){
 /* -------------------------------------------------------------------------- */
 
        
-     this.elementos.push(movimiento);
-       console.log(this.elementos);
+        this.elementos.push(movimiento);
+        console.log(this.elementos);
        // GUARDO LAS ALICUOTAS ASOCIADAS
 
        // SE DEBE SEPARAR POR ALICUOTAS Y SUMAR LOS VALORES---- CORREGIR
-       let alicuota_id = '0';
-       let iva = 0;
-       let precio_unitario = 0;
-       let existe:Boolean = false;
+        let alicuota_id = '0';
+        let iva = 0;
+        let precio_unitario = 0;
+        let existe:Boolean = false;
 
         // ITERO PARA VERIFICAR SI EXISTE EL RENGLON CON LA ALICUOTA, SI EXISTE SUMO SUS VALORES
-       for (let index = 0; index < this.facturaAlicuotaAsociada.length; index++) {
+        for (let index = 0; index < this.facturaAlicuotaAsociada.length; index++) {
          console.log(movimiento['alicuota_id']);
          console.log(this.facturaAlicuotaAsociada[index]['id']);
          if(this.facturaAlicuotaAsociada){
@@ -784,7 +784,7 @@ agregarRenglon(){
         }
        } 
        // SI EL RENGLON  DE ALICUOTA NO EXISTE LO CREO UNA UNICA VEZ
-       if(!existe){
+        if(!existe){
         //let _factura_alicuota_asociada = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],Number(movimiento['iva']),Number(movimiento['precio_unitario']),'0' );
         let _factura_alicuota_asociada = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],(Math.round(Number(movimiento['iva']) * 100) / 100), (Math.round(Number(movimiento['precio_unitario'])* 100) / 100),'0' );
         this.facturaAlicuotaAsociada.push(_factura_alicuota_asociada);
@@ -798,7 +798,7 @@ agregarRenglon(){
 // 20300712144
 
 
-eliminarRegistro(result:any){
+eliminarRegistro(result:any) {
   console.log(result);
   this.elementos = [];
   this.sumarValores();
@@ -807,13 +807,13 @@ eliminarRegistro(result:any){
 sumarValores(){
   let i:number;
 
-this.total = 0;
-this.cantidad = 0;
-this.subtotal = 0;
-this.subtotal_iva = 0;
-this.subtotal_excento = 0;
+  this.total = 0;
+  this.cantidad = 0;
+  this.subtotal = 0;
+  this.subtotal_iva = 0;
+  this.subtotal_excento = 0;
 
-for(i=0;i < this.elementos.length;i++){
+  for(i=0;i < this.elementos.length;i++){
   this.cantidad = this.cantidad+ Number(this.elementos[i]['cantidad']);
   this.subtotal = this.subtotal+ Number(this.elementos[i]['total_sin_iva']);
   // AGREGAR VALIDACION SEGUN CODIGO IVA PARA 0%  Y PARA 21% O 10,5
@@ -823,7 +823,7 @@ for(i=0;i < this.elementos.length;i++){
 }
 
 
-for(i=0;i < this.facturaAlicuotaAsociada.length;i++){
+  for(i=0;i < this.facturaAlicuotaAsociada.length;i++){
   console.log(this.facturaAlicuotaAsociada[i]['id']);
   if(Number(this.facturaAlicuotaAsociada[i]['id']) ===3){
   this.subtotal_excento = this.subtotal_excento+ Number(this.facturaAlicuotaAsociada[i]['importe_gravado']);
@@ -876,9 +876,9 @@ buscarCliente(){
       if (PopupProveedorFindComponent) {
         console.log(PopupProveedorFindComponent);
 
-       this.cliente =  PopupProveedorFindComponent.proveedor_nombre;
-       this.nrodocumento = String(PopupProveedorFindComponent.proveedor_cuit);
-       this.elementoDocumento =  this.elementosDocumento.find(x => x.id === 80);
+        this.cliente =  PopupProveedorFindComponent.proveedor_nombre;
+        this.nrodocumento = String(PopupProveedorFindComponent.proveedor_cuit);
+        this.elementoDocumento =  this.elementosDocumento.find(x => x.id === 80);
       // console.log(this.nrodocumento);
       }
   });
@@ -928,11 +928,11 @@ generarPDF() {
   this.elementosPDF = this.elementos;
   let i = 0;
   for (i = 0; i < this.elementosPDF.length; i++) {
-      this.elementosPDF[i]['alicuota'] = this.cp.transform(this.elementosPDF[i]['alicuota'], '', 'symbol-narrow', '1.2-2');
-      this.elementosPDF[i]['iva'] = this.cp.transform(this.elementosPDF[i]['iva'], '', 'symbol-narrow', '1.2-2');
-      this.elementosPDF[i]['precio_unitario'] = this.cp.transform(this.elementosPDF[i]['precio_unitario'], '', 'symbol-narrow', '1.2-2');
-      this.elementosPDF[i]['total_renglon'] = this.cp.transform(this.elementosPDF[i]['total_renglon'], '', 'symbol-narrow', '1.2-2');
-      this.elementosPDF[i]['total_sin_iva'] = this.cp.transform(this.elementosPDF[i]['total_sin_iva'], '', 'symbol-narrow', '1.2-2');
+    this.elementosPDF[i]['alicuota'] = Number(this.elementosPDF[i]['alicuota']);
+    this.elementosPDF[i]['iva'] = Number(this.elementosPDF[i]['iva']);
+    this.elementosPDF[i]['precio_unitario'] = Number(this.elementosPDF[i]['precio_unitario']);
+    this.elementosPDF[i]['total_renglon'] = Number(this.elementosPDF[i]['total_renglon']);
+    this.elementosPDF[i]['total_sin_iva'] = Number(this.elementosPDF[i]['total_sin_iva']);
 
   }
 
@@ -980,14 +980,16 @@ generarPDF() {
 
 
 // linea divisoria
-doc.line(pageWidth / 2, 23, pageWidth / 2, 50);
+  doc.line(pageWidth / 2, 23, pageWidth / 2, 50);
   doc.setFontSize(19);
   doc.setFontStyle('bold');
   doc.text(this.elementoComprobante['letra'], (pageWidth / 2) - 2.5, 17);
   doc.setFontStyle('normal');
   doc.setFontSize(6);
   doc.text('COD. ' + this.elementoComprobante['comprobante_codigo'], (pageWidth / 2) - 4.5, 21);
-  //doc.addImage(logo_clinica, 'PNG', 15, 12, 60.06, 12.87, undefined, 'FAST');
+  let img = new Image();
+  img.src = './assets/images/user-default.png';
+  doc.addImage(img, 'PNG', 10, 10, 22, 22, undefined, 'FAST');
   doc.setFontSize(9);
 
   doc.text(this.elementoMedicos['nombreyapellido'], 15, 35);
@@ -1001,7 +1003,7 @@ doc.line(pageWidth / 2, 23, pageWidth / 2, 50);
 /* -------------------------------------------------------------------------- */
 /*                               DATOS DEL EMISO                              */
 /* -------------------------------------------------------------------------- */
-doc.setFontStyle('bold');
+  doc.setFontStyle('bold');
   doc.setFontSize(11);
   doc.text(this.elementoComprobante['descripcion'], (pageWidth / 2) + 20, 20);
   doc.text('Comprobante: ' + this.pto_vta + ' - ' + this.factura_nro, (pageWidth / 2) + 20, 25);
@@ -1070,7 +1072,7 @@ doc.setFontStyle('bold');
   }
 
 
-doc.autoTable(this.columns, this.elementosPDF,
+  doc.autoTable(this.columns, this.elementosPDF,
   {
     
       margin: {vertical: 95, right: 0, horizontal: -10},
@@ -1079,7 +1081,7 @@ doc.autoTable(this.columns, this.elementosPDF,
       columnStyles: {descripcion: {columnWidth: 88}, cantidad: {columnWidth: 10}, precio_unitario: {columnWidth: 25},
       alicuota_descripcion: {columnWidth: 12},  iva: {columnWidth: 25}, total_renglon: {columnWidth: 25} }
   });
- window.open(doc.output('bloburl'));
+  window.open(doc.output('bloburl'));
   this.limpiarDatos();
   }
 

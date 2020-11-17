@@ -10,20 +10,20 @@
               <div  class="d-flex justify-content-start ">
                       <div class=" mr-1 d-flex align-items-center" >
                         <span class="pr-1 pt-1"><h6>Fecha:</h6></span>
-                        <p-calendar [inputStyle]="{'height':'29.1px'}" appendTo="body"  class="mr-2 " [(ngModel)]="fecha"  (onSelect)="actualizarFecha($event)" tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="true">
+                        <p-calendar [inputStyle]="{'height':'29.1px'}" appendTo="body"  class="mr-2 " [(ngModel)]="fecha"  (onSelect)="actualizarFecha($event)" tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
                         <ng-template pTemplate="date" let-date>
                                 <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
                             </ng-template> 
                         </p-calendar>
 
                     <span class="pr-1 pt-1"><h6>Desde:</h6></span>
-                    <p-calendar [inputStyle]="{'height':'29.1px'}" appendTo="body"    class="mr-2 " [(ngModel)]="fechaDesde"  (onSelect)="actualizarFechaDesde($event)" tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="true">
+                    <p-calendar [inputStyle]="{'height':'29.1px'}" appendTo="body"    class="mr-2 " [(ngModel)]="fechaDesde"  (onSelect)="actualizarFechaDesde($event)" tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
                     <ng-template pTemplate="date" let-date>
                             <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
                         </ng-template> 
                     </p-calendar>
                     <span class="pr-1 pt-1"><h6>Hasta:</h6></span>
-                    <p-calendar [inputStyle]="{'height':'29.1px'}" appendTo="body"    class="mr-2 "  [(ngModel)]="fechaHasta"  (onSelect)="actualizarFechaHasta($event)" tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="true">
+                    <p-calendar [inputStyle]="{'height':'29.1px'}" appendTo="body"    class="mr-2 "  [(ngModel)]="fechaHasta"  (onSelect)="actualizarFechaHasta($event)" tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
                         <ng-template pTemplate="date" let-date>
                             <span  inputStyle="{'height':'29.5px'}"  style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
                         </ng-template> 
@@ -61,7 +61,7 @@
               <button    class="btn  btn-info btn-sm mr-2 pr-2"  (click)="agregarConcepto()"  >  <i class="fas fa-file-invoice-dollar fa-xs mr-2"></i> Agregar concepto</button> 
             </div>         
             <div class="ml-2 d-flex justify-content-center">  
-              <p-dropdown [options]="pago" [(ngModel)]="selectedPago" (onChange)="changeElementoPago($event)" placeholder="Forma de pago" optionLabel="name" [showClear]="true" [filter]="true"></p-dropdown> </div>  
+              <p-dropdown [options]="pago" appendTo="body" [(ngModel)]="selectedPago" (onChange)="changeElementoPago($event)" placeholder="Forma de pago" optionLabel="name" [showClear]="true" [filter]="true"></p-dropdown> </div>  
             <div class="ml-2 d-flex justify-content-end">   
               
               <button    class="  btn btn-danger btn-sm mr-5"  (click)="cerrarCaja()" > <i class="fas fa-file-invoice-dollar fa-xs mr-2"></i>Cerrar caja</button> 

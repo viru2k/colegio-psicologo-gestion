@@ -5,7 +5,7 @@
     <label *ngIf="elementoMedicos" class=" mr-2 mt-1">Condición : {{elementoMedicos.categoria_iva}}</label>
   
     <label class=" ml-2 mr-2 mt-1">Fecha :</label>
-    <p-calendar  [inputStyle]="{'height':'35.1px'}"    class="mr-2 " [(ngModel)]="fecha"  (onSelect)="actualizarFecha($event)" tabindex="0"   [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="true">
+    <p-calendar  [inputStyle]="{'height':'35.1px'}"    class="mr-2 " [(ngModel)]="fecha"  (onSelect)="actualizarFecha($event)" tabindex="0"   [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
       <ng-template pTemplate="date" let-date>
            <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
        </ng-template> 
@@ -58,14 +58,14 @@
     <label class="mr-1 ml-2 mt-1">Observación :</label>   
     <input type="text" class="form-control col-4 form-control-md" [(ngModel)]="observacion" placeholder="Observación">
     <label class=" mr-2 ml-2 mt-1">Período desde :</label>
-    <p-calendar  [inputStyle]="{'height':'35.1px'}"    class="mr-2 " [(ngModel)]="fechaDesde"  (onSelect)="actualizarFechaDesde($event)" tabindex="0"   [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="true">
+    <p-calendar  [inputStyle]="{'height':'35.1px'}"    class="mr-2 " [(ngModel)]="fechaDesde"  (onSelect)="actualizarFechaDesde($event)" tabindex="0"   [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
       <ng-template pTemplate="date" let-date>
            <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
        </ng-template> 
      
      </p-calendar>
      <label class=" mr-2 mt-1">Período hasta :</label>
-     <p-calendar  [inputStyle]="{'height':'35.1px'}"    class="mr-2 " [(ngModel)]="fechaHasta"  (onSelect)="actualizarFechaHasta($event)" tabindex="0"   [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="true">
+     <p-calendar  [inputStyle]="{'height':'35.1px'}"    class="mr-2 " [(ngModel)]="fechaHasta"  (onSelect)="actualizarFechaHasta($event)" tabindex="0"   [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
       <ng-template pTemplate="date" let-date>
            <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
        </ng-template> 

@@ -17,7 +17,7 @@
                         <div class='form-group'>
                           <label  >Fecha pago</label>   
                             <div class=' input-group input-group-sm mb-3'>
-                              <p-calendar [inputStyle]="{'height':'29.1px'}"   class="mr-2 " formControlName="mat_fecha_pago"   tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="true">
+                              <p-calendar [inputStyle]="{'height':'29.1px'}" [readonlyInput]="false"  class="mr-2 " formControlName="mat_fecha_pago"   tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
                                 <ng-template pTemplate="date" let-date>
                                         <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
                                     </ng-template> 
@@ -27,7 +27,7 @@
                         <div class='form-group'>
                             <label  >Fecha vencimiento</label>   
                               <div class=' input-group input-group-sm mb-3'>
-                                <p-calendar [inputStyle]="{'height':'29.1px'}"     class="mr-2 " formControlName="mat_fecha_vencimiento"   tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="true">
+                                <p-calendar [inputStyle]="{'height':'29.1px'}"   [readonlyInput]="false"    class="mr-2 " formControlName="mat_fecha_vencimiento"   tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
                                   <ng-template pTemplate="date" let-date>
                                           <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
                                       </ng-template> 

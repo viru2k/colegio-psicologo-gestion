@@ -766,6 +766,7 @@ cargarRenglones(){
          formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en'), formatDate(new Date(), 'dd/MM/yyyy', 'en') ,this.userData['id']); 
         // tslint:disable-next-line: max-line-length
       _factura_alicuota_asociada  = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],(Math.round(Number(movimiento['iva']) * 100) / 100), (Math.round(Number(movimiento['mat_monto']) * 100) / 100),'0' );
+      this.elementos.push(movimiento);
     }
 
   } else {
@@ -775,9 +776,10 @@ cargarRenglones(){
       formatDate(_movimiento['fecha_carga'], 'dd/MM/yyyy', 'en'), formatDate(new Date(), 'dd/MM/yyyy', 'en') ,this.userData.id);
       // tslint:disable-next-line: max-line-length
       _factura_alicuota_asociada  = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],(Math.round(Number(movimiento['iva']) * 100) / 100), (Math.round(Number(movimiento['mat_monto']) * 100) / 100),'0' );
+      this.elementos.push(movimiento);
   }
   this.facturaAlicuotaAsociada.push(_factura_alicuota_asociada);
-  this.elementos.push(movimiento);
+ 
 
 
 
@@ -975,16 +977,19 @@ buscarFacturaAfip() {
 generarPDF() {
 
 
+try {
+
+
   // GENERO EL FORMATO DE LOS COBROS
 
   this.elementosPDF = this.elementos;
   let i = 0;
   for (i = 0; i < this.elementosPDF.length; i++) {
-      this.elementosPDF[i]['alicuota'] = this.cp.transform(this.elementosPDF[i]['alicuota'], '', 'symbol-narrow', '1.2-2');
-      this.elementosPDF[i]['iva'] = this.cp.transform(this.elementosPDF[i]['iva'], '', 'symbol-narrow', '1.2-2');
-      this.elementosPDF[i]['precio_unitario'] = this.cp.transform(this.elementosPDF[i]['precio_unitario'], '', 'symbol-narrow', '1.2-2');
-      this.elementosPDF[i]['total_renglon'] = this.cp.transform(this.elementosPDF[i]['total_renglon'], '', 'symbol-narrow', '1.2-2');
-      this.elementosPDF[i]['total_sin_iva'] = this.cp.transform(this.elementosPDF[i]['total_sin_iva'], '', 'symbol-narrow', '1.2-2');
+      this.elementosPDF[i]['alicuota'] = Number(this.elementosPDF[i]['alicuota']);
+      this.elementosPDF[i]['iva'] = Number(this.elementosPDF[i]['iva']);
+      this.elementosPDF[i]['precio_unitario'] = Number(this.elementosPDF[i]['precio_unitario']);
+      this.elementosPDF[i]['total_renglon'] = Number(this.elementosPDF[i]['total_renglon']);
+      this.elementosPDF[i]['total_sin_iva'] = Number(this.elementosPDF[i]['total_sin_iva']);
 
   }
 
@@ -1041,7 +1046,7 @@ generarPDF() {
   doc.text('COD. ' + this.elementoComprobante['comprobante_codigo'], (pageWidth / 2) - 4.5, 21);
   let img = new Image();
   img.src = './assets/images/user-default.png';
-  doc.addImage(img, 'PNG', 10, 30, 18, 18, undefined, 'FAST');
+  doc.addImage(img, 'PNG', 10, 10, 22, 22, undefined, 'FAST');
   doc.setFontSize(9);
 
   doc.text(this.elementoMedicos['nombreyapellido'], 15, 35);
@@ -1137,21 +1142,28 @@ generarPDF() {
   
   this.realizarCobroNotificar();
 
+
+} catch (error) {
+  
+}
+
+
   }
 
 
 realizarCobroNotificar() {
   swal({
     title: 'Registro de cobro',
-    text: 'La factura fue generada y su registro el cobro',
+    text: 'La factura fue generada, presione "CONTINUAR" para registrar el cobro',
     type: 'info',
     showCancelButton: false,
     confirmButtonColor: '#00b4d8',
 
     confirmButtonText: 'Continuar'
   }).then((result) => {
-    if (result.value) {    
-      this.ref.close(this.factura_nro);
+    if (result.value) {
+      console.log(this._factura_nro);
+      this.ref.close(this._factura_nro);
     }
   })
 }
@@ -1161,7 +1173,7 @@ realizarCobro() {
   this.loading = true;
   this.peticion = 'Creando factura';
   try {
-    this.cobroService.putDeuda(this.config.data)
+    this.cobroService.putDeuda(this.config.data, this.config.data.id_pago_historico)
     .subscribe(resp => {
         this.loading = false;
         this.peticion = '';

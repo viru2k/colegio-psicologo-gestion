@@ -3,6 +3,8 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/api';
 import { AlertServiceService } from './../../../../../services/alert-service.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { calendarioIdioma } from './../../../../../config/config';
+import { CobroService } from '../../../../../services/cobro.service';
+import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-popup-concepto-editar',
   templateUrl: './popup-concepto-editar.component.html',
@@ -21,7 +23,7 @@ export class PopupConceptoEditarComponent implements OnInit {
   updateDataForm: FormGroup;
 
   constructor(public config: DynamicDialogConfig,
-              private alertServiceService: AlertServiceService, public ref: DynamicDialogRef) {
+              private alertServiceService: AlertServiceService, public ref: DynamicDialogRef, private cobroService: CobroService) {
 
       this.es = calendarioIdioma;
       this.updateDataForm = new FormGroup({
@@ -68,6 +70,29 @@ export class PopupConceptoEditarComponent implements OnInit {
 
   calcularTotal() {
     this.updateDataForm.patchValue({mat_monto_final: (this.updateDataForm.value.mat_interes * this.updateDataForm.value.mat_monto )});
+  }
+
+  actualizarDatos() {
+    
+    console.log(this.updateDataForm.value);
+    this.updateDataForm.patchValue({mat_fecha_pago :  formatDate(this.updateDataForm.value.mat_fecha_pago , 'dd/MM/yyyy', 'en')});
+    this.updateDataForm.patchValue({mat_fecha_vencimiento :  formatDate(this.updateDataForm.value.mat_fecha_vencimiento , 'dd/MM/yyyy', 'en')});
+    try {
+      this.cobroService.putDeuda(this.updateDataForm.value, this.config.data.id_pago_historico)
+      .subscribe(resp => {
+        this.alertServiceService.throwAlert('success', 'Se modificó el registro con éxito', '', '');
+        console.log(resp);
+        this.ref.close(this.updateDataForm.value);
+      },
+      error => { // error path
+          console.log(error.message);
+          console.log(error.status);
+          // tslint:disable-next-line: max-line-length
+          this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, error.status);
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros', error, error.status);
+  }
   }
 
 }

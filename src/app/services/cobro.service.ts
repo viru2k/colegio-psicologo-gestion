@@ -38,9 +38,16 @@ export class CobroService {
     return this.http.post<any>(this.url + 'cobro/by/matricula', element);
   }
 
-  putDeuda(element: any) {
-    return this.http.post<any>(this.url + 'cobro/by/matricula/actualizar', element);
+  putDeuda(element: any, id: string) {
+    return this.http.put<any>(this.url + 'cobro/by/matricula/actualizar/' + id, element);
   }
+
+  putRegistroCobro(element: any, id: string) {
+
+    return this.http.put<any>(this.url + 'cobro/by/matricula/cobrar/' + id, element);
+  }
+
+  
 
 
   getConcepto() {

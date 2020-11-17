@@ -217,6 +217,7 @@ public exportarExcelDetallado(){
   ref.onClose.subscribe((PopupConceptoEditarComponent: any) => {
 
     if (PopupConceptoEditarComponent) {
+      this.getDeudaByMatriculaAndEstado(PopupFindMatriculaComponent.mat_matricula_psicologo);
       //this.loadMovimientoRegistro();
     }
   });
@@ -250,8 +251,9 @@ agregarConcepto() {
 }
 
 realizarFactura() {
-    console.log(this.selecteditems.length);
-    if (this.selecteditems.length > 0) {
+
+  console.log(this.selecteditems.length);
+  if (this.selecteditems.length > 0) {
       this.selecteditems[0].tipo_cobro = 'MATRICULA';
       this.selecteditems[0].psicologo = this.psicologo;
       let data:any = this.selecteditems;
@@ -261,19 +263,49 @@ realizarFactura() {
        width: '98%',
        height: '98%'
       });
-      
+
       ref.onClose.subscribe((PopupRealizarFacturaComponent: any) => {
-         if (PopupRealizarFacturaComponent) {
-          console.log(this.psicologo.mat_matricula_psicologo);          
-          this.getDeudaByMatriculaAndEstado(this.psicologo.mat_matricula_psicologo);
+        console.log(PopupRealizarFacturaComponent);
+        if (PopupRealizarFacturaComponent) {
+          this.cobrarRegistros(PopupRealizarFacturaComponent);
          }
       });
    
       
-    } else {
+  } else {
+    this.loading = false;
+    this.alertServiceService.throwAlert('warning', 'No se ha seleccionado ningun registro', 'sin registros', '400');
+  }
+}
+
+cobrarRegistros(comprobante: string) {
+
+let _selectedItems: any[] = [];
+let i = 0;
+this.selecteditems.forEach(element => {
+    _selectedItems[i] = element;
+    _selectedItems[i].mat_fecha_pago = formatDate(this.fecha, 'yyyy-MM-dd', 'en');
+    _selectedItems[i].mat_tipo_pago = this.selectedPago.code;
+    _selectedItems[i].mat_estado = 'P';
+    _selectedItems[i].mat_numero_comprobante = comprobante;
+
+    i++;
+  });
+try {
+    this.cobroService.putRegistroCobro(_selectedItems, '1')
+    .subscribe(resp => { 
+      this.getDeudaByMatriculaAndEstado(this.psicologo.mat_matricula_psicologo);
       this.loading = false;
-      this.alertServiceService.throwAlert('warning', 'No se ha seleccionado ningun registro', 'sin registros', '400');
-    }
+    },
+    error => { // error path
+      this.loading = false;
+      console.log(error.message);
+      console.log(error.status);
+      this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+     });
+} catch (error) {
+this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+}
 }
 
 
