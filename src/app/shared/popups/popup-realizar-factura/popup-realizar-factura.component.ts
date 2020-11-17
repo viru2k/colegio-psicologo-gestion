@@ -113,9 +113,13 @@ export class PopupRealizarFacturaComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.config.data);
-    this.cliente = this.config.data[0].psicologo.mat_apellido + ' ' + this.config.data[0].psicologo.mat_nombre;
-    this.nrodocumento =  this.config.data[0].psicologo.mat_cuit;
-    
+    if (this.config.data[0] !== undefined) {
+      this.cliente = this.config.data[0].psicologo.mat_apellido + ' ' + this.config.data[0].psicologo.mat_nombre;
+      this.nrodocumento =  this.config.data[0].psicologo.mat_cuit;
+    } else {
+      
+    }
+
     this.es = calendarioIdioma;
     this.fecha = new Date();
     this.fechaDesde = new Date();
@@ -751,17 +755,30 @@ cargarRenglones(){
   let _movimiento: any[] = this.config.data;
   let movimiento: FacturaElectronicaRenglon;
   let _factura_alicuota_asociada: FacturaAlicuotaAsociada;
-  for (let index = 0; index < _movimiento.length; index++) {
-    console.log(_movimiento[index]);
-    // tslint:disable-next-line: max-line-length
-    movimiento = new FacturaElectronicaRenglon('0','0',_movimiento[index]['mat_concepto'] + ' - cuota ' +  _movimiento[index]['mat_num_cuota'] + ' - periodo ' +  formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en'), 1, _movimiento[index]['mat_monto_final'], _movimiento[index]['mat_monto_final'],'3', 1,'0%',0, _movimiento[index]['mat_monto_final'], _movimiento[index]['id_pago_historico'], formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en'), formatDate(new Date(), 'dd/MM/yyyy', 'en') ,this.userData['id']); 
-    // tslint:disable-next-line: max-line-length
-    _factura_alicuota_asociada  = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],(Math.round(Number(movimiento['iva']) * 100) / 100), (Math.round(Number(movimiento['mat_monto']) * 100) / 100),'0' );
-    this.facturaAlicuotaAsociada.push(_factura_alicuota_asociada);
-    this.elementos.push(movimiento);
-  }
+  console.log(_movimiento);
+  if (_movimiento.length !== undefined) {
+    for (let index = 0; index < _movimiento.length; index++) {
+      console.log('LISTADO DE RENGLONES');
+      console.log(_movimiento[index]);
+        // tslint:disable-next-line: max-line-length
+      movimiento = new FacturaElectronicaRenglon('0','0',_movimiento[index]['mat_concepto'] + ' - cuota ' +  _movimiento[index]['mat_num_cuota'] + ' - periodo ' +  formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en'), 1, _movimiento[index]['mat_monto_final'],
+        _movimiento[index]['mat_monto_final'],'3', 1,'0%',0, _movimiento[index]['mat_monto_final'], _movimiento[index]['id_pago_historico'],
+         formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en'), formatDate(new Date(), 'dd/MM/yyyy', 'en') ,this.userData['id']); 
+        // tslint:disable-next-line: max-line-length
+      _factura_alicuota_asociada  = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],(Math.round(Number(movimiento['iva']) * 100) / 100), (Math.round(Number(movimiento['mat_monto']) * 100) / 100),'0' );
+    }
 
-  
+  } else {
+      // tslint:disable-next-line: max-line-length
+      movimiento = new FacturaElectronicaRenglon('0','0',_movimiento['concepto_cuenta'] + ' - ' +  _movimiento['movimiento_tipo'] + ' -  ' +  formatDate(_movimiento['fecha_carga'], 'dd/MM/yyyy', 'en'),
+       1, _movimiento['total'], _movimiento['total'],'3', 1,'0%',0, _movimiento['total'],'0' ,
+      formatDate(_movimiento['fecha_carga'], 'dd/MM/yyyy', 'en'), formatDate(new Date(), 'dd/MM/yyyy', 'en') ,this.userData.id);
+      // tslint:disable-next-line: max-line-length
+      _factura_alicuota_asociada  = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],(Math.round(Number(movimiento['iva']) * 100) / 100), (Math.round(Number(movimiento['mat_monto']) * 100) / 100),'0' );
+  }
+  this.facturaAlicuotaAsociada.push(_factura_alicuota_asociada);
+  this.elementos.push(movimiento);
+
 
 
   this.sumarValores();

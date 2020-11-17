@@ -19,6 +19,7 @@ import { calendarioIdioma } from './../../../config/config';
 import { ExcelService } from './../../../services/excel.service';
 import { Filter } from './../../../shared/filter';
 import { AlertServiceService } from '../../../services/alert-service.service';
+import { PopupConceptoEditarComponent } from './popups/popup-concepto-editar/popup-concepto-editar.component';
 
 declare const require: any;
 const jsPDF = require('jspdf');
@@ -46,6 +47,7 @@ export class MatriculaCobroComponent implements OnInit {
   elementosFiltradosImpresion: any[] = [];
   columns: any;
   userData: any;
+  fecha: Date;
   fechaDesde: Date;
   _fechaDesde: string;
   fechaHasta: Date;
@@ -60,20 +62,29 @@ export class MatriculaCobroComponent implements OnInit {
   _mat_concepto: any[] = [];
   _mat_num_cuota: any[] = [];
   _mat_estado: any[] = [];
-  _id_usuario: any[] = [];
-
+  _nombreyapellido: any[] = [];
+  pago: any[];
   total = 0;
   total_seleccionado = 0;
-
+  selectedPago: any;
 
   constructor(private cobroService: CobroService ,  private messageService: MessageService,
               public dialogService: DialogService,  private route: ActivatedRoute, 
               private alertServiceService: AlertServiceService,
               private excelService: ExcelService,    private router: Router, private filter: Filter ) {
    
-    this.cols = [
+
+      this.pago = [
+        {name: 'Contado', code: 'C'},
+        {name: 'Tarjeta credito', code: 'T'},
+        {name: 'Tarjeta debito', code: 'D'},
+        {name: 'Transferencia', code: 'B'}
+    ];
+
+
+      this.cols = [
         {field: 'boton', header: '' , width: '6%'},
-        {field: 'mat_matricula', header: 'Matrícula', width: '12%' },
+        {field: 'mat_matricula', header: 'Matrícula', width: '8%' },
         {field: 'mat_nombreyapellido', header: 'Psicólogo', width: '20%' },
         {field: 'mat_concepto', header: 'Concepto', width: '20%' },         
         {field: 'mat_descripcion', header: 'Descripción', width: '25%' },
@@ -82,11 +93,11 @@ export class MatriculaCobroComponent implements OnInit {
         {field: 'mat_fecha_vencimiento', header: 'Vencimiento', width: '12%' },
         {field: 'mat_num_cuota', header: 'Cuota', width: '8%' },
         {field: 'mat_id_plan', header: 'Plan', width: '8%' },
-        {field: 'mat_estado', header: 'Estado' , width: '10%'},
-        {field: 'id_usuario', header: 'Punto' , width: '8%'},
+        {field: 'mat_estado', header: 'Estado' , width: '8%'},
+        {field: 'nombreyapellido', header: 'Usuario' , width: '14%'},
         ];
 
-    this.columns = [
+      this.columns = [
           {title: 'Matrícula', dataKey: 'mat_matricula'},
           {title: 'Psicólogo', dataKey: 'mat_nombreyapellido'},
           {title: 'Concepto', dataKey: 'mat_concepto'},
@@ -105,16 +116,21 @@ export class MatriculaCobroComponent implements OnInit {
   ngOnInit() {
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.es = calendarioIdioma;
-
+    this.fecha = new Date();
     this.fechaDesde = new Date();
     this.fechaHasta = new Date();
-    
+    this.selectedPago = this.pago[0];
 
   }
 
 
+  changeElementoPago(event) {
+    console.log(event.value);
+    this.selectedPago = event.value;
+    
+  }
 
-exportarExcel(){
+exportarExcel() {
 let result = this.elementosFiltrados as any;
 if (this.selecteditems.length > 0) {
        
@@ -191,16 +207,16 @@ public exportarExcelDetallado(){
     
   const data: any = event;
 
-  const ref = this.dialogService.open(PopupMovimientoComponent, {
+  const ref = this.dialogService.open(PopupConceptoEditarComponent, {
   data,
-   header: 'Editar ingreso',
+   header: 'Editar concepto',
    width: '98%',
    height: '95%'
   });
 
-  ref.onClose.subscribe((PopupMovimientoComponent: any) => {
+  ref.onClose.subscribe((PopupConceptoEditarComponent: any) => {
 
-    if (PopupMovimientoComponent) {
+    if (PopupConceptoEditarComponent) {
       //this.loadMovimientoRegistro();
     }
   });
@@ -236,6 +252,7 @@ agregarConcepto() {
 realizarFactura() {
     console.log(this.selecteditems.length);
     if (this.selecteditems.length > 0) {
+      this.selecteditems[0].tipo_cobro = 'MATRICULA';
       this.selecteditems[0].psicologo = this.psicologo;
       let data:any = this.selecteditems;
       const ref = this.dialogService.open(PopupRealizarFacturaComponent, {
@@ -257,6 +274,45 @@ realizarFactura() {
       this.loading = false;
       this.alertServiceService.throwAlert('warning', 'No se ha seleccionado ningun registro', 'sin registros', '400');
     }
+}
+
+
+cerrarCaja(){
+  let _total = 0;
+  console.log(this.selecteditems.length);
+  if (this.selecteditems.length > 0) {
+   
+    this.selecteditems.forEach(element => {
+      //itero por unica vez
+
+       _total = _total +  Number(element.mat_monto_final);
+    });
+
+    let data: any = [];
+    data.fecha_carga = new Date();
+    data.mov_cuenta_id = 1;
+    data.mov_concepto_cuenta_id = 1;
+    data.mov_tipo_comprobante_id = 1;
+    data.mov_tipo_moneda_id = 1;
+    data.total = _total;
+    data.importe = _total;
+    data.cantidad = 1;
+    data.cotizacion = 1;
+    const ref = this.dialogService.open(PopupMovimientoComponent, {
+    data,
+     header: 'Agregar ingreso',
+     width: '98%',
+     height: '95%'
+    });
+  
+    ref.onClose.subscribe((PopupMovimientoComponent: any) => {
+  
+      if (PopupMovimientoComponent) {           
+      }
+    });
+  }
+
+
 }
 
 getDeudaByMatricula(mat_matricula_psicologo) {
@@ -322,7 +378,7 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo) {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {          
-          console.log(this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']));
+      //    console.log(this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']));
           if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
@@ -404,6 +460,12 @@ actualizarFechaHasta(event) {
   console.log(event);
   this.fechaHasta = event;
   console.log(new Date(this.fechaHasta));
+}
+
+actualizarFecha(event) {
+  console.log(event);
+  this.fecha = event;
+  console.log(new Date(this.fecha));
 }
 
 
@@ -519,34 +581,34 @@ realizarFiltroBusqueda(resp: any[]) {
   this._mat_concepto = [];
   this._mat_num_cuota = [];
   this._mat_estado = [];
-  this._id_usuario = [];  
+  this._nombreyapellido = [];
 
   resp.forEach(element => {
     this._mat_concepto.push(element['mat_concepto']);
     this._mat_num_cuota.push(element['mat_num_cuota']);
     this._mat_estado.push(element['mat_estado']);
-    this._id_usuario.push(element['id_usuario']);
+    this._nombreyapellido.push(element['nombreyapellido']);
     /** SUMO LO FILTRADO */
-    
+
   });
   
   // ELIMINO DUPLICADOS
   this._mat_concepto = this.filter.filterArray(this._mat_concepto);  
   this._mat_num_cuota = this.filter.filterArray(this._mat_num_cuota);
   this._mat_estado = this.filter.filterArray(this._mat_estado);
-  this._id_usuario = this.filter.filterArray(this._id_usuario);
+  this._nombreyapellido = this.filter.filterArray(this._nombreyapellido);
 
 
 
 }
 
 
-colorString(estado:string){
-  
-  if((estado === 'P')||(estado === null)) {
-    return {'es-ingreso'  :'null' };
-  }else{
-    return {'es-egreso'  :'null' };
+colorString(estado: string) {
+
+  if ((estado === 'P') || (estado === null)) {
+    return {'es-ingreso'  : 'null' };
+  } else {
+    return {'es-egreso'  : 'null' };
   }
 
 }

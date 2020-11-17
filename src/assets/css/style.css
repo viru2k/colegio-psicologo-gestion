@@ -318,7 +318,7 @@ html body .m-b-20 {
   margin-bottom: 20px; }
 
 html body .m-b-30 {
-  margin-bottom: 30px; }
+ // margin-bottom: 30px; }
 
 html body .m-b-40 {
   margin-bottom: 40px; }
@@ -1003,7 +1003,8 @@ File: scss
   padding: 25px 25px; }
 
 .card {
-  margin-bottom: 30px; }
+  margin-bottom: 5px;  /* PADDING BOTTOM DE CARD */
+}
   .card .card-subtitle {
     font-weight: 300;
     margin-bottom: 15px;

@@ -840,8 +840,9 @@ body {
 
 .card-rounded {
     border-radius: 6px;
-    margin: 15px;
+    margin: 10px;
     margin-top: 3px;
+    margin-bottom: 3px;
     min-width: 25px;
     min-height: 30px;
     background-color: #F5F5F5;
@@ -979,12 +980,12 @@ body {
   }
   
   .faq .card .card-body p {
-  margin-bottom: 14px;
+  margin-bottom: 5px;
   }
   
   @media (max-width: 991px) {
   .faq {
-    margin-bottom: 30px;
+    margin-bottom: 5px;
   }
   .faq .card .card-header .faq-title {
     line-height: 26px;
@@ -1160,7 +1161,7 @@ body {
   
   .card-local div:last-child {
     flex-basis: 65%;
-    //padding: 0 0.5rem 0.5rem;
+    padding: 0 0.5rem 0.5rem;
   }
   /* 
   .card-local img {
@@ -1172,7 +1173,7 @@ body {
   
   .card-local p {
     margin-top: 0.5rem;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.5rem;
   }
   
   .curve {
@@ -1333,7 +1334,7 @@ body {
   }
   
   .card-title {
-    padding: 10px 16px;
+    padding: 10px 10px;
   }
   
   .bottom-details {

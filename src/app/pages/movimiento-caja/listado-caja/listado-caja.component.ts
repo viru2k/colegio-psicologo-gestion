@@ -13,6 +13,9 @@ import { calendarioIdioma } from './../../../config/config';
 import { ExcelService } from './../../../services/excel.service';
 import { Filter } from './../../../shared/filter';
 
+import { PopupRealizarFacturaComponent } from './../../../shared/popups/popup-realizar-factura/popup-realizar-factura.component';
+import { AlertServiceService } from '../../../services/alert-service.service';
+
 declare const require: any;
 const jsPDF = require('jspdf');
 require('jspdf-autotable');
@@ -55,11 +58,14 @@ export class ListadoCajaComponent implements OnInit {
 
 
 
-  constructor(private movimientoCajaService: MovimientoCajaService ,  private messageService: MessageService,
-              public dialogService: DialogService,  private route: ActivatedRoute, 
+  constructor(private movimientoCajaService: MovimientoCajaService ,
+              private messageService: MessageService,
+              private alertServiceService: AlertServiceService,
+              public dialogService: DialogService,  private route: ActivatedRoute,
               private excelService: ExcelService,    private router: Router, private filter: Filter ) {
    
     this.cols = [
+        {field: 'boton', header: '' , width: '6%'},
         {field: 'boton', header: '' , width: '6%'},
         {field: 'fecha_carga', header: 'Fecha', width: '10%' }, 
         {field: 'cuenta_nombre', header: 'Cuenta', width: '16%' }, 
@@ -87,11 +93,38 @@ export class ListadoCajaComponent implements OnInit {
 
   }
 
-
+  crearFactura(element: any) {
+    console.log(element);
+    if (element) {
+      if(element.proveedor_nombre === null) {
+        element.proveedor_nombre = '';
+      }
+      element.psicologo = element.proveedor_nombre;
+      element.tipo_cobro = 'CAJA';
+      const data: any = element;
+      const ref = this.dialogService.open(PopupRealizarFacturaComponent, {
+      data,
+       header: 'Realizar factura',
+       width: '98%',
+       height: '98%'
+      });
+      
+      ref.onClose.subscribe((PopupRealizarFacturaComponent: any) => {
+         if (PopupRealizarFacturaComponent) {
+        
+         }
+      });
+   
+      
+    } else {
+      this.loading = false;
+      this.alertServiceService.throwAlert('warning', 'No se ha seleccionado ningun registro', 'sin registros', '400');
+    }
+  }
 
 exportarExcel(){
 let result = this.elementosFiltrados as any;
-if (this.selecteditems.length >0) {
+if (this.selecteditems.length > 0) {
        
 }else{
   swal({

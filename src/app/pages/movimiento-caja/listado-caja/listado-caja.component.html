@@ -93,9 +93,13 @@
                 <ng-template pTemplate="body" let-elemento> 
                      
                 <tr style="height:28px" [ngClass]="colorRow(elemento.estado)" >   
+                
                     <td style="width: 6%">                       
                         <a   (click)="editarRegistro(elemento)" ><i class="far fa-edit fa-lg icon-color-info  my-hover" ></i></a>                 
-                      </td>           
+                    </td>    
+                    <td style="width: 6%">                       
+                        <a   (click)="crearFactura(elemento)" ><i class="fas fa-file-invoice-dollar fa-lg icon-color-success  my-hover" ></i></a>                 
+                    </td>        
                      <!--    <td [ngClass]="colorString(elemento.operacion_cobro_id)" style="width: 5%"><a class="my-hover" (click)="verDetalle(elemento)">{{elemento.operacion_cobro_id}}</a></td>    -->
                         <td style="width: 10%">{{elemento.fecha_carga | date: 'dd/MM/yyyy'}}</td>                          
                         <td style="width: 16%">{{elemento.cuenta_nombre}}</td>      
