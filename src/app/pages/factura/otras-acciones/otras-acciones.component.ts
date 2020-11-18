@@ -99,10 +99,6 @@ export class OtrasAccionesComponent implements OnInit {
     {title: 'Total', dataKey: 'importe_total'}
 ];
      
-    this.DateForm = new FormGroup({
-      'fecha_desde': new FormControl('', Validators.required),
-      'fecha_hasta': new FormControl('', Validators.required)
-      });
 
    }
 
@@ -110,8 +106,7 @@ export class OtrasAccionesComponent implements OnInit {
     this.es = calendarioIdioma;
     this.fechaDesde = new Date();
     this.fechaHasta = new Date();
-    this.DateForm.patchValue({fecha_desde: this.fechaDesde});
-    this.DateForm.patchValue({fecha_hasta: this.fechaHasta});
+   
 
     console.log(this._fechaHasta);
     this.getMedicosFacturan();
@@ -681,7 +676,9 @@ generarPDF(){
   doc.setFontStyle("normal");
   doc.setFontSize(6);
   doc.text('COD. '+this.elementosPDF[0]['comprobante_codigo'], (pageWidth/2)-4.5, 21); 
-  //doc.addImage(logo_clinica, 'PNG', 15, 12, 60.06, 12.87, undefined,'FAST');
+  let img = new Image();
+  img.src = './assets/images/user-default.png';
+  doc.addImage(img, 'PNG', 10, 10, 22, 22, undefined, 'FAST');
   doc.setFontSize(9);
   
   doc.text(this.elementosPDF[0]['nombreyapellido'], 15, 35); 

@@ -217,7 +217,7 @@ public exportarExcelDetallado(){
   ref.onClose.subscribe((PopupConceptoEditarComponent: any) => {
 
     if (PopupConceptoEditarComponent) {
-      this.getDeudaByMatriculaAndEstado(PopupFindMatriculaComponent.mat_matricula_psicologo);
+      this.getDeudaByMatricula(this.psicologo.mat_matricula_psicologo);
       //this.loadMovimientoRegistro();
     }
   });
@@ -244,7 +244,7 @@ agregarConcepto() {
   ref.onClose.subscribe((PopupConceptoAgregarComponent: any) => {
      if (PopupConceptoAgregarComponent) {
       console.log(PopupConceptoAgregarComponent);      
-      this.getDeudaByMatriculaAndEstado(this.psicologo.mat_matricula_psicologo);
+      this.getDeudaByMatricula(this.psicologo.mat_matricula_psicologo);
      }
   });
    
@@ -294,7 +294,7 @@ this.selecteditems.forEach(element => {
 try {
     this.cobroService.putRegistroCobro(_selectedItems, '1')
     .subscribe(resp => { 
-      this.getDeudaByMatriculaAndEstado(this.psicologo.mat_matricula_psicologo);
+      this.getDeudaByMatricula(this.psicologo.mat_matricula_psicologo);
       this.loading = false;
     },
     error => { // error path
@@ -330,6 +330,8 @@ cerrarCaja(){
     data.importe = _total;
     data.cantidad = 1;
     data.cotizacion = 1;
+    data.descripcion = this.selecteditems[0].mat_concepto;
+
     const ref = this.dialogService.open(PopupMovimientoComponent, {
     data,
      header: 'Agregar ingreso',
@@ -351,8 +353,6 @@ getDeudaByMatricula(mat_matricula_psicologo) {
   const userData = JSON.parse(localStorage.getItem('userData'));
   this.es = calendarioIdioma;
   this.loading = true;
-  this._fechaDesde = formatDate(this.fechaDesde, 'yyyy-MM-dd HH:mm', 'en');
-  this._fechaHasta = formatDate(this.fechaHasta, 'yyyy-MM-dd HH:mm', 'en');
   this.total = 0;
   this.total_seleccionado = 0;
   console.log(userData['id']);
@@ -393,7 +393,7 @@ getDeudaByMatricula(mat_matricula_psicologo) {
 }
 
 
-getDeudaByMatriculaAndEstado(mat_matricula_psicologo) {
+getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string) {
   const userData = JSON.parse(localStorage.getItem('userData'));
   this.es = calendarioIdioma;
   this.loading = true;
@@ -404,7 +404,7 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo) {
   console.log(userData['id']);
 
   try {
-      this.cobroService.getDeudaByMatriculaAndEstado(mat_matricula_psicologo, 'A')
+      this.cobroService.getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado)
       .subscribe(resp => {
 
       if (resp[0]) {
@@ -511,7 +511,8 @@ sumarValoresSeleccionados(vals: any) {
          }
 }
 
-listarDeudaTotal() {
+
+listarTodo() {
 
   let data: any;
   const ref = this.dialogService.open(PopupFindMatriculaComponent, {
@@ -531,6 +532,27 @@ listarDeudaTotal() {
 }
 
 
+
+listarDeudaTotal(estado: string) {
+
+  let data: any;
+  const ref = this.dialogService.open(PopupFindMatriculaComponent, {
+  data,
+   header: 'Buscar matricula',
+   width: '98%',
+   height: '100%'
+  });
+
+  ref.onClose.subscribe((PopupFindMatriculaComponent: any) => {
+     if (PopupFindMatriculaComponent) {
+      console.log(PopupFindMatriculaComponent);
+      this.psicologo = PopupFindMatriculaComponent;
+      this.getDeudaByMatriculaAndEstado(PopupFindMatriculaComponent.mat_matricula_psicologo, estado);
+     }
+  });
+}
+
+
 findMatricula() {
 
   let data:any;
@@ -545,12 +567,12 @@ findMatricula() {
      if (PopupFindMatriculaComponent) {
       console.log(PopupFindMatriculaComponent);
       this.psicologo = PopupFindMatriculaComponent;
-      this.getDeudaByMatriculaAndEstado(PopupFindMatriculaComponent.mat_matricula_psicologo);
+      this.getDeudaByMatricula(PopupFindMatriculaComponent.mat_matricula_psicologo);
      }
   });
    
   }
-
+  
 
 generarPdf() {
 

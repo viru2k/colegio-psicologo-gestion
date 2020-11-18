@@ -39,7 +39,9 @@ export class OrdenAfectarComponent implements OnInit {
   _fechaHasta: string;
   os_nombre: string;
   _os_sesion: any[] = [];
+  _os_obra_social: any[] = [];
   _os_sesion_codigo: any[] = [];
+  os_liq_numero: string;
 
   constructor(private liquidacionService: LiquidacionService,
               private matriculaService: MatriculaService,
@@ -51,13 +53,14 @@ export class OrdenAfectarComponent implements OnInit {
 
 this.cols = [
 {field: 'boton', header: '' , width: '6%'},
-{field: 'mat_matricula', header: 'Matrícula', width: '12%' },
+{field: 'mat_matricula', header: 'Matrícula', width: '10%' },
 {field: 'mat_apellido_nombre', header: 'Psicólogo', width: '22%' },
 {field: 'os_fecha', header: 'Fecha', width: '12%' },
+{field: 'os_nombre', header: 'Obra social', width: '20%' },
 {field: 'os_sesion', header: 'Sesión', width: '20%' },
 {field: 'os_sesion_codigo', header: 'Código', width: '12%' },
 {field: 'os_precio_sesion', header: 'Valor', width: '12%' },
-{field: 'os_cantidad', header: 'Cantidad', width: '12%' },
+{field: 'os_cantidad', header: 'Cant.', width: '8%' },
 {field: 'os_precio_total', header: 'Total', width: '12%' },
 {field: 'pac_nombre', header: 'Paciente', width: '15%' },
 {field: 'pac_dni', header: 'DNI' , width: '10%'},
@@ -256,15 +259,18 @@ realizarFiltroBusqueda(resp: any[]) {
   // FILTRO LOS ELEMENTOS QUE SE VAN USAR PARA FILTRAR LA LISTA
   this._os_sesion = [];
   this._os_sesion_codigo = [];
+  this._os_obra_social = [];
 
   resp.forEach(element => {
     this._os_sesion.push(element.os_sesion);
     this._os_sesion_codigo.push(element.os_sesion_codigo);
+    this._os_obra_social.push(element.os_nombre);
     /** SUMO LO FILTRADO */
   });
   // ELIMINO DUPLICADOS
   this._os_sesion = this.filter.filterArray(this._os_sesion);
   this._os_sesion_codigo = this.filter.filterArray(this._os_sesion_codigo);
+  this._os_obra_social = this.filter.filterArray(this._os_obra_social);
 }
 
 

@@ -6,58 +6,59 @@
    
   </div>
  
-  
-  <div class="row m-1" >
       
     
-        <div class="col-4"  class="input-group input-group-sm ">
-          <label class=" mr-2 ml-2 mt-3">Médico - Clínica:</label>
-          <p-dropdown class="mr-2 mt-2"  [options]="elementosMedicos" [(ngModel)]="elementoMedicos"  optionLabel="nombreyapellido"  (onHide)="obtenerMedico()" placeholder="Medico / Clínica"></p-dropdown>  
-                <form  [formGroup]="DateForm" class="mr-2">
-                <div class="btn-group " role="group">
-               
-                        <span class="pr-1 pt-1"><label>Desde:</label></span>
-            <p-calendar [inputStyle]="{'height':'29.1px'}"  class="mr-2 " formControlName="fecha_desde"  (onSelect)="actualizarFechaDesde($event)" tabindex="0"   [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
-               <ng-template pTemplate="date" let-date>
-                    <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
-                </ng-template> 
-              </p-calendar>
-              <span class="pr-1 pt-1"><label>Hasta:</label></span>
-              <p-calendar [inputStyle]="{'height':'29.1px'}"   class="mr-2 " formControlName="fecha_hasta"  (onSelect)="actualizarFechaHasta($event)" tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
+        <div  class="card p-1">
+
+          <div class="d-flex justify-content-between m-1" >
+            <div  class="d-flex justify-content-start d-flex align-items-center">
+              <p-dropdown class="mr-2 mt-2"  [options]="elementosMedicos" [(ngModel)]="elementoMedicos"  optionLabel="nombreyapellido"  (onHide)="obtenerMedico()" placeholder="Medico / Clínica"></p-dropdown>              
+              <div class="btn-group " role="group">             
+                <span class="pr-1 pt-1"><label>Desde:</label></span>
+                <p-calendar appendTo="body" [inputStyle]="{'height':'29.1px'}"  class="mr-2 " [(ngModel)]="fechaDesde"  (onSelect)="actualizarFechaDesde($event)" tabindex="0"   [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
                 <ng-template pTemplate="date" let-date>
-                     <span  inputStyle="{'height':'29.5px'}"  style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
-                 </ng-template> 
-               </p-calendar>               
-                                        
-                    </div>
-                    <button    class="btn  btn-success  " (click)="buscar()" >Buscar facturas</button>   
-                    <button    class="btn    btn-excel " (click)="generarLibroIva()" > <i class="fa fa-file-excel-o  mr-1" aria-hidden="true"> </i>Buscar libro IVA </button>   
-                    <button    class="btn    btn-info " (click)="generarLibroIvaPdf()" > Buscar libro IVA PDF </button>   
-                </form>   
+                      <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
+                  </ng-template> 
+                </p-calendar>
+                <span class="pr-1 pt-1"><label>Hasta:</label></span>
+                <p-calendar appendTo="body" [inputStyle]="{'height':'29.1px'}"   class="mr-2 " [(ngModel)]="fechaHasta"  (onSelect)="actualizarFechaHasta($event)" tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
+                  <ng-template pTemplate="date" let-date>
+                      <span  inputStyle="{'height':'29.5px'}"  style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
+                  </ng-template> 
+                </p-calendar>               
+              </div>
+            </div>
+          </div>
+
+         
+
+          <div class="d-flex justify-content-between m-1 mt-2" >
+            <div  class="d-flex justify-content-start d-flex align-items-center">
+               
+              <button    class="btn  btn-sm  btn-success mr-2 " (click)="buscar()" >Buscar facturas</button>   
+              <button    class="btn  btn-sm  btn-excel mr-2" (click)="generarLibroIva()" > <i class="fa fa-file-excel-o  mr-1" aria-hidden="true"> </i>Generar libro IVA </button>   
+              <button    class="btn  btn-sm  btn-info " (click)="generarLibroIvaPdf()" > Generar libro IVA PDF </button>   
+            </div>
+          </div>
+
 
         </div>   
-                                  
- 
-        
-  </div>
+
     <p-table  #dt class="pt-2 m-2"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols" [value]="elementos"   [(selection)]="selecteditems" columnResizeMode="expand" [responsive]="true"
     scrollHeight="500px" [scrollable]="true"  (onFilter)="filtered($event)"  >
     <ng-template pTemplate="caption">
-      <div class="row">
-        <div class="row col-6">              
-                <input  (keyup.enter)="buscarPaciente()" class="form-control form-control-sm col-8 ml-2 " [(ngModel)]="paciente_nombre" placeholder="Buscar por cliente o dni"  />       
-      </div>      
-        <div class="row col-3">
-            <label class=" mt-1 ml-2 mr-1"  >Busqueda : </label>
-          <div class="mr-1 mt-1 ml-1"><p-radioButton name="groupname12" class="text-info text-sm" [(ngModel)]="tipo_busqueda"   value="paciente" label="Paciente"  inputId="opt12"></p-radioButton></div>
-          <div class="ml-1 mt-1 mr-2"><p-radioButton name="groupname22" class="text-info" [(ngModel)]="tipo_busqueda"   value="fecha" label="Fecha"  inputId="opt22"></p-radioButton></div>
-         
-        </div>  
-        <div class="row col-3 float-right">
-           
-      
+
+      <div class="d-flex justify-content-between m-1 mt-2" >
+        <div  class="d-flex justify-content-start d-flex align-items-center">
+          <input  (keyup.enter)="buscarPaciente()" class="form-control form-control-sm  ml-2 " [(ngModel)]="paciente_nombre" placeholder="Buscar por cliente o dni"  />      
+        </div>
+        <div  class="d-flex justify-content-end d-flex align-items-center">
+         <small> <label class=" mt-1 ml-2 mr-1 text-sm"  >Busqueda : </label></small>
+          <div class="mr-1 mt-1 ml-1"><small><p-radioButton name="groupname12" class="text-info text-sm" [(ngModel)]="tipo_busqueda"   value="paciente" label="Paciente"  inputId="opt12"></p-radioButton></small></div>
+          <div class="ml-1 mt-1 mr-2"><small><p-radioButton name="groupname22" class="text-info text-sm" [(ngModel)]="tipo_busqueda"   value="fecha" label="Fecha"  inputId="opt22"></p-radioButton></small></div>
+        </div>
       </div>
-    </div>
+
      
   </ng-template>
   

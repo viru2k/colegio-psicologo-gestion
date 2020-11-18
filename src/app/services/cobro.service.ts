@@ -13,7 +13,7 @@ export class CobroService {
 
   constructor(public http: HttpClient) { }
 
-  getDeudaByMatricula(matMatricula: string ) {
+  getDeudaByMatricula(matMatricula: string) {
     return this.http.get<any[]>(this.url + 'cobro/by/matricula?mat_matricula=' + matMatricula);
   }
 
