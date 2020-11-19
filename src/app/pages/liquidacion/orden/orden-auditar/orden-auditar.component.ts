@@ -37,6 +37,7 @@ export class OrdenAuditarComponent implements OnInit {
 
   _os_sesion: any[] = [];
   _os_sesion_codigo: any[] = [];
+  _os_nombre: any[] = [];
 
   constructor(private liquidacionService: LiquidacionService,
               private matriculaService: MatriculaService,
@@ -48,13 +49,14 @@ export class OrdenAuditarComponent implements OnInit {
 
 this.cols = [
 {field: 'boton', header: '' , width: '6%'},
-{field: 'mat_matricula', header: 'Matrícula', width: '12%' },
+{field: 'mat_matricula', header: 'Mat.', width: '8%' },
 {field: 'mat_apellido_nombre', header: 'Psicólogo', width: '22%' },
+{field: 'os_nombre', header: 'Obra social', width: '22%' },
 {field: 'os_fecha', header: 'Fecha', width: '12%' },
 {field: 'os_sesion', header: 'Sesión', width: '20%' },
 {field: 'os_sesion_codigo', header: 'Código', width: '12%' },
 {field: 'os_precio_sesion', header: 'Valor', width: '12%' },
-{field: 'os_cantidad', header: 'Cantidad', width: '12%' },
+{field: 'os_cantidad', header: 'Cant.', width: '8%' },
 {field: 'os_precio_total', header: 'Total', width: '12%' },
 {field: 'pac_nombre', header: 'Paciente', width: '15%' },
 {field: 'pac_dni', header: 'DNI' , width: '10%'},
@@ -223,15 +225,17 @@ realizarFiltroBusqueda(resp: any[]) {
   // FILTRO LOS ELEMENTOS QUE SE VAN USAR PARA FILTRAR LA LISTA
   this._os_sesion = [];
   this._os_sesion_codigo = [];
-
+  this._os_nombre = [];
   resp.forEach(element => {
     this._os_sesion.push(element.os_sesion);
     this._os_sesion_codigo.push(element.os_sesion_codigo);
+    this._os_nombre.push(element.os_nombre);
     /** SUMO LO FILTRADO */
   });
   // ELIMINO DUPLICADOS
   this._os_sesion = this.filter.filterArray(this._os_sesion);
   this._os_sesion_codigo = this.filter.filterArray(this._os_sesion_codigo);
+  this._os_nombre = this.filter.filterArray(this._os_nombre);
 }
 
 

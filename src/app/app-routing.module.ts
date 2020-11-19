@@ -28,6 +28,11 @@ import { OrdenAuditarComponent } from './pages/liquidacion/orden/orden-auditar/o
 import { OrdenIngresoComponent } from './pages/liquidacion/orden/orden-ingreso/orden-ingreso.component';
 import { OrdenAfectarComponent } from './pages/liquidacion/orden/orden-afectar/orden-afectar.component';
 import { NovedadesComponent } from './pages/novedades/novedades/novedades.component';
+import { ProveedorComponent } from './pages/mantenimiento/proveedor/proveedor.component';
+import { LiquidarAccionesComponent } from './pages/liquidacion/liquidar/liquidar-acciones/liquidar-acciones.component';
+import { LiquidarExpedienteConfeccionarComponent } from './pages/liquidacion/liquidar/liquidar-expediente-confeccionar/liquidar-expediente-confeccionar.component';
+import { LiquidarExpedienteComponent } from './pages/liquidacion/liquidar/liquidar-expediente/liquidar-expediente.component';
+import { LiquidarLiquidacionComponent } from './pages/liquidacion/liquidar/liquidar-liquidacion/liquidar-liquidacion.component';
 
 const routes: Routes = [
 
@@ -58,6 +63,16 @@ const routes: Routes = [
 { path: 'orden/expediente/confeccion', component: OrdenAfectarComponent },
 { path: 'orden/ingreso', component: OrdenIngresoComponent },
 
+/* -------------------------------------------------------------------------- */
+/*                                 LIQUIDACION                                */
+/* -------------------------------------------------------------------------- */
+
+
+{ path: 'liquidacion/expediente/listado', component: LiquidarExpedienteComponent },
+{ path: 'liquidacion/confeccionar', component: LiquidarExpedienteConfeccionarComponent },
+{ path: 'liquidacion/acciones', component: LiquidarAccionesComponent },
+{ path: 'liquidacion/liquidar', component: LiquidarLiquidacionComponent },
+
   /* -------------------------------------------------------------------------- */
   /*                                MANTENIMIENTO                               */
   /* -------------------------------------------------------------------------- */
@@ -67,12 +82,12 @@ const routes: Routes = [
     { path: 'configuracion/pmo', component: PmoComponent },
     { path: 'configuracion/convenio', component: ConvenioComponent },
     { path: 'configuracion/concepto', component: ConceptoMatriculaComponent },
-
+    { path: 'configuracion/proveedor', component: ProveedorComponent },
     { path: 'configuracion/caja/cuenta', component: MovimientoCuentaComponent },
     { path: 'configuracion/caja/concepto/cuenta', component: MovimientoConceptoCuentaComponent },
     { path: 'configuracion/caja/comprobante', component: MovimientoTipoComprobanteComponent },
     { path: 'configuracion/caja/moneda', component: MovimientoTipoMonedaComponent },
-
+    
 /* -------------------------------------------------------------------------- */
 /*                                 NOVEDEADES                                 */
 /* -------------------------------------------------------------------------- */
@@ -97,17 +112,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
-
-
-
-
-
-
-
-
-
-
-
 exports: [RouterModule]
 })
 export class AppRoutingModule { }

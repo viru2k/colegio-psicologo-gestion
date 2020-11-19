@@ -38,6 +38,11 @@ export class CobroService {
     return this.http.post<any>(this.url + 'cobro/by/matricula', element);
   }
 
+  setDeudaRegistros(element: any) {
+    return this.http.post<any>(this.url + 'cobro/by/matricula/registros/nuevos', element);
+  }
+  
+
   putDeuda(element: any, id: string) {
     return this.http.put<any>(this.url + 'cobro/by/matricula/actualizar/' + id, element);
   }

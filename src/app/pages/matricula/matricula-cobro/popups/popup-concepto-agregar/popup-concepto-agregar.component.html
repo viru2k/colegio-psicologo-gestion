@@ -10,8 +10,7 @@
                         <input type="number" class="form-control col-1 form-control-sm" (change)="calcularDeuda()"  [(ngModel)] ="cuotas">     
                         <label  class=" ml-2 mr-2 mt-1">Interes :</label>
                         <input type="number" class="form-control col-1 form-control-sm m-2" (change)="calcularDeuda()" [(ngModel)] ="interes">  
-                        <label  class=" ml-2 mr-2 mt-1">Alícuota :</label>
-                        <input type="number" class="form-control col-1 form-control-sm m-2" (change)="calcularDeuda()" [(ngModel)] ="alicuota">  
+
                         <label  class=" mr-2 mt-1">Concepto seleccionado : <b>{{valor}}</b></label>       
                         <label  class=" ml-2 mr-2 mt-1">Total : <b class="text-info">{{valorTotal|  number : '1.2-2'}}</b></label>   
                         <button    class="btn  btn-primary  btn-sm  ml-2" (click)="calcularDeuda()" > Calcular</button>   

@@ -72,9 +72,7 @@
                                 <li *ngIf="!matricula"> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"   aria-expanded="false"><i class="fas fa-landmark  mr-1"></i><span class="hide-menu"> Matrículas</span></a>
                                     <ul aria-expanded="false" class="collapse">
                                         <li><a routerLink="/matricula" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Padrón</a></li>
-                                        <li><a routerLink="/matricula/cobro" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Cobros</a></li>
-                                        <li><a routerLink="/matricula/caja" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Pagos</a></li>
-                                        <li><a routerLink="/matricula/caja" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Movimientos</a></li>
+                                        <li><a routerLink="/matricula/cobro" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Cobros</a></li>                                                                                
                                     </ul>
                                 </li>
 
@@ -88,10 +86,10 @@
 
                                 <li *ngIf="!liquidacion"> <a class="has-arrow waves-effect waves-dark d-flex justify-content-start"  aria-expanded="false"><i class="far fa-newspaper  mr-1"></i><span class="hide-menu">Liquidación</span></a>
                                     <ul aria-expanded="false" class="collapse">
-                                        <li><a routerLink="/orden/expediente/listado" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Expedientes</a></li>
+                                        <li><a routerLink="/liquidacion/expediente/listado" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Expedientes</a></li>
                                         <li><a routerLink="/liquidacion/confeccionar" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Confección de liquidación</a></li>
-                                        <li><a routerLink="/liquidacion/liquidar" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Liquidar</a></li>
                                         <li><a routerLink="/liquidacion/acciones" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Acciones sobre liquidación</a></li>
+                                        <li><a routerLink="/liquidacion/liquidar" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Liquidar</a></li>
                                     </ul>
                                 </li>
 
@@ -131,6 +129,7 @@
                                             </ul>
                                         </li>                                         
                                         <li><a routerLink="/configuracion/concepto" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Conceptos</a></li>
+                                        <li><a routerLink="/configuracion/proveedor" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Proveedor / terceros </a></li>
                                         <li><a routerLink="/configuracion/usuario" class="d-flex align-items-center"><i class="fas fa-circle fa-xs mr-2 icon-color-blue"></i>Usuarios</a></li>
                                     </ul>
                                 </li>

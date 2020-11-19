@@ -69,7 +69,7 @@ export class MatriculaGeneralComponent implements OnInit {
     overlaypanel.toggle(evt);
   }
 
-  loadlist(){
+  loadlist() {
 
     this.loading = true;
     try {

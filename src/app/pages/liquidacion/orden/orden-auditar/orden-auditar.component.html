@@ -40,59 +40,61 @@ scrollHeight="500px" [scrollable]="true"  [loading]="loading" loadingIcon="icon-
   </div>          
 </ng-template>
 
-      <ng-template pTemplate="header" let-columns >
+<ng-template pTemplate="header" let-columns >
     
-        <tr >
-             
-            <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
-                  {{col.header}}
-                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activar para ordenar en forma descendente" ariaLabelAsc="Activar para ordenar en forma ascendente"></p-sortIcon>
-            </th>
-            <th style="width: 3em">
-              <p-tableHeaderCheckbox  ></p-tableHeaderCheckbox>
-            </th>
-          </tr>
-          <tr>
-          <th *ngFor="let col of columns" [ngSwitch]="col.field" >
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">             
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_apellido_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">      
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_fecha'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">      
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_cantidad'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">  
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_sesion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">  
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_total'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                          
-              <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                    
-              <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion_codigo" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion_codigo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                                            
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                                                                                
-          </th>
-          <th></th>
-      </tr>
-  </ng-template>
+  <tr >
+       
+      <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
+            {{col.header}}
+            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activar para ordenar en forma descendente" ariaLabelAsc="Activar para ordenar en forma ascendente"></p-sortIcon>
+      </th>
+      <th style="width: 3em">
+        <p-tableHeaderCheckbox  ></p-tableHeaderCheckbox>
+      </th>
+    </tr>
+    <tr>
+    <th *ngFor="let col of columns" [ngSwitch]="col.field" >
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">             
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_apellido_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">   
+        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_nombre" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_nombre"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                       
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_fecha'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">      
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_cantidad'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">  
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_sesion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">  
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_total'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                          
+        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                    
+        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion_codigo" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion_codigo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                                            
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                                                                                
+    </th>
+    <th></th>
+</tr>
+</ng-template>
+
+<ng-template pTemplate="body" let-elemento> 
+     
+<tr style="height:28px" >   
+    <td style="width: 6%">                       
+        <a   (click)="editarRegistro(elemento)" ><i class="far fa-edit fa-lg icon-color-info  my-hover" ></i></a>                 
+      </td>           
+     <!--    <td [ngClass]="colorString(elemento.operacion_cobro_id)" style="width: 5%"><a class="my-hover" (click)="verDetalle(elemento)">{{elemento.operacion_cobro_id}}</a></td>    -->
+        
+        <td style="width: 8%">{{elemento.mat_matricula}}</td>      
+        <td style="width: 22%">{{elemento.mat_apellido_nombre}}</td>      
+        <td style="width: 20%">{{elemento.os_nombre}}</td>      
+        <td style="width: 12%">{{elemento.os_fecha | date: 'dd/MM/yyyy'}}</td>     
+        <td style="width: 20%">{{elemento.os_sesion}}</td>                                
+        <td style="width: 12%">{{elemento.os_sesion_codigo}}</td>  
+        <td style="width: 12%">{{elemento.os_precio_sesion}}</td>  
+        <td style="width: 8%">{{elemento.os_cantidad}}</td>    
+        <td style="width: 12%">{{elemento.os_precio_total}}</td>                                                                                                                                                                  
+        <td style="width: 15%">{{elemento.pac_nombre}}</td> 
+        <td style="width: 10%">{{elemento.pac_dni}}</td> 
+           <td style="width: 3em">
+              <p-tableCheckbox [value]="elemento"></p-tableCheckbox>
+          </td>   
       
-      <ng-template pTemplate="body" let-elemento> 
-           
-      <tr style="height:28px" >   
-          <td style="width: 6%">                       
-              <a   (click)="editarRegistro(elemento)" ><i class="far fa-edit fa-lg icon-color-info  my-hover" ></i></a>                 
-            </td>           
-           <!--    <td [ngClass]="colorString(elemento.operacion_cobro_id)" style="width: 5%"><a class="my-hover" (click)="verDetalle(elemento)">{{elemento.operacion_cobro_id}}</a></td>    -->
-              
-              <td style="width: 12%">{{elemento.mat_matricula}}</td>      
-              <td style="width: 22%">{{elemento.mat_apellido_nombre}}</td>      
-              <td style="width: 12%">{{elemento.os_fecha | date: 'dd/MM/yyyy'}}</td>     
-              <td style="width: 20%">{{elemento.os_sesion}}</td>                                
-              <td style="width: 12%">{{elemento.os_sesion_codigo}}</td>  
-              <td style="width: 12%">{{elemento.os_precio_sesion}}</td>  
-              <td style="width: 12%">{{elemento.os_cantidad}}</td>    
-              <td style="width: 12%">{{elemento.os_precio_total}}</td>                                                                                                                                                                  
-              <td style="width: 15%">{{elemento.pac_nombre}}</td> 
-              <td style="width: 10%">{{elemento.pac_dni}}</td> 
-                 <td style="width: 3em">
-                    <p-tableCheckbox [value]="elemento"></p-tableCheckbox>
-                </td>   
-            
-      </tr>
-      </ng-template>
+</tr>
+</ng-template>
 
 </p-table>
 

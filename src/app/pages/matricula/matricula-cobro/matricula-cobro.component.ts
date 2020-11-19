@@ -20,6 +20,7 @@ import { ExcelService } from './../../../services/excel.service';
 import { Filter } from './../../../shared/filter';
 import { AlertServiceService } from '../../../services/alert-service.service';
 import { PopupConceptoEditarComponent } from './popups/popup-concepto-editar/popup-concepto-editar.component';
+import { PopupConceptoPlanPagoComponent } from './popups/popup-concepto-plan-pago/popup-concepto-plan-pago.component';
 
 declare const require: any;
 const jsPDF = require('jspdf');
@@ -89,8 +90,9 @@ export class MatriculaCobroComponent implements OnInit {
         {field: 'mat_concepto', header: 'Concepto', width: '20%' },         
         {field: 'mat_descripcion', header: 'Descripción', width: '25%' },
         {field: 'mat_monto', header: 'Valor', width: '12%' },
-        {field: 'mat_monto_final', header: 'Importe', width: '12%' },
-        {field: 'mat_fecha_vencimiento', header: 'Vencimiento', width: '12%' },
+        {field: 'mat_monto_final', header: 'Importe', width: '12%' }, 
+        {field: 'mat_fecha_pago', header: 'F. Pago', width: '12%' },
+        {field: 'mat_fecha_vencimiento', header: 'F. Venc', width: '12%' },
         {field: 'mat_num_cuota', header: 'Cuota', width: '8%' },
         {field: 'mat_id_plan', header: 'Plan', width: '8%' },
         {field: 'mat_estado', header: 'Estado' , width: '8%'},
@@ -233,17 +235,49 @@ public exportarExcelDetallado(){
 
 agregarConcepto() {
 
+  if (this.psicologo) {
+    let data:any = this.psicologo;
+    const ref = this.dialogService.open(PopupConceptoAgregarComponent, {
+    data,
+     header: 'Agregar concepto',
+     width: '98%',
+     height: '100%'
+    });
+  
+    ref.onClose.subscribe((PopupConceptoAgregarComponent: any) => {
+       if (PopupConceptoAgregarComponent) {
+        console.log(PopupConceptoAgregarComponent);
+        this.getDeudaByMatricula(this.psicologo.mat_matricula_psicologo);
+       }
+    });
+  } else {
+    swal({
+      title: 'PSICOLOGO  NO SELECCIONADO' ,
+      text: 'Debe buscar buscar al menos un psicologo',
+      type: 'warning',
+      showConfirmButton: false,
+      timer: 4000
+         
+    })
+  }
+ 
+   
+}
+
+
+agregarPlanPago() {
+
   let data:any;
-  const ref = this.dialogService.open(PopupConceptoAgregarComponent, {
+  const ref = this.dialogService.open(PopupConceptoPlanPagoComponent, {
   data,
-   header: 'Agregar concepto',
+   header: 'Agregar plan de pago',
    width: '98%',
    height: '100%'
   });
 
-  ref.onClose.subscribe((PopupConceptoAgregarComponent: any) => {
-     if (PopupConceptoAgregarComponent) {
-      console.log(PopupConceptoAgregarComponent);      
+  ref.onClose.subscribe((PopupConceptoPlanPagoComponent: any) => {
+     if (PopupConceptoPlanPagoComponent) {
+      console.log(PopupConceptoPlanPagoComponent);      
       this.getDeudaByMatricula(this.psicologo.mat_matricula_psicologo);
      }
   });
@@ -288,6 +322,7 @@ this.selecteditems.forEach(element => {
     _selectedItems[i].mat_tipo_pago = this.selectedPago.code;
     _selectedItems[i].mat_estado = 'P';
     _selectedItems[i].mat_numero_comprobante = comprobante;
+    _selectedItems[i].id_usuario = this.userData['id'];
 
     i++;
   });
@@ -436,7 +471,7 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string) {
   }
 }
 
-buscarEntreFechas() {
+buscarCobradoEntreFechas() {
   this.loading = true;
   this._fechaDesde = formatDate(this.fechaDesde, 'yyyy-MM-dd HH:mm', 'en');
   this._fechaHasta = formatDate(this.fechaHasta, 'yyyy-MM-dd HH:mm', 'en');
@@ -444,7 +479,7 @@ buscarEntreFechas() {
   this.total_seleccionado = 0;
 
   try {
-    this.cobroService.getDeudaBydMatriculaBetweenDates(this._fechaDesde, this._fechaHasta,'todos')
+    this.cobroService.getDeudaBydMatriculaBetweenDates(this._fechaDesde, this._fechaHasta,'P')
     .subscribe(resp => {
 
     if (resp[0]) {
@@ -481,6 +516,53 @@ buscarEntreFechas() {
 this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error,'');
 }
 }
+
+buscarPendienteEntreFechas() {
+  this.loading = true;
+  this._fechaDesde = formatDate(this.fechaDesde, 'yyyy-MM-dd HH:mm', 'en');
+  this._fechaHasta = formatDate(this.fechaHasta, 'yyyy-MM-dd HH:mm', 'en');
+  this.total = 0;
+  this.total_seleccionado = 0;
+
+  try {
+    this.cobroService.getDeudaBydMatriculaBetweenDates(this._fechaDesde, this._fechaHasta,'A')
+    .subscribe(resp => {
+
+    if (resp[0]) {
+      if (resp[0]) {
+        let i = 0;
+        for (i = 0; i < resp.length; i++) {
+          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+            resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
+            this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
+          } else {
+            this.total =  this.total + Number(resp[i]['mat_monto']);
+            resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']);
+          }
+          }
+        this.realizarFiltroBusqueda(resp);
+
+        this.elemento = resp;
+        console.log(resp);
+        }
+      this.realizarFiltroBusqueda(resp);
+
+      this.elemento = resp;
+      console.log(resp);
+      }
+    this.loading = false;
+    },
+    error => { // error path
+      this.loading = false;
+      console.log(error.message);
+      console.log(error.status);
+      this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+     });
+} catch (error) {
+this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error,'');
+}
+}
+
 
 actualizarFechaDesde(event) {
   console.log(event);

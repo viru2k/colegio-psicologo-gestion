@@ -111,7 +111,7 @@ export class PopupMatriculaEditarComponent implements OnInit {
         this.matriculaService.setMatricula(this.updateDataForm.value)
         .subscribe(resp => {
           this.alertServiceService.throwAlert('success','Se creó el registro con éxito', '', '');
-          this.ref.close();
+          this.ref.close(resp);
         },
         error => { // error path
             console.log(error.message);

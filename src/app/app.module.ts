@@ -139,8 +139,15 @@ import { PopupMovimientoTipoMonedaEditarComponent } from './pages/mantenimiento/
 import { NovedadesComponent } from './pages/novedades/novedades/novedades.component';
 import { PopupNovedadesEditarComponent } from './pages/novedades/popups/popup-novedades-editar/popup-novedades-editar.component';
 import { PopupConceptoEditarComponent } from './pages/matricula/matricula-cobro/popups/popup-concepto-editar/popup-concepto-editar.component';
-
-
+import { LiquidarExpedienteComponent } from './pages/liquidacion/liquidar/liquidar-expediente/liquidar-expediente.component';
+import { LiquidarExpedienteConfeccionarComponent } from './pages/liquidacion/liquidar/liquidar-expediente-confeccionar/liquidar-expediente-confeccionar.component';
+import { LiquidarAccionesComponent } from './pages/liquidacion/liquidar/liquidar-acciones/liquidar-acciones.component';
+import { PopupLiquidacionGeneradaDetalleComponent } from './pages/liquidacion/popups/popup-liquidacion-generada-detalle/popup-liquidacion-generada-detalle.component';
+import { PopupLiquidacionExpedienteEditarComponent } from './pages/liquidacion/popups/popup-liquidacion-expediente-editar/popup-liquidacion-expediente-editar.component';
+import { LiquidarLiquidacionComponent } from './pages/liquidacion/liquidar/liquidar-liquidacion/liquidar-liquidacion.component';
+import { PopupConceptoPlanPagoComponent } from './pages/matricula/matricula-cobro/popups/popup-concepto-plan-pago/popup-concepto-plan-pago.component';
+import { ProveedorComponent } from './pages/mantenimiento/proveedor/proveedor.component';
+import { PopupProveedorEditarComponent } from './pages/mantenimiento/proveedor-editar/popup-proveedor-editar.component';
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -215,10 +222,21 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupMovimientoTipoMonedaEditarComponent,
     NovedadesComponent,
     PopupNovedadesEditarComponent,
-    PopupConceptoEditarComponent
+    PopupConceptoEditarComponent,
+    LiquidarExpedienteComponent,
+    LiquidarExpedienteConfeccionarComponent,
+    LiquidarAccionesComponent,
+    LiquidarLiquidacionComponent,
+    ProveedorComponent,
+    PopupLiquidacionGeneradaDetalleComponent,
+    PopupLiquidacionExpedienteEditarComponent,
+    PopupConceptoPlanPagoComponent,
+    PopupProveedorEditarComponent
     
   ],
   imports: [
+
+
 
 
 
@@ -292,7 +310,11 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupMovimientoTipoMonedaEditarComponent,
     PopupNovedadesEditarComponent,
     PopupConceptoAgregarComponent,
-    PopupConceptoEditarComponent
+    PopupConceptoEditarComponent,
+    PopupLiquidacionGeneradaDetalleComponent,
+    PopupLiquidacionExpedienteEditarComponent,
+    PopupConceptoPlanPagoComponent,
+    PopupProveedorEditarComponent
 
     
   ],
