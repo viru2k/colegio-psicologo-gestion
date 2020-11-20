@@ -72,7 +72,7 @@ export class PopupConceptoAgregarComponent implements OnInit {
       for (let i = 0; i < this.cuotas; i++) {
         _concepto = new Concepto('0', this.conceptoSeleccionado['id_concepto'],
         this.userData.id, this.conceptoSeleccionado['mat_concepto'],  this.conceptoSeleccionado['mat_descripcion'],
-        'A', '00/00/0000', formatDate(new Date(), 'dd/MM/yyyy', 'en'), '0', this.interes,
+        'A', '31/12/2099', formatDate(new Date(), 'dd/MM/yyyy', 'en'), '0', this.interes,
         this.config.data.mat_matricula_psicologo, this.valor * this.interes, this.valor * this.interes,
          this.config.data.mat_matricula_psicologo,  i + 1, '0', 'C' );
 

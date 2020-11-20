@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { URL_SERVICIOS, PARAMS } from '../config/config';
+import { PlanPago } from '../models/plan-pago.model';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,14 @@ export class CobroService {
 
   putConcepto(element: any, id: string) {
     return this.http.put<any>(this.url + 'concepto/' + id, element);
+  }
+
+  getUltimoPlanPago() {
+    return this.http.get<any>(this.url + 'plan/ultimo');
+  }
+
+  setPlanPagoMatricula(element: PlanPago) {
+    return this.http.post<any>(this.url + 'plan/by/matricula', element);
   }
 
 }

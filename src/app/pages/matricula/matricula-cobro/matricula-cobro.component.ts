@@ -267,7 +267,8 @@ agregarConcepto() {
 
 agregarPlanPago() {
 
-  let data:any;
+  if (this.psicologo) {
+  let data:any = this.selecteditems;
   const ref = this.dialogService.open(PopupConceptoPlanPagoComponent, {
   data,
    header: 'Agregar plan de pago',
@@ -281,7 +282,16 @@ agregarPlanPago() {
       this.getDeudaByMatricula(this.psicologo.mat_matricula_psicologo);
      }
   });
-   
+} else {
+  swal({
+    title: 'PSICOLOGO  NO SELECCIONADO' ,
+    text: 'Debe buscar buscar al menos un psicologo',
+    type: 'warning',
+    showConfirmButton: false,
+    timer: 4000
+       
+  })
+}
 }
 
 realizarFactura() {
@@ -703,8 +713,6 @@ colorRow(estado: string){
     if(estado == 'EGRESO') {  
         return {'es-egreso'  :'null' };
     }
-
-
 }
 
 

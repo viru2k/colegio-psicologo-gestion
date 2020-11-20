@@ -1,5 +1,6 @@
 
 import { Injectable } from '@angular/core';
+import { formatDate } from '@angular/common';
 @Injectable({
     providedIn: 'root'
   })
@@ -42,6 +43,15 @@ public filterArray(arr: any) {
    return m;
    }
 
+
+/* -------------------------------------------------------------------------- */
+/*                             INCREMENTO LA FECHA                            */
+/* -------------------------------------------------------------------------- */
+
+public getFechaAfterMonth(i: number ) {
+  const newDate  =  formatDate(new Date(new Date().setMonth(new Date().getMonth() + i  )), 'yyyy-MM-dd', 'en')  ;
+  return newDate;
+}
 /* -------------------------------------------------------------------------- */
 /*                             COMPLETO CON CEROS                             */
 /* -------------------------------------------------------------------------- */
