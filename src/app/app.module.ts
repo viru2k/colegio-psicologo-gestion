@@ -148,6 +148,7 @@ import { LiquidarLiquidacionComponent } from './pages/liquidacion/liquidar/liqui
 import { PopupConceptoPlanPagoComponent } from './pages/matricula/matricula-cobro/popups/popup-concepto-plan-pago/popup-concepto-plan-pago.component';
 import { ProveedorComponent } from './pages/mantenimiento/proveedor/proveedor.component';
 import { PopupProveedorEditarComponent } from './pages/mantenimiento/proveedor-editar/popup-proveedor-editar.component';
+import { PopupLiquidacionLiquidacionesComponent } from './pages/liquidacion/popups/popup-liquidacion-liquidaciones/popup-liquidacion-liquidaciones.component';
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -231,7 +232,8 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupLiquidacionGeneradaDetalleComponent,
     PopupLiquidacionExpedienteEditarComponent,
     PopupConceptoPlanPagoComponent,
-    PopupProveedorEditarComponent
+    PopupProveedorEditarComponent,
+    PopupLiquidacionLiquidacionesComponent
     
   ],
   imports: [
@@ -314,7 +316,8 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupLiquidacionGeneradaDetalleComponent,
     PopupLiquidacionExpedienteEditarComponent,
     PopupConceptoPlanPagoComponent,
-    PopupProveedorEditarComponent
+    PopupProveedorEditarComponent,
+    PopupLiquidacionLiquidacionesComponent
 
     
   ],

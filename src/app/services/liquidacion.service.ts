@@ -67,6 +67,17 @@ export class LiquidacionService {
     return this.http.post<any[]>(URL_SERVICIOS + 'liquidacion/orden', orden);
     }
 
+
+    getLiquidaciones() {
+      // tslint:disable-next-line: max-line-length
+      return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/generada');
+      }
+      
+      getLiquidacionDetalleByidLiquidacion(id_liquidacion_generada: string) {
+      // tslint:disable-next-line: max-line-length
+      return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/detalle/by/id/liquidacion?id_liquidacion_generada=' + id_liquidacion_generada );
+      }      
+
     getLiquidacionByMatriculaAndEstado(matMatricula: string, estado: string) {
       // tslint:disable-next-line: max-line-length
       return this.http.get<any>(URL_SERVICIOS + 'liquidacion/orden/by/estado/matricula?mat_matricula=' + matMatricula + '&estado=' + estado);
@@ -93,4 +104,31 @@ export class LiquidacionService {
       // tslint:disable-next-line: max-line-length
       return this.http.get<any>(URL_SERVICIOS + 'liquidacion/expediente/desafectar?os_liq_numero=' + os_liq_numero );
     }
+
+    getExpedienteByEstado(estado: string) {
+      // tslint:disable-next-line: max-line-length
+      return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/expediente/estado?estado=' + estado );
+    }
+
+    getExpedienteByIdLIquidacion(idLiquidacion: string) {
+      // tslint:disable-next-line: max-line-length
+      return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/expediente/liquidacion/id?id_liquidacion=' + idLiquidacion );
+    }
+
+    generarLiquidacion(id_liquidacion: number, os_fecha: string, elementos: any[]) {
+      // tslint:disable-next-line: max-line-length
+      return this.http.post<any[]>(URL_SERVICIOS + 'liquidacion/expediente/liquidacion/generar?id_liquidacion=' + id_liquidacion + '&os_fecha=' + os_fecha   , elementos);
+      }
+
+      calcularBruto(idLiquidacion: string) {
+        // tslint:disable-next-line: max-line-length
+        return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/calcular/bruto?id_liquidacion=' + idLiquidacion );
+      }
+
+
+      liquidar(id_liquidacion_generada: any, descuenta_matricula: string) {
+         // tslint:disable-next-line: max-line-length
+         this.http.get(URL_SERVICIOS + 'liquidacion/liquidar?id_liquidacion_generada=' + id_liquidacion_generada + '&descuenta_matricula=' + descuenta_matricula);
+        }
+
 }

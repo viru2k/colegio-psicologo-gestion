@@ -1,9 +1,9 @@
 
-  // export const URL_SERVICIOS = 'http://localhost/api-psicologo-gestion/public/api/';
-  // export const URL_ARCHIVO = 'http://localhost/api-psicologo-gestion/public/';
+    export const URL_SERVICIOS = 'http://localhost/api-psicologo-gestion/public/api/';
+    export const URL_ARCHIVO = 'http://localhost/api-psicologo-gestion/public/';
 
-   export const URL_SERVICIOS = 'https://colegiodepsicologossj.com.ar/api-psicologo-gestion/public/api/';
-   export const URL_ARCHIVO = 'https://colegiodepsicologossj.com.ar/api-psicologo-gestion/public/';
+   // export const URL_SERVICIOS = 'https://colegiodepsicologossj.com.ar/api-psicologo-gestion/public/api/';
+   // export const URL_ARCHIVO = 'https://colegiodepsicologossj.com.ar/api-psicologo-gestion/public/';
 
 /***********SERVER DE PRUEBAS ********************** */
 
