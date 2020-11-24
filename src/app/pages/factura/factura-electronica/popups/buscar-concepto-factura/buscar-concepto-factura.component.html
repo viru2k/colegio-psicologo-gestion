@@ -25,10 +25,10 @@
           </tr>
           <tr>
               <th *ngFor="let col of columns" [ngSwitch]="col.field" >
-                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'descripcion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" >                              
-                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'factura_alicuota_descripcion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                  
-                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'cantidad'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
-                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'importe'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                  
+                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'descripcion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" >                              
+                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'factura_alicuota_descripcion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                  
+                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'cantidad'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'importe'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                  
               </th>
           </tr>
       </ng-template>

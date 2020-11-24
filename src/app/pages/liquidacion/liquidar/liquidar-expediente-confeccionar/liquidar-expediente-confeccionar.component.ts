@@ -8,6 +8,7 @@ import { DialogService } from 'primeng/components/common/api';
 import { LiquidacionService } from './../../../../services/liquidacion.service';
 import { PopupLiquidacionGeneradaDetalleComponent } from './../../popups/popup-liquidacion-generada-detalle/popup-liquidacion-generada-detalle.component';
 import { PopupLiquidacionLiquidacionesComponent } from './../../popups/popup-liquidacion-liquidaciones/popup-liquidacion-liquidaciones.component';
+import { ExcelService } from '../../../../services/excel.service';
 
 @Component({
   selector: 'app-liquidar-expediente-confeccionar',
@@ -48,23 +49,26 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
               private liquidacionService: LiquidacionService,
               public dialogService: DialogService,
               private alertServiceService: AlertServiceService,
-              private filter: Filter ) {
+              private filter: Filter,
+              private excelService: ExcelService ) {
 
                 this.cols = [
                   {field: 'boton', header: '' , width: '6%'},
-                  {field: 'mat_matricula', header: 'Matrícula', width: '10%' },
+                  {field: 'mat_matricula', header: 'Mat.', width: '8%' },
+                  {field: 'mat_apellidoynombre', header: 'Psicólogo', width: '20%' },
                   {field: 'os_liq_bruto', header: 'Bruto', width: '12%' },
                   {field: 'os_ing_brutos', header: 'Ing. Br.', width: '12%' },
                   {field: 'os_lote_hogar', header: 'Lote H.', width: '12%' },
                   {field: 'os_gasto_admin', header: 'G. Adm.', width: '12%' },
-                  {field: 'os_imp_cheque', header: 'Imp. Ch.', width: '12%' }, 
-                  {field: 'os_desc_matricula', header: 'D. Matricula', width: '18%' },
-                  {field: 'os_desc_fondo_sol', header: 'D. Fondo sol', width: '18%' },
-                  {field: 'os_otros_ing_eg', header: 'D. Otros', width: '18%' },
+                  {field: 'os_imp_cheque', header: 'Imp. Ch.', width: '12%' },
+                  {field: 'os_desc_matricula', header: 'D. Mat.', width: '12%' },
+                  {field: 'os_desc_fondo_sol', header: 'D. F. sol', width: '12%' },
+                  {field: 'os_otros_ing_eg', header: 'D. Otros', width: '12%' },
                   {field: 'os_liq_neto', header: 'Neto', width: '12%' },
-                  {field: 'num_comprobante', header: 'Comp.', width: '10%' },
-                  {field: 'os_num_ing_bruto', header: 'Nº I.B', width: '10%' },
-                  {field: 'id_liquidacion', header: 'ID', width: '8%' },
+                  {field: 'num_comprobante', header: 'Comp.', width: '8%' },
+                  {field: 'os_num_ing_bruto', header: 'Nº I.B', width: '8%' },
+                  {field: 'mat_banco_nombre', header: 'Banco', width: '12%' },
+                  {field: 'id_liquidacion', header: 'ID', width: '6%' },
                   ];
                }
 
@@ -220,9 +224,58 @@ colorRow(estado: string){
 }
 
 
-excelPsicologo() {}
+excelPsicologo() {
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
+  let seleccionados: any[] = [];
+  let exportar:any[] = [];
+  let i = 0;
+  this.selecteditems.forEach(element => {
+   // console.log(element['operacion_cobro_id']);
+   seleccionados['CABECERA'] = 'D' ;
+   seleccionados['FORMA_DE_PAGO'] = '50' ;
+   seleccionados['TIPO_DE_COMPROBANTE'] = '' ;
+   seleccionados['NUMERO_DE_COMPROBANTE'] = '' ;
+   seleccionados['CUIL'] = element.mat_cuit ;
+   seleccionados['DNI'] = element.mat_dni;
+   seleccionados['NOMBREYAPELLIDO'] = element.mat_apellidoynombre;
+   seleccionados['IMPORTE'] = element.os_liq_neto;
+   seleccionados['CBU'] = element.mat_cbu ;
+   seleccionados['FECHA_PAGO'] =   formatDate(element.os_fecha, 'dd/MM/yyyy', 'es-Ar');
 
-excelProveedor() {}
+   exportar[i] = seleccionados;
+   seleccionados = [];
+   i++;
+  });
+  this.excelService.exportAsExcelFile(  exportar, 'listado_pago_banco ' + this.selecteditems[0].mat_banco_nombre + fecha_impresion);
+
+}
+
+excelProveedor() {
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
+  let seleccionados: any[] = [];
+  let exportar:any[] = [];
+  let i = 0;
+  this.selecteditems.forEach(element => {
+   // console.log(element['operacion_cobro_id']);
+   seleccionados['CABECERA'] = 'D' ;
+   seleccionados['FORMA_DE_PAGO'] = '64' ;
+   seleccionados['TIPO_DE_COMPROBANTE'] = '' ;
+   seleccionados['NUMERO_DE_COMPROBANTE'] = '' ;
+   seleccionados['CUIL'] = element.mat_cuit ;
+   seleccionados['DNI'] = element.mat_dni;
+   seleccionados['NOMBREYAPELLIDO'] = element.mat_apellidoynombre;
+   seleccionados['IMPORTE'] = element.os_liq_neto;
+   seleccionados['CBU'] = element.mat_cbu ;
+   seleccionados['FECHA_PAGO'] =   formatDate(element.os_fecha, 'dd/MM/yyyy', 'es-Ar');
+   seleccionados['FECHA_EMISION'] =   formatDate(element.os_fecha, 'dd/MM/yyyy', 'es-Ar');
+
+   exportar[i] = seleccionados;
+   seleccionados = [];
+   i++;
+  });
+  this.excelService.exportAsExcelFile(  exportar, 'listado_pago_banco_proveedores ' + this.selecteditems[0].mat_banco_nombre + fecha_impresion);
+
+}
 
 colorString(estado: string) {
 

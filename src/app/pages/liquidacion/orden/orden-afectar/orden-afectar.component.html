@@ -70,13 +70,13 @@ scrollHeight="500px" [scrollable]="true"  [loading]="loading" loadingIcon="icon-
           </tr>
           <tr>
           <th *ngFor="let col of columns" [ngSwitch]="col.field" >
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">             
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_apellido_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">   
+              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">             
+              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_apellido_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">   
               <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_nombre" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_nombre"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                       
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_fecha'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">      
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_cantidad'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">  
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_sesion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">  
-              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_total'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                          
+              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_fecha'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">      
+              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_cantidad'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">  
+              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_sesion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">  
+              <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_total'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                          
               <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                    
               <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion_codigo" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion_codigo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                                            
               <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               

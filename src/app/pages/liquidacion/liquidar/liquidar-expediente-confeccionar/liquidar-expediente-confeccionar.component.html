@@ -14,8 +14,8 @@
                         
                         <div class="ml-2 mr-2"> <button    class="ml-1 btn  btn-excel btn-sm  float-right mr-1"  (click)="excelPsicologo()" ><i class="fas fa-file-excel mr-1"></i> Excel psicologos</button></div>
                         <div class="ml-2 mr-2"> <button    class="ml-1 btn  btn-excel btn-sm  float-right mr-1"  (click)="excelProveedor()" > <i class="fas fa-file-excel mr-1"></i>Excel proveedores</button></div>
-                        <div class="ml-2 mr-2"> <button    class="ml-1 btn  btn-warning btn-sm  float-right mr-1"  (click)="excelProveedor()" > <i class="fas fa-file-excel mr-1"></i>Generar Recibo</button></div>
-                        <div class="ml-2 mr-2"> <button    class="ml-1 btn  btn-info btn-sm  float-right mr-1"  (click)="excelProveedor()" > <i class="fas fa-file-excel mr-1"></i>Generar Ing. bruto</button></div>
+                        <div class="ml-2 mr-2"> <button    class="ml-1 btn  btn-warning btn-sm  float-right mr-1"  (click)="excelProveedor()" > <i class="fas fa-file-excel mr-1"></i>Generar Recibos</button></div>
+                        <div class="ml-2 mr-2"> <button    class="ml-1 btn  btn-info btn-sm  float-right mr-1"  (click)="excelProveedor()" > <i class="fas fa-file-excel mr-1"></i>Generar Ing. brutos</button></div>
                         <div class="ml-2 mr-2"> <button    class="ml-3 btn  btn-danger btn-sm btn-block float-right "  (click)="liquidar()" >Liquidar</button></div>
                     </div>  
         </div>   
@@ -41,18 +41,20 @@
               <tr>
               <th *ngFor="let col of columns" [ngSwitch]="col.field" >                                         
                   <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                        
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_apellidoynombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">     
                   <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_liq_bruto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
                   <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_ing_brutos'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
                   <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_lote_hogar'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                                                                            
                   <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_gasto_admin'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                                                                                              
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_imp_cheque'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                                           
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_desc_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                                           
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_desc_fondo_sol'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                                           
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_otros_ing_eg'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                                           
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_liq_neto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                                           
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'num_comprobante'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                                           
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_num_ing_bruto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                                           
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'id_liquidacion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                                           
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_imp_cheque'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                           
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_desc_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                           
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_desc_fondo_sol'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                           
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_otros_ing_eg'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                           
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_liq_neto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                           
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'num_comprobante'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                           
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_num_ing_bruto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                           
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_banco_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')"> 
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'id_liquidacion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                           
 
                               
               </th>   
@@ -66,19 +68,21 @@
               <td style="width: 6%">                       
                   <a   (click)="editarRegistro(elemento)" ><i class="far fa-edit fa-lg icon-color-info  my-hover" ></i></a>                 
                 </td>                          
-               <td style="width: 10%">{{elemento.mat_matricula}}</td> 
+               <td style="width: 8%">{{elemento.mat_matricula}}</td> 
+               <td style="width: 20%; font-size: 8px">{{elemento.mat_apellidoynombre}}</td> 
                <td style="width: 12%"><b class="texto-info-bold">{{elemento.os_liq_bruto |  number : '1.2-2'}}</b></td> 
                <td style="width: 12%">{{elemento.os_ing_brutos |  number : '1.2-2'}}</td> 
                <td style="width: 12%">{{elemento.os_lote_hogar |  number : '1.2-2'}}</td>                
                <td style="width: 12%">{{elemento.os_gasto_admin |  number : '1.2-2'}}</td> 
                <td style="width: 12%">{{elemento.os_imp_cheque |  number : '1.2-2'}}</td> 
-               <td style="width: 18%">{{elemento.os_desc_matricula |  number : '1.2-2'}}</td> 
-               <td style="width: 18%">{{elemento.os_desc_fondo_sol |  number : '1.2-2'}}</td> 
-               <td style="width: 18%">{{elemento.os_otros_ing_eg |  number : '1.2-2'}}</td> 
+               <td style="width: 12%">{{elemento.os_desc_matricula |  number : '1.2-2'}}</td> 
+               <td style="width: 12%">{{elemento.os_desc_fondo_sol |  number : '1.2-2'}}</td> 
+               <td style="width: 12%">{{elemento.os_otros_ing_eg |  number : '1.2-2'}}</td> 
                <td style="width: 12%"><b class="texto-success-bold">{{elemento.os_liq_neto |  number : '1.2-2'}}</b></td>      
-               <td style="width: 10%">{{elemento.num_comprobante}}</td>  
-               <td style="width: 10%">{{elemento.os_num_ing_bruto}}</td> 
-               <td style="width: 8%">{{elemento.id_liquidacion}}</td> 
+               <td style="width: 8%">{{elemento.num_comprobante}}</td>  
+               <td style="width: 8%">{{elemento.os_num_ing_bruto}}</td> 
+               <td style="width: 12%; font-size: 8px;">{{elemento.mat_banco_nombre}}</td> 
+               <td style="width: 6%">{{elemento.id_liquidacion}}</td> 
                   <td style="width: 3em">
                     <p-tableCheckbox [value]="elemento"></p-tableCheckbox>
                 </td>                                                 

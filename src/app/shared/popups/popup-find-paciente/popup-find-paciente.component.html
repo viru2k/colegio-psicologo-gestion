@@ -42,9 +42,9 @@
           </tr>
           <tr>
               <th *ngFor="let col of columns" [ngSwitch]="col.field" >
-                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" >
-                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_sexo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">                      
-                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" >
+                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_sexo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                      
+                  <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
 
               </th>
           </tr>

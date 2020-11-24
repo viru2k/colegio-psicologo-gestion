@@ -61,6 +61,10 @@ export class PopupLiquidacionLiquidacionesComponent implements OnInit {
     
   }
 
+  filtered(event) {
+  //  this.sumarTotal(event.filteredValue);
+}
+
 
   confirmar(event: any) {
     console.log(event);

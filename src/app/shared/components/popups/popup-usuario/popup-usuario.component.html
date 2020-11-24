@@ -31,7 +31,7 @@
                         </tr> 
                         <tr>
                         <th *ngFor="let col of columns" [ngSwitch]="col.field"  >
-                            <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'grupo_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                            <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'grupo_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                           
                         </th>
                         <th></th>

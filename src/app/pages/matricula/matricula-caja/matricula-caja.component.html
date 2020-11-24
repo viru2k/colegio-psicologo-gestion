@@ -63,7 +63,7 @@
                      </tr>
                      <tr>
                      <th *ngFor="let col of columns" [ngSwitch]="col.field" >
-                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'fecha_carga'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">             
+                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'fecha_carga'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">             
                          <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_cuenta_nombre" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="cuenta_nombre"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                    
                          <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_tipo_comprobante" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="tipo_comprobante"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                    
                          <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_concepto_cuenta" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="concepto_cuenta"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                    
@@ -72,9 +72,9 @@
                          <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'descripcion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                                                    
                          <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_movimiento_tipo" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="movimiento_tipo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                  
                           <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_tipo_moneda" appendTo="body" defaultLabel="Filtrar"	 *ngIf='col.field =="tipo_moneda"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
-                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'importe'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">       
-                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'cotizacion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">       
-                         <input class="form-control form-control-sm col-md-12"  *ngSwitchCase="'total'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">             
+                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'importe'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">       
+                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'cotizacion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">       
+                         <input class="form-control form-control-sm col-md-12"  *ngSwitchCase="'total'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">             
                                      
                      </th>
                      <th></th>
