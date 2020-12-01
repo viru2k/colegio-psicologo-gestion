@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { calendarioIdioma } from './../../../../../config/config';
 import { AlertServiceService } from './../../../../../services/alert-service.service';
 import { CobroService } from './../../../../../services/cobro.service';
-import { DynamicDialogConfig } from 'primeng/api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/api';
 import { formatDate } from '@angular/common';
 import { Concepto } from '../../../../../models/concepto.model';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-popup-concepto-agregar',
@@ -12,7 +13,7 @@ import { Concepto } from '../../../../../models/concepto.model';
   styleUrls: ['./popup-concepto-agregar.component.scss']
 })
 export class PopupConceptoAgregarComponent implements OnInit {
-  
+
   conceptoSeleccionado:any = [];
   conceptos: Concepto[] = [];
   cols: any[];
@@ -21,20 +22,22 @@ export class PopupConceptoAgregarComponent implements OnInit {
   loading = false;
   elemento: any[] = null;
   selecteditems: any[] = [];
-  userData: any;  
+  userData: any;
   cuotas = 1;
   interes = 1;
   valor = 0;
   valorTotal = 0;
   concepto = '';
+  descripcion = '';
 
-  
+
   constructor(private config: DynamicDialogConfig,
               private cobroService: CobroService,
+              public ref: DynamicDialogRef,
               private alertServiceService: AlertServiceService) {
 
                 this.cols = [
-              
+
                   {field: 'mat_concepto', header: 'Concepto', width: '40%' },
                   {field: 'mat_descripcion', header: 'Descripción', width: '30%' },
                   {field: 'mat_monto', header: 'Importe', width: '20%' },
@@ -44,7 +47,7 @@ export class PopupConceptoAgregarComponent implements OnInit {
                }
 
   ngOnInit() {
-    
+
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.es = calendarioIdioma;
     console.log(this.config.data);
@@ -53,10 +56,16 @@ export class PopupConceptoAgregarComponent implements OnInit {
 
   confirmar(elem: any) {
     console.log(elem);
+    if (elem.mat_descripcion === '') {
+      this.descripcion = elem.mat_concepto;
+    } else {
+      this.descripcion = elem.mat_descripcion;
+    }
+
     this.concepto = elem.mat_concepto;
     this.conceptoSeleccionado = elem;
     this.valor = elem.mat_monto;
-
+    this.calcularDeuda();
 
   }
 
@@ -71,10 +80,10 @@ export class PopupConceptoAgregarComponent implements OnInit {
     if (this.cuotas > 0) {
       for (let i = 0; i < this.cuotas; i++) {
         _concepto = new Concepto('0', this.conceptoSeleccionado['id_concepto'],
-        this.userData.id, this.conceptoSeleccionado['mat_concepto'],  this.conceptoSeleccionado['mat_descripcion'],
+        this.userData.id, this.conceptoSeleccionado['mat_concepto'],  this.descripcion,
         'A', '31/12/2099', formatDate(new Date(), 'dd/MM/yyyy', 'en'), '0', this.interes,
         this.config.data.mat_matricula_psicologo, this.valor * this.interes, this.valor * this.interes,
-         this.config.data.mat_matricula_psicologo,  i + 1, '0', 'C' );
+         this.config.data.mat_matricula_psicologo,  i + 1, '0', 'C', this.userData.id );
 
         this.conceptos.push(_concepto);
       }
@@ -91,7 +100,7 @@ export class PopupConceptoAgregarComponent implements OnInit {
       this.cobroService.getConcepto()
       .subscribe(resp => {
 
-      if (resp[0]) {        
+      if (resp[0]) {
         this.elemento = resp;
           }
       this.loading = false;
@@ -114,8 +123,17 @@ export class PopupConceptoAgregarComponent implements OnInit {
       this.cobroService.setDeudaRegistros(this.conceptos)
       .subscribe(resp => {
 
-      if (resp[0]) {        
+      if (resp) {
         this.elemento = resp;
+        swal({
+          title: 'CONCEPTO GENERADO' ,
+          text: 'El concepto se generó correctamente',
+          type: 'success',
+          showConfirmButton: false,
+          timer: 2000
+
+        });
+        this.ref.close(resp);
           }
       this.loading = false;
       },

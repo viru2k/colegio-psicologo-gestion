@@ -70,10 +70,10 @@ export class MatriculaCobroComponent implements OnInit {
   selectedPago: any;
 
   constructor(private cobroService: CobroService ,  private messageService: MessageService,
-              public dialogService: DialogService,  private route: ActivatedRoute, 
+              public dialogService: DialogService,  private route: ActivatedRoute,
               private alertServiceService: AlertServiceService,
               private excelService: ExcelService,    private router: Router, private filter: Filter ) {
-   
+
 
       this.pago = [
         {name: 'Contado', code: 'C'},
@@ -87,10 +87,10 @@ export class MatriculaCobroComponent implements OnInit {
         {field: 'boton', header: '' , width: '6%'},
         {field: 'mat_matricula', header: 'Matrícula', width: '8%' },
         {field: 'mat_nombreyapellido', header: 'Psicólogo', width: '20%' },
-        {field: 'mat_concepto', header: 'Concepto', width: '20%' },         
+        {field: 'mat_concepto', header: 'Concepto', width: '20%' },
         {field: 'mat_descripcion', header: 'Descripción', width: '25%' },
         {field: 'mat_monto', header: 'Valor', width: '12%' },
-        {field: 'mat_monto_final', header: 'Importe', width: '12%' }, 
+        {field: 'mat_monto_final', header: 'Importe', width: '12%' },
         {field: 'mat_fecha_pago', header: 'F. Pago', width: '12%' },
         {field: 'mat_fecha_vencimiento', header: 'F. Venc', width: '12%' },
         {field: 'mat_num_cuota', header: 'Cuota', width: '8%' },
@@ -129,13 +129,13 @@ export class MatriculaCobroComponent implements OnInit {
   changeElementoPago(event) {
     console.log(event.value);
     this.selectedPago = event.value;
-    
+
   }
 
 exportarExcel() {
 let result = this.elementosFiltrados as any;
 if (this.selecteditems.length > 0) {
-       
+
 }else{
   swal({
     title: 'TURNOS NO SELECCIONADOS' ,
@@ -143,7 +143,7 @@ if (this.selecteditems.length > 0) {
     type: 'warning',
     showConfirmButton: false,
     timer: 4000
-       
+
   })
 }
 
@@ -172,13 +172,13 @@ nuevo() {
 
 
 public exportarExcelDetallado(){
-  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');  
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
   let seleccionados: any[] = [];
   let exportar:any[] = [];
   let i = 0;
   this.selecteditems.forEach(element => {
    // console.log(element['operacion_cobro_id']);
-   seleccionados['mat_matricula'] = element.mat_matricula;    
+   seleccionados['mat_matricula'] = element.mat_matricula;
    seleccionados['mat_nombreyapellido'] = element.mat_nombreyapellido;
    seleccionados['mat_num_cuota'] = element.mat_num_cuota;
    seleccionados['mat_fecha_pago'] =   formatDate(element['mat_fecha_pago'], 'dd/MM/yyyy', 'es-Ar');  ;
@@ -190,8 +190,8 @@ public exportarExcelDetallado(){
    seleccionados['id_pago_historico'] = element.id_pago_historico;
    seleccionados['mat_estado'] = element.mat_estado;
    seleccionados['id_usuario'] = element.id_usuario;
-    
-    
+
+
    // exportar.push(seleccionados);
    exportar[i] = seleccionados;
   //  console.log(element);
@@ -206,7 +206,7 @@ public exportarExcelDetallado(){
 
 
   editarRegistro(event) {
-    
+
   const data: any = event;
 
   const ref = this.dialogService.open(PopupConceptoEditarComponent, {
@@ -227,7 +227,7 @@ public exportarExcelDetallado(){
   }
 
   filtered(event) {
-    
+
     console.log(event.filteredValue);
     this.elementosFiltrados  = event.filteredValue;
     this.sumarValoresSeleccionados(this.elementosFiltrados) ;
@@ -243,7 +243,7 @@ agregarConcepto() {
      width: '98%',
      height: '100%'
     });
-  
+
     ref.onClose.subscribe((PopupConceptoAgregarComponent: any) => {
        if (PopupConceptoAgregarComponent) {
         console.log(PopupConceptoAgregarComponent);
@@ -257,18 +257,20 @@ agregarConcepto() {
       type: 'warning',
       showConfirmButton: false,
       timer: 4000
-         
+
     })
   }
- 
-   
+
+
 }
 
 
 agregarPlanPago() {
 
   if (this.psicologo) {
+
   let data:any = this.selecteditems;
+  data['forma_pago'] =  this.selectedPago.code;
   const ref = this.dialogService.open(PopupConceptoPlanPagoComponent, {
   data,
    header: 'Agregar plan de pago',
@@ -278,7 +280,7 @@ agregarPlanPago() {
 
   ref.onClose.subscribe((PopupConceptoPlanPagoComponent: any) => {
      if (PopupConceptoPlanPagoComponent) {
-      console.log(PopupConceptoPlanPagoComponent);      
+      console.log(PopupConceptoPlanPagoComponent);
       this.getDeudaByMatricula(this.psicologo.mat_matricula_psicologo);
      }
   });
@@ -289,8 +291,8 @@ agregarPlanPago() {
     type: 'warning',
     showConfirmButton: false,
     timer: 4000
-       
-  })
+
+  });
 }
 }
 
@@ -314,8 +316,8 @@ realizarFactura() {
           this.cobrarRegistros(PopupRealizarFacturaComponent);
          }
       });
-   
-      
+
+
   } else {
     this.loading = false;
     this.alertServiceService.throwAlert('warning', 'No se ha seleccionado ningun registro', 'sin registros', '400');
@@ -338,7 +340,7 @@ this.selecteditems.forEach(element => {
   });
 try {
     this.cobroService.putRegistroCobro(_selectedItems, '1')
-    .subscribe(resp => { 
+    .subscribe(resp => {
       this.getDeudaByMatricula(this.psicologo.mat_matricula_psicologo);
       this.loading = false;
     },
@@ -358,7 +360,7 @@ cerrarCaja(){
   let _total = 0;
   console.log(this.selecteditems.length);
   if (this.selecteditems.length > 0) {
-   
+
     this.selecteditems.forEach(element => {
       //itero por unica vez
 
@@ -383,10 +385,10 @@ cerrarCaja(){
      width: '98%',
      height: '95%'
     });
-  
+
     ref.onClose.subscribe((PopupMovimientoComponent: any) => {
-  
-      if (PopupMovimientoComponent) {           
+
+      if (PopupMovimientoComponent) {
       }
     });
   }
@@ -409,7 +411,7 @@ getDeudaByMatricula(mat_matricula_psicologo) {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
-       
+
           if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
@@ -454,7 +456,7 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string) {
 
       if (resp[0]) {
         let i = 0;
-        for (i = 0; i < resp.length; i++) {          
+        for (i = 0; i < resp.length; i++) {
       //    console.log(this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']));
           if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
@@ -662,9 +664,9 @@ findMatricula() {
       this.getDeudaByMatricula(PopupFindMatriculaComponent.mat_matricula_psicologo);
      }
   });
-   
+
   }
-  
+
 
 generarPdf() {
 
@@ -706,11 +708,11 @@ generarPdf() {
 
 colorRow(estado: string){
 
-    if(estado == 'INGRESO') { 
+    if(estado == 'INGRESO') {
         return {'es-ingreso'  :'null' };
     }
-    
-    if(estado == 'EGRESO') {  
+
+    if(estado == 'EGRESO') {
         return {'es-egreso'  :'null' };
     }
 }
@@ -735,9 +737,9 @@ realizarFiltroBusqueda(resp: any[]) {
     /** SUMO LO FILTRADO */
 
   });
-  
+
   // ELIMINO DUPLICADOS
-  this._mat_concepto = this.filter.filterArray(this._mat_concepto);  
+  this._mat_concepto = this.filter.filterArray(this._mat_concepto);
   this._mat_num_cuota = this.filter.filterArray(this._mat_num_cuota);
   this._mat_estado = this.filter.filterArray(this._mat_estado);
   this._nombreyapellido = this.filter.filterArray(this._nombreyapellido);

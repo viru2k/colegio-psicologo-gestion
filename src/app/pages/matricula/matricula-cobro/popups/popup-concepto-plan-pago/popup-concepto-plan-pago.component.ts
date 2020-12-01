@@ -8,7 +8,7 @@ import { Concepto } from '../../../../../models/concepto.model';
 import { PopupConceptoEditarComponent } from './../popup-concepto-editar/popup-concepto-editar.component';
 import { Filter } from './../../../../../shared/filter';
 import { PlanPago } from './../../../../../models/plan-pago.model';
-
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-popup-concepto-plan-pago',
@@ -25,13 +25,15 @@ export class PopupConceptoPlanPagoComponent implements OnInit {
   conceptoSeleccionado:any = [];
   conceptos: Concepto[] = [];
   conceptosPlanPago: Concepto[] = [];
+  fechaPlan: Date;
+  _fechaPlan: string;
   cols: any[];
   es: any;
   display: boolean;
   loading = false;
   elemento: any[] = null;
   selecteditems: any[] = [];
-  userData: any;  
+  userData: any;
   cuotas = 1;
   interes = 1;
   valor = 0;
@@ -40,7 +42,7 @@ export class PopupConceptoPlanPagoComponent implements OnInit {
   total = 0;
   planNumero = 0;
 
-  
+
   constructor(private config: DynamicDialogConfig,
               private cobroService: CobroService,
               public dialogService: DialogService,
@@ -55,7 +57,7 @@ export class PopupConceptoPlanPagoComponent implements OnInit {
                   {field: 'mat_concepto', header: 'Concepto', width: '20%' },
                   {field: 'mat_descripcion', header: 'Descripción', width: '25%' },
                   {field: 'mat_monto', header: 'Valor', width: '12%' },
-                  {field: 'mat_monto_final', header: 'Importe', width: '12%' }, 
+                  {field: 'mat_monto_final', header: 'Importe', width: '12%' },
                   {field: 'mat_fecha_pago', header: 'F. Pago', width: '12%' },
                   {field: 'mat_fecha_vencimiento', header: 'F. Venc', width: '12%' },
                   {field: 'mat_num_cuota', header: 'Cuota', width: '8%' },
@@ -66,26 +68,32 @@ export class PopupConceptoPlanPagoComponent implements OnInit {
                }
 
   ngOnInit() {
-    
+
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.es = calendarioIdioma;
     console.log(this.config.data);
     this.elementos = this.config.data;
+    this.fechaPlan = new Date();
     this.sumarTotal();
     this.realizarFiltroBusqueda(this.elementos);
     this.loadConcepto();
-    
+
   }
 
 
 
-  
+  actualizarFechaPlan(event) {
+    console.log(event);
+    this.fechaPlan = event;
+    console.log(new Date(this.fechaPlan));
+  }
+
   loadConcepto() {
     this.loading = true;
     try {
       this.cobroService.getUltimoPlanPago()
-      .subscribe(resp => {  
-        this.planNumero = resp[0].ultimo;
+      .subscribe(resp => {
+        this.planNumero = resp[0].ultimo + 1;
 
       this.loading = false;
       },
@@ -109,28 +117,28 @@ export class PopupConceptoPlanPagoComponent implements OnInit {
     }
   }
 
-  calcularDeuda() {    
+  calcularDeuda() {
       this.valorTotal = (this.total * this.interes) / this.cuotas;
   }
 
 
-  
+
   editarRegistro(event) {
-    
+
     const data: any = event;
-  
+
     const ref = this.dialogService.open(PopupConceptoEditarComponent, {
     data,
      header: 'Editar concepto',
      width: '98%',
      height: '95%'
     });
-  
+
     ref.onClose.subscribe((PopupConceptoEditarComponent: any) => {
-  
+
       this.ref.close();
     });
-  
+
     }
 
 
@@ -138,19 +146,28 @@ export class PopupConceptoPlanPagoComponent implements OnInit {
   generarPlanPago() {
     let planPago: PlanPago;
     let _concepto :Concepto = null;
+    this._fechaPlan = formatDate(this.fechaPlan, 'yyyy-MM-dd', 'en');
     let newDate = null;
     if (this.cuotas > 0) {
+      this.calcularDeuda();
       for (let i = 0; i < this.cuotas; i++) {
         let _fecha_vencimiento = this.filter.getFechaAfterMonth(i + 1);
         console.log(_fecha_vencimiento);
-        
+
         _concepto = new Concepto('0', '11',
         this.userData.id, 'PLAN DE PAGO',  'PLAN DE PAGO',
-        'A', '31/12/2099', _fecha_vencimiento, '0', this.interes,
+        'A', '2099-12-31', _fecha_vencimiento, String(this.planNumero), this.interes,
         this.config.data[0].mat_matricula, this.valorTotal, this.valorTotal,
-        this.config.data[0].mat_matricula,  i + 1, '0', 'C' );
+        this.config.data[0].mat_matricula,  i + 1, '0', 'C', this.userData.id );
 
         this.conceptosPlanPago.push(_concepto);
+
+        this.config.data.forEach(element => {
+          element.mat_id_plan = String(this.planNumero);
+          element.mat_fecha_pago = this._fechaPlan;
+          element.id_usuario = this.userData.id;
+          element.mat_tipo_pago = this.config.data.forma_pago;
+        });
       }
 
       console.log(this.conceptosPlanPago);
@@ -169,8 +186,17 @@ export class PopupConceptoPlanPagoComponent implements OnInit {
       this.cobroService.setPlanPagoMatricula(plan)
       .subscribe(resp => {
 
-      if (resp[0]) {        
+      if (resp[0]) {
         this.elemento = resp;
+        swal({
+          title: 'PLAN GENERADO' ,
+          text: 'El plan número ' + this.planNumero + 'se generó correctamente',
+          type: 'success',
+          showConfirmButton: false,
+          timer: 2000
+
+        });
+        this.ref.close(resp);
           }
       this.loading = false;
       },
@@ -186,16 +212,16 @@ export class PopupConceptoPlanPagoComponent implements OnInit {
 
   }
 
-  
+
 /** ACCIONES */
 
 colorRow(estado: string){
 
-  if(estado == 'INGRESO') { 
+  if(estado == 'INGRESO') {
       return {'es-ingreso'  :'null' };
   }
-  
-  if(estado == 'EGRESO') {  
+
+  if(estado == 'EGRESO') {
       return {'es-egreso'  :'null' };
   }
 }
@@ -216,9 +242,9 @@ realizarFiltroBusqueda(resp: any[]) {
     /** SUMO LO FILTRADO */
 
   });
-  
+
   // ELIMINO DUPLICADOS
-  this._mat_concepto = this.filter.filterArray(this._mat_concepto);  
+  this._mat_concepto = this.filter.filterArray(this._mat_concepto);
   this._mat_num_cuota = this.filter.filterArray(this._mat_num_cuota);
   this._mat_estado = this.filter.filterArray(this._mat_estado);
   this._nombreyapellido = this.filter.filterArray(this._nombreyapellido);

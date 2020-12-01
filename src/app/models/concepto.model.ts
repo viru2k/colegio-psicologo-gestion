@@ -1,42 +1,44 @@
 export class Concepto {
-    
-    id_pago_historico:string;
-    id_concepto:string;
-    id_usuario:string;
-    mat_concepto:string;
-    mat_descripcion:string;
-    mat_estado:string;
-    mat_fecha_pago:string;
-    mat_fecha_vencimiento:string;
-    mat_id_plan:string;
+
+    id_pago_historico: string;
+    id_concepto: string;
+    id_usuario: string;
+    mat_concepto: string;
+    mat_descripcion: string;
+    mat_estado: string;
+    mat_fecha_pago: string;
+    mat_fecha_vencimiento: string;
+    mat_id_plan: string;
     mat_interes: number;
-    mat_matricula:string;
+    mat_matricula: string;
     mat_monto: number;
     mat_monto_cobrado: number;
-    mat_nombreyapellido:string;
+    mat_nombreyapellido: string;
     mat_num_cuota: number;
-    mat_numero_comprobante:string;
-    mat_tipo_pago:string;
+    mat_numero_comprobante: string;
+    mat_tipo_pago: string;
+    usuario_id: string;
 
-    constructor( 
-        id_pago_historico:string,
-        id_concepto:string,
-        id_usuario:string,
-        mat_concepto:string,
-        mat_descripcion:string,
-        mat_estado:string,
-        mat_fecha_pago:string,
-        mat_fecha_vencimiento:string,
-        mat_id_plan:string,
+    constructor(
+        id_pago_historico: string,
+        id_concepto: string,
+        id_usuario: string,
+        mat_concepto: string,
+        mat_descripcion: string,
+        mat_estado: string,
+        mat_fecha_pago: string,
+        mat_fecha_vencimiento: string,
+        mat_id_plan: string,
         mat_interes: number,
-        mat_matricula:string,
+        mat_matricula: string,
         mat_monto: number,
         mat_monto_cobrado: number,
-        mat_nombreyapellido:string,
+        mat_nombreyapellido: string,
         mat_num_cuota: number,
-        mat_numero_comprobante:string,
-        mat_tipo_pago:string
-        
+        mat_numero_comprobante: string,
+        mat_tipo_pago: string,
+        usuario_id: string
+
         ){
 
             this.id_pago_historico = id_pago_historico;
@@ -56,5 +58,6 @@ export class Concepto {
             this.mat_num_cuota = mat_num_cuota;
             this.mat_numero_comprobante = mat_numero_comprobante;
             this.mat_tipo_pago = mat_tipo_pago;
+            this.usuario_id = usuario_id;
         }
 }
