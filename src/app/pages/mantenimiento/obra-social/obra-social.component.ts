@@ -20,12 +20,12 @@ export class ObraSocialComponent implements OnInit {
   loading;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private obraSocialService: ObraSocialService, private alertServiceService: AlertServiceService,  public dialogService: DialogService, private messageService: MessageService) { 
+  constructor(private obraSocialService: ObraSocialService, private alertServiceService: AlertServiceService,  public dialogService: DialogService, private messageService: MessageService) {
 
     this.cols = [
 
-      { field: 'nombre', header: 'Obra social',  width: '50%' },
-      { field: 'descripcion', header: 'Descripcion',  width: '40%' },
+      { field: 'os_nombre', header: 'Obra social',  width: '50%' },
+      { field: 'mat_obra_social', header: 'Descripcion',  width: '40%' },
       { field: 'es_habilitada', header: 'Habilitada',  width: '10%' },
       { field: '', header: 'Acción',  width: '6%' }
 
@@ -37,7 +37,7 @@ export class ObraSocialComponent implements OnInit {
     this.loadlist();
   }
 
-  loadlist(){
+  loadlist() {
 
     this.loading = true;
     try {
@@ -70,7 +70,7 @@ buscar(elemento: any) {
   data,
    header: 'Editar obra social',
    width: '60%',
-   height: '50%'
+   height: '90%'
   });
 
   ref.onClose.subscribe((PopupObraSocialEditarComponent: any) => {
@@ -90,7 +90,7 @@ nuevo() {
   data,
    header: 'Crear obra social',
    width: '60%',
-   height: '50%'
+   height: '90%'
   });
 
   ref.onClose.subscribe((PopupObraSocialEditarComponent: any) => {

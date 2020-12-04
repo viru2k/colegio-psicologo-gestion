@@ -1,90 +1,94 @@
-     
+
             <form class="col-12"  [formGroup]="updateDataForm">
                 <div class="row">
 
 
                     <div class="col-6">
+                      <div class="mt-3 b">
+                        <label>Número de orden</label>
+                        <div class="d-flex align-items-center">
+                          <label  >{{updateDataForm.value.id_os_liq_orden}} </label>
+                      </div>
+                      </div>
+                      <span class="pr-1 pt-1"><h6>Fecha:</h6></span>
+                      <p-calendar [inputStyle]="{'height':'29.1px'}"   appendTo="body"  class="mr-2 " formControlName="os_fecha"  tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
+                          <ng-template pTemplate="date" let-date>
+                              <span  inputStyle="{'height':'29.5px'}"  style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
+                          </ng-template>
+                      </p-calendar>
 
-                        <div class="form-group ">
-                            <label  >Fecha</label>
-                            <input class="form-control col-md-12 form-control-sm" formControlName="os_fecha"  autofocus  />
-                            <div *ngIf="updateDataForm.controls['os_fecha'].errors?.required && updateDataForm.controls['os_fecha'].touched" class="alert alert-warning">
-                                    * Este campo es requerido
-                            </div>
-                        </div> 
+                        <div class="mt-3 b">
+                          <label>Psicólogo</label>
+                          <div class="d-flex align-items-center">
+                            <label  >{{updateDataForm.value.mat_matricula}} - {{updateDataForm.value.mat_apellido_nombre}} </label>
+                                <button (click)="buscarMatricula()" class="btn btn-info btn-sm ml-2"> <i class="fas fa-search"></i></button>
+                        </div>
+                        </div>
 
-                        <div class="form-group ">
-                            <label  >Matricula</label>
-                            <input class="form-control col-md-12 form-control-sm" formControlName="mat_matricula"    />
-                            <div *ngIf="updateDataForm.controls['mat_matricula'].errors?.required && updateDataForm.controls['mat_matricula'].touched" class="alert alert-warning">
-                                    * Este campo es requerido
-                            </div>
-                        </div> 
+                        <div class="mt-3 b">
+                          <label>Paciente</label>
+                          <div class="d-flex align-items-center">
+                            <label  >{{updateDataForm.value.pac_nombre}} {{updateDataForm.value.pac_dni}} </label>
+                                <button (click)="buscarPaciente()" class="btn btn-info btn-sm ml-2"> <i class="fas fa-search"></i></button>
+                        </div>
+                        </div>
 
-                        <div class="form-group ">
-                            <label  >Obra social</label>
-                            <input class="form-control col-md-12 form-control-sm" formControlName="mat_matricula"    />
-                            <div *ngIf="updateDataForm.controls['mat_matricula'].errors?.required && updateDataForm.controls['mat_matricula'].touched" class="alert alert-warning">
-                                    * Este campo es requerido
-                            </div>
-                        </div> 
+                        <div class="mt-3 mb-3">
+                          <label>Sesión</label>
+                          <div class="d-flex align-items-center">
+                            <label  >{{updateDataForm.value.os_nombre}} - {{updateDataForm.value.os_sesion_codigo}} - {{updateDataForm.value.os_sesion}} </label>
 
-                        <div class="form-group ">
-                            <label  >Sesión</label>
-                            <input class="form-control col-md-12 form-control-sm" formControlName="mat_matricula"    />
-                            <div *ngIf="updateDataForm.controls['mat_matricula'].errors?.required && updateDataForm.controls['mat_matricula'].touched" class="alert alert-warning">
-                                    * Este campo es requerido
-                            </div>
-                        </div> 
+                                <button (click)="buscarOrden()" class="btn btn-info btn-sm ml-2"> <i class="fas fa-search"></i></button>
+                        </div>
+                        </div>
 
-                       
-                    
+
+
                     </div>
 
                     <div class="col-6">
                         <div class="form-group ">
                             <label  >Cantidad</label>
-                            <input class="form-control col-md-12 form-control-sm" formControlName="os_cantidad"    />
+                            <input class="form-control col-md-12 form-control-sm" formControlName="os_cantidad" (change)="calcularTotal()"  type="number"  />
                             <div *ngIf="updateDataForm.controls['os_cantidad'].errors?.required && updateDataForm.controls['os_cantidad'].touched" class="alert alert-warning">
                                     * Este campo es requerido
                             </div>
-                        </div> 
+                        </div>
 
                         <div class="form-group ">
                             <label  >Valor</label>
-                            <input class="form-control col-md-12 form-control-sm" formControlName="os_precio_sesion"    />
+                            <input class="form-control col-md-12 form-control-sm" formControlName="os_precio_sesion" type="number"  (change)="actualizarPrecioSesion()"  />
                             <div *ngIf="updateDataForm.controls['os_precio_sesion'].errors?.required && updateDataForm.controls['os_precio_sesion'].touched" class="alert alert-warning">
                                     * Este campo es requerido
                             </div>
-                        </div> 
+                        </div>
 
                         <div class="form-group ">
                             <label  >Total</label>
-                            <input class="form-control col-md-12 form-control-sm" formControlName="os_precio_total"    />
+                            <input class="form-control col-md-12 form-control-sm" formControlName="os_precio_total"  type="number"  />
                             <div *ngIf="updateDataForm.controls['os_precio_total'].errors?.required && updateDataForm.controls['os_precio_total'].touched" class="alert alert-warning">
                                     * Este campo es requerido
                             </div>
-                        </div> 
+                        </div>
 
                         <div class="form-group ">
                             <label class="mr-1" >Estado</label>
                             <div class="row">
-                                <div class="col-3"><p-radioButton name="groupname"  formControlName="os_estado_liquidacion"   value="PEN" label="PENDIENTE"  inputId="opt2"></p-radioButton></div>   
-                                <div class="col-3"><p-radioButton name="groupname"  formControlName="os_estado_liquidacion"   value="AUD" label="AUDITADO"  inputId="opt1"></p-radioButton></div>                                                            
-                                <div class="col-3"><p-radioButton name="groupname"  formControlName="os_estado_liquidacion"   value="AFE" label="AFECTADO"  inputId="opt3"></p-radioButton></div>                               
-                                <div class="col-3"><p-radioButton name="groupname"  formControlName="os_estado_liquidacion"   value="LIQ" label="LIQUIDADO"  inputId="opt4"></p-radioButton></div>                               
-                              </div>  
-                        </div> 
+                                <div class="col-3"><p-radioButton name="groupname"  formControlName="os_estado_liquidacion"   value="PEN" label="PENDIENTE"  inputId="opt2"></p-radioButton></div>
+                                <div class="col-3"><p-radioButton name="groupname"  formControlName="os_estado_liquidacion"   value="AUD" label="AUDITADO"  inputId="opt1"></p-radioButton></div>
+                                <div class="col-3"><p-radioButton name="groupname"  formControlName="os_estado_liquidacion"   value="AFE" label="AFECTADO"  inputId="opt3"></p-radioButton></div>
+                                <div class="col-3"><p-radioButton name="groupname"  formControlName="os_estado_liquidacion"   value="LIQ" label="LIQUIDADO"  inputId="opt4"></p-radioButton></div>
+                              </div>
+                        </div>
                     </div>
         </div>
-             
+
             </form>
 
-        
+
             <p-footer>
                     <div class="ui-dialog-buttonpane ui-helper-clearfix">
                             <button  [disabled]="!updateDataForm.valid" class="btn btn-info texto-roboto btn-block" type="submit" (click)="guardarDatos()" >Guardar</button>
-                            
+
                     </div>
                 </p-footer>
-       

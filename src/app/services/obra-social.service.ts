@@ -16,18 +16,37 @@ export class ObraSocialService {
   return this.http.get<any[]>(this.url + 'obra/social');
   }
 
-  putObraSocial(val: any, id: string) {
+  getObraSocialHabilitado() {
+    return this.http.get<any[]>(this.url + 'obra/social/habilitada');
+  }
 
+  putObraSocial(val: any, id: string) {
   return this.http.put<any>(this.url + 'obra/social/' + id, val);
 }
 
   settObraSocial(val: any[]) {
-
   return this.http.post<any>(this.url + 'obra/social' , val);
 }
 
 getConvenioByObraSocial(obraSocialId: string) {
   return this.http.get<any[]>(this.url + 'obra/social/convenio?obra_social_id=' + obraSocialId);
   }
+
+  getConvenioByObraSocialHabilitada() {
+    return this.http.get<any[]>(this.url + 'obra/social/convenio/habilitada');
+    }
+
+
+  getConvenioHabilitada() {
+    return this.http.get<any[]>(this.url + 'convenio/habilitada');
+    }
+
+    putConvenio(val: any, id: string) {
+         return this.http.put<any>(this.url + 'convenio/' + id, val);
+    }
+
+      setConvenio(val: any[]) {
+          return this.http.post<any>(this.url + 'convenio' , val);
+    }
 
 }

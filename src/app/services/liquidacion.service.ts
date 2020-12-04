@@ -72,11 +72,11 @@ export class LiquidacionService {
       // tslint:disable-next-line: max-line-length
       return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/generada');
       }
-      
+
       getLiquidacionDetalleByidLiquidacion(id_liquidacion_generada: string) {
       // tslint:disable-next-line: max-line-length
       return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/detalle/by/id/liquidacion?id_liquidacion_generada=' + id_liquidacion_generada );
-      }      
+      }
 
     getLiquidacionByMatriculaAndEstado(matMatricula: string, estado: string) {
       // tslint:disable-next-line: max-line-length
@@ -99,6 +99,10 @@ export class LiquidacionService {
     putExpediente(elementos: any, id_os_liquidacion: string) {
       return this.http.put<any>(URL_SERVICIOS + 'liquidacion/expediente/actualizar/' + id_os_liquidacion, elementos);
       }
+
+    putOrden(elementos: any, id_os_liquidacion: string) {
+      return this.http.put<any>(URL_SERVICIOS + 'liquidacion/orden/' + id_os_liquidacion, elementos);
+        }
 
     desafectarExpediente(os_liq_numero: string) {
       // tslint:disable-next-line: max-line-length
@@ -129,6 +133,11 @@ export class LiquidacionService {
       liquidar(id_liquidacion_generada: any, descuenta_matricula: string) {
          // tslint:disable-next-line: max-line-length
          this.http.get(URL_SERVICIOS + 'liquidacion/liquidar?id_liquidacion_generada=' + id_liquidacion_generada + '&descuenta_matricula=' + descuenta_matricula);
+        }
+
+        destroyOrdenById(id: string) {
+          // tslint:disable-next-line: max-line-length
+          return this.http.delete<any>(URL_SERVICIOS + 'orden/eliminar/' + id );
         }
 
 }

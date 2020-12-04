@@ -1,3 +1,6 @@
+import { PacienteEditarComponent } from './../../../mantenimiento/paciente/paciente-editar/paciente-editar.component';
+import { PopupOrdenEditarComponent } from './../popups/popup-orden-editar/popup-orden-editar.component';
+import { OrdenEditarComponent } from './../../../mantenimiento/orden/orden-editar/orden-editar.component';
 import { Component, OnInit } from '@angular/core';
 import { DialogService, MessageService } from 'primeng/api';
 import { formatDate, DatePipe } from '@angular/common';
@@ -15,6 +18,7 @@ import { Orden } from './../../../../models/orden.model';
 import { MatriculaService } from './../../../../services/matricula.service';
 import { PopupFindMatriculaComponent } from './../../../../shared/popups/popup-find-matricula/popup-find-matricula.component';
 import { LiquidacionService } from '../../../../services/liquidacion.service';
+import { OverlayPanel } from 'primeng/overlaypanel';
 declare const require: any;
 const jsPDF = require('jspdf');
 require('jspdf-autotable');
@@ -39,6 +43,7 @@ export class OrdenIngresoComponent implements OnInit {
   elementoPaciente: any  = null;
   elementoPsicologo: any  = null;
   selecteditems: any[] = [];
+  selecteditem: any = null;
   elementosFiltrados: any[] = [];
   elementosFiltradosImpresion: any[] = [];
   columns: any;
@@ -75,7 +80,8 @@ export class OrdenIngresoComponent implements OnInit {
         {field: 'os_cantidad', header: 'Cantidad', width: '12%' },
         {field: 'os_precio_total', header: 'Total', width: '12%' },
         {field: 'pac_nombre', header: 'Paciente', width: '15%' },
-        {field: 'pac_dni', header: 'DNI' , width: '10%'},        
+        {field: 'pac_dni', header: 'DNI' , width: '10%'},
+        {field: 'os_estado_liquidacion', header: 'Est.' , width: '10%'},
         ];
 
       this.columns = [
@@ -106,7 +112,7 @@ export class OrdenIngresoComponent implements OnInit {
   getObraSocial() {
     try {
       this.loading = true;
-      this.obraSocialService.getObraSocial()
+      this.obraSocialService.getObraSocialHabilitado()
       .subscribe(resp => {
       if (resp[0]) {
         this.elementosObraSocial = resp;
@@ -270,13 +276,13 @@ buscarPacienteLista() {
 
 }
 
-editarRegistro(elemen: any) {}
+
 
 agregar() {
   const tmpfecha = formatDate(this.fecha, 'yyyy-MM-dd', 'en');
   const total = this.cantidad * Number(this.elementoConvenio.id_precio);
   console.log(this.elementoPsicologo );
-  this.orden = new Orden('0', this.elementoPsicologo.mat_matricula_psicologo, this.elementoObraSocial.id, this.elementoConvenio.id,
+  this.orden = new Orden('0', this.elementoPsicologo.mat_matricula_psicologo, this.elementoObraSocial.id, this.elementoConvenio.id_sesion,
                           this.elementoPaciente.id_paciente,  tmpfecha, this.cantidad, Number(this.elementoConvenio.id_precio),
                           total, 'PEN', '0', '' );
   console.log(this.orden);
@@ -287,7 +293,19 @@ agregar() {
     .subscribe(resp => {
       console.log(resp);
       this.loading = false;
-      this.getLiquidacionByMatriculaAndEstado();
+      swal({
+        toast: false,
+        type: 'success',
+        text: 'Se agrego el registro para ' + this.psicologo_nombre,
+        title: 'REGISTRO AÑADIDO',
+        showConfirmButton: false,
+        timer: 1500,
+        onClose: () => {
+          this.getLiquidacionByMatriculaAndEstado();
+          this.limpiar();
+        }
+      });
+
     },
     error => { // error path
       this.loading = false;
@@ -330,15 +348,34 @@ buscarOrdenes() {
 
 limpiar() {
   this.cantidad = 1;
-  this.elementoConvenio = null;
-  this.elementoObraSocial = null;
-  this.elementoPaciente = null;
+  //this.elementoConvenio = null;
+//  this.elementoObraSocial = null;
+  //this.elementoPaciente = null;
   this.elementoPsicologo = null;
   this.elementos = [];
-  this.elementosConvenio = [];
-  this.paciente_nombre = '';
+ // this.elementosConvenio = [];
+  //this.paciente_nombre = '';
   this.psicologo_nombre = '';
-  this.fecha = new Date();
+  //this.fecha = new Date();
+}
+
+editarRegistro(element: any) {
+  console.log(element);
+  const data: any = this.selecteditem;
+  const ref = this.dialogService.open(PopupOrdenEditarComponent, {
+      data,
+       header: 'Editar orden',
+       width: '98%',
+       height: '98%'
+      });
+
+  ref.onClose.subscribe((PopupOrdenEditarComponent: any) => {
+         if (PopupOrdenEditarComponent) {
+          console.log(PopupOrdenEditarComponent);
+          this.buscarOrdenes();
+         }
+      });
+
 }
 
 getPacienteByDni(dni: string) {
@@ -353,15 +390,15 @@ getPacienteByDni(dni: string) {
       console.log(this.elementoPaciente);
     } else {
       const data: any = null;
-      const ref = this.dialogService.open(PopupFindPacienteComponent, {
+      const ref = this.dialogService.open(PacienteEditarComponent, {
         data,
-         header: 'Buscar paciente',
+         header: 'Crear paciente',
          width: '98%',
-         height: '98%'
+         height: '90%'
         });
-      ref.onClose.subscribe((PopupFindPacienteComponent: any) => {
-           if (PopupFindPacienteComponent) {
-           console.log(PopupFindPacienteComponent);
+      ref.onClose.subscribe((PacienteEditarComponent: any) => {
+           if (PacienteEditarComponent) {
+           console.log(PacienteEditarComponent);
            }
         });
     }
@@ -378,27 +415,88 @@ getPacienteByDni(dni: string) {
   }
 }
 
+eliminarRegistro(element: any) {
+
+
+  try {
+    this.loading = true;
+    this.liquidacionService.destroyOrdenById(this.selecteditem.id_os_liq_orden)
+    .subscribe(resp => {
+      if (resp) {
+        swal({
+          toast: false,
+          type: 'success',
+          text: 'Se elimino la orden ',
+          title: 'ORDEN ELIMINADA',
+          showConfirmButton: false,
+          timer: 2000,
+          onClose: () => {
+            this.buscarOrdenes();
+          }
+        });
+      }
+    },
+    error => { // error path
+      this.loading = false;
+      console.log(error.message);
+      console.log(error.status);
+      this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+    });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+}
 
 public exportarExcelDetallado(){
-  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');  
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
   let seleccionados: any[] = [];
   let exportar:any[] = [];
   let i = 0;
   this.selecteditems.forEach(element => {
    // console.log(element['operacion_cobro_id']);
-    seleccionados['fecha_carga'] =   formatDate(element['fecha_carga'], 'dd/MM/yyyy', 'es-Ar');  ;
-    seleccionados['cuenta_nombre'] = element.cuenta_nombre ;
-    seleccionados['tipo_comprobante'] = element.tipo_comprobante;
-    seleccionados['concepto_cuenta'] = element.concepto_cuenta;
-    seleccionados['proveedor_nombre'] = element.proveedor_nombre;
-    seleccionados['comprobante_numero'] = element.comprobante_numero ;
-    seleccionados['descripcion'] = element.descripcion;
-    seleccionados['movimiento_tipo'] = element.movimiento_tipo;
-    seleccionados['tipo_moneda'] = element.tipo_moneda;
-    seleccionados['cantidad'] = element.importe;
-    seleccionados['cotizacion'] = element.cotizacion;
 
-    seleccionados['total'] = element.total;
+    seleccionados['mat_matricula'] = element.mat_matricula ;
+    seleccionados['mat_apellido_nombre'] = element.mat_apellido_nombre;
+    seleccionados['os_fecha'] =   formatDate(element['os_fecha'], 'dd/MM/yyyy', 'es-Ar');  ;
+    seleccionados['os_nombre'] = element.os_nombre;
+    seleccionados['os_sesion'] = element.os_sesion;
+    seleccionados['os_sesion_codigo'] = element.os_sesion_codigo;
+    seleccionados['os_cantidad'] = element.os_cantidad;
+    seleccionados['os_precio_sesion'] = Number(element.os_precio_sesion);
+    seleccionados['os_precio_total'] = Number(element.os_precio_total);
+    seleccionados['pac_nombre'] = element.pac_nombre;
+    seleccionados['pac_dni'] = element.pac_dni;
+   // exportar.push(seleccionados);
+    exportar[i] = seleccionados;
+
+   // console.log(seleccionados);
+    seleccionados = [];
+    i++;
+  });
+  console.log(exportar);
+  this.excelService.exportAsExcelFile(  exportar, 'listado_presentacion_detallado'+fecha_impresion);
+}
+
+
+public exportarExcel(){
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
+  let seleccionados: any[] = [];
+  let exportar:any[] = [];
+  let i = 0;
+  this.selecteditems.forEach(element => {
+   // console.log(element['operacion_cobro_id']);
+   const regex = '.';
+
+    seleccionados['mat_matricula'] = element.mat_matricula ;
+    seleccionados['mat_apellido_nombre'] = element.mat_apellido_nombre;
+    seleccionados['os_sesion'] = element.os_sesion;
+    seleccionados['os_sesion_codigo'] = element.os_sesion_codigo;
+    seleccionados['os_cantidad'] = element.os_cantidad;
+    seleccionados['copago'] = 0;
+    seleccionados['os_precio_sesion'] =    Number(element.os_precio_sesion);
+    seleccionados['os_precio_total'] = Number(element.os_precio_total);
+    seleccionados['pac_nombre'] = element.pac_nombre;
+    seleccionados['pac_dni'] = element.pac_dni;
    // exportar.push(seleccionados);
     exportar[i] = seleccionados;
   //  console.log(element);
@@ -406,7 +504,7 @@ public exportarExcelDetallado(){
     seleccionados = [];
     i++;
   });
-  this.excelService.exportAsExcelFile(  exportar, 'listado_presentacion_detallado'+fecha_impresion);
+  this.excelService.exportAsExcelFile(  exportar, 'listado_presentacion_resumido'+fecha_impresion);
 }
 
 generarPdf() {
@@ -442,6 +540,14 @@ generarPdf() {
   window.open(doc.output('bloburl'));
 
 }
+
+accion(event: any, overlaypanel: OverlayPanel, elementos: any) {
+  if (elementos) {
+    this.selecteditem = elementos;
+  }
+    console.log(this.selecteditem);
+    overlaypanel.toggle(event);
+  }
 
 
 realizarFiltroBusqueda(resp: any[]) {

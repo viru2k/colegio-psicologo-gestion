@@ -12,7 +12,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class PopupObraSocialEditarComponent implements OnInit {
 
 
-  
+
   updateDataForm: FormGroup;
   elementos: any;
   unidades: any;
@@ -28,8 +28,9 @@ export class PopupObraSocialEditarComponent implements OnInit {
 
     this.updateDataForm = new FormGroup({
       'id': new FormControl(),
-      'nombre': new FormControl('', Validators.required),
-      'descripcion': new FormControl(),
+      'os_capitalizada': new FormControl('NO'),
+      'os_nombre': new FormControl('', Validators.required),
+      'mat_obra_social': new FormControl(),
       'es_habilitada': new FormControl('S', Validators.required)
   });
   }

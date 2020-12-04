@@ -64,6 +64,7 @@ export class MatriculaCobroComponent implements OnInit {
   _mat_num_cuota: any[] = [];
   _mat_estado: any[] = [];
   _nombreyapellido: any[] = [];
+  _mat_tipo_pago: any[] = [];
   pago: any[];
   total = 0;
   total_seleccionado = 0;
@@ -85,7 +86,7 @@ export class MatriculaCobroComponent implements OnInit {
 
       this.cols = [
         {field: 'boton', header: '' , width: '6%'},
-        {field: 'mat_matricula', header: 'Matrícula', width: '8%' },
+        {field: 'mat_matricula', header: 'Mat.', width: '8%' },
         {field: 'mat_nombreyapellido', header: 'Psicólogo', width: '20%' },
         {field: 'mat_concepto', header: 'Concepto', width: '20%' },
         {field: 'mat_descripcion', header: 'Descripción', width: '25%' },
@@ -96,6 +97,7 @@ export class MatriculaCobroComponent implements OnInit {
         {field: 'mat_num_cuota', header: 'Cuota', width: '8%' },
         {field: 'mat_id_plan', header: 'Plan', width: '8%' },
         {field: 'mat_estado', header: 'Estado' , width: '8%'},
+        {field: 'mat_tipo_pago', header: 'Tipo' , width: '8%'},
         {field: 'nombreyapellido', header: 'Usuario' , width: '14%'},
         ];
 
@@ -728,12 +730,13 @@ realizarFiltroBusqueda(resp: any[]) {
   this._mat_num_cuota = [];
   this._mat_estado = [];
   this._nombreyapellido = [];
-
+  this._mat_tipo_pago = [];
   resp.forEach(element => {
     this._mat_concepto.push(element['mat_concepto']);
     this._mat_num_cuota.push(element['mat_num_cuota']);
     this._mat_estado.push(element['mat_estado']);
     this._nombreyapellido.push(element['nombreyapellido']);
+    this._mat_tipo_pago.push(element['mat_tipo_pago']);
     /** SUMO LO FILTRADO */
 
   });
@@ -743,6 +746,7 @@ realizarFiltroBusqueda(resp: any[]) {
   this._mat_num_cuota = this.filter.filterArray(this._mat_num_cuota);
   this._mat_estado = this.filter.filterArray(this._mat_estado);
   this._nombreyapellido = this.filter.filterArray(this._nombreyapellido);
+  this._mat_tipo_pago = this.filter.filterArray(this._mat_tipo_pago);
 
 
 

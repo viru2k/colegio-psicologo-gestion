@@ -1,1 +1,48 @@
-<p>popup-find-convenio works!</p>
+
+
+<div class="row col-md-auto justify-content-md-center animated fadeIn slow" >
+
+
+
+
+<p-table #dt [columns]="cols" tableStyleClass="prime-table"  [value]="elementos" selectionMode="single" [resizableColumns]="true" columnResizeMode="expand"
+ [scrollable]="true" scrollHeight="400px" [loading]="loading" loadingIcon=" icon-color-loader-new fas fa-spinner fa-3x " >
+
+
+
+    <ng-template pTemplate="header" let-columns >
+        <tr>
+            <th  *ngFor="let col of columns" [pSortableColumn]="col.field"    [width]="col.width" >
+                {{col.header}}
+                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+
+        </tr>
+        <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field" >
+                <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'os_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" autofocus >
+                <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'id_precio'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'os_sesion_codigo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'os_sesion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control col-md-12 form-control-sm" *ngSwitchCase="'os_sesion_mes'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+
+            </th>
+        </tr>
+    </ng-template>
+
+     <ng-template pTemplate="body" let-elementos>
+              <tr style="height:28px" [pSelectableRow]="elementos">
+
+    <td style="width: 30%">{{elementos.os_nombre}}</td>
+    <td style="width: 10%">{{elementos.id_precio}}</td>
+    <td style="width: 12%">{{elementos.os_sesion_codigo}}</td>
+    <td style="width: 40%">{{elementos.os_sesion}}</td>
+    <td style="width: 12%">{{elementos.os_sesion_mes}}</td>
+    <td style="width: 6%">
+      <a  (click)="confirmar(elementos)"><i class="far fa-check-circle icon-color-informacion fa-lg icon-hover"></i></a>
+    </td>
+</tr>
+</ng-template>
+</p-table>
+
+</div>

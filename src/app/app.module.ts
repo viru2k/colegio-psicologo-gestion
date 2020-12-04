@@ -149,6 +149,10 @@ import { PopupConceptoPlanPagoComponent } from './pages/matricula/matricula-cobr
 import { ProveedorComponent } from './pages/mantenimiento/proveedor/proveedor.component';
 import { PopupProveedorEditarComponent } from './pages/mantenimiento/proveedor-editar/popup-proveedor-editar.component';
 import { PopupLiquidacionLiquidacionesComponent } from './pages/liquidacion/popups/popup-liquidacion-liquidaciones/popup-liquidacion-liquidaciones.component';
+import { PacienteComponent } from './pages/mantenimiento/paciente/paciente.component';
+import { PacienteEditarComponent } from './pages/mantenimiento/paciente/paciente-editar/paciente-editar.component';
+import { OrdenComponent } from './pages/mantenimiento/orden/orden.component';
+import { OrdenEditarComponent } from './pages/mantenimiento/orden/orden-editar/orden-editar.component';
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -209,7 +213,7 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupFindPacienteComponent,
     PopupEditarPacienteComponent,
     PopupListaPacienteComponent,
-    MatriculaCajaComponent,    
+    MatriculaCajaComponent,
     MatriculaCobroComponent,
     PopupConceptoAgregarComponent,
     PopupConceptoMatriculaEditarComponent,
@@ -233,8 +237,12 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupLiquidacionExpedienteEditarComponent,
     PopupConceptoPlanPagoComponent,
     PopupProveedorEditarComponent,
-    PopupLiquidacionLiquidacionesComponent
-    
+    PopupLiquidacionLiquidacionesComponent,
+    PacienteComponent,
+    PacienteEditarComponent,
+    OrdenComponent,
+    OrdenEditarComponent
+
   ],
   imports: [
 
@@ -317,9 +325,11 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupLiquidacionExpedienteEditarComponent,
     PopupConceptoPlanPagoComponent,
     PopupProveedorEditarComponent,
-    PopupLiquidacionLiquidacionesComponent
+    PopupLiquidacionLiquidacionesComponent,
+    PacienteEditarComponent,
+    OrdenEditarComponent
 
-    
+
   ],
   providers: [CurrencyPipe, DecimalPipe,
     PushNotificationService, ExcelService, { provide: LOCALE_ID, useValue: 'es-Ar' },

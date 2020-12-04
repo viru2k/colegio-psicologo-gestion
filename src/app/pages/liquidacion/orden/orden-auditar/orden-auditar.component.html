@@ -1,5 +1,5 @@
 <div>
-<div class="card p-1">    
+<div class="card p-1">
     <div class="d-flex justify-content-between m-1" >
       <div  class="d-flex justify-content-start ">
               <div class=" mr-1 d-flex align-items-center" >
@@ -7,95 +7,119 @@
             <p-calendar [inputStyle]="{'height':'29.1px'}" appendTo="body"   class="mr-2 " [(ngModel)]="fechaDesde"   tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
             <ng-template pTemplate="date" let-date>
                     <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
-                </ng-template> 
+                </ng-template>
             </p-calendar>
             <span class="pr-1 pt-1"><h6>Hasta:</h6></span>
             <p-calendar [inputStyle]="{'height':'29.1px'}"   appendTo="body"  class="mr-2 "  [(ngModel)]="fechaHasta"  tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
                 <ng-template pTemplate="date" let-date>
                     <span  inputStyle="{'height':'29.5px'}"  style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
-                </ng-template> 
-            </p-calendar>       
-                                                 
-            <div>                                                      
-                   <button    class="btn  btn-primary btn-sm float-right  pr-2" (click)="buscarEntreFechas()" >Buscar registros</button>        
-            </div>                  
-            </div>                                      
-      </div> 
+                </ng-template>
+            </p-calendar>
+
+            <div>
+                   <button    class="btn  btn-primary btn-sm float-right  pr-2" (click)="buscarEntreFechas()" >Buscar registros</button>
+            </div>
+            </div>
+      </div>
 
       <div  class="d-flex justify-content-end ">
-        <div class="ml-2 mr-2 "> <button    class="btn  btn-excel btn-sm float-right mr-2 pr-2"  (click)="exportarExcelDetallado()" > <i class="far fa-file-excel mr-2"></i> Exportar</button>    </div>
-      <div class="ml-2 mr-2 "> <button    class="ml-2 btn  btn-pdf btn-sm float-right mr-2"  (click)="generarPdf()" > <i class="far fa-file-pdf mr-2"></i>Imprimir</button></div>
-      </div>                   
-      </div>    
- 
+
+      </div>
+      </div>
+
 </div>
 
-<p-table  #dt class="pt-4"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols"  [value]="elementos" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
+<div class="card p-2">
+  <div  class="d-flex justify-content-start ">
+ <div class="mr-2 "> <button    class="btn  btn-excel btn-sm float-right mr-2 pr-2"  (click)="exportarExcelDetallado()" > <i class="far fa-file-excel mr-2"></i> Exportar</button>    </div>
+  <div class="ml-2 mr-2 "> <button    class="btn  btn-excel btn-sm float-right mr-2 pr-2"  (click)="exportarExcel()" > <i class="far fa-file-excel mr-2"></i> Exportar resumido</button>    </div>
+  <div class="ml-2 mr-2 "> <button    class="ml-2 btn  btn-pdf btn-sm float-right mr-2"  (click)="generarPdf()" > <i class="far fa-file-pdf mr-2"></i>Imprimir</button></div>
+  </div>
+
+</div>
+
+<p-table  #dt class="pt-4"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols"  (onFilter)="filtered($event)" [value]="elementos" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
 scrollHeight="500px" [scrollable]="true"  [loading]="loading" loadingIcon="icon-color-loader-new fas fa-spinner fa-3x">
 
 
 <ng-template pTemplate="caption">
   <div class=" mr-1 d-flex align-items-center" >
-      <div class="ml-2">     <button    class="  btn btn-success btn-sm"  (click)="auditarOrdenes()" >Auditar ordenes</button>  </div> 
-  </div>          
+      <div class="ml-2">     <button    class="  btn btn-success btn-sm"  (click)="auditarOrdenes()" >Auditar ordenes</button>  </div>
+  </div>
 </ng-template>
 
 <ng-template pTemplate="header" let-columns >
-    
+
   <tr >
-       
+
       <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
             {{col.header}}
             <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activar para ordenar en forma descendente" ariaLabelAsc="Activar para ordenar en forma ascendente"></p-sortIcon>
       </th>
       <th style="width: 3em">
-        <p-tableHeaderCheckbox  ></p-tableHeaderCheckbox>
+        <p-tableHeaderCheckbox  (click)="sumarValores(selecteditems)"></p-tableHeaderCheckbox>
       </th>
     </tr>
     <tr>
     <th *ngFor="let col of columns" [ngSwitch]="col.field" >
-        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">             
-        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_apellido_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">   
-        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_nombre" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_nombre"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                       
-        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_fecha'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">      
-        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_cantidad'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">  
-        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_sesion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">  
-        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_total'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                          
-        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                    
-        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion_codigo" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion_codigo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                                            
-        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
-        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                                                                                
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_apellido_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_nombre" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_nombre"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_fecha'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_cantidad'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_sesion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_precio_total'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+        <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion_codigo" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion_codigo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
     </th>
     <th></th>
 </tr>
 </ng-template>
 
-<ng-template pTemplate="body" let-elemento> 
-     
-<tr style="height:28px" >   
-    <td style="width: 6%">                       
-        <a   (click)="editarRegistro(elemento)" ><i class="far fa-edit fa-lg icon-color-info  my-hover" ></i></a>                 
-      </td>           
+<ng-template pTemplate="body" let-elemento>
+
+<tr style="height:28px" >
+    <td style="width: 6%">
+        <a  #bn   (click)="accion($event,op,elemento)"    ><i class="far fa-edit fa-lg icon-color-info  my-hover" ></i></a>
+      </td>
+
+      <p-overlayPanel #op appendTo="body" [showTransitionOptions]="'400ms'" [hideTransitionOptions]="'300ms'"  [dismissable]="true" >
+        <span>  <small> <a class="nav-link azul text-info  my-hover" (click)="editarRegistro(elemento)">Editar registro</a></small></span>
+        <span>   <small><a class="nav-link azul text-danger my-hover" (click)="eliminarRegistro(elemento)">Eliminar registro</a></small></span>
+      </p-overlayPanel>
      <!--    <td [ngClass]="colorString(elemento.operacion_cobro_id)" style="width: 5%"><a class="my-hover" (click)="verDetalle(elemento)">{{elemento.operacion_cobro_id}}</a></td>    -->
-        
-        <td style="width: 8%">{{elemento.mat_matricula}}</td>      
-        <td style="width: 22%">{{elemento.mat_apellido_nombre}}</td>      
-        <td style="width: 20%">{{elemento.os_nombre}}</td>      
-        <td style="width: 12%">{{elemento.os_fecha | date: 'dd/MM/yyyy'}}</td>     
-        <td style="width: 20%">{{elemento.os_sesion}}</td>                                
-        <td style="width: 12%">{{elemento.os_sesion_codigo}}</td>  
-        <td style="width: 12%">{{elemento.os_precio_sesion}}</td>  
-        <td style="width: 8%">{{elemento.os_cantidad}}</td>    
-        <td style="width: 12%">{{elemento.os_precio_total}}</td>                                                                                                                                                                  
-        <td style="width: 15%">{{elemento.pac_nombre}}</td> 
-        <td style="width: 10%">{{elemento.pac_dni}}</td> 
+
+        <td style="width: 8%">{{elemento.mat_matricula}}</td>
+        <td style="width: 22%">{{elemento.mat_apellido_nombre}}</td>
+        <td style="width: 20%">{{elemento.os_nombre}}</td>
+        <td style="width: 12%">{{elemento.os_fecha | date: 'dd/MM/yyyy'}}</td>
+        <td style="width: 20%">{{elemento.os_sesion}}</td>
+        <td style="width: 12%">{{elemento.os_sesion_codigo}}</td>
+        <td style="width: 12%">{{elemento.os_precio_sesion}}</td>
+        <td style="width: 8%">{{elemento.os_cantidad}}</td>
+        <td style="width: 12%">{{elemento.os_precio_total}}</td>
+        <td style="width: 15%">{{elemento.pac_nombre}}</td>
+        <td style="width: 10%">{{elemento.pac_dni}}</td>
            <td style="width: 3em">
-              <p-tableCheckbox [value]="elemento"></p-tableCheckbox>
-          </td>   
-      
+              <p-tableCheckbox [value]="elemento" (click)="sumarValores(selecteditems)"></p-tableCheckbox>
+          </td>
+
 </tr>
 </ng-template>
+<ng-template pTemplate="footer">
+  <tr class="mt-3">
+            <td style="width: 20%"></td>
+            <td style="font-size: 10px;width: 20% " class="texto-info font-weight-bold text-lg">SELECCIONADO</td>
+            <td style="width: 30%" class="texto-success font-weight-bold text-lg">ORDENES {{total_orden}}</td>
+            <td style="width: 30%" class="texto-success font-weight-bold text-lg-center">TOTAL: {{total|  number : '1.2-2' }}</td>
+  <td style="width: 3em">
+      </td>
+  </tr>
 
+  </ng-template>
 </p-table>
 
-</div> 
+
+</div>

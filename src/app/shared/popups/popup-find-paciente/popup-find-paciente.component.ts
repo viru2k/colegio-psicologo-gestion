@@ -1,8 +1,10 @@
+import { DialogService } from 'primeng/components/common/api';
+import { PacienteEditarComponent } from './../../../pages/mantenimiento/paciente/paciente-editar/paciente-editar.component';
 import { Component, OnInit } from '@angular/core';
 import { MatriculaService } from '../../../services/matricula.service';
 import { FormGroup } from '@angular/forms';
 import { AlertServiceService } from '../../../services/alert-service.service';
-import { DynamicDialogRef } from 'primeng/api';
+import { DynamicDialogRef, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-popup-find-paciente',
@@ -10,7 +12,7 @@ import { DynamicDialogRef } from 'primeng/api';
   styleUrls: ['./popup-find-paciente.component.scss']
 })
 export class PopupFindPacienteComponent implements OnInit {
-  
+
   cols: any[];
 
   es:any;
@@ -23,6 +25,8 @@ export class PopupFindPacienteComponent implements OnInit {
   textoBusqueda = '';
 
   constructor(private matriculaService: MatriculaService,
+              private messageService: MessageService,
+              public dialogService: DialogService,
               public ref: DynamicDialogRef,
               private alertServiceService: AlertServiceService) {
     this.cols = [
@@ -56,7 +60,7 @@ getPacienteByDni() {
       this.elementos = resp;
       console.log(this.elementos);
     } else {
-     
+
     }
       this.loading = false;
     },
@@ -69,6 +73,21 @@ getPacienteByDni() {
   } catch (error) {
   this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
   }
+}
+
+agregarPaciente(){
+  const data: any = null;
+  const ref = this.dialogService.open(PacienteEditarComponent, {
+    data,
+     header: 'Agregar paciente',
+     width: '98%',
+     height: '90%'
+    });
+  ref.onClose.subscribe((PacienteEditarComponent: any) => {
+       if (PacienteEditarComponent) {
+       console.log(PacienteEditarComponent);
+       }
+    });
 }
 
 confirmar(elemento: any) {

@@ -1,3 +1,4 @@
+import { OverlayPanel } from 'primeng/overlaypanel';
 import { Component, OnInit } from '@angular/core';
 import { LiquidacionService } from './../../../../services/liquidacion.service';
 import { MatriculaService } from './../../../../services/matricula.service';
@@ -12,6 +13,7 @@ import { PopupOrdenEditarComponent } from './../popups/popup-orden-editar/popup-
 declare const require: any;
 const jsPDF = require('jspdf');
 require('jspdf-autotable');
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-orden-auditar',
@@ -26,6 +28,7 @@ export class OrdenAuditarComponent implements OnInit {
   elemento: any[] = null;
   elementos: any[] = [];
   selecteditems: any[] = [];
+  selecteditem: any = null;
   elementosFiltrados: any[] = [];
   elementosFiltradosImpresion: any[] = [];
   columns: any;
@@ -38,6 +41,9 @@ export class OrdenAuditarComponent implements OnInit {
   _os_sesion: any[] = [];
   _os_sesion_codigo: any[] = [];
   _os_nombre: any[] = [];
+
+  total_orden = 0;
+  total = 0;
 
   constructor(private liquidacionService: LiquidacionService,
               private matriculaService: MatriculaService,
@@ -86,7 +92,7 @@ this.columns = [
   }
 
   buscarOrdenes() {}
-  
+
   buscarEntreFechas() {
   this.loading = true;
   this._fechaDesde = formatDate(this.fechaDesde, 'yyyy-MM-dd', 'en');
@@ -138,7 +144,7 @@ auditarOrdenes() {
 
 editarRegistro(element: any) {
   console.log(element);
-  let data:any = this.selecteditems;
+  const data: any = this.selecteditem;
   const ref = this.dialogService.open(PopupOrdenEditarComponent, {
       data,
        header: 'Editar orden',
@@ -152,29 +158,91 @@ editarRegistro(element: any) {
           this.buscarEntreFechas();
          }
       });
-   
+
+}
+
+eliminarRegistro(element: any) {
+
+
+  try {
+    this.loading = true;
+    this.liquidacionService.destroyOrdenById(this.selecteditem.id_os_liq_orden)
+    .subscribe(resp => {
+      if (resp) {
+        swal({
+          toast: false,
+          type: 'success',
+          text: 'Se elimino la orden ',
+          title: 'ORDEN ELIMINADA',
+          showConfirmButton: false,
+          timer: 2000,
+          onClose: () => {
+            this.buscarEntreFechas();
+          }
+        });
+      }
+    },
+    error => { // error path
+      this.loading = false;
+      console.log(error.message);
+      console.log(error.status);
+      this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+    });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
 }
 
 public exportarExcelDetallado(){
-  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');  
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
   let seleccionados: any[] = [];
   let exportar:any[] = [];
   let i = 0;
   this.selecteditems.forEach(element => {
    // console.log(element['operacion_cobro_id']);
-    seleccionados['fecha_carga'] =   formatDate(element['fecha_carga'], 'dd/MM/yyyy', 'es-Ar');  ;
-    seleccionados['cuenta_nombre'] = element.cuenta_nombre ;
-    seleccionados['tipo_comprobante'] = element.tipo_comprobante;
-    seleccionados['concepto_cuenta'] = element.concepto_cuenta;
-    seleccionados['proveedor_nombre'] = element.proveedor_nombre;
-    seleccionados['comprobante_numero'] = element.comprobante_numero ;
-    seleccionados['descripcion'] = element.descripcion;
-    seleccionados['movimiento_tipo'] = element.movimiento_tipo;
-    seleccionados['tipo_moneda'] = element.tipo_moneda;
-    seleccionados['cantidad'] = element.importe;
-    seleccionados['cotizacion'] = element.cotizacion;
 
-    seleccionados['total'] = element.total;
+    seleccionados['mat_matricula'] = element.mat_matricula ;
+    seleccionados['mat_apellido_nombre'] = element.mat_apellido_nombre;
+    seleccionados['os_fecha'] =   formatDate(element['os_fecha'], 'dd/MM/yyyy', 'es-Ar');  ;
+    seleccionados['os_nombre'] = element.os_nombre;
+    seleccionados['os_sesion'] = element.os_sesion;
+    seleccionados['os_sesion_codigo'] = element.os_sesion_codigo;
+    seleccionados['os_cantidad'] = element.os_cantidad;
+    seleccionados['os_precio_sesion'] = Number(element.os_precio_sesion);
+    seleccionados['os_precio_total'] = Number(element.os_precio_total);
+    seleccionados['pac_nombre'] = element.pac_nombre;
+    seleccionados['pac_dni'] = element.pac_dni;
+   // exportar.push(seleccionados);
+    exportar[i] = seleccionados;
+
+   // console.log(seleccionados);
+    seleccionados = [];
+    i++;
+  });
+  console.log(exportar);
+  this.excelService.exportAsExcelFile(  exportar, 'listado_presentacion_detallado'+fecha_impresion);
+}
+
+
+public exportarExcel(){
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
+  let seleccionados: any[] = [];
+  let exportar:any[] = [];
+  let i = 0;
+  this.selecteditems.forEach(element => {
+   // console.log(element['operacion_cobro_id']);
+   const regex = '.';
+
+    seleccionados['mat_matricula'] = element.mat_matricula ;
+    seleccionados['mat_apellido_nombre'] = element.mat_apellido_nombre;
+    seleccionados['os_sesion'] = element.os_sesion;
+    seleccionados['os_sesion_codigo'] = element.os_sesion_codigo;
+    seleccionados['os_cantidad'] = element.os_cantidad;
+    seleccionados['copago'] = 0;
+    seleccionados['os_precio_sesion'] =    Number(element.os_precio_sesion);
+    seleccionados['os_precio_total'] = Number(element.os_precio_total);
+    seleccionados['pac_nombre'] = element.pac_nombre;
+    seleccionados['pac_dni'] = element.pac_dni;
    // exportar.push(seleccionados);
     exportar[i] = seleccionados;
   //  console.log(element);
@@ -182,7 +250,7 @@ public exportarExcelDetallado(){
     seleccionados = [];
     i++;
   });
-  this.excelService.exportAsExcelFile(  exportar, 'listado_presentacion_detallado'+fecha_impresion);
+  this.excelService.exportAsExcelFile(  exportar, 'listado_presentacion_resumido'+fecha_impresion);
 }
 
 generarPdf() {
@@ -216,6 +284,38 @@ generarPdf() {
         }
         );
   window.open(doc.output('bloburl'));
+
+}
+
+accion(event: any, overlaypanel: OverlayPanel, elementos: any) {
+  if (elementos) {
+    this.selecteditem = elementos;
+  }
+    console.log(this.selecteditem);
+    overlaypanel.toggle(event);
+  }
+
+
+filtered(event){
+  console.log(event.filteredValue);
+  this.elementosFiltrados  = event.filteredValue;
+  this.sumarValores(this.elementosFiltrados);
+}
+
+
+sumarValores(vals:any){
+  let i:number;
+  console.log(vals);
+  //console.log(vals[1]['valor_facturado']);
+  console.log(vals !== undefined);
+  this.total_orden = 0;
+  this.total = 0;
+
+  for (i = 0; i < vals.length; i++) {
+      this.total_orden = this.total_orden + Number(vals[i]['os_cantidad']);
+      this.total = this.total + Number(vals[i]['os_precio_total']);
+
+  }
 
 }
 
