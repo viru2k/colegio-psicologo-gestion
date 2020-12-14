@@ -25,7 +25,7 @@ public filterArray(arr: any) {
    /*            FUNCION QUE COMPARA FECHAS Y DEVUELVE NUMERO DE MESES           */
    /* -------------------------------------------------------------------------- */
 
-   public  monthDiff(vencimiento) {
+   public  monthdiff(vencimiento) {
      const today = new Date();
 
      const _vencimiento =  new Date(vencimiento);

@@ -1,3 +1,4 @@
+import { ExcelService } from './../../../services/excel.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatriculaService } from './../../../services/matricula.service';
 import { AlertServiceService } from './../../../services/alert-service.service';
@@ -9,6 +10,7 @@ import { calendarioIdioma } from './../../../config/config';
 import { formatDate } from '@angular/common';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { PopupMatriculaObraSocialComponent } from '../popups/popup-matricula-obra-social/popup-matricula-obra-social.component';
+
 
 @Component({
   selector: 'app-matricula-general',
@@ -35,7 +37,8 @@ export class MatriculaGeneralComponent implements OnInit {
               private alertServiceService: AlertServiceService,
               public dialogService: DialogService,
               private messageService: MessageService,
-              private filter: Filter) {
+              private filter: Filter,
+              private excelService: ExcelService) {
 
     this.cols = [
       { field: '', header: '',  width: '6%' },
@@ -50,8 +53,8 @@ export class MatriculaGeneralComponent implements OnInit {
       { field: 'mat_fecha_egreso', header: 'F. Egreso',  width: '10%' },
       { field: 'mat_fecha_matricula', header: 'F. Matricula',  width: '10%' },
       { field: '', header: '',  width: '6%' },
-      
-      
+
+
    ];
   }
 
@@ -113,7 +116,7 @@ buscar(elemento: any) {
 }
 
 accionesmatricula() {
-  
+
 }
 
 nuevo() {
@@ -145,7 +148,7 @@ historiaPagos() {
 
 
 asociarObraSocial() {
-  
+
 
   const data: any = this.selecteditem;
   const ref = this.dialogService.open(PopupMatriculaObraSocialComponent, {
@@ -176,13 +179,56 @@ realizarFiltroBusqueda(resp: any[]){
     this._mat_sexo.push(element['mat_sexo']);
     this._mat_localidad.push(element['mat_localidad']);
   });
-  
+
   // ELIMINO DUPLICADOS
-  this._mat_sexo = this.filter.filterArray(this._mat_sexo);  
-  this._mat_localidad = this.filter.filterArray(this._mat_localidad);  
-  
+  this._mat_sexo = this.filter.filterArray(this._mat_sexo);
+  this._mat_localidad = this.filter.filterArray(this._mat_localidad);
 
 
+
+}
+
+
+
+public exportarExcel(){
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
+  let seleccionados: any[] = [];
+  let exportar:any[] = [];
+  let i = 0;
+  this.selecteditems.forEach(element => {
+   // console.log(element['operacion_cobro_id']);
+   const regex = '.';
+
+    seleccionados['mat_matricula_psicologo'] = element.mat_matricula_psicologo ;
+    seleccionados['mat_apellido'] = element.mat_apellido;
+    seleccionados['mat_nombre'] = element.mat_nombre;
+    seleccionados['mat_fecha_nacimiento'] = formatDate(element['mat_fecha_nacimiento'], 'dd/MM/yyyy', 'es-Ar');
+    seleccionados['mat_fecha_egreso'] = formatDate(element['mat_fecha_egreso'], 'dd/MM/yyyy', 'es-Ar');
+    seleccionados['mat_fecha_matricula'] = formatDate(element['mat_fecha_matricula'], 'dd/MM/yyyy', 'es-Ar');
+    seleccionados['mat_cuit'] = element.mat_cuit;
+    seleccionados['mat_email'] = element.mat_email;
+    seleccionados['mat_estado_matricula'] = element.mat_estado_matricula;
+    seleccionados['mat_domicilio_laboral'] = element.mat_domicilio_laboral;
+    seleccionados['mat_domicilio_particular'] = element.mat_domicilio_particular;
+    seleccionados['mat_tel_laboral'] = element.mat_tel_laboral;
+    seleccionados['mat_tel_particular'] = element.mat_tel_particular;
+    seleccionados['mat_especialidad'] = element.mat_especialidad;
+    seleccionados['mat_orientacion'] = element.mat_orientacion;
+    seleccionados['mat_abordaje'] = element.mat_abordaje;
+    seleccionados['mat_lugar_laboral'] = element.mat_lugar_laboral;
+    seleccionados['mat_ning_bto'] = element.mat_ning_bto;
+    seleccionados['mat_sexo'] = element.mat_sexo;
+
+    seleccionados['nro_afiliado'] = element.nro_afiliado;
+
+   // exportar.push(seleccionados);
+    exportar[i] = seleccionados;
+  //  console.log(element);
+   // console.log(seleccionados);
+    seleccionados = [];
+    i++;
+  });
+  this.excelService.exportAsExcelFile(  exportar, 'listado_presentacion_resumido'+fecha_impresion);
 }
 
 

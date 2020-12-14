@@ -1,27 +1,36 @@
 
+<div class="card p-2">
+  <div  class="d-flex justify-content-start ">
+ <div class="mr-2 "> <button    class="btn  btn-info btn-sm float-right mr-2 pr-2"  (click)="nuevo()" > <i class="fas fa-plus mr-2"></i> Matricula</button>    </div>
+  <div class="ml-2 mr-2 "> <button    class="btn  btn-success btn-sm float-right mr-2 pr-2"  (click)="accionesmatricula()" > <i class="fas fa-search mr-2"></i> Acciones sobre padron</button>    </div>
+  </div>
+</div>
+
+
+<div class="card p-2">
+  <div  class="d-flex justify-content-start ">
+ <div class="mr-2 "> <button    class="btn  btn-excel btn-sm float-right mr-2 pr-2"  (click)="exportarExcel()" > <i class="far fa-file-excel mr-2"></i> Exportar</button>    </div>
+  <div class="ml-2 mr-2 "> <button    class="btn  btn-excel btn-sm float-right mr-2 pr-2"  (click)="exportarExcel()" > <i class="far fa-file-excel mr-2"></i> Exportar resumido</button>    </div>
+  </div>
+</div>
+
       <div >
         <p-table  #dt class="pt-2"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols" [value]="elementos"  [loading]="loading" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
         scrollHeight="65vh" [scrollable]="true"  loadingIcon=" icon-color-loader-new fas fa-spinner fa-3x"  >
-  
-        <ng-template pTemplate="caption">
-            <div class="table-header">
-              <div class=" d-flex justify-content-between">
-                <div class="m-2 d-flex justify-content-start">  <button class="btn btn-info btn-sm fuente" (click)="nuevo()"> <i class="fas fa-plus fa-sm mr-2 "></i>Matricula</button>  </div> 
-                <div class="m-2 d-flex justify-content-end">  <button class="btn btn-success btn-sm fuente" (click)="accionesmatricula()"> <i class="fas fa-search fa-sm mr-2"></i>Acciones sobre padron</button>  </div> 
-              </div>
-              
-            </div>
-        </ng-template>
+
+
                    <ng-template pTemplate="header" let-columns  >
-                  
+
                               <tr  >
-                                   
+
                                 <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
                                     {{col.header}}
                                     <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-                                </th> 
-                              
-                            </tr> 
+                                </th>
+                                <th style="width: 3em">
+                                  <p-tableHeaderCheckbox  ></p-tableHeaderCheckbox>
+                                </th>
+                            </tr>
                             <tr>
                             <th *ngFor="let col of columns" [ngSwitch]="col.field"  >
                                 <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_matricula_psicologo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
@@ -29,51 +38,54 @@
                                 <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                                 <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                                 <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" class="fuente" [options]="_mat_sexo" appendTo="body" defaultLabel=""   showHeader="false"  *ngIf='col.field =="mat_sexo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
-                                <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" class="fuente" [options]="_mat_localidad" appendTo="body" defaultLabel=""   showHeader="false"  *ngIf='col.field =="mat_localidad"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>                                
+                                <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" class="fuente" [options]="_mat_localidad" appendTo="body" defaultLabel=""   showHeader="false"  *ngIf='col.field =="mat_localidad"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
                                 <input   style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_tel_laboral'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                                 <input   style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_fecha_nacimiento'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" dateFormat="yy-mm-dd">
                                 <input   style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_fecha_egreso'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" dateFormat="yy-mm-dd">
                                 <input   style=" font-size: 12px;" class="form-control col-md-12 form-control-sm fuente" *ngSwitchCase="'mat_fecha_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')" dateFormat="yy-mm-dd">
-                               
+
                             </th>
                             <th></th>
                         </tr>
                     </ng-template>
-       
+
 
                   <ng-template pTemplate="body" let-elementos >
-                <tr style="height:28px"   > 
+                <tr style="height:28px"   >
                   <td style="width: 6%">
-                      <a  (click)="buscar(elementos)" class="icon-hover"> <i class="far fa-edit fa-lg icon-color-clinica "></i></a>     
-                      
+                      <a  (click)="buscar(elementos)" class="icon-hover"> <i class="far fa-edit fa-lg icon-color-clinica "></i></a>
+
                     </td>
-                  
+
                   <td  class="fuente" style="width: 10%">{{elementos.mat_matricula_psicologo}}</td>
                   <td  class="fuente" style="width: 20%">{{elementos.mat_apellido}}</td>
                   <td  class="fuente" style="width: 20%">{{elementos.mat_nombre}}</td>
                   <td  class="fuente" style="width: 10%">{{elementos.mat_dni}}</td>
                   <td  class="fuente" style="width: 8%">{{elementos.mat_sexo}}</td>
-                  <td  class="fuente" style="width: 12%">{{elementos.mat_localidad}}</td>                  
+                  <td  class="fuente" style="width: 12%">{{elementos.mat_localidad}}</td>
                   <td  class="fuente" style="width: 10%">{{elementos.mat_tel_laboral}}</td>
                   <td  class="fuente" style="width: 10%">{{elementos.mat_fecha_nacimiento | date: 'dd/MM/yyyy'}}</td>
                   <td  class="fuente" style="width: 10%">{{elementos.mat_fecha_egreso | date: 'dd/MM/yyyy'}}</td>
                   <td  class="fuente" style="width: 10%">{{elementos.mat_fecha_matricula | date: 'dd/MM/yyyy'}}</td>
                   <td style="width: 6%">
-                    <a  (click)="detalle($event,op,elementos)"><i class="fas fa-bars icon-color-informacion fa-lg icon-hover"></i></a>     
+                    <a  (click)="detalle($event,op,elementos)"><i class="fas fa-bars icon-color-informacion fa-lg icon-hover"></i></a>
                   </td>
+
+                  <td style="width: 3em">
+                    <p-tableCheckbox [value]="elementos"></p-tableCheckbox>
+                </td>
                 </tr>
             </ng-template>
-           
+
         </p-table>
-        <p-overlayPanel #op appendTo="body"  [showTransitionOptions]="'400ms'" [hideTransitionOptions]="'300ms'"  [dismissable]="true" [showCloseIcon]="true" >                                                
+        <p-overlayPanel #op appendTo="body"  [showTransitionOptions]="'400ms'" [hideTransitionOptions]="'300ms'"  [dismissable]="true" [showCloseIcon]="true" >
 
                <h6 class="d-flex justify-content-center  icon-color-informacion">OBRA SOCIAL</h6>
                <span>   <a class="nav-link icon-color-verde-oscuro my-hover" (click)="asociarObraSocial()"> <i class="fas fa-file-medical fa-lg mr-2"></i> Asociar obras sociales</a></span>
                <span>   <a class="nav-link icon-color-info my-hover" (click)="liquidaciones()"> <i class="fas fa-file-medical fa-lg mr-2"></i> Liquidaciones</a></span>
-               
+
               <!-- <button class="btn-cuadrado-success  btn--block " (click)="detalleProduccion(elemento)"  >Detalle  producción</button>      -->
-          </p-overlayPanel> 
-        
+          </p-overlayPanel>
+
       </div>
 
-     

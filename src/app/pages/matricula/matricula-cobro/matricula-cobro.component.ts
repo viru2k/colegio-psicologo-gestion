@@ -414,7 +414,7 @@ getDeudaByMatricula(mat_matricula_psicologo) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
 
-          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+          if (this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {
@@ -459,8 +459,8 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string) {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
-      //    console.log(this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']));
-          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+      //    console.log(this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']));
+          if (this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {
@@ -500,7 +500,7 @@ buscarCobradoEntreFechas() {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
-          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+          if (this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {
@@ -546,7 +546,7 @@ buscarPendienteEntreFechas() {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
-          if (this.filter.monthDiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+          if (this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {

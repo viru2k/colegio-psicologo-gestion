@@ -36,10 +36,10 @@ export class PopupMatriculaEditarComponent implements OnInit {
       'mat_lugar_laboral': new FormControl(''),
       'mat_email': new FormControl('sin_correo@corre.com'),
       'mat_tipo_dni': new FormControl('DNI'),
-      'mat_dni': new FormControl('0'), 
-      'mat_num_cuenta': new FormControl('0'), 
-      'mat_banco_nombre': new FormControl('BANCO SANTANDER'), 
-      'mat_sucursal': new FormControl('0'), 
+      'mat_dni': new FormControl('0'),
+      'mat_num_cuenta': new FormControl('0'),
+      'mat_banco_nombre': new FormControl('BANCO SANTANDER'),
+      'mat_sucursal': new FormControl('0'),
       'mat_fecha_nacimiento': new FormControl(new Date()),
       'mat_fecha_egreso': new FormControl(new Date()),
       'mat_fecha_matricula': new FormControl(new Date()),
@@ -55,8 +55,9 @@ export class PopupMatriculaEditarComponent implements OnInit {
       'mat_nro_folio': new FormControl(''),
       'mat_nro_acta': new FormControl(''),
       'mat_fallecido': new FormControl('N'),
-      'mat_historial': new FormControl('')
-      
+      'mat_historial': new FormControl(''),
+      'nro_afiliado': new FormControl('0')
+
     });
 
 
@@ -68,22 +69,22 @@ export class PopupMatriculaEditarComponent implements OnInit {
     let dateFix;
     this.updateDataForm.patchValue(this.config.data);
      _fecha = new Date(this.config.data.mat_fecha_nacimiento);
-     dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));   
+     dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));
     this.config.data.mat_fecha_nacimiento = dateFix;
 
     _fecha = new Date(this.config.data.mat_fecha_egreso);
-    dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));   
+    dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));
    this.config.data.mat_fecha_egreso = dateFix;
 
    _fecha = new Date(this.config.data.mat_fecha_matricula);
-   dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));   
+   dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));
   this.config.data.mat_fecha_matricula = dateFix;
 
     this.updateDataForm.patchValue({mat_fecha_nacimiento: new Date(this.config.data.mat_fecha_nacimiento)});
     this.updateDataForm.patchValue({mat_fecha_egreso: new Date(this.config.data.mat_fecha_egreso)});
     this.updateDataForm.patchValue({mat_fecha_matricula: new Date(this.config.data.mat_fecha_matricula)});
     console.log(this.updateDataForm.value);
- 
+
   }
    }
 
@@ -91,7 +92,7 @@ export class PopupMatriculaEditarComponent implements OnInit {
   }
 
   actualizarDatos() {
-    
+
     console.log(this.updateDataForm.value);
     if (this.esEditar) {
       try {
@@ -104,10 +105,10 @@ export class PopupMatriculaEditarComponent implements OnInit {
             console.log(error.message);
             console.log(error.status);
             this.alertServiceService.throwAlert('error','Error: '+error.status+'  Error al cargar los registros',error.message, error.status);
-         });    
+         });
     } catch (error) {
       this.alertServiceService.throwAlert('error','Error: '+error.status+'  Error al cargar los registros',error.message, error.status);
-    } 
+    }
     } else {
       try {
         this.matriculaService.setMatricula(this.updateDataForm.value)
@@ -119,12 +120,14 @@ export class PopupMatriculaEditarComponent implements OnInit {
             console.log(error.message);
             console.log(error.status);
             this.alertServiceService.throwAlert('error','Error: '+error.status+'  Error al cargar los registros',error.message, error.status);
-         });    
+         });
     } catch (error) {
       this.alertServiceService.throwAlert('error','Error: '+error.status+'  Error al cargar los registros',error.message, error.status);
-    } 
     }
-    
+    }
+
 }
+
+
 
 }

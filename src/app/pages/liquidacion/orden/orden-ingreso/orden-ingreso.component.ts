@@ -457,7 +457,7 @@ public exportarExcelDetallado(){
 
     seleccionados['mat_matricula'] = element.mat_matricula ;
     seleccionados['mat_apellido_nombre'] = element.mat_apellido_nombre;
-    seleccionados['os_fecha'] =   formatDate(element['os_fecha'], 'dd/MM/yyyy', 'es-Ar');  ;
+    seleccionados['os_fecha'] =   formatDate(element['os_fecha'], 'dd/MM/yyyy', 'es-Ar');
     seleccionados['os_nombre'] = element.os_nombre;
     seleccionados['os_sesion'] = element.os_sesion;
     seleccionados['os_sesion_codigo'] = element.os_sesion_codigo;

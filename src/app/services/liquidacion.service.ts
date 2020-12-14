@@ -135,9 +135,20 @@ export class LiquidacionService {
          this.http.get(URL_SERVICIOS + 'liquidacion/liquidar?id_liquidacion_generada=' + id_liquidacion_generada + '&descuenta_matricula=' + descuenta_matricula);
         }
 
-        destroyOrdenById(id: string) {
-          // tslint:disable-next-line: max-line-length
-          return this.http.delete<any>(URL_SERVICIOS + 'orden/eliminar/' + id );
-        }
+        getUltimoIngresoBruto() {
+        // tslint:disable-next-line: max-line-length
+        this.http.get(URL_SERVICIOS + 'liquidacion/ingreso/bruto/ultimo');
+       }
+
+      destroyOrdenById(id: string) {
+        // tslint:disable-next-line: max-line-length
+        return this.http.delete<any>(URL_SERVICIOS + 'orden/eliminar/' + id );
+      }
+
+
+      obtenerLiquidacionDetalleSeleccionadas(id_liquidacion_generada: any[]) {
+        // tslint:disable-next-line: max-line-length
+        this.http.post(URL_SERVICIOS + 'liquidacion/expediente/liquidacion/id/seleccionado', id_liquidacion_generada);
+       }
 
 }
