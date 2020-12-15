@@ -1,0 +1,94 @@
+<div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-start">
+    <div *ngIf="config.data" class="row">
+      <label class="mr-2"> Matricula {{config.data.mat_matricula_psicologo}} </label>
+      <label class="mr-2"> Psicólogo {{config.data.mat_apellido}} {{config.data.mat_nombre}}</label>
+
+    </div>
+  </div>
+  <div>
+
+  </div>
+</div>
+
+<div  *ngIf="config.data"  class="form-group ">
+  <label class="mr-1" >Generar</label>
+  <div class="row">
+    <p-calendar [inputStyle]="{'height':'29.1px'}" appendTo="body"    class="mr-2 " [(ngModel)]="fechaDesde"  (onSelect)="actualizarFechaDesde($event)" tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
+      <ng-template pTemplate="date" let-date>
+              <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
+          </ng-template>
+      </p-calendar>
+      <div class="col-3"><p-radioButton name="groupname"  [(ngModel)]="estado"   value="ANI" label="Todo el año"  inputId="opt2"></p-radioButton></div>
+      <div class="col-3"><p-radioButton name="groupname"  [(ngModel)]="estado"   value="MES" label="Desde un mes"  inputId="opt1"></p-radioButton></div>
+
+    </div>
+</div>
+
+
+<div  class="col-12 m-2"><button class="btn btn-info btn-sm btn-block" (click)="generarDeuda()"> Generar deuda</button></div>
+<div>
+
+
+  <p-scrollPanel [style]="{width: '100%', height: '350px'}">
+  <p-table  #dt class="pt-2"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols"  [value]="elemento" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
+  scrollHeight="500px" [scrollable]="true" (onFilter)="filtered($event)" [loading]="loading" loadingIcon=" icon-color-loader-new fas fa-spinner fa-3x ">
+
+
+
+
+        <ng-template pTemplate="header" let-columns >
+          <tr >
+              <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activar para ordenar en forma descendente" ariaLabelAsc="Activar para ordenar en forma ascendente"></p-sortIcon>
+              </th>
+
+            </tr>
+            <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field" >
+                <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_concepto" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="mat_concepto"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_descripcion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_monto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_monto_final'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_fecha_vencimiento'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_fecha_pago'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_num_cuota" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="mat_num_cuota"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_id_plan'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_nombreyapellido'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                 <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_estado" appendTo="body" defaultLabel="Filtrar"	 *ngIf='col.field =="mat_estado"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+                 <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_tipo_pago" appendTo="body" defaultLabel="Filtrar"	 *ngIf='col.field =="mat_tipo_pago"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+                 <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_nombreyapellido" appendTo="body" defaultLabel="Filtrar"	 *ngIf='col.field =="nombreyapellido"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+
+        <ng-template pTemplate="body" let-elemento>
+
+        <tr style="height:28px"  >
+
+             <!--    <td [ngClass]="colorString(elemento.operacion_cobro_id)" style="width: 5%"><a class="my-hover" (click)="verDetalle(elemento)">{{elemento.operacion_cobro_id}}</a></td>    -->
+             <td style="width: 8%">{{elemento.mat_matricula}}</td>
+                <td style="width: 20%">{{elemento.mat_nombreyapellido}}</td>
+                <td style="width: 20%">{{elemento.mat_concepto}}</td>
+                <td style="width: 25%">{{elemento.mat_descripcion}}</td>
+                <td style="width: 12%">{{elemento.mat_monto |  number : '1.2-2'}}</td>
+                <td style="width: 12%">{{elemento.mat_monto_final |  number : '1.2-2'}}</td>
+                <td style="width: 12%">{{elemento.mat_fecha_pago | date: 'dd/MM/yyyy'}}</td>
+                <td style="width: 12%">{{elemento.mat_fecha_vencimiento | date: 'dd/MM/yyyy'}}</td>
+                <td style="width: 8%">{{elemento.mat_num_cuota}}</td>
+                <td style="width: 8%">{{elemento.mat_id_plan}}</td>
+                <td style="width: 8%" [ngClass]="colorString(elemento.mat_estado)">{{elemento.mat_estado}}</td>
+                <td style="width: 8%">{{elemento.mat_tipo_pago}}</td>
+                <td style="width: 14%">{{elemento.nombreyapellido}}</td>
+        </tr>
+        </ng-template>
+
+
+  </p-table>
+
+</p-scrollPanel>
+</div>

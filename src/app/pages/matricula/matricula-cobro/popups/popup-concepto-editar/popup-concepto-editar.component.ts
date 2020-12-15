@@ -21,6 +21,7 @@ export class PopupConceptoEditarComponent implements OnInit {
   userData: any;
   selectedCategory: any = null;
   updateDataForm: FormGroup;
+  elementoConcepto: any[] = [];
 
   constructor(public config: DynamicDialogConfig,
               private alertServiceService: AlertServiceService, public ref: DynamicDialogRef, private cobroService: CobroService) {
@@ -51,6 +52,19 @@ export class PopupConceptoEditarComponent implements OnInit {
   ngOnInit() {
     this.userData = JSON.parse(localStorage.getItem('userData'));
     console.log(this.config.data);
+
+    let _fecha: Date = new Date(this.config.data.mat_fecha_pago);
+    let dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));
+    console.log((new Date()).getFullYear() - (new Date(dateFix)).getFullYear());
+    console.log(dateFix);
+    this.config.data.mat_fecha_pago = dateFix;
+
+    _fecha = new Date(this.config.data.mat_fecha_vencimiento);
+    dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));
+    console.log((new Date()).getFullYear() - (new Date(dateFix)).getFullYear());
+    console.log(dateFix);
+    this.config.data.mat_fecha_vencimiento = dateFix;
+
     this.updateDataForm.patchValue({mat_fecha_pago: new Date(this.config.data.mat_fecha_pago)});
     this.updateDataForm.patchValue({mat_fecha_vencimiento: new Date(this.config.data.mat_fecha_vencimiento)});
     this.updateDataForm.patchValue({mat_concepto: this.config.data.mat_concepto});
@@ -65,6 +79,9 @@ export class PopupConceptoEditarComponent implements OnInit {
     this.updateDataForm.patchValue({mat_monto_final: this.config.data.mat_monto_final});
     this.updateDataForm.patchValue({mat_tipo_pago: this.config.data.mat_tipo_pago});
     this.updateDataForm.patchValue({mat_numero_comprobante: this.config.data.mat_numero_comprobante});
+    this.updateDataForm.patchValue({id_concepto: this.config.data.id_concepto});
+
+    this.loadConcepto();
   }
 
 
@@ -72,8 +89,45 @@ export class PopupConceptoEditarComponent implements OnInit {
     this.updateDataForm.patchValue({mat_monto_final: (this.updateDataForm.value.mat_interes * this.updateDataForm.value.mat_monto )});
   }
 
+
+  loadConcepto() {
+    this.loading = true;
+  try {
+      this.cobroService.getConcepto()
+      .subscribe(resp => {
+
+      if (resp[0]) {
+        console.log(resp);
+        this.elementoConcepto = resp;
+        this.updateDataForm.get('mat_concepto').setValue(this.elementoConcepto.find(elem => elem.mat_concepto === this.config.data.mat_concepto));
+          }
+      this.loading = false;
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+
+  }
+
+
+  changeElementoConcepto(event) {
+    console.log(event.value);
+  //  this.updateDataForm.patchValue({ mat_concepto: event.value.mat_concepto});
+    this.updateDataForm.patchValue({ id_concepto: event.value.id_concepto});
+    this.updateDataForm.patchValue({ mat_monto: event.value.mat_monto});
+    this.updateDataForm.patchValue({ mat_interes: event.value.mat_interes});
+    this.updateDataForm.patchValue({mat_monto_final: (event.value.mat_interes * event.value.mat_monto )});
+
+  }
+
   actualizarDatos() {
-    
+
     console.log(this.updateDataForm.value);
     this.updateDataForm.patchValue({mat_fecha_pago :  formatDate(this.updateDataForm.value.mat_fecha_pago , 'dd/MM/yyyy', 'en')});
     this.updateDataForm.patchValue({mat_fecha_vencimiento :  formatDate(this.updateDataForm.value.mat_fecha_vencimiento , 'dd/MM/yyyy', 'en')});

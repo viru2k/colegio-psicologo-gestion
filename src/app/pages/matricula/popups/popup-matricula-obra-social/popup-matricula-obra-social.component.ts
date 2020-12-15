@@ -12,7 +12,7 @@ import { MatriculaService } from '../../../../services/matricula.service';
 })
 export class PopupMatriculaObraSocialComponent implements OnInit {
 
- 
+
   cols: any[];
   columns: any[];
   elementos: any[];
@@ -40,7 +40,7 @@ export class PopupMatriculaObraSocialComponent implements OnInit {
     this.loadlist();
   }
 
- 
+
 
 
   loadlist() {
@@ -48,7 +48,7 @@ export class PopupMatriculaObraSocialComponent implements OnInit {
     this.loading = true;
     this.mensaje = 'Cargando listado ...';
     try {
-        this.obraSocialService.getObraSocial()
+        this.obraSocialService.getObraSocialHabilitado()
         .subscribe(resp => {
             this.elementos = resp;
             console.log(this.elementos);

@@ -25,7 +25,7 @@ export class PopupMovimientoComponent implements OnInit {
   formasPago: any[];
   updateDataForm: FormGroup;
   forma_pago: string ;
-  _fechaHoy: string;  
+  _fechaHoy: string;
   selectedForma: string;
 
   elementoConceptoCuenta: any[] = [];
@@ -42,7 +42,7 @@ export class PopupMovimientoComponent implements OnInit {
    this.updateDataForm = new FormGroup({
     'id': new FormControl(),
     'fecha_carga': new FormControl(new Date()),
-    'comprobante_numero': new FormControl(''),    
+    'comprobante_numero': new FormControl(''),
     'mov_concepto_cuenta_id': new FormControl(1),
     'mov_cuenta_id': new FormControl(1),
     'concepto_cuenta': new FormControl(''),
@@ -62,12 +62,18 @@ export class PopupMovimientoComponent implements OnInit {
     'nombreyapellido_paciente': new FormControl(''),
     'nombreyapellido_proveedor': new FormControl(''),
     'proveedor_id': new FormControl(0),
-    
+
   });
 
- 
+
    console.log(this.config.data);
    if (this.config.data) {
+    let _fecha: Date = new Date(this.config.data.fecha_carga);
+    let dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));
+    console.log((new Date()).getFullYear() - (new Date(dateFix)).getFullYear());
+    console.log(dateFix);
+    this.config.data.fecha_carga = dateFix;
+
     this.esEditar = true;
     this.updateDataForm.patchValue(this.config.data);
     this.updateDataForm.patchValue({fecha_carga: new Date(this.config.data.fecha_carga)});
@@ -110,7 +116,7 @@ export class PopupMovimientoComponent implements OnInit {
             }
           this.loading = false;
           },
-          error => { 
+          error => {
               console.log(error.message);
               console.log(error.status);
               // tslint:disable-next-line: max-line-length
@@ -188,7 +194,7 @@ async getTipoComprobante() {
       }
     this.loading = false;
     },
-    error => { 
+    error => {
         console.log(error.message);
         console.log(error.status);
         // tslint:disable-next-line: max-line-length
@@ -223,7 +229,7 @@ async getMoneda() {
       }
     this.loading = false;
     },
-    error => { 
+    error => {
         console.log(error.message);
         console.log(error.status);
         // tslint:disable-next-line: max-line-length
@@ -252,7 +258,7 @@ buscarProveedor() {
 
   ref.onClose.subscribe((PopupProveedorFindComponent: any) => {
       if (PopupProveedorFindComponent) {
-      
+
        console.log(PopupProveedorFindComponent);
        this.updateDataForm.patchValue({nombreyapellido_proveedor: PopupProveedorFindComponent.proveedor_nombre});
        this.updateDataForm.patchValue({proveedor_id: PopupProveedorFindComponent.id});
@@ -264,7 +270,7 @@ buscarProveedor() {
 
 
   actualizarDatos() {
-    
+
     console.log(this.updateDataForm.value);
     if (this.esEditar) {
       try {
@@ -277,10 +283,10 @@ buscarProveedor() {
             console.log(error.message);
             console.log(error.status);
             this.alertServiceService.throwAlert('error','Error: '+error.status+'  Error al cargar los registros',error.message, error.status);
-         });    
+         });
     } catch (error) {
       this.alertServiceService.throwAlert('error','Error: '+error.status+'  Error al cargar los registros',error.message, error.status);
-    } 
+    }
     } else {
       try {
         this.movimientoCajaService.setMovimientoCaja(this.updateDataForm.value)
@@ -292,12 +298,12 @@ buscarProveedor() {
             console.log(error.message);
             console.log(error.status);
             this.alertServiceService.throwAlert('error','Error: '+error.status+'  Error al cargar los registros',error.message, error.status);
-         });    
+         });
     } catch (error) {
       this.alertServiceService.throwAlert('error','Error: '+error.status+'  Error al cargar los registros',error.message, error.status);
-    } 
     }
-    
+    }
+
 }
-    
+
   }

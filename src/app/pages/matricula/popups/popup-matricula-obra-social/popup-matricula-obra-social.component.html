@@ -1,38 +1,42 @@
 <div>
-    <app-custom-preloader *ngIf="loading"></app-custom-preloader>  
+    <app-custom-preloader *ngIf="loading"></app-custom-preloader>
   </div>
   <div class="d-flex justify-content-between">
     <div class="d-flex justify-content-start">
-      <p-listbox [options]="modulosUsuario" [(ngModel)]="selectedElemento" [multiple]="false" [filter]="true" optionLabel="obra_social_nombre" [style]="{'width':'300px'}" [listStyle]="{'max-height':'300px'}">
+      <p-scrollPanel [style]="{width: '100%', height: '300px'}">
+      <p-listbox [options]="modulosUsuario" [(ngModel)]="selectedElemento" [multiple]="false" [filter]="true" optionLabel="obra_social_nombre" [style]="{'width':'300px'}" [listStyle]="{'max-height':'200px'}">
         <p-header>
          Obras sociales de asociado
         </p-header>
-        <ng-template let-elemento pTemplate="item" >    
+        <ng-template let-elemento pTemplate="item" >
           <div class=" d-flex align-items-center">
-            <button  (click)="borrar(elemento)" class="icon-hover ml-2 mr-2 btn btn-danger btn-sm "> <i class="fas fa-trash  fa-sm"></i></button>     
+            <button  (click)="borrar(elemento)" class="icon-hover ml-2 mr-2 btn btn-danger btn-sm "> <i class="fas fa-trash  fa-sm"></i></button>
             <label class="d-flex align-items-center" style="font-size: 10px;"> {{elemento.label}}</label>
-                   
           </div>
         </ng-template>
       </p-listbox>
-  
+      </p-scrollPanel>
+
+
     </div>
     <div class="d-flex justify-content-end">
       <div>
-        <p-listbox  [options]="elementos" [(ngModel)]="selectedModulos" [multiple]="true" [checkbox]="true" [filter]="true" optionLabel="nombre" [style]="{'width':'300px'}" [listStyle]="{'max-height':'300px'}">
+        <p-scrollPanel [style]="{width: '100%', height: '300px'}">
+        <p-listbox   [options]="elementos" [(ngModel)]="selectedModulos" [multiple]="true" [checkbox]="true" [filter]="true" optionLabel="os_nombre" [style]="{'width':'300px'}" [listStyle]="{'max-height':'200px'}">
           <p-header>
             Obras sociales disponibles
           </p-header>
-          <ng-template let-elemento pTemplate="item" >    
-        
+          <ng-template let-elemento pTemplate="item" >
+
               <label style="font-size: 10px;"> {{elemento.label}}</label>
-    
+
           </ng-template>
-          
+
         </p-listbox>
+        </p-scrollPanel>
+
         <button class="btn btn-info btn-block mt-2" (click)="guardarModulos()">Agregar seleccionados</button>
       </div>
-     
+
     </div>
   </div>
-  

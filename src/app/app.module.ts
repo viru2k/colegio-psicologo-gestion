@@ -154,6 +154,7 @@ import { PacienteComponent } from './pages/mantenimiento/paciente/paciente.compo
 import { PacienteEditarComponent } from './pages/mantenimiento/paciente/paciente-editar/paciente-editar.component';
 import { OrdenComponent } from './pages/mantenimiento/orden/orden.component';
 import { OrdenEditarComponent } from './pages/mantenimiento/orden/orden-editar/orden-editar.component';
+import { PopupGenerarDeudaComponent } from './pages/matricula/matricula-cobro/popup-generar-deuda/popup-generar-deuda.component';
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -242,7 +243,8 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PacienteComponent,
     PacienteEditarComponent,
     OrdenComponent,
-    OrdenEditarComponent
+    OrdenEditarComponent,
+    PopupGenerarDeudaComponent
 
   ],
   imports: [
@@ -328,7 +330,8 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupProveedorEditarComponent,
     PopupLiquidacionLiquidacionesComponent,
     PacienteEditarComponent,
-    OrdenEditarComponent
+    OrdenEditarComponent,
+    PopupGenerarDeudaComponent
 
 
   ],

@@ -1,3 +1,4 @@
+import { PopupGenerarDeudaComponent } from './../matricula-cobro/popup-generar-deuda/popup-generar-deuda.component';
 import { ExcelService } from './../../../services/excel.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatriculaService } from './../../../services/matricula.service';
@@ -155,7 +156,7 @@ asociarObraSocial() {
   data,
    header: 'Editar obras sociales de matrícula',
    width: '75%',
-   height: '75%'
+   height: '90%'
   });
 
   // tslint:disable-next-line: no-shadowed-variable
@@ -231,6 +232,33 @@ public exportarExcel(){
   this.excelService.exportAsExcelFile(  exportar, 'listado_presentacion_resumido'+fecha_impresion);
 }
 
+
+
+
+generarDeuda(val: string){
+  let data: any = null
+  if(val === 'todos'){}
+
+  if(val === 'psicologo'){
+    data  = this.selecteditem;
+  }
+  console.log(data);
+  const ref = this.dialogService.open(PopupGenerarDeudaComponent, {
+  data,
+   header: 'Generar deuda a psicólogo',
+   width: '98%',
+   height: '98%'
+  });
+
+  // tslint:disable-next-line: no-shadowed-variable
+  ref.onClose.subscribe((PopupGenerarDeudaComponent: any) => {
+    if (PopupGenerarDeudaComponent) {
+      //this.loadlist();
+    }
+
+  });
+
+}
 
 }
 

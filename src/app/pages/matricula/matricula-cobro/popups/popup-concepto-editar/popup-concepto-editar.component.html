@@ -1,168 +1,168 @@
-
+<p-scrollPanel [style]="{width: '100%', height: '450px'}">
             <form class='col-md-12'  [formGroup]='updateDataForm' >
                 <div class='row'>
                     <div class='col-md-6'>
                       <div class='form-group '>
-                        <h5 class=' col-md-12 form-control-sm mt-2 mb-2'>ID PAGO HISTORICO : {{config.data.id_pago_historico}}</h5>       
+                        <h5 class=' col-md-12 form-control-sm mt-2 mb-2'>ID PAGO HISTORICO : {{config.data.id_pago_historico}}</h5>
                       </div>
-                      
+
                       <div class='form-group '>
                         <div class=' input-group input-group-sm mb-3'>
-                            <h6 class=' col-md-12 form-control-sm'>Apellido y nombre {{config.data.mat_nombreyapellido}}</h6>                                         
+                            <h6 class=' col-md-12 form-control-sm'>Apellido y nombre {{config.data.mat_nombreyapellido}}</h6>
 
-                        </div> 
+                        </div>
                     </div>
 
 
                         <div class='form-group'>
-                          <label  >Fecha pago</label>   
+                          <label  >Fecha pago</label>
                             <div class=' input-group input-group-sm mb-3'>
                               <p-calendar [inputStyle]="{'height':'29.1px'}" [readonlyInput]="false"  class="mr-2 " formControlName="mat_fecha_pago"   tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
                                 <ng-template pTemplate="date" let-date>
                                         <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
-                                    </ng-template> 
+                                    </ng-template>
                                 </p-calendar>
-                            </div>                      
+                            </div>
                         </div>
                         <div class='form-group'>
-                            <label  >Fecha vencimiento</label>   
+                            <label  >Fecha vencimiento</label>
                               <div class=' input-group input-group-sm mb-3'>
                                 <p-calendar [inputStyle]="{'height':'29.1px'}"   [readonlyInput]="false"    class="mr-2 " formControlName="mat_fecha_vencimiento"   tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
                                   <ng-template pTemplate="date" let-date>
                                           <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
-                                      </ng-template> 
+                                      </ng-template>
                                   </p-calendar>
-                              </div>                      
+                              </div>
                           </div>
 
-  
-  
+
+
                           <div class='form-group '>
                             <div >
                                 <label  >Concepto</label>
-                              </div> 
+                              </div>
                             <div class=' input-group input-group-sm mb-3'>
-                              <h6 class=' col-md-12 form-control-sm'>Apellido y nombre {{config.data.mat_concepto}}</h6>                                                  
-                            </div> 
+                              <p-dropdown [options]="elementoConcepto" formControlName="mat_concepto" (onChange)="changeElementoConcepto($event)" placeholder="Concepto" optionLabel="mat_concepto" [showClear]="true" [filter]="true"></p-dropdown>
+                            </div>
                         </div>
 
                         <div class='form-group '>
                           <div >
                               <label  >Descripción</label>
-                            </div> 
+                            </div>
                           <div class=' input-group input-group-sm mb-3'>
-                              <input  placeholder='Ingrese una descripción' class='form-control col-md-12 form-control-sm' formControlName='mat_descripcion'   />                  
-          
-                          </div> 
+                              <input  placeholder='Ingrese una descripción' class='form-control col-md-12 form-control-sm' formControlName='mat_descripcion'   />
+
+                          </div>
                       </div>
 
                       <div class='form-group '>
                         <div >
                             <label  >Estado</label>
-                          </div> 
+                          </div>
                         <div class=' input-group input-group-sm mb-3'>
-                            <input  placeholder='Ingrese un estado' class='form-control col-md-12 form-control-sm' formControlName='mat_estado'   />                  
-        
-                        </div> 
+                            <input  placeholder='Ingrese un estado' class='form-control col-md-12 form-control-sm' formControlName='mat_estado'   />
+
+                        </div>
                     </div>
 
-             
+
 
 
                           <div class='form-group '>
                             <div >
                                 <label  >Matrícula</label>
-                              </div> 
+                              </div>
                             <div class=' input-group input-group-sm mb-3'>
-                                <input  placeholder='Ingrese una matrícula' class='form-control col-md-12 form-control-sm' formControlName='mat_matricula'   />                  
-            
-                            </div> 
+                                <input  placeholder='Ingrese una matrícula' class='form-control col-md-12 form-control-sm' formControlName='mat_matricula'   />
+
+                            </div>
                         </div>
 
 
 
 
                     </div>
-                   
+
                     <div class='col-md-6'>
 
                       <div class='form-group '>
                         <div >
                             <label  >Comprobante</label>
-                          </div> 
+                          </div>
                         <div class=' input-group input-group-sm mb-3'>
-                            <input  placeholder='Ingrese un numero de comprobante' class='form-control col-md-12 form-control-sm' formControlName='mat_numero_comprobante'   />                  
-        
-                        </div> 
+                            <input  placeholder='Ingrese un numero de comprobante' class='form-control col-md-12 form-control-sm' formControlName='mat_numero_comprobante'   />
+
+                        </div>
                     </div>
-  
+
                       <div class='form-group '>
                         <div >
                             <label  >Forma de pago</label>
-                          </div> 
+                          </div>
                         <div class=' input-group input-group-sm mb-3'>
-                            <input  placeholder='Ingrese un concepto' class='form-control col-md-12 form-control-sm' formControlName='mat_tipo_pago'   />                  
-        
-                        </div> 
+                            <input  placeholder='Ingrese un concepto' class='form-control col-md-12 form-control-sm' formControlName='mat_tipo_pago'   />
+
+                        </div>
                     </div>
 
                       <div class='form-group '>
                         <div >
                             <label  >Plan Nº</label>
-                          </div> 
+                          </div>
                         <div class=' input-group input-group-sm mb-3'>
-                            <input  placeholder='Ingrese un número de plan' class='form-control col-md-12 form-control-sm' formControlName='mat_id_plan'   />                  
-        
-                        </div> 
+                            <input  placeholder='Ingrese un número de plan' class='form-control col-md-12 form-control-sm' formControlName='mat_id_plan'   />
+
+                        </div>
                     </div>
-  
+
                       <div class='form-group '>
                         <div >
                             <label  >Cuota</label>
-                          </div> 
+                          </div>
                         <div class=' input-group input-group-sm mb-3'>
-                            <input  placeholder='Ingrese una cuota' class='form-control col-md-12 form-control-sm' formControlName='mat_num_cuota'   />                  
-        
-                        </div> 
-                    </div>
-  
+                            <input  placeholder='Ingrese una cuota' class='form-control col-md-12 form-control-sm' formControlName='mat_num_cuota'   />
 
-                  
+                        </div>
+                    </div>
+
+
+
                     <div class='form-group '>
                         <div >
                             <label  >Importe</label>
-                          </div> 
+                          </div>
                         <div class=' input-group input-group-sm mb-3'>
-                            <input type="number" placeholder='Ingrese un importe' class='form-control col-md-12 form-control-sm' formControlName='mat_monto' (focusout)="calcularTotal()" (keyup.enter)="calcularTotal()"   />                  
-        
-                        </div> 
+                            <input type="number" placeholder='Ingrese un importe' class='form-control col-md-12 form-control-sm' formControlName='mat_monto' (focusout)="calcularTotal()" (keyup.enter)="calcularTotal()"   />
+
+                        </div>
                     </div>
-               
+
                     <div class='form-group '>
                         <div >
                             <label  >Interes</label>
-                          </div> 
+                          </div>
                         <div class=' input-group input-group-sm mb-3'>
-                            <input type="number" min="1" placeholder='El interes debe ser mínimo 1' class='form-control col-md-12 form-control-sm' formControlName='mat_interes' (keyup.enter)="calcularTotal()" (focusout)="calcularTotal()"   />                  
-        
-                        </div> 
+                            <input type="number" min="1" placeholder='El interes debe ser mínimo 1' class='form-control col-md-12 form-control-sm' formControlName='mat_interes' (keyup.enter)="calcularTotal()" (focusout)="calcularTotal()"   />
+
+                        </div>
                     </div>
 
                     <div class='form-group'>
                       <label  >Importe Total</label>
                       <input class='form-control col-md-12 form-control-sm' type="number" formControlName='mat_monto_final' (focusout)="calcularTotal()"   (keyup.enter)="calcularTotal()"  />
-                    
+
               </div>
 
                    </div>
-                                           
+
             </div>
-    
+
             </form>
+  </p-scrollPanel>
             <p-footer>
                     <div class='ui-dialog-buttonpane ui-helper-clearfix mt-2'>
-                        <button    class="ml-2  btn btn-info btn-md btn-block" type='submit' (click)="actualizarDatos()" > <i class="fas fa-plus fa-lg mr-2"></i>Guardar</button> 
-                                              
+                        <button    class="ml-2  btn btn-info btn-md btn-block" type='submit' (click)="actualizarDatos()" > <i class="fas fa-plus fa-lg mr-2"></i>Guardar</button>
+
                     </div>
                 </p-footer>
-       

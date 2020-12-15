@@ -3,6 +3,7 @@
   <div  class="d-flex justify-content-start ">
  <div class="mr-2 "> <button    class="btn  btn-info btn-sm float-right mr-2 pr-2"  (click)="nuevo()" > <i class="fas fa-plus mr-2"></i> Matricula</button>    </div>
   <div class="ml-2 mr-2 "> <button    class="btn  btn-success btn-sm float-right mr-2 pr-2"  (click)="accionesmatricula()" > <i class="fas fa-search mr-2"></i> Acciones sobre padron</button>    </div>
+  <div class="ml-2 mr-2 "> <button    class="btn  btn-danger btn-sm float-right mr-2 pr-2"  (click)="generarDeuda('todos')" > <i class="fas fa-file-invoice-dollar mr-2"></i> Generar deuda  a todos</button>    </div>
   </div>
 </div>
 
@@ -83,6 +84,7 @@
                <h6 class="d-flex justify-content-center  icon-color-informacion">OBRA SOCIAL</h6>
                <span>   <a class="nav-link icon-color-verde-oscuro my-hover" (click)="asociarObraSocial()"> <i class="fas fa-file-medical fa-lg mr-2"></i> Asociar obras sociales</a></span>
                <span>   <a class="nav-link icon-color-info my-hover" (click)="liquidaciones()"> <i class="fas fa-file-medical fa-lg mr-2"></i> Liquidaciones</a></span>
+               <span>   <a class="nav-link icon-color-danger my-hover" (click)="generarDeuda('psicologo')"> <i class="fas fa-file-invoice-dollar fa-lg mr-2"></i> Generar deuda</a></span>
 
               <!-- <button class="btn-cuadrado-success  btn--block " (click)="detalleProduccion(elemento)"  >Detalle  producción</button>      -->
           </p-overlayPanel>
