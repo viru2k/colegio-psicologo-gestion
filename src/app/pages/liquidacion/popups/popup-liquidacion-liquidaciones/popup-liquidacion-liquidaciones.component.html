@@ -1,15 +1,15 @@
 
     <div>
-       
+
 
     <p-table  #dt class="pt-2"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols"  [value]="elementos" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
     scrollHeight="500px" [scrollable]="true" (onFilter)="filtered($event)"   [loading]="loading" loadingIcon=" icon-color-loader-new fas fa-spinner fa-3x ">
 
 
-  
 
-          <ng-template pTemplate="header" let-columns >            
-            <tr >                       
+
+          <ng-template pTemplate="header" let-columns >
+            <tr >
                 <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
                       {{col.header}}
                       <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activar para ordenar en forma descendente" ariaLabelAsc="Activar para ordenar en forma ascendente"></p-sortIcon>
@@ -17,26 +17,27 @@
 
               </tr>
               <tr>
-              <th *ngFor="let col of columns" [ngSwitch]="col.field" >                                         
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'id_liquidacion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">        
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_fecha'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
-                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_liq_estado'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">                                                               
+              <th *ngFor="let col of columns" [ngSwitch]="col.field" >
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'id_liquidacion_generada'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'id_liquidacion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_fecha'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                  <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_liq_estado'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
 
-              </th>   
-                      
+              </th>
+
           </tr>
       </ng-template>
-          
-          <ng-template pTemplate="body" let-elemento> 
-               
-          <tr style="height:28px"  >   
-                    
-               <td style="width: 30%">{{elemento.id_liquidacion}}</td> 
-               <td style="width: 36%">{{elemento.os_fecha | date: 'dd/MM/yyyy'}}</td>   
-                  <td style="width: 22%">{{elemento.os_liq_estado}}</td> 
+
+          <ng-template pTemplate="body" let-elemento>
+
+          <tr style="height:28px"  >
+               <td style="width: 10%">{{elemento.id_liquidacion_generada}}</td>
+             <b> <td style="width: 30%">{{elemento.id_liquidacion}}</td></b>
+               <td style="width: 36%">{{elemento.os_fecha | date: 'dd/MM/yyyy'}}</td>
+                  <td style="width: 22%">{{elemento.os_liq_estado}}</td>
                   <td style="width: 6%">
-                    <a  (click)="confirmar(elemento)"><i class="far fa-check-circle icon-color-informacion fa-lg icon-hover"></i></a>        
-                  </td>                                               
+                    <a  (click)="confirmar(elemento)"><i class="far fa-check-circle icon-color-informacion fa-lg icon-hover"></i></a>
+                  </td>
           </tr>
           </ng-template>
 
@@ -44,9 +45,9 @@
 
     </p-table>
 
-      
-  
-         
+
+
+
     </div>
-  
-  
+
+

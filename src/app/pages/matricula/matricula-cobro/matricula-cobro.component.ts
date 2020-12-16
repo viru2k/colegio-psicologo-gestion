@@ -98,6 +98,7 @@ export class MatriculaCobroComponent implements OnInit {
         {field: 'mat_id_plan', header: 'Plan', width: '8%' },
         {field: 'mat_estado', header: 'Estado' , width: '8%'},
         {field: 'mat_tipo_pago', header: 'Tipo' , width: '8%'},
+        {field: 'id_liquidacion_detalle', header: 'N°', width: '8%' },
         {field: 'nombreyapellido', header: 'Usuario' , width: '14%'},
         ];
 

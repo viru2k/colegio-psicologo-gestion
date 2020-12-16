@@ -1,3 +1,4 @@
+import { Orden } from './../../../../models/orden.model';
 import { Component, OnInit } from '@angular/core';
 import { LiquidacionService } from './../../../../services/liquidacion.service';
 import { MatriculaService } from './../../../../services/matricula.service';
@@ -29,6 +30,7 @@ export class OrdenAfectarComponent implements OnInit {
   elementoObraSocial: any = null;
   elementosObraSocial: any[] = [];
   selecteditems: any[] = [];
+  selecteditemsOrden: Orden[] = [];
   elementosFiltrados: any[] = [];
   elementosFiltradosImpresion: any[] = [];
   columns: any;
@@ -42,7 +44,9 @@ export class OrdenAfectarComponent implements OnInit {
   _os_obra_social: any[] = [];
   _os_sesion_codigo: any[] = [];
   _os_nombre: any[] = [];
-  os_liq_numero: string;
+  os_liq_numero: number;
+  total_orden = 0;
+  total = 0;
 
   constructor(private liquidacionService: LiquidacionService,
               private matriculaService: MatriculaService,
@@ -92,6 +96,13 @@ this.columns = [
   }
 
 
+filtered(event){
+  console.log(event.filteredValue);
+  this.elementosFiltrados  = event.filteredValue;
+  this.sumarValores(this.elementosFiltrados);
+}
+
+
   getObraSocial() {
     try {
       this.loading = true;
@@ -121,7 +132,7 @@ this.columns = [
   }
 
   buscarOrdenes() {}
-  
+
   buscarEntreFechas() {
   this.loading = true;
   this._fechaDesde = formatDate(this.fechaDesde, 'yyyy-MM-dd', 'en');
@@ -134,6 +145,7 @@ this.columns = [
       this.elementos = resp;
       this.loading = false;
       this.realizarFiltroBusqueda(resp);
+
     },
     error => { // error path
       this.loading = false;
@@ -148,15 +160,23 @@ this.columns = [
 }
 
 
-auditarOrdenes() {
+afectarOrdenes() {
   console.log(this.selecteditems.length);
-  if (this.selecteditems.length > 0) {
-    console.log(this.selecteditems);
-
-    try {
+  this.selecteditemsOrden = this.selecteditems;
+  if (this.selecteditemsOrden.length > 0) {
+    this._fechaDesde = formatDate(this.fechaDesde, 'yyyy-MM-dd', 'en');
+    this._fechaHasta = formatDate(this.fechaHasta, 'yyyy-MM-dd', 'en');
+    console.log(this.selecteditemsOrden);
+    console.log(this._fechaDesde);
+    console.log(this._fechaHasta);
+    console.log(this.elementoObraSocial.id);
+     try {
       this.loading = true;
-      this.liquidacionService.auditarOrdenes(this.selecteditems)
+      this.liquidacionService.afectarOrdenes(this.selecteditemsOrden, this._fechaDesde, this._fechaHasta, this.elementoObraSocial.id, this.os_liq_numero, this.total_orden, this.total)
       .subscribe(resp => {
+        this.total_orden = 0;
+        this.total = 0;
+        this.os_liq_numero = 0;
         this.buscarEntreFechas();
       },
       error => { // error path
@@ -187,11 +207,11 @@ editarRegistro(element: any) {
           this.buscarEntreFechas();
          }
       });
-   
+
 }
 
 public exportarExcelDetallado(){
-  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');  
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
   let seleccionados: any[] = [];
   let exportar:any[] = [];
   let i = 0;
@@ -254,6 +274,23 @@ generarPdf() {
 
 }
 
+
+
+sumarValores(vals:any){
+  let i:number;
+  console.log(vals);
+  //console.log(vals[1]['valor_facturado']);
+  console.log(vals !== undefined);
+  this.total_orden = 0;
+  this.total = 0;
+
+  for (i = 0; i < vals.length; i++) {
+      this.total_orden = this.total_orden + Number(vals[i]['os_cantidad']);
+      this.total = this.total + Number(vals[i]['os_precio_total']);
+
+  }
+
+}
 
 realizarFiltroBusqueda(resp: any[]) {
   // FILTRO LOS ELEMENTOS QUE SE VAN USAR PARA FILTRAR LA LISTA

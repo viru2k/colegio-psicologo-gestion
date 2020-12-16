@@ -83,6 +83,7 @@ export class PopupConceptoMatriculaEditarComponent implements OnInit {
     console.log(this.updateDataForm);
     try {
       console.log(this.updateDataForm.value);
+
       this.cobroService.putConcepto(  this.updateDataForm.value, this.updateDataForm.value.id_concepto)
       .subscribe(resp => {
         this.loading = false;

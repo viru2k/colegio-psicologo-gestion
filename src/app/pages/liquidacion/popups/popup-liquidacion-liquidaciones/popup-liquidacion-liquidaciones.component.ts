@@ -32,7 +32,7 @@ export class PopupLiquidacionLiquidacionesComponent implements OnInit {
   os_fecha: Date;
 
 
-  
+
   constructor(
               private liquidacionService: LiquidacionService,
               public dialogService: DialogService,
@@ -41,8 +41,9 @@ export class PopupLiquidacionLiquidacionesComponent implements OnInit {
               private filter: Filter ) {
 
                 this.cols = [
-                 
-                  {field: 'id_liquidacion', header: 'ID', width: '30%' },
+
+                  {field: 'id_liquidacion_generada', header: 'ID', width: '10%' },
+                  {field: 'id_liquidacion', header: 'Liq. N°', width: '30%' },
                   {field: 'os_fecha', header: 'Periodo', width: '36%' },
                   {field: 'os_liq_estado', header: 'Estado', width: '22%' },
                   {field: 'boton', header: '' , width: '6%'},
@@ -51,14 +52,14 @@ export class PopupLiquidacionLiquidacionesComponent implements OnInit {
 
 
   ngOnInit() {
-    
+
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.es = calendarioIdioma;
     this.os_fecha = new Date();
 
 
     this.loadLiquidacion();
-    
+
   }
 
   filtered(event) {
@@ -103,36 +104,36 @@ export class PopupLiquidacionLiquidacionesComponent implements OnInit {
 
 
 
-  
+
   editarRegistro(event) {
-    
+
     const data: any = event;
-  
+
     const ref = this.dialogService.open(PopupLiquidacionExpedienteEditarComponent, {
     data,
      header: 'Editar expediente',
      width: '98%',
      height: '95%'
     });
-  
+
     ref.onClose.subscribe((PopupLiquidacionExpedienteEditarComponent: any) => {
-  
+
     });
-  
+
     }
 
 
 
-  
+
 /** ACCIONES */
 
 colorRow(estado: string){
 
-  if(estado == 'INGRESO') { 
+  if(estado == 'INGRESO') {
       return {'es-ingreso'  :'null' };
   }
 
-  if(estado == 'EGRESO') {  
+  if(estado == 'EGRESO') {
       return {'es-egreso'  :'null' };
   }
 }

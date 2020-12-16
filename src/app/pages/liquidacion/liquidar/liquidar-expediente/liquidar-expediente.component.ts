@@ -37,11 +37,11 @@ export class LiquidarExpedienteComponent implements OnInit {
 
   id_liquidacion = 0;
 
-  
+
   constructor(
               private liquidacionService: LiquidacionService,
               public dialogService: DialogService,
-              private alertServiceService: AlertServiceService,              
+              private alertServiceService: AlertServiceService,
               private filter: Filter ) {
 
                 this.cols = [
@@ -54,20 +54,20 @@ export class LiquidarExpedienteComponent implements OnInit {
                   {field: 'os_cant_ordenes', header: 'Ordenes', width: '12%' },
                   {field: 'os_monto_total', header: 'Total', width: '12%' },
                   {field: 'os_estado', header: 'Estado', width: '8%' },
-                  {field: 'id_liquidacion', header: 'Liq Nº', width: '8%' },
+                  {field: 'id_liquidacion', header: 'Liq. ID', width: '8%' },
                   ];
                }
 
 
   ngOnInit() {
-    
+
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.es = calendarioIdioma;
     this.os_fecha = new Date();
 
 
     this.loadExpediente();
-    
+
   }
 
   filtered(event) {
@@ -81,7 +81,7 @@ export class LiquidarExpedienteComponent implements OnInit {
     this.fechaDesde = event;
     console.log(new Date(this.os_fecha));
   }
-  
+
 
 
 
@@ -135,14 +135,14 @@ export class LiquidarExpedienteComponent implements OnInit {
 
   BuscarExpedientesLiquidacion(){
     const data: any = event;
-  
+
     const ref = this.dialogService.open(PopupLiquidacionLiquidacionesComponent, {
     data,
      header: 'Liquidaciones confeccionadas',
      width: '60%',
      height: '95%'
     });
-  
+
     ref.onClose.subscribe((PopupLiquidacionLiquidacionesComponent: any) => {
       if(PopupLiquidacionLiquidacionesComponent) {
         console.log(PopupLiquidacionLiquidacionesComponent);
@@ -166,22 +166,22 @@ export class LiquidarExpedienteComponent implements OnInit {
 
 
 
-  
+
   editarRegistro(event) {
-    
+
     const data: any = event;
-  
+
     const ref = this.dialogService.open(PopupLiquidacionExpedienteEditarComponent, {
     data,
      header: 'Editar expediente',
      width: '98%',
      height: '95%'
     });
-  
+
     ref.onClose.subscribe((PopupLiquidacionExpedienteEditarComponent: any) => {
-  
+
     });
-  
+
     }
 
     generarLiquidacion() {
@@ -190,9 +190,10 @@ export class LiquidarExpedienteComponent implements OnInit {
       this.liquidacionService.generarLiquidacion(this.liquidacionNumero, formatDate(this.os_fecha, 'yyyy-MM-dd', 'en'), this.selecteditems)
       .subscribe(resp => {
 
-      if (resp[0]) {        
+      if (resp[0]) {
         this.elemento = resp;
         this.alertServiceService.throwAlert('success', 'Liquidación confeccionada', 'EXITO AL CONFECCIONAR LA LIQUIDACION', '200');
+        this.loadExpediente();
           }
       this.loading = false;
       },
@@ -206,7 +207,7 @@ export class LiquidarExpedienteComponent implements OnInit {
   this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
   }
 
-  } 
+  }
 
 
   calcularBruto() {
@@ -215,7 +216,7 @@ export class LiquidarExpedienteComponent implements OnInit {
       this.liquidacionService.calcularBruto(String(this.id_liquidacion))
       .subscribe(resp => {
 
-      if (resp[0]) {        
+      if (resp[0]) {
         this.elemento = resp;
         this.alertServiceService.throwAlert('success', 'Liquidación confeccionada', 'EXITO AL CONFECCIONAR LA LIQUIDACION', '200');
           }
@@ -231,16 +232,16 @@ export class LiquidarExpedienteComponent implements OnInit {
   this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
   }
   }
-  
+
 /** ACCIONES */
 
 colorRow(estado: string){
 
-  if(estado == 'INGRESO') { 
+  if(estado == 'INGRESO') {
       return {'es-ingreso'  :'null' };
   }
 
-  if(estado == 'EGRESO') {  
+  if(estado == 'EGRESO') {
       return {'es-egreso'  :'null' };
   }
 }
@@ -266,7 +267,7 @@ realizarFiltroBusqueda(resp: any[]) {
   this._os_nombre = this.filter.filterArray(this._os_nombre);
 
 
-  
+
 
 }
 

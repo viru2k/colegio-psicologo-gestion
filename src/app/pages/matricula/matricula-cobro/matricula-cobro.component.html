@@ -102,6 +102,7 @@
                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_nombreyapellido'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                          <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_estado" appendTo="body" defaultLabel="Filtrar"	 *ngIf='col.field =="mat_estado"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
                          <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_tipo_pago" appendTo="body" defaultLabel="Filtrar"	 *ngIf='col.field =="mat_tipo_pago"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'id_liquidacion_detalle'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                          <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_nombreyapellido" appendTo="body" defaultLabel="Filtrar"	 *ngIf='col.field =="nombreyapellido"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
 
                     </th>
@@ -128,6 +129,7 @@
                         <td style="width: 8%">{{elemento.mat_id_plan}}</td>
                         <td style="width: 8%" [ngClass]="colorString(elemento.mat_estado)">{{elemento.mat_estado}}</td>
                         <td style="width: 8%">{{elemento.mat_tipo_pago}}</td>
+                        <td style="width: 8%; font-size: 8px">{{elemento.id_liquidacion_detalle}}</td>
                         <td style="width: 14%">{{elemento.nombreyapellido}}</td>
                            <td style="width: 3em">
                             <p-tableCheckbox [value]="elemento" (click)="sumarValoresSeleccionados(selecteditems)"></p-tableCheckbox>

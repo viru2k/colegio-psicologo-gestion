@@ -92,8 +92,8 @@ export class LiquidacionService {
       return this.http.post<any[]>(URL_SERVICIOS + 'liquidacion/orden/auditar', elementos);
       }
 
-    afectarOrdenes(elementos: any) {
-      return this.http.post<any[]>(URL_SERVICIOS + 'liquidacion/expediente/afectar', elementos);
+    afectarOrdenes(elementos: any, fecha_desde: string, fecha_hasta: string, id_os_obra_social: string, os_liq_numero: number, total_ordenes: number, total: number) {
+      return this.http.post<any[]>(URL_SERVICIOS + 'liquidacion/expediente/afectar?fecha_desde=' + fecha_desde + '&fecha_hasta=' + fecha_hasta + '&estado=AFE'+ '&id_os_obra_social=' + id_os_obra_social +'&os_liq_numero='+ os_liq_numero +'&total_ordenes='+ total_ordenes +'&total='+ total  , elementos);
       }
 
     putExpediente(elementos: any, id_os_liquidacion: string) {
@@ -131,8 +131,9 @@ export class LiquidacionService {
 
 
       liquidar(id_liquidacion_generada: any, descuenta_matricula: string) {
+        console.log('liquidando');
          // tslint:disable-next-line: max-line-length
-         this.http.get(URL_SERVICIOS + 'liquidacion/liquidar?id_liquidacion_generada=' + id_liquidacion_generada + '&descuenta_matricula=' + descuenta_matricula);
+        return this.http.get(URL_SERVICIOS + 'liquidacion/liquidar?id_liquidacion_generada=' + id_liquidacion_generada);
         }
 
         getUltimoIngresoBruto() {

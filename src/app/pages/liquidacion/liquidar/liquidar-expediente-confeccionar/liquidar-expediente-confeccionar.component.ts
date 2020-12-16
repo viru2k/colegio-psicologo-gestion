@@ -44,7 +44,7 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
   TOTAL_NETO = 0;
 
 
-  
+
   constructor(
               private liquidacionService: LiquidacionService,
               public dialogService: DialogService,
@@ -54,6 +54,7 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
 
                 this.cols = [
                   {field: 'boton', header: '' , width: '6%'},
+                  {field: 'id_liquidacion_detalle', header: 'N°', width: '8%' },
                   {field: 'mat_matricula', header: 'Mat.', width: '8%' },
                   {field: 'mat_apellidoynombre', header: 'Psicólogo', width: '20%' },
                   {field: 'os_liq_bruto', header: 'Bruto', width: '12%' },
@@ -75,11 +76,11 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
 
 
   ngOnInit() {
-    
+
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.es = calendarioIdioma;
     this.os_fecha = new Date();
-    
+
   }
 
   filtered(event) {
@@ -93,7 +94,7 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
     this.fechaDesde = event;
     console.log(new Date(this.os_fecha));
   }
-  
+
 
 
 
@@ -104,7 +105,7 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
       this.liquidacionService.getExpedienteByEstado('G')
       .subscribe(resp => {
       this.elementos = resp;
-      
+
       this.sumarTotal(this.elementos);
       this.loading = false;
       },
@@ -129,45 +130,45 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
     let i = 0;
     for (i = 0; i < _elementos.length; i++) {
      // console.log(_elementos);
-      this.TOTAL_DEDUCCIONES = this.TOTAL_DEDUCCIONES + Number(_elementos[i].os_ing_brutos) + Number(_elementos[i].os_lote_hogar) + Number(_elementos[i].os_gasto_admin) + Number(_elementos[i].os_imp_cheque); 
+      this.TOTAL_DEDUCCIONES = this.TOTAL_DEDUCCIONES + Number(_elementos[i].os_ing_brutos) + Number(_elementos[i].os_lote_hogar) + Number(_elementos[i].os_gasto_admin) + Number(_elementos[i].os_imp_cheque);
       this.TOTAL_CONCEPTOS = this.TOTAL_CONCEPTOS + Number(_elementos[i].os_desc_matricula) + Number(_elementos[i].os_desc_fondo_sol) + Number(_elementos[i].os_otros_ing_eg);
       this.TOTAL_BRUTO =   this.TOTAL_BRUTO + Number(_elementos[i].os_liq_bruto);
       this.TOTAL_NETO = this.TOTAL_NETO + Number(_elementos[i].os_liq_neto);
-      
+
     }
   }
 
 
 
-  
+
   editarRegistro(event) {
-    
+
     const data: any = event;
-  
+
     const ref = this.dialogService.open(PopupLiquidacionExpedienteEditarComponent, {
     data,
      header: 'Editar expediente',
      width: '98%',
      height: '95%'
     });
-  
+
     ref.onClose.subscribe((PopupLiquidacionExpedienteEditarComponent: any) => {
-  
+
     });
-  
+
     }
 
     BuscarLiquidacion() {
-     
+
       const data: any = event;
-  
+
       const ref = this.dialogService.open(PopupLiquidacionLiquidacionesComponent, {
       data,
        header: 'Liquidaciones confeccionadas',
        width: '60%',
        height: '95%'
       });
-    
+
       ref.onClose.subscribe((PopupLiquidacionLiquidacionesComponent: any) => {
         if(PopupLiquidacionLiquidacionesComponent) {
           console.log(PopupLiquidacionLiquidacionesComponent);
@@ -175,15 +176,15 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
           this.getExpedienteByIdLiquidacion();
         }
       });
-  } 
+  }
 
-  
+
   getExpedienteByIdLiquidacion() {
     this.loading = true;
     try {
       this.liquidacionService.getLiquidacionDetalleByidLiquidacion(String(this.id_liquidacion))
       .subscribe(resp => {
-      this.elementos = resp;      
+      this.elementos = resp;
       this.sumarTotal(this.elementos);
       this.loading = false;
       },
@@ -201,12 +202,24 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
 
 
   liquidar() {
-    try {
-      this.liquidacionService.liquidar(String(this.id_liquidacion), this.descuenta_matricula);
 
+    try {
+      this.liquidacionService.liquidar(String(this.id_liquidacion), this.descuenta_matricula)
+      .subscribe(resp => {
+     console.log(resp);
+      this.loading = false;
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
   } catch (error) {
   this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
   }
+
+
   }
 
 
