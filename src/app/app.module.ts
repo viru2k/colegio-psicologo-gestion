@@ -155,6 +155,10 @@ import { PacienteEditarComponent } from './pages/mantenimiento/paciente/paciente
 import { OrdenComponent } from './pages/mantenimiento/orden/orden.component';
 import { OrdenEditarComponent } from './pages/mantenimiento/orden/orden-editar/orden-editar.component';
 import { PopupGenerarDeudaComponent } from './pages/matricula/matricula-cobro/popup-generar-deuda/popup-generar-deuda.component';
+import { PopupMatriculaDetalleLiquidacionComponent } from './pages/liquidacion/popups/popup-matricula-detalle-liquidacion/popup-matricula-detalle-liquidacion.component';
+import { PopupLiquidacionRegistroEditarComponent } from './pages/liquidacion/popups/popup-liquidacion-registro-editar/popup-liquidacion-registro-editar.component';
+import { PopupLiquidacionRegistroDetalleComponent } from './pages/liquidacion/popups/popup-liquidacion-registro-detalle/popup-liquidacion-registro-detalle.component';
+import { PopupLiquidacionGenerarDeudaComponent } from './pages/liquidacion/popups/popup-liquidacion-generar-deuda/popup-liquidacion-generar-deuda.component';
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -244,7 +248,11 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PacienteEditarComponent,
     OrdenComponent,
     OrdenEditarComponent,
-    PopupGenerarDeudaComponent
+    PopupGenerarDeudaComponent,
+    PopupMatriculaDetalleLiquidacionComponent,
+    PopupLiquidacionRegistroEditarComponent,
+    PopupLiquidacionRegistroDetalleComponent,
+    PopupLiquidacionGenerarDeudaComponent
 
   ],
   imports: [
@@ -331,7 +339,11 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupLiquidacionLiquidacionesComponent,
     PacienteEditarComponent,
     OrdenEditarComponent,
-    PopupGenerarDeudaComponent
+    PopupGenerarDeudaComponent,
+    PopupMatriculaDetalleLiquidacionComponent,
+    PopupLiquidacionRegistroEditarComponent,
+    PopupLiquidacionRegistroDetalleComponent,
+    PopupLiquidacionGenerarDeudaComponent
 
 
   ],

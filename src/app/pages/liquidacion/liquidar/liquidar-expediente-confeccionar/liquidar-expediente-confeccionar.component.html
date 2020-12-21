@@ -67,7 +67,7 @@
 
           <tr style="height:28px"  >
               <td style="width: 6%">
-                  <a   (click)="editarRegistro(elemento)" ><i class="far fa-edit fa-lg icon-color-info  my-hover" ></i></a>
+                <a  (click)="detalle($event,op,elemento)"><i class="fas fa-bars icon-color-informacion fa-lg icon-hover"></i></a>
                 </td>
                <td style="width: 8%; font-size: 8px">{{elemento.id_liquidacion_detalle}}</td>
                <td style="width: 8%">{{elemento.mat_matricula}}</td>
@@ -107,7 +107,15 @@
     </p-table>
 
 
+    <p-overlayPanel #op appendTo="body"  [showTransitionOptions]="'400ms'" [hideTransitionOptions]="'300ms'"  [dismissable]="true" [showCloseIcon]="true" >
 
+
+      <span>  <small> <a class="nav-link icon-color-verde-oscuro my-hover" (click)="detalleLiquidacion(elemento)"> Detalle de liquidación</a></small></span>
+      <span>  <small> <a class="nav-link icon-color-danger my-hover" (click)="editarLiquidacion(elemento)"> Editar registro de liquidación</a></small></span>
+      <span>  <small> <a class="nav-link icon-color-info my-hover" (click)="detalleCobro(elemento)"> Ver cobros asociados</a></small></span>
+
+     <!-- <button class="btn-cuadrado-success  btn--block " (click)="detalleProduccion(elemento)"  >Detalle  producción</button>      -->
+ </p-overlayPanel>
 
 
     </div>

@@ -38,7 +38,7 @@ export class PopupRealizarFacturaComponent implements OnInit {
   elementosComprobante: any[] = null;
   elementosConcepto: any[] = null;
   elementosDocumento: any[] = null;
-  elementosPtoVta: any[] = null; 
+  elementosPtoVta: any[] = null;
   elementosCondicionIva: any[]= null;
   selecteditems: FacturaElectronicaRenglon = null;
   elementoAlicuota:number= null;
@@ -46,8 +46,8 @@ export class PopupRealizarFacturaComponent implements OnInit {
   elementoComprobante:number= null;
   elementoConcepto:number= null;
   elementoDocumento:number= null;
-  elementoPtoVta:number= null;  
-  elementoCondicionIva:number= null;  
+  elementoPtoVta:number= null;
+  elementoCondicionIva:number= null;
   selecteditemRegistro: FacturaElectronicaRenglon = null;
   selecteditemRenglon: FacturaElectronicaRenglon= null;
   facturaAlicuotaAsociada: FacturaAlicuotaAsociada[] = [];
@@ -55,7 +55,7 @@ export class PopupRealizarFacturaComponent implements OnInit {
   pto_vta:string = '0';
   _pto_vta:string = '0';
   _medico_nombre = '';
-  _comprobante_nombre = '';  
+  _comprobante_nombre = '';
   factura_numero:string = '0';
   factura_numero_ceros:string = '0';
   comprobante_id = 0;
@@ -97,10 +97,10 @@ export class PopupRealizarFacturaComponent implements OnInit {
       {field: 'precio_unitario', header: 'P. unitario' , width: '10%' },
       { field: 'alicuota_descripcion', header: 'Alícuota',  width: '9%' },
       { field: 'iva', header: 'IVA',  width: '10%' },
-      { field: 'total_renglon', header: 'Subtotal',  width: '10%' },      
-     ];  
+      { field: 'total_renglon', header: 'Subtotal',  width: '10%' },
+     ];
 
-     
+
     this.columns = [
       {title: 'Descripcion', dataKey: 'descripcion'},
       {title: 'Can', dataKey: 'cantidad'},
@@ -117,7 +117,7 @@ export class PopupRealizarFacturaComponent implements OnInit {
       this.cliente = this.config.data[0].psicologo.mat_apellido + ' ' + this.config.data[0].psicologo.mat_nombre;
       this.nrodocumento =  this.config.data[0].psicologo.mat_cuit;
     } else {
-      
+
     }
 
     this.es = calendarioIdioma;
@@ -127,8 +127,8 @@ export class PopupRealizarFacturaComponent implements OnInit {
     this.userData  = JSON.parse(localStorage.getItem('userData'));
     this.cargarRenglones();
     this.getMedicosFacturan();
-   
-    
+
+
   }
 
 
@@ -136,25 +136,25 @@ export class PopupRealizarFacturaComponent implements OnInit {
     if(elementos){
       this.selecteditemRegistro = elementos;
     }
-  
+
     console.log(this.selecteditemRegistro);
     overlaypanel.toggle(event);
     }
-  
+
   actualizarFecha(event){
     console.log(event);
     this.fecha = event;
     console.log(new Date(this.fecha));
   }
 
-  
+
   actualizarFechaDesde(event){
     console.log(event);
     this.fechaDesde = event;
     console.log(new Date(this.fechaDesde));
   }
 
-  
+
   actualizarFechaHasta(event){
     console.log(event);
     this.fechaHasta = event;
@@ -166,8 +166,8 @@ export class PopupRealizarFacturaComponent implements OnInit {
     this.peticion = 'Cargando comprobante';
     try {
       this.facturacionService.TipoComprobantesDisponibles(this.medico_id)
-      .subscribe(resp => {      
-          this.elementos = resp;        
+      .subscribe(resp => {
+          this.elementos = resp;
           this.loading = false;
           console.log(resp);
           this.loading = false;
@@ -186,10 +186,10 @@ export class PopupRealizarFacturaComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
   TipoConceptosDisponibles(){
@@ -197,7 +197,7 @@ export class PopupRealizarFacturaComponent implements OnInit {
     this.peticion = 'Cargando conceptos';
     try {
       this.facturacionService.TipoConceptosDisponibles(this.medico_id)
-      .subscribe(resp => {      
+      .subscribe(resp => {
         this.loading = false;
         this.elementos = resp;
         this.loading = false;
@@ -217,10 +217,10 @@ export class PopupRealizarFacturaComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
   TipoDocumentosDisponibles(){
@@ -228,8 +228,8 @@ export class PopupRealizarFacturaComponent implements OnInit {
     this.peticion = 'Cargando documentos';
     try {
       this.facturacionService.TipoDocumentosDisponibles(this.medico_id)
-      .subscribe(resp => {      
-        
+      .subscribe(resp => {
+
           this.elementos = resp;
           this.loading = false;
           this.peticion = '';
@@ -248,10 +248,10 @@ export class PopupRealizarFacturaComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
   Alicuota(){
@@ -259,12 +259,12 @@ export class PopupRealizarFacturaComponent implements OnInit {
     this.peticion = 'Cargando alícuota';
     try {
       this.facturacionService.Alicuota()
-      .subscribe(resp => {      
+      .subscribe(resp => {
           this.elementosAlicuota = resp;
           this.loading = false;
           this.peticion = '';
           console.log( this.elementosAlicuota);
-          
+
       },
       error => { // error path
         this.loading = false;
@@ -279,20 +279,20 @@ export class PopupRealizarFacturaComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
 
-  
+
   getMedicosFacturan(){
     this.loading = true;
     this.peticion = 'Cargando médicos';
     try {
       this.facturacionService.getMedicosFacturan()
-      .subscribe(resp => {      
+      .subscribe(resp => {
           this.elementosMedicos = resp;
           this.loading = false;
           this.peticion = '';
@@ -300,7 +300,7 @@ export class PopupRealizarFacturaComponent implements OnInit {
           this.elementoMedicos = this.elementosMedicos['0'];
           console.log(this.elementoMedicos['id']);
           this.medico_id = this.elementoMedicos['id'];
-        
+
           // UNA VEZ QUE TENGO EL DATO DEL MEDICO PROCEDO A BUSCAR TODOS LOS DEMAS CAMPOS
 
           this.Alicuota();
@@ -322,28 +322,28 @@ export class PopupRealizarFacturaComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
-  
+
   Comprobante(){
     this.loading = true;
     this.peticion = 'Cargando comprobantes';
     try {
       this.facturacionService.Comprobante()
-      .subscribe(resp => {      
+      .subscribe(resp => {
           this.elementosComprobante = resp;
-         
+
           this.loading = false;
           this.peticion = '';
           console.log( this.elementosComprobante);
           //this.elementoComprobante = this.elementosComprobante[3];
           this.elementoComprobante =  this.elementosComprobante.find(x => x.id === this.elementoMedicos['factura_comprobante_id']);
           console.log(this.elementoComprobante);
-       
+
           if(this.elementoPtoVta){
             this.obtenerUltimaFactura();
           }
@@ -361,19 +361,19 @@ export class PopupRealizarFacturaComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
-  
+
   Concepto(){
     this.loading = true;
     this.peticion = 'Cargando concepto';
     try {
       this.facturacionService.Concepto()
-      .subscribe(resp => {      
+      .subscribe(resp => {
           this.elementosConcepto = resp;
           this.loading = false;
           this.peticion = '';
@@ -393,19 +393,19 @@ export class PopupRealizarFacturaComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
-  
+
   Documento(){
     this.loading = true;
     this.peticion = 'Cargando documento';
     try {
       this.facturacionService.Documento()
-      .subscribe(resp => {      
+      .subscribe(resp => {
           this.elementosDocumento = resp;
           this.loading = false;
           this.peticion = '';
@@ -426,22 +426,22 @@ export class PopupRealizarFacturaComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
-  
+
   PtoVta(){
     this.loading = true;
     this.peticion = 'Cargando punto de venta';
     try {
       this.facturacionService.PtoVta()
-      .subscribe(resp => {      
+      .subscribe(resp => {
             let i:number = 0;
             let resultado = resp;
-           
+
             resultado.forEach(element => {
               resp[i]['punto_vta'] =  this.padLeft(resp[i]['punto_vta'], '0', 4);
               i++;
@@ -470,22 +470,22 @@ export class PopupRealizarFacturaComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
 
-  
+
   CategoriaIva(){
     this.loading = true;
     this.peticion = 'Cargando categoria';
     try {
       this.facturacionService.CategoriaIva()
-      .subscribe(resp => {      
+      .subscribe(resp => {
           this.elementosCondicionIva = resp;
-        
+
           this.elementoCondicionIva = this.elementosCondicionIva[4];
           this.loading = false;
           this.peticion = '';
@@ -504,10 +504,10 @@ export class PopupRealizarFacturaComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
   padLeft(text:string, padChar:string, size:number): string {
@@ -518,7 +518,7 @@ export class PopupRealizarFacturaComponent implements OnInit {
 
 
 guardarDatos(){
- 
+
   console.log(this.elementoPtoVta);
   this._fecha = formatDate(this.fecha, 'yyyy-MM-dd', 'en');
   this._fechaDesde = formatDate(this.fechaDesde, 'yyyy-MM-dd', 'en');
@@ -534,8 +534,8 @@ guardarDatos(){
   (Math.round(this.subtotal * 100) / 100), this.subtotal_excento,(Math.round(this.subtotal_iva * 100) / 100),(Math.round(this.total * 100) / 100) ,
   this.facturaAlicuotaAsociada,this.elementos, '','', this.elementoMedicos['id'], this.observacion,this.elementoCondicionIva['categoria_iva'], this.es_afip);
   console.log(facturaElectronica);
-  
-  
+
+
   if((Number(this.elementoDocumento['id']) === 86 )||(Number(this.elementoDocumento['id']) === 80)) {
      console.log(Number(this.elementoDocumento['id']));
      console.log(this.nrodocumento.length);
@@ -544,7 +544,7 @@ guardarDatos(){
      // this.generarPDF();
       this.CrearFactura(facturaElectronica);
      }else{
-    
+
       swal({
         toast: false,
         type: 'warning',
@@ -627,7 +627,7 @@ CrearFactura(facturaElectronica){
           });
 
         }
-      
+
      //   this.generarPDF();
     },
     error => { // error path
@@ -642,7 +642,7 @@ CrearFactura(facturaElectronica){
           showConfirmButton: true,
           confirmButtonColor: '#3085d6'
         });
-     });    
+     });
 } catch (error) {
 
 }
@@ -656,10 +656,10 @@ obtenerMedico(){
   this.peticion = 'Obteniendo ultima factura y punto de venta';
   console.log(this.elementoComprobante);
   try {
-    
+
     this.facturacionService.getDatoMedico(this.medico_id)
-    .subscribe(resp => {      
-   
+    .subscribe(resp => {
+
       this.loading = false;
       this.peticion = '';
       console.log(  resp);
@@ -689,19 +689,19 @@ obtenerMedico(){
           type: 'error',
           text: error,
           title: 'Algo no esta bien....',
-          showConfirmButton: true,          
+          showConfirmButton: true,
         });
-     });    
+     });
 } catch (error) {
 
-}  
-  
+}
+
 }
 
 obtenerPuntoVta(){
   console.log(this.elementoPtoVta);
   this._pto_vta = this.elementoPtoVta['id'];
-  this.pto_vta = this.padLeft(this.elementoPtoVta['punto_vta'], '0', 4); 
+  this.pto_vta = this.padLeft(this.elementoPtoVta['punto_vta'], '0', 4);
   console.log(this.pto_vta);
   //this.obtenerUltimaFactura();
 }
@@ -720,10 +720,10 @@ obtenerUltimaFactura(){
   this.es_afip = this.elementoComprobante['es_afip'];
   console.log(this.es_afip);
   try {
-    
+
     this.facturacionService.GetLastVoucher(this.pto_vta,this.elementoComprobante['id'],this.medico_id)
-    .subscribe(resp => {      
-   
+    .subscribe(resp => {
+
       this.loading = false;
       this.peticion = '';
       resp = resp+1;
@@ -741,17 +741,17 @@ obtenerUltimaFactura(){
           type: 'error',
           text: error,
           title: 'Algo no esta bien....',
-          showConfirmButton: true,          
+          showConfirmButton: true,
         });
-     });    
+     });
 } catch (error) {
 
-}  
+}
 }
 
 
 cargarRenglones(){
-
+  let _plan = '';
   let _movimiento: any[] = this.config.data;
   let movimiento: FacturaElectronicaRenglon;
   let _factura_alicuota_asociada: FacturaAlicuotaAsociada;
@@ -760,13 +760,17 @@ cargarRenglones(){
     for (let index = 0; index < _movimiento.length; index++) {
       console.log('LISTADO DE RENGLONES');
       console.log(_movimiento[index]);
+      if(_movimiento[index]['mat_id_plan'] !== 0){
+        _plan = ' - Plan Nº' + _movimiento[index]['mat_id_plan'];
+      }
         // tslint:disable-next-line: max-line-length
-      movimiento = new FacturaElectronicaRenglon('0','0',_movimiento[index]['mat_concepto'] + ' - cuota ' +  _movimiento[index]['mat_num_cuota'] + ' - periodo ' +  formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en'), 1, _movimiento[index]['mat_monto_final'],
+      movimiento = new FacturaElectronicaRenglon('0','0',_movimiento[index]['mat_concepto'] + ' - cuota ' +  _movimiento[index]['mat_num_cuota'] + ' - periodo ' +  formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en') + _plan, 1, _movimiento[index]['mat_monto_final'],
         _movimiento[index]['mat_monto_final'],'3', 1,'0%',0, _movimiento[index]['mat_monto_final'], _movimiento[index]['id_pago_historico'],
-         formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en'), formatDate(new Date(), 'dd/MM/yyyy', 'en') ,this.userData['id']); 
+         formatDate(_movimiento[index]['mat_fecha_vencimiento'], 'dd/MM/yyyy', 'en'), formatDate(new Date(), 'dd/MM/yyyy', 'en') ,this.userData['id']);
         // tslint:disable-next-line: max-line-length
       _factura_alicuota_asociada  = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],(Math.round(Number(movimiento['iva']) * 100) / 100), (Math.round(Number(movimiento['mat_monto']) * 100) / 100),'0' );
       this.elementos.push(movimiento);
+      _plan = '';
     }
 
   } else {
@@ -779,7 +783,7 @@ cargarRenglones(){
       this.elementos.push(movimiento);
   }
   this.facturaAlicuotaAsociada.push(_factura_alicuota_asociada);
- 
+
 
 
 
@@ -788,18 +792,18 @@ cargarRenglones(){
 
 
 agregarRenglon(){
-  let data:any; 
+  let data:any;
   //data = this.selecteditemRegistro;
   const ref = this.dialogService.open(PopupFacturaRenglonComponent, {
   data,
-   header: 'Agregar registro de factura', 
+   header: 'Agregar registro de factura',
    width: '98%',
    height: '90%'
   });
 
   ref.onClose.subscribe((PopupOperacionCobroRegistroEditarComponent: FacturaElectronicaRenglon) => {
       if (PopupOperacionCobroRegistroEditarComponent) {
-        console.log(PopupOperacionCobroRegistroEditarComponent);    
+        console.log(PopupOperacionCobroRegistroEditarComponent);
         let movimiento: FacturaElectronicaRenglon;
         movimiento= PopupOperacionCobroRegistroEditarComponent;
         console.log();
@@ -808,7 +812,7 @@ agregarRenglon(){
 /*        COMPROBANTES FACTURA B Y C CON SUS NOTAS DE CREDITO Y DEBITO        */
 /* -------------------------------------------------------------------------- */
 
-       
+
         this.elementos.push(movimiento);
         console.log(this.elementos);
        // GUARDO LAS ALICUOTAS ASOCIADAS
@@ -833,14 +837,14 @@ agregarRenglon(){
             this.facturaAlicuotaAsociada[index]['Importe'] =  (Math.round(precio_unitario* 100) / 100);
           }
         }
-       } 
+       }
        // SI EL RENGLON  DE ALICUOTA NO EXISTE LO CREO UNA UNICA VEZ
         if(!existe){
         //let _factura_alicuota_asociada = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],Number(movimiento['iva']),Number(movimiento['precio_unitario']),'0' );
         let _factura_alicuota_asociada = new FacturaAlicuotaAsociada(movimiento['alicuota_id'],(Math.round(Number(movimiento['iva']) * 100) / 100), (Math.round(Number(movimiento['precio_unitario'])* 100) / 100),'0' );
         this.facturaAlicuotaAsociada.push(_factura_alicuota_asociada);
        }
-      
+
         this.sumarValores();
       }
   });
@@ -894,10 +898,10 @@ sumarValores(){
 
 buscarCliente(){
 
-  let data:any; 
+  let data:any;
   const ref = this.dialogService.open(PopupProveedorFindComponent, {
   data,
-   header: 'Buscar proveedor', 
+   header: 'Buscar proveedor',
    width: '98%',
    height: '90%'
   });
@@ -925,13 +929,13 @@ buscarPsicologo(){
    width: '98%',
    height: '100%'
   });
-  
+
   ref.onClose.subscribe((PopupFindMatriculaComponent: any) => {
      if (PopupFindMatriculaComponent) {
       console.log(PopupFindMatriculaComponent);
       this.cliente = PopupFindMatriculaComponent.psicologo.mat_apellido + ' ' + PopupFindMatriculaComponent.psicologo.mat_nombre;
       this.nrodocumento =  PopupFindMatriculaComponent.psicologo.mat_cuit;
-      
+
      }
   });
 
@@ -969,7 +973,7 @@ buscarFacturaAfip() {
       }
   });
 
- 
+
 
 }
 
@@ -1008,7 +1012,7 @@ try {
   doc.line(pageWidth - 10, 10, pageWidth - 10, 50); // linea vertical derecha
   doc.line(10, 50, pageWidth - 10, 50); //linea inferior horizontal
 
-  // borde factura letra  
+  // borde factura letra
   doc.line((pageWidth/2)-6,10 , (pageWidth/2)-6, 23);  // linea vertical izquierda
   doc.line((pageWidth/2)+6,10 , (pageWidth/2)+6, 23);  // linea vertical derecha
   doc.line((pageWidth/2)-6,23 , (pageWidth/2)+6, 23); //linea inferior horizontal
@@ -1097,12 +1101,12 @@ try {
 
   doc.setFontSize(10);
   doc.setFontStyle('bold');
-  doc.text('Subtotal: '+ this.cp.transform(this.subtotal, '', 'symbol-narrow', '1.2-2'), 15, pageHeight -18); 
+  doc.text('Subtotal: '+ this.cp.transform(this.subtotal, '', 'symbol-narrow', '1.2-2'), 15, pageHeight -18);
   if((this.elementoComprobante['id'] === 6)||(this.elementoComprobante['id'] === 11)){}else{
-    doc.text('Imp. IVA: '+ this.cp.transform(this.subtotal_iva, '', 'symbol-narrow', '1.2-2'), 75, pageHeight -18); 
+    doc.text('Imp. IVA: '+ this.cp.transform(this.subtotal_iva, '', 'symbol-narrow', '1.2-2'), 75, pageHeight -18);
   }
-  
-  doc.text('Total: '+ this.cp.transform(this.total, '', 'symbol-narrow', '1.2-2'), pageWidth-50, pageHeight -18); 
+
+  doc.text('Total: '+ this.cp.transform(this.total, '', 'symbol-narrow', '1.2-2'), pageWidth-50, pageHeight -18);
   // PIE DE LA FACTURA
   doc.text('CAE: ' + this.CAE, 15, pageHeight - 10);
   if (this.CAE === '') {} else {
@@ -1131,7 +1135,7 @@ try {
 
   doc.autoTable(this.columns, this.elementosPDF,
   {
-    
+
       margin: {vertical: 95, right: 0, horizontal: -10},
       bodyStyles: {valign: 'top'},
       styles: {fontSize: 8, cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify', overflow: 'linebreak'},
@@ -1139,12 +1143,12 @@ try {
       alicuota_descripcion: {columnWidth: 12},  iva: {columnWidth: 25}, total_renglon: {columnWidth: 25} }
   });
   window.open(doc.output('bloburl'));
-  
+
   this.realizarCobroNotificar();
 
 
 } catch (error) {
-  
+
 }
 
 
@@ -1191,7 +1195,7 @@ realizarCobro() {
           showConfirmButton: true,
           confirmButtonColor: '#3085d6'
         });
-     });    
+     });
 } catch (error) {
 
 }
@@ -1203,7 +1207,7 @@ realizarCobro() {
   limpiarDatos() {
 
   this.elementosPDF = [];
-  this.elementos = [];   
+  this.elementos = [];
   this.pto_vta = '0';
   this.factura_numero = '0';
   this.factura_numero_ceros = '0';
@@ -1222,8 +1226,8 @@ realizarCobro() {
   this.observacion = '';
   this.cliente = '';
   this.getMedicosFacturan();
- 
-  
+
+
   }
 
 

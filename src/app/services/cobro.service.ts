@@ -22,6 +22,10 @@ export class CobroService {
     return this.http.get<any[]>(this.url + 'cobro/by/matricula/estado?mat_matricula=' + matMatricula + '&estado=' + estado);
   }
 
+  getDeudaByMatriculaAndEstadoByIdLiquidacionDetalle(matMatricula: string , estado: string, id_liquidacion_detalle: string) {
+    return this.http.get<any[]>(this.url + 'cobro/by/matricula/estado/detalle/liquidacion?mat_matricula=' + matMatricula + '&estado=' + estado +'&id_liquidacion_detalle=' + id_liquidacion_detalle);
+  }
+
   getDeudaByPlanAndMatricula(matMatricula: string , matIdPlan: string) {
     return this.http.get<any[]>(this.url + 'cobro/by/matricula/plan?mat_matricula=' + matMatricula + '&mat_id_plan=' + matIdPlan);
   }
@@ -42,7 +46,7 @@ export class CobroService {
   setDeudaRegistros(element: any) {
     return this.http.post<any>(this.url + 'cobro/by/matricula/registros/nuevos', element);
   }
-  
+
 
   putDeuda(element: any, id: string) {
     return this.http.put<any>(this.url + 'cobro/by/matricula/actualizar/' + id, element);
@@ -53,7 +57,7 @@ export class CobroService {
     return this.http.put<any>(this.url + 'cobro/by/matricula/cobrar/' + id, element);
   }
 
-  
+
 
 
   getConcepto() {
@@ -74,6 +78,10 @@ export class CobroService {
 
   setPlanPagoMatricula(element: PlanPago) {
     return this.http.post<any>(this.url + 'plan/by/matricula', element);
+  }
+
+  generarDeudaPsicologo(mat_matricula_psicologo: string, anio:string, consulta: string) {
+    return this.http.get<any>(this.url + 'deuda/psicologo?mat_matricula_psicologo=' + mat_matricula_psicologo + '&anio=' + anio + '&consulta=' + consulta);
   }
 
 }

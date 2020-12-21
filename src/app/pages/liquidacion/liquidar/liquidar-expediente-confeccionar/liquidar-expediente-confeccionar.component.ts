@@ -1,3 +1,5 @@
+import { PopupMatriculaDetalleLiquidacionComponent } from './../../popups/popup-matricula-detalle-liquidacion/popup-matricula-detalle-liquidacion.component';
+import { OverlayPanel } from 'primeng/overlaypanel';
 import { Component, OnInit } from '@angular/core';
 import { PopupLiquidacionExpedienteEditarComponent } from './../../popups/popup-liquidacion-expediente-editar/popup-liquidacion-expediente-editar.component';
 import { formatDate } from '@angular/common';
@@ -29,6 +31,7 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
   loading = false;
   elemento: any[] = null;
   selecteditems: any[] = [];
+  selecteditem: any[] = [];
   userData: any;
   total = 0;
   ordenes = 0;
@@ -89,15 +92,69 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
 
 
 
-  actualizarFechaDesde(event) {
+
+  detalle(evt: any, overlaypanel: OverlayPanel , event: any) {
     console.log(event);
-    this.fechaDesde = event;
-    console.log(new Date(this.os_fecha));
+    this.selecteditem = event;
+    overlaypanel.toggle(evt);
   }
 
 
+  detalleLiquidacion(elem: any){
 
+    let data: any = this.selecteditem;
+    const ref = this.dialogService.open(PopupLiquidacionGeneradaDetalleComponent, {
+    data,
+     header: 'Detalle de liquidación',
+     width: '98%',
+     height: '100%'
+    });
 
+    ref.onClose.subscribe((PopupLiquidacionGeneradaDetalleComponent: any) => {
+       if (PopupLiquidacionGeneradaDetalleComponent) {
+        console.log(PopupLiquidacionGeneradaDetalleComponent);
+       }
+    });
+
+  }
+
+  editarLiquidacion(elem: any){
+
+    let data: any = this.selecteditem;
+    const ref = this.dialogService.open(PopupLiquidacionExpedienteEditarComponent, {
+    data,
+     header: 'Editar registro de liquidacion',
+     width: '98%',
+     height: '100%'
+    });
+
+    ref.onClose.subscribe((PopupLiquidacionExpedienteEditarComponent: any) => {
+       if (PopupLiquidacionExpedienteEditarComponent) {
+        console.log(PopupLiquidacionExpedienteEditarComponent);
+        this.getExpedienteByIdLiquidacion();
+       }
+    });
+
+  }
+
+  detalleCobro(elem: any){
+
+    let data: any = this.selecteditem;
+    const ref = this.dialogService.open(PopupMatriculaDetalleLiquidacionComponent, {
+    data,
+     header: 'Detalle de cobros asociados',
+     width: '98%',
+     height: '100%'
+    });
+
+    ref.onClose.subscribe((PopupMatriculaDetalleLiquidacionComponent: any) => {
+       if (PopupMatriculaDetalleLiquidacionComponent) {
+        console.log(PopupMatriculaDetalleLiquidacionComponent);
+        this.getExpedienteByIdLiquidacion();
+       }
+    });
+
+  }
 
   loadExpediente() {
     this.loading = true;
@@ -153,7 +210,10 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
     });
 
     ref.onClose.subscribe((PopupLiquidacionExpedienteEditarComponent: any) => {
-
+      if(PopupLiquidacionExpedienteEditarComponent) {
+        console.log(PopupLiquidacionExpedienteEditarComponent);
+        this.getExpedienteByIdLiquidacion();
+      }
     });
 
     }

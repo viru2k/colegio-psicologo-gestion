@@ -1,0 +1,102 @@
+
+    <div>
+      <div class="card p-1">
+
+          <div class="d-flex justify-content-between d-flex align-items-center" >
+              <div class=" d-flex justify-content-start d-flex align-items-center">
+
+                    <span class="pr-1 pt-1"><h6>Fecha de generación:</h6></span>
+                    <p-calendar [inputStyle]="{'height':'29.1px'}" appendTo="body"    class="mr-2 " [(ngModel)]="fecha"  (onSelect)="actualizarFechaPlan($event)" tabindex="0"  [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">
+                      <ng-template pTemplate="date" let-date>
+                              <span    style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
+                          </ng-template>
+                      </p-calendar>
+
+                      <button    class="  btn btn-info btn-sm btn-block"  (click)="buscarMatricula()" >Buscar matricula</button>
+              </div>
+              <div class="d-flex justify-content-center " >
+                <p-dropdown [options]="generacion" appendTo="body" [(ngModel)]="selectedDeuda" (onChange)="changeElementoDeuda($event)" placeholder="Forma de pago" optionLabel="name" [showClear]="true" [filter]="true"></p-dropdown>
+               </div>
+
+              <div class="d-flex justify-content-end " >
+                <button    class="  btn btn-success btn-sm btn-block"  (click)="generarDeuda()" >Generar deuda</button>
+            </div>
+
+          </div>
+  </div>
+
+  <div class="card p-1" *ngIf="this.matricula" class="d-flex justify-content-center m-2">
+    <h6>{{matricula['mat_matricula_psicologo']}} {{matricula['mat_apellido']}}  {{matricula['mat_nombre']}}</h6>
+  </div>
+
+  <p-table  #dt class="pt-2"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols"  [value]="elementos" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
+  scrollHeight="500px" [scrollable]="true"  [loading]="loading" loadingIcon=" icon-color-loader-new fas fa-spinner fa-3x ">
+
+
+
+
+        <ng-template pTemplate="header" let-columns >
+          <tr >
+              <th  *ngFor="let col of columns" [pSortableColumn]="col.field"  [ngStyle]="{'width': col.width}">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activar para ordenar en forma descendente" ariaLabelAsc="Activar para ordenar en forma ascendente"></p-sortIcon>
+              </th>
+
+            </tr>
+            <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field" >
+                <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_concepto" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="mat_concepto"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_descripcion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_monto'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_monto_final'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_fecha_vencimiento'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_fecha_pago'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_num_cuota" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="mat_num_cuota"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_id_plan'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_matricula'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'mat_nombreyapellido'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                 <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_mat_estado" appendTo="body" defaultLabel="Filtrar"	 *ngIf='col.field =="mat_estado"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+                 <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_nombreyapellido" appendTo="body" defaultLabel="Filtrar"	 *ngIf='col.field =="nombreyapellido"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
+
+            </th>
+        </tr>
+    </ng-template>
+
+        <ng-template pTemplate="body" let-elemento>
+
+        <tr style="height:28px" [ngClass]="colorRow(elemento.estado)" >
+            <td style="width: 6%">
+                <a   (click)="editarRegistro(elemento)" ><i class="far fa-edit fa-lg icon-color-info  my-hover" ></i></a>
+              </td>
+             <!--    <td [ngClass]="colorString(elemento.operacion_cobro_id)" style="width: 5%"><a class="my-hover" (click)="verDetalle(elemento)">{{elemento.operacion_cobro_id}}</a></td>    -->
+             <td style="width: 8%">{{elemento.mat_matricula}}</td>
+                <td style="width: 20%">{{elemento.mat_nombreyapellido}}</td>
+                <td style="width: 20%">{{elemento.mat_concepto}}</td>
+                <td style="width: 25%">{{elemento.mat_descripcion}}</td>
+                <td style="width: 12%">{{elemento.mat_monto |  number : '1.2-2'}}</td>
+                <td style="width: 12%">{{elemento.mat_monto_final |  number : '1.2-2'}}</td>
+                <td style="width: 12%">{{elemento.mat_fecha_pago | date: 'dd/MM/yyyy'}}</td>
+                <td style="width: 12%">{{elemento.mat_fecha_vencimiento | date: 'dd/MM/yyyy'}}</td>
+                <td style="width: 8%">{{elemento.mat_num_cuota}}</td>
+                <td style="width: 8%">{{elemento.mat_id_plan}}</td>
+                <td style="width: 8%" [ngClass]="colorString(elemento.mat_estado)">{{elemento.mat_estado}}</td>
+                <td style="width: 14%">{{elemento.nombreyapellido}}</td>
+        </tr>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <tr class="mt-3">
+                      <td style="width: 52%" ></td>
+                      <td style="width: 16%" class="es-egreso">TOTAL: {{total |  number : '1.2-2'}}</td>
+            </tr>
+
+            </ng-template>
+
+  </p-table>
+
+
+
+
+  </div>
+
+

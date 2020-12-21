@@ -58,6 +58,11 @@ export class LiquidacionService {
       return this.http.post<any>(URL_SERVICIOS + 'operacioncobro/liquidacion/generdada/id', liquidacion);
     }
 
+    getOrdenByMatriculaAndLiquidacion(mat_matricula: string, id_liquidacion: string) {
+      return this.http.get<any>(URL_SERVICIOS + 'liquidacion/orden/by/matricula/liquidacion?mat_matricula=' + mat_matricula + '&id_liquidacion=' +id_liquidacion);
+      }
+
+
 
     getLiquidacionNumero(id: string) {
       return this.http.get<any>(URL_SERVICIOS + 'operacioncobro/liquidacion/generdada?id=' + id);
@@ -99,6 +104,11 @@ export class LiquidacionService {
     putExpediente(elementos: any, id_os_liquidacion: string) {
       return this.http.put<any>(URL_SERVICIOS + 'liquidacion/expediente/actualizar/' + id_os_liquidacion, elementos);
       }
+
+      putLiquidacionDetalle(elementos: any, id_liquidacion_detalle: string) {
+      return this.http.put<any>(URL_SERVICIOS + 'liquidacion/registro/detalle/' + id_liquidacion_detalle, elementos);
+      }
+
 
     putOrden(elementos: any, id_os_liquidacion: string) {
       return this.http.put<any>(URL_SERVICIOS + 'liquidacion/orden/' + id_os_liquidacion, elementos);

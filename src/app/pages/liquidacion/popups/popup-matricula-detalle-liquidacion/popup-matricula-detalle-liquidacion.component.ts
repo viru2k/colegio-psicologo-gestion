@@ -1,4 +1,3 @@
-import { LiquidacionService } from './../../../../services/liquidacion.service';
 import { PopupConceptoEditarComponent } from './../../../matricula/matricula-cobro/popups/popup-concepto-editar/popup-concepto-editar.component';
 import { AlertServiceService } from './../../../../services/alert-service.service';
 import { CobroService } from './../../../../services/cobro.service';
@@ -20,16 +19,17 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 
 
 
-@Component({
-  selector: 'app-popup-liquidacion-generada-detalle',
-  templateUrl: './popup-liquidacion-generada-detalle.component.html',
-  styleUrls: ['./popup-liquidacion-generada-detalle.component.scss']
-})
-export class PopupLiquidacionGeneradaDetalleComponent implements OnInit {
 
+
+
+@Component({
+  selector: 'app-popup-matricula-detalle-liquidacion',
+  templateUrl: './popup-matricula-detalle-liquidacion.component.html',
+  styleUrls: ['./popup-matricula-detalle-liquidacion.component.scss']
+})
+export class PopupMatriculaDetalleLiquidacionComponent implements OnInit {
 
   cols: any[];
-  colsOrden: any[];
   es: any;
   display: boolean;
   observacion: string;
@@ -38,9 +38,7 @@ export class PopupLiquidacionGeneradaDetalleComponent implements OnInit {
   DateForm1: FormGroup;
   loading = false;
   elemento: any[] = null;
-  elementoOrden: any[] = null;
   selecteditems: any[] = [];
-  selecteditemsOrden: any[] = [];
   elementosFiltrados: any[] = [];
   elementosFiltradosImpresion: any[] = [];
   columns: any;
@@ -65,11 +63,9 @@ export class PopupLiquidacionGeneradaDetalleComponent implements OnInit {
   pago: any[];
   total = 0;
   total_seleccionado = 0;
-  totalOrden = 0;
-  cantidadOrden = 0;
   selectedPago: any;
 
-  constructor(private cobroService: CobroService , private liquidacionService: LiquidacionService,  private messageService: MessageService,
+  constructor(private cobroService: CobroService ,  private messageService: MessageService,
               public dialogService: DialogService,  private route: ActivatedRoute,
               private alertServiceService: AlertServiceService, public config: DynamicDialogConfig,
               private excelService: ExcelService,    private router: Router, private filter: Filter ) {
@@ -83,36 +79,23 @@ export class PopupLiquidacionGeneradaDetalleComponent implements OnInit {
     ];
 
 
-      this.colsOrden = [
+      this.cols = [
         {field: 'boton', header: '' , width: '6%'},
-        {field: 'os_nombre', header: 'Obra social', width: '20%' },
-        {field: 'os_sesion', header: 'Sesión', width: '20%' },
-        {field: 'os_sesion_codigo', header: 'Código', width: '12%' },
-        {field: 'os_precio_sesion', header: 'Valor', width: '12%' },
-        {field: 'os_cantidad', header: 'Cant.', width: '12%' },
-        {field: 'os_precio_total', header: 'Total', width: '12%' },
-        {field: 'pac_nombre', header: 'Paciente', width: '18%' },
-        {field: 'pac_dni', header: 'Dni', width: '16%' },
-
+        {field: 'mat_matricula', header: 'Mat.', width: '8%' },
+        {field: 'mat_nombreyapellido', header: 'Psicólogo', width: '20%' },
+        {field: 'mat_concepto', header: 'Concepto', width: '20%' },
+        {field: 'mat_descripcion', header: 'Descripción', width: '25%' },
+        {field: 'mat_monto', header: 'Valor', width: '12%' },
+        {field: 'mat_monto_final', header: 'Importe', width: '12%' },
+        {field: 'mat_fecha_pago', header: 'F. Pago', width: '12%' },
+        {field: 'mat_fecha_vencimiento', header: 'F. Venc', width: '12%' },
+        {field: 'mat_num_cuota', header: 'Cuota', width: '8%' },
+        {field: 'mat_id_plan', header: 'Plan', width: '8%' },
+        {field: 'mat_estado', header: 'Estado' , width: '8%'},
+        {field: 'mat_tipo_pago', header: 'Tipo' , width: '8%'},
+        {field: 'id_liquidacion_detalle', header: 'N°', width: '8%' },
+        {field: 'nombreyapellido', header: 'Usuario' , width: '14%'},
         ];
-
-        this.cols = [
-          {field: 'boton', header: '' , width: '6%'},
-          {field: 'mat_matricula', header: 'Mat.', width: '8%' },
-          {field: 'mat_nombreyapellido', header: 'Psicólogo', width: '20%' },
-          {field: 'mat_concepto', header: 'Concepto', width: '20%' },
-          {field: 'mat_descripcion', header: 'Descripción', width: '25%' },
-          {field: 'mat_monto', header: 'Valor', width: '12%' },
-          {field: 'mat_monto_final', header: 'Importe', width: '12%' },
-          {field: 'mat_fecha_pago', header: 'F. Pago', width: '12%' },
-          {field: 'mat_fecha_vencimiento', header: 'F. Venc', width: '12%' },
-          {field: 'mat_num_cuota', header: 'Cuota', width: '8%' },
-          {field: 'mat_id_plan', header: 'Plan', width: '8%' },
-          {field: 'mat_estado', header: 'Estado' , width: '8%'},
-          {field: 'mat_tipo_pago', header: 'Tipo' , width: '8%'},
-          {field: 'id_liquidacion_detalle', header: 'N°', width: '8%' },
-          {field: 'nombreyapellido', header: 'Usuario' , width: '14%'},
-          ];
 
       this.columns = [
           {title: 'Matrícula', dataKey: 'mat_matricula'},
@@ -135,7 +118,6 @@ export class PopupLiquidacionGeneradaDetalleComponent implements OnInit {
     this.es = calendarioIdioma;
     console.log(this.config.data);
     this.getDeudaByMatriculaAndEstado(this.config.data.mat_matricula,'P', this.config.data.id_liquidacion_detalle);
-
   }
 
 
@@ -163,6 +145,25 @@ if (this.selecteditems.length > 0) {
 }
 
 
+nuevo() {
+
+  const data: any = null;
+
+  const ref = this.dialogService.open(PopupMovimientoComponent, {
+  data,
+   header: 'Agregar ingreso',
+   width: '98%',
+   height: '95%'
+  });
+
+  ref.onClose.subscribe((PopupMovimientoComponent: any) => {
+
+    if (PopupMovimientoComponent) {
+      //this.loadMovimientoRegistro();
+    }
+  });
+
+}
 
 
 public exportarExcelDetallado(){
@@ -213,7 +214,7 @@ public exportarExcelDetallado(){
   ref.onClose.subscribe((PopupConceptoEditarComponent: any) => {
 
     if (PopupConceptoEditarComponent) {
-      this.getDeudaByMatriculaAndEstado(this.config.data.mat_matricula,'P', this.config.data.id_liquidacion_detalle);
+      this.getDeudaByMatricula(this.psicologo.mat_matricula_psicologo);
       //this.loadMovimientoRegistro();
     }
   });
@@ -241,7 +242,7 @@ agregarConcepto() {
     ref.onClose.subscribe((PopupConceptoAgregarComponent: any) => {
        if (PopupConceptoAgregarComponent) {
         console.log(PopupConceptoAgregarComponent);
-        this.getDeudaByMatriculaAndEstado(this.config.data.mat_matricula,'P', this.config.data.id_liquidacion_detalle);
+        this.getDeudaByMatricula(this.psicologo.mat_matricula_psicologo);
        }
     });
   } else {
@@ -263,32 +264,46 @@ agregarConcepto() {
 
 
 
-
-getOrdenByMatriculaAndLiquidacion(mat_matricula_psicologo, id_liquidacion: string) {
+getDeudaByMatricula(mat_matricula_psicologo) {
   const userData = JSON.parse(localStorage.getItem('userData'));
   this.es = calendarioIdioma;
   this.loading = true;
-
+  this.total = 0;
+  this.total_seleccionado = 0;
   console.log(userData['id']);
 
   try {
-      this.liquidacionService.getOrdenByMatriculaAndLiquidacion(mat_matricula_psicologo, id_liquidacion)
-       .subscribe(resp => {
+      this.cobroService.getDeudaByMatricula(mat_matricula_psicologo)
+      .subscribe(resp => {
 
       if (resp[0]) {
-        this.elementoOrden = resp;
+        let i = 0;
+        for (i = 0; i < resp.length; i++) {
+
+          if (this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+            resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
+            this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
+          } else {
+            this.total =  this.total + Number(resp[i]['mat_monto']);
+            resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']);
+          }
+
+          }
+        this.realizarFiltroBusqueda(resp);
+
+        this.elemento = resp;
         console.log(resp);
-        this.sumarValoresOrden(resp);
         }
       this.loading = false;
       },
       error => { // error path
-          console.log(error.message);
-          console.log(error.status);
-          this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
        });
   } catch (error) {
-  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error,'');
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
   }
 }
 
@@ -318,7 +333,6 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string, id_liquida
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']);
           }
           }
-          this.getOrdenByMatriculaAndLiquidacion(mat_matricula_psicologo, this.config.data.id_liquidacion_generada);
         this.realizarFiltroBusqueda(resp);
 
         this.elemento = resp;
@@ -339,15 +353,6 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string, id_liquida
 
 
 
-sumarValoresOrden(vals: any) {
-  // SUMO LO FILTRADO
-  console.log(vals);
-  let _total_seleccionado = 0
-  let i: number;
-  for (i = 0; i < vals.length; i++) {
-   this.totalOrden =  this.totalOrden+ Number(vals[i]['os_precio_total']);
-   }
-}
 
 sumarValoresSeleccionados(vals: any) {
         // SUMO LO FILTRADO
