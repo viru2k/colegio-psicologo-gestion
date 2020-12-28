@@ -10,12 +10,16 @@ import { ExcelService } from './../../../../services/excel.service';
 
 
 import { DialogService, MessageService, DynamicDialogConfig } from 'primeng/api';
-import { formatDate, DatePipe } from '@angular/common';
+import { formatDate, DatePipe, CurrencyPipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import swal from 'sweetalert2';
+declare const require: any;
+const jsPDF = require('jspdf');
+require('jspdf-autotable');
 import {OverlayPanelModule, OverlayPanel} from 'primeng/overlaypanel';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 
 
 
@@ -39,12 +43,15 @@ export class PopupLiquidacionGeneradaDetalleComponent implements OnInit {
   loading = false;
   elemento: any[] = null;
   elementoOrden: any[] = null;
+  elementosOS: any[] = [];
   selecteditems: any[] = [];
   selecteditemsOrden: any[] = [];
   elementosFiltrados: any[] = [];
   elementosFiltradosImpresion: any[] = [];
-  columns: any;
+  columnsOrden: any;
+  columnsMatricula: any;
   userData: any;
+  hoy: Date;
   fecha: Date;
   fechaDesde: Date;
   _fechaDesde: string;
@@ -70,7 +77,7 @@ export class PopupLiquidacionGeneradaDetalleComponent implements OnInit {
   selectedPago: any;
 
   constructor(private cobroService: CobroService , private liquidacionService: LiquidacionService,  private messageService: MessageService,
-              public dialogService: DialogService,  private route: ActivatedRoute,
+              public dialogService: DialogService,  private route: ActivatedRoute, private cp: CurrencyPipe,
               private alertServiceService: AlertServiceService, public config: DynamicDialogConfig,
               private excelService: ExcelService,    private router: Router, private filter: Filter ) {
 
@@ -114,27 +121,33 @@ export class PopupLiquidacionGeneradaDetalleComponent implements OnInit {
           {field: 'nombreyapellido', header: 'Usuario' , width: '14%'},
           ];
 
-      this.columns = [
-          {title: 'Matrícula', dataKey: 'mat_matricula'},
-          {title: 'Psicólogo', dataKey: 'mat_nombreyapellido'},
-          {title: 'Concepto', dataKey: 'mat_concepto'},
-          {title: 'Descripción', dataKey: 'mat_descripcion'},
-          {title: 'Valor', dataKey: 'mat_monto'},
-          {title: 'Importe', dataKey: 'mat_monto_final'},
-          {title: 'Vencimiento', dataKey: 'mat_fecha_vencimiento'},
-          {title: 'Cuota', dataKey: 'mat_num_cuota'},
-          {title: 'Plan', dataKey: 'mat_id_plan'},
-          {title: 'Estado', dataKey: 'mat_estado'},
-          {title: 'Punto', dataKey: 'id_usuario'}
-
+      this.columnsOrden = [
+          {title: 'Orden', dataKey: 'os_nombre'},
+          {title: 'Sesión', dataKey: 'os_sesion'},
+          {title: 'Código', dataKey: 'os_sesion_codigo'},
+          {title: 'valor', dataKey: 'id_precio'},
+          {title: 'Cantidad', dataKey: 'os_cantidad'},
+          {title: 'Total', dataKey: 'os_precio_total'},
       ];
+
+      this.columnsMatricula = [
+        {title: 'Concepto', dataKey: 'mat_concepto'},
+        {title: 'Descripción', dataKey: 'mat_descripcion'},
+        {title: 'Valor', dataKey: 'mat_monto'},
+        {title: 'Importe', dataKey: 'mat_monto_final'},
+        {title: 'Vencimiento', dataKey: 'mat_fecha_vencimiento'},
+        {title: 'Cuota', dataKey: 'mat_num_cuota'},
+        {title: 'Plan', dataKey: 'mat_id_plan'},
+    ];
       }
 
   ngOnInit() {
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.es = calendarioIdioma;
+    this.hoy = new Date();
     console.log(this.config.data);
     this.getDeudaByMatriculaAndEstado(this.config.data.mat_matricula,'P', this.config.data.id_liquidacion_detalle);
+    this.getOrdenByMatriculaAndLiquidacion(this.config.data.mat_matricula, this.config.data.id_liquidacion_generada);
 
   }
 
@@ -279,6 +292,7 @@ getOrdenByMatriculaAndLiquidacion(mat_matricula_psicologo, id_liquidacion: strin
         this.elementoOrden = resp;
         console.log(resp);
         this.sumarValoresOrden(resp);
+        this.getObrasSocialesByLiquidacion(id_liquidacion);
         }
       this.loading = false;
       },
@@ -310,7 +324,7 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string, id_liquida
         let i = 0;
         for (i = 0; i < resp.length; i++) {
       //    console.log(this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']));
-          if (this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+      if (Number(this.filter.monthDiffByDates(  new Date(resp[i]['mat_fecha_vencimiento']), this.hoy)) > 2) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {
@@ -318,7 +332,7 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string, id_liquida
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']);
           }
           }
-          this.getOrdenByMatriculaAndLiquidacion(mat_matricula_psicologo, this.config.data.id_liquidacion_generada);
+
         this.realizarFiltroBusqueda(resp);
 
         this.elemento = resp;
@@ -339,6 +353,121 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string, id_liquida
 
 
 
+getObrasSocialesByLiquidacion(id_liquidacion) {
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  this.es = calendarioIdioma;
+  this.loading = true;
+
+  console.log(userData['id']);
+
+  try {
+      this.liquidacionService.getObrasSocialesByLiquidacion(id_liquidacion)
+       .subscribe(resp => {
+        console.log(resp);
+        this.elementosOS = resp;
+      this.loading = false;
+      },
+      error => { // error path
+          console.log(error.message);
+          console.log(error.status);
+          this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error,'');
+  }
+}
+
+
+imprimirResumen(){
+  let _obra_social = '';
+  let _fechaEmision = formatDate(new Date(), 'dd/MM/yyyy HH:mm', 'en');
+  if(!this.elemento){
+    this.elemento = [];
+  }
+  for(let i= 0; i<this.elementosOS.length; i++){
+    _obra_social = _obra_social + ' | ' + this.elementosOS[i].os_nombre + ' - ' + formatDate(this.elementosOS[i].os_fecha_desde , 'MM/yyyy', 'en');
+  }
+  //if (!this.selecteditems) {
+
+    //let fecha = formatDate(this.fec, 'dd/MM/yyyy', 'en');
+  var doc = new jsPDF();
+
+  const pageSize = doc.internal.pageSize;
+  const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+  let img = new Image();
+  img.src = './assets/images/user-default.png';
+  doc.addImage(img, 'PNG', 5, 5, 18, 18, undefined, 'FAST');
+  doc.setFontSize(10);
+  doc.text('Colegio de psicólgos', 30, 10, null, null);
+  doc.text('de san juan', 30, 13, null, null);
+  doc.setFontSize(10);
+  doc.text('Detalle de liquidación', pageWidth / 2, 10, null, null, 'center');
+  doc.setFontSize(9);
+  doc.text('Obras sociales a facturar :', pageWidth / 2, 28, null, null, 'center');
+  doc.setFontSize(6);
+  var splitTitle = doc.splitTextToSize(_obra_social, 180);
+  doc.text(15, 32, splitTitle);
+  doc.setLineWidth(0.4);
+
+  doc.setFontSize(8);
+  doc.text('Liquidación Nro : ' + this.config.data.id_liquidacion, pageWidth -60, 10, null, null);
+  doc.text('Fecha de liq. : ' +  formatDate(this.config.data.os_fecha , 'dd/MM/yyyy', 'en'), pageWidth -60, 13, null, null);
+  doc.text( 'Comprobante : ' +this.config.data.num_comprobante , pageWidth -60, 16, null, null);
+  doc.text( 'Matricula : ' +this.config.data.mat_matricula , pageWidth -60, 19, null, null);
+  doc.text( this.config.data.mat_apellidoynombre, pageWidth -60,22 , null, null);
+
+
+ // ORDENES
+  doc.setFontSize(9);
+  doc.text('ORDENES', pageWidth / 2, 50, null, null, 'center');
+  doc.setFontSize(8);
+  doc.autoTable(this.columnsOrden, this.elementoOrden,
+        {
+          margin: {horizontal: 5, vertical: 54},
+          bodyStyles: {valign: 'top'},
+          styles: {fontSize: 7,cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify'},
+          columnStyles: {text: {cellWidth: 'auto'}}
+        }
+        );
+
+  let currentY = doc.autoTable.previous.finalY;
+  doc.text('BRUTO: ' + this.cp.transform(this.config.data.os_liq_bruto, '', 'symbol-narrow', '1.2-2')  , pageWidth -50, currentY + 10, null, null);
+
+  doc.line(15, currentY + 14, pageWidth - 15, currentY + 14);
+  doc.text('Ing. brutos: ' + this.cp.transform(this.config.data.os_ing_brutos, '', 'symbol-narrow', '1.2-2'),15 , currentY + 20, null, null);
+  doc.text('Lote hogar: ' + this.cp.transform(this.config.data.os_lote_hogar, '', 'symbol-narrow', '1.2-2'), 65, currentY + 20, null, null);
+  doc.text('Gastos adm.: ' + this.cp.transform(this.config.data.os_gasto_admin, '', 'symbol-narrow', '1.2-2'), 105, currentY + 20, null);
+  doc.text('Matricula: ' + this.cp.transform(this.config.data.os_desc_matricula, '', 'symbol-narrow', '1.2-2'), 15, currentY + 24, null, null);
+  doc.text('Fondo solidario: ' + this.cp.transform(this.config.data.os_desc_fondo_sol, '', 'symbol-narrow', '1.2-2'), 65, currentY + 24, null, null);
+  doc.text('Otros descuentos: ' + this.cp.transform(this.config.data.os_descuentos, '', '', '1.2-2'), 105,currentY + 24, null, null);
+  doc.line(15, currentY + 28, pageWidth - 15, currentY + 28);
+
+// MATRICULA
+
+doc.setFontSize(9);
+  doc.text('DESCUENTOS REALIZADOS', pageWidth / 2, currentY + 34, null, null, 'center');
+  doc.setFontSize(8);
+  doc.autoTable(this.columnsMatricula, this.elemento,
+        {
+          margin: {horizontal: 5, vertical: currentY + 38},
+          bodyStyles: {valign: 'top'},
+          styles: {fontSize: 7,cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify'},
+          columnStyles: {text: {cellWidth: 'auto'}}
+        }
+        );
+
+
+  let finalY = doc.autoTable.previous.finalY;
+  doc.setLineWidth(0.4);
+
+  doc.setFontSize(10);
+  doc.text('NETO A COBRAR: ' + this.cp.transform(this.config.data.os_liq_neto, '', 'symbol-narrow', '1.2-2') , pageWidth -70, finalY+15, null, null);
+  window.open(doc.output('bloburl'));
+
+
+}
+
+
 sumarValoresOrden(vals: any) {
   // SUMO LO FILTRADO
   console.log(vals);
@@ -346,6 +475,17 @@ sumarValoresOrden(vals: any) {
   let i: number;
   for (i = 0; i < vals.length; i++) {
    this.totalOrden =  this.totalOrden+ Number(vals[i]['os_precio_total']);
+   }
+}
+
+
+sumarValores(vals: any) {
+  // SUMO LO FILTRADO
+  console.log(vals);
+  let _total_seleccionado = 0
+  let i: number;
+  for (i = 0; i < vals.length; i++) {
+   this.total =  this.total+ Number(vals[i]['mat_monto']);
    }
 }
 

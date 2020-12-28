@@ -1,9 +1,7 @@
 
     <div>
       <div class="card p-1">
-
           <div class=" mr-1 d-flex align-items-center d-flex justify-content-between " >
-
                 <div class=" d-flex justify-content-start">
                    <div class="ml-2 mr-2"> <button    class="ml-2 btn  btn-info btn-sm btn-block float-right mr-2"  (click)="BuscarLiquidacion()" >Buscar liquidación</button></div>
                   </div>
@@ -13,9 +11,39 @@
 
                     <div class="ml-2 mr-2"> <button    class="ml-3 btn  btn-danger btn-sm btn-block float-right "  (click)="generarDeuda()" >Generar deuda</button></div>
                   </div>
+        </div>
       </div>
+
+    <div class="card p-1">
+      <div class=" mr-1 d-flex align-items-center d-flex justify-content-between " >
+            <div class=" d-flex justify-content-start">
+              <button    class="  btn btn-success btn-sm mr-1"  (click)="listarLiquidacionByMatricula()" > <i class="fas fa-search fa-xs mr-2"></i>Actuación profesional</button>
+              <div class="mr-2 ml-2" *ngIf="psicologo"><label >{{psicologo.mat_matricula_psicologo}} - {{psicologo.mat_apellido}} {{psicologo.mat_nombre}}</label></div>
+              </div>
+              <div class=" d-flex justify-content-start">
+              </div>
+              <div class="d-flex justify-content-end">
+              </div>
+    </div>
   </div>
 
+
+      <div class="card p-1" *ngIf="id_liquidacion">
+        <div class=" mr-1 d-flex align-items-center d-flex justify-content-between " >
+              <div class=" d-flex justify-content-start" >
+                 <div class="ml-2 mr-2"> <button    class="ml-2 btn  btn-info btn-sm btn-block float-right mr-2"  (click)="GenerarIngresosBrutos()" >Generar Numero ingresos brutos</button></div>
+                 <div ><label>Proximo ing. brutos: </label><input class="form-input " [(ngModel)]="proximo_numero"></div>
+                </div>
+                <div class=" d-flex justify-content-start">
+
+
+                </div>
+                <div class="d-flex justify-content-end" >
+                  <div class="ml-2 mr-2"> <button    class="ml-2 btn  btn-info btn-sm btn-block float-right mr-2"  (click)="GenerarRecibo()" >Generar Numero recibo</button></div>
+                  <div ><label>Proximo recibo: </label><input class="form-input " [(ngModel)]="proximo_numero_recibo"></div>
+                </div>
+      </div>
+    </div>
 
   <p-table  #dt class="pt-2"  tableStyleClass="prime-table" selectionMode="single" [columns]="cols"  [value]="elementos" [(selection)]="selecteditems"   columnResizeMode="expand" [responsive]="true"
   scrollHeight="500px" [scrollable]="true" (onFilter)="filtered($event)"   [loading]="loading" loadingIcon=" icon-color-loader-new fas fa-spinner fa-3x ">

@@ -83,6 +83,11 @@ export class LiquidacionService {
       return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/detalle/by/id/liquidacion?id_liquidacion_generada=' + id_liquidacion_generada );
       }
 
+      getLiquidacionDetalleByMatricula(mat_matricula: string) {
+        // tslint:disable-next-line: max-line-length
+        return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/detalle/by/matricula?mat_matricula=' + mat_matricula );
+        }
+
     getLiquidacionByMatriculaAndEstado(matMatricula: string, estado: string) {
       // tslint:disable-next-line: max-line-length
       return this.http.get<any>(URL_SERVICIOS + 'liquidacion/orden/by/estado/matricula?mat_matricula=' + matMatricula + '&estado=' + estado);
@@ -161,5 +166,33 @@ export class LiquidacionService {
         // tslint:disable-next-line: max-line-length
         this.http.post(URL_SERVICIOS + 'liquidacion/expediente/liquidacion/id/seleccionado', id_liquidacion_generada);
        }
+
+       getObrasSocialesByLiquidacion(id_liquidacion_generada: any) {
+        console.log('liquidando');
+         // tslint:disable-next-line: max-line-length
+        return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/obrasocial/detalle?id_liquidacion_generada=' + id_liquidacion_generada);
+        }
+
+
+
+       getUltimoNroIngBrutos(id_liquidacion_generada: string) {
+        // tslint:disable-next-line: max-line-length
+        return this.http.get<any>(URL_SERVICIOS + 'liquidacion/ultimonumero/ingbrutos?id_liquidacion_generada=' + id_liquidacion_generada);
+        }
+
+        getUltimoNroRecibo(id_liquidacion_generada: string) {
+          // tslint:disable-next-line: max-line-length
+          return this.http.get<any>(URL_SERVICIOS + 'liquidacion/ultimonumero/recibo?id_liquidacion_generada=' + id_liquidacion_generada);
+          }
+
+    putActualizarNroIngBrutos(elem, proximoNumero: number) {
+      return this.http.post(URL_SERVICIOS + 'liquidacion/actualizar/ingbrutos?proximo_numero='+proximoNumero, elem);
+
+    }
+
+    putActualizarNroRecibo(elem, proximoNumero: number) {
+      return this.http.post(URL_SERVICIOS + 'liquidacion/actualizar/recibo?proximo_numero='+proximoNumero, elem);
+
+    }
 
 }

@@ -48,6 +48,7 @@ export class MatriculaCobroComponent implements OnInit {
   elementosFiltradosImpresion: any[] = [];
   columns: any;
   userData: any;
+  hoy : Date;
   fecha: Date;
   fechaDesde: Date;
   _fechaDesde: string;
@@ -121,6 +122,7 @@ export class MatriculaCobroComponent implements OnInit {
   ngOnInit() {
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.es = calendarioIdioma;
+    this.hoy = new Date();
     this.fecha = new Date();
     this.fechaDesde = new Date();
     this.fechaHasta = new Date();
@@ -410,12 +412,15 @@ getDeudaByMatricula(mat_matricula_psicologo) {
   try {
       this.cobroService.getDeudaByMatricula(mat_matricula_psicologo)
       .subscribe(resp => {
-
+        this.elemento = [];
+        this.elementosFiltrados = [];
+        this.selecteditems = [];
+        this.elementosFiltradosImpresion = [];
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
 
-          if (this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+          if (Number(this.filter.monthDiffByDates(  new Date(resp[i]['mat_fecha_vencimiento']), this.hoy)) > 2) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {
@@ -456,12 +461,19 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string) {
   try {
       this.cobroService.getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado)
       .subscribe(resp => {
-
+        this.elemento = [];
+        this.elementosFiltrados = [];
+        this.selecteditems = [];
+        this.elementosFiltradosImpresion = [];
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
-      //    console.log(this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']));
-          if (this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+          if(resp[i]['id_concepto'] === 1){
+            console.log(resp[i]['mat_fecha_vencimiento'] + '     '+ this.filter.monthDiffByDates(  new Date(resp[i]['mat_fecha_vencimiento']), this.hoy));
+          }
+
+
+          if (Number(this.filter.monthDiffByDates(  new Date(resp[i]['mat_fecha_vencimiento']), this.hoy)) > 2) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {
@@ -497,11 +509,15 @@ buscarCobradoEntreFechas() {
     this.cobroService.getDeudaBydMatriculaBetweenDates(this._fechaDesde, this._fechaHasta,'P')
     .subscribe(resp => {
 
+      this.elemento = [];
+      this.elementosFiltrados = [];
+      this.selecteditems = [];
+      this.elementosFiltradosImpresion = [];
     if (resp[0]) {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
-          if (this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+          if (Number(this.filter.monthDiffByDates(  new Date(resp[i]['mat_fecha_vencimiento']), this.hoy)) > 2) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {
@@ -538,6 +554,10 @@ buscarPendienteEntreFechas() {
   this._fechaHasta = formatDate(this.fechaHasta, 'yyyy-MM-dd HH:mm', 'en');
   this.total = 0;
   this.total_seleccionado = 0;
+  this.elemento = [];
+  this.elementosFiltrados = [];
+  this.selecteditems = [];
+  this.elementosFiltradosImpresion = [];
 
   try {
     this.cobroService.getDeudaBydMatriculaBetweenDates(this._fechaDesde, this._fechaHasta,'A')
@@ -547,7 +567,7 @@ buscarPendienteEntreFechas() {
       if (resp[0]) {
         let i = 0;
         for (i = 0; i < resp.length; i++) {
-          if (this.filter.monthdiff(resp[i]['mat_fecha_vencimiento']) >= 3) {
+          if (Number(this.filter.monthDiffByDates(  new Date(resp[i]['mat_fecha_vencimiento']), this.hoy)) > 2) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
           } else {
@@ -685,7 +705,9 @@ generarPdf() {
   let img = new Image();
   img.src = './assets/images/user-default.png';
   doc.addImage(img, 'PNG', 5, 5, 18, 18, undefined, 'FAST');
-
+  doc.setFontSize(10);
+  doc.text('Colegio de psicólgos', 30, 20, null, null);
+  doc.text('de san juan', 30, 23, null, null);
   doc.setLineWidth(0.4);
   doc.line(10, 30, pageWidth - 10, 30);
   doc.setFontSize(12);

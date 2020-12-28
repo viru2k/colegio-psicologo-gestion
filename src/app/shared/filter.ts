@@ -6,13 +6,13 @@ import { formatDate } from '@angular/common';
   })
 export class Filter {
 
-    
+
 public filterArray(arr: any) {
     //const uniqueArray = new Set(arr);
    // const backToArray =[...uniqueArray];
    let result = [];
    let i = 0;
-    const temp = Array.from(new Set(arr));  
+    const temp = Array.from(new Set(arr));
     temp.forEach(element => {
       result.push(  {label: element, value: element});
       i++;
@@ -42,6 +42,15 @@ public filterArray(arr: any) {
    //console.log(m);
    return m;
    }
+
+
+   public monthDiffByDates(d1, d2) {
+    var months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth();
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
+}
 
 
 /* -------------------------------------------------------------------------- */

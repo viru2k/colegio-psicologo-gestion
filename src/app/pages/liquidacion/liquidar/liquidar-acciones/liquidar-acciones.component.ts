@@ -1,3 +1,4 @@
+import { PopupFindMatriculaComponent } from './../../../../shared/popups/popup-find-matricula/popup-find-matricula.component';
 import { PopupLiquidacionGenerarDeudaComponent } from './../../popups/popup-liquidacion-generar-deuda/popup-liquidacion-generar-deuda.component';
 import { PopupMatriculaDetalleLiquidacionComponent } from './../../popups/popup-matricula-detalle-liquidacion/popup-matricula-detalle-liquidacion.component';
 import { OverlayPanel } from 'primeng/overlaypanel';
@@ -46,8 +47,9 @@ export class LiquidarAccionesComponent implements OnInit {
   TOTAL_DEDUCCIONES = 0;
   TOTAL_BRUTO = 0;
   TOTAL_NETO = 0;
-
-
+  proximo_numero = 0;
+  proximo_numero_recibo = 0;
+  psicologo = null;
 
   constructor(
               private liquidacionService: LiquidacionService,
@@ -101,6 +103,26 @@ export class LiquidarAccionesComponent implements OnInit {
   }
 
 
+
+listarLiquidacionByMatricula() {
+
+  let data: any;
+  const ref = this.dialogService.open(PopupFindMatriculaComponent, {
+  data,
+   header: 'Buscar matricula',
+   width: '98%',
+   height: '100%'
+  });
+
+  ref.onClose.subscribe((PopupFindMatriculaComponent: any) => {
+     if (PopupFindMatriculaComponent) {
+      console.log(PopupFindMatriculaComponent);
+      this.psicologo = PopupFindMatriculaComponent;
+      this.liquidacionByMatricula(this.psicologo);
+     }
+  });
+}
+
   detalleLiquidacion(elem: any){
 
     let data: any = this.selecteditem;
@@ -118,6 +140,7 @@ export class LiquidarAccionesComponent implements OnInit {
     });
 
   }
+
 
 
   generarDeuda(){
@@ -267,6 +290,7 @@ export class LiquidarAccionesComponent implements OnInit {
       this.elementos = resp;
       this.sumarTotal(this.elementos);
       this.loading = false;
+      this.getProximoNumeroLiquidacion();
       },
       error => { // error path
         this.loading = false;
@@ -279,6 +303,124 @@ export class LiquidarAccionesComponent implements OnInit {
   }
 
   }
+
+
+
+
+
+  getProximoNumeroLiquidacion() {
+    this.loading = true;
+    try {
+      this.liquidacionService.getUltimoNroIngBrutos(String(this.id_liquidacion))
+      .subscribe(resp => {
+        console.log(resp);
+      this.proximo_numero = resp[0].ultimo +1 ;
+      this.loading = false;
+      this.getProximoNumeroRecibo();
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+
+  }
+
+
+  getProximoNumeroRecibo() {
+    this.loading = true;
+    try {
+      this.liquidacionService.getUltimoNroRecibo(String(this.id_liquidacion))
+      .subscribe(resp => {
+        console.log(resp);
+      this.proximo_numero_recibo = resp[0].ultimo +1 ;
+      this.loading = false;
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+
+  }
+
+  GenerarRecibo() {
+    this.loading = true;
+    try {
+      this.liquidacionService.putActualizarNroRecibo(this.selecteditems, this.proximo_numero_recibo)
+      .subscribe(resp => {
+        console.log(resp);
+      this.loading = false;
+      this.getExpedienteByIdLiquidacion();
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+
+  }
+
+
+
+  GenerarIngresosBrutos() {
+    this.loading = true;
+    try {
+      this.liquidacionService.putActualizarNroIngBrutos(this.selecteditems, this.proximo_numero)
+      .subscribe(resp => {
+        console.log(resp);
+      this.loading = false;
+      this.getExpedienteByIdLiquidacion();
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+
+  }
+
+
+
+  liquidacionByMatricula(psicologo: any) {
+  //  console.log(psicologo);
+    try {
+      this.liquidacionService.getLiquidacionDetalleByMatricula(psicologo.mat_matricula_psicologo)
+      .subscribe(resp => {
+     console.log(resp);
+     this.elementos = resp;
+      this.loading = false;
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+
+
+  }
+
+
 
 
   liquidar() {
