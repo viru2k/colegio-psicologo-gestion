@@ -25,11 +25,12 @@ export class PacienteEditarComponent implements OnInit {
   constructor(public ref: DynamicDialogRef, public config: DynamicDialogConfig, private matriculaService: MatriculaService, private alertServiceService: AlertServiceService) {
 
     this.updateDataForm = new FormGroup({
-
+      'id_paciente': new FormControl(''),
       'pac_nombre': new FormControl('', Validators.required),
       'pac_dni': new FormControl('', Validators.required),
-      'pac_sexo': new FormControl('F', Validators.required),
-      'pac_diagnostico': new FormControl('-', Validators.required)
+      'pac_sexo': new FormControl('FEMENINO', Validators.required),
+      'pac_diagnostico': new FormControl('-'),
+      'nro_afiliado': new FormControl(),
   });
   }
 
@@ -40,6 +41,7 @@ export class PacienteEditarComponent implements OnInit {
     console.log(this.config.data);
     if (this.config.data) {
       console.log('es editable');
+      this.updateDataForm.patchValue(this.config.data);
       this.es_nuevo = false;
     } else {
       this.es_nuevo = true;
@@ -66,7 +68,7 @@ export class PacienteEditarComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000,
             onClose: () => {
-              this.ref.close();
+              this.ref.close(resp);
             }
           });
 
@@ -86,7 +88,7 @@ export class PacienteEditarComponent implements OnInit {
     } else {
       try {
         this.loading = true;
-        this.matriculaService.setPaciente(this.updateDataForm.value)
+        this.matriculaService.putPaciente(this.updateDataForm.value, this.config.data.id_paciente)
         .subscribe(resp => {
           console.log(resp);
           this.loading = false;
@@ -98,7 +100,7 @@ export class PacienteEditarComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000,
             onClose: () => {
-              this.ref.close();
+              this.ref.close(resp);
             }
           });
 

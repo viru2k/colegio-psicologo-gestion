@@ -233,6 +233,7 @@ export class LiquidarExpedienteComponent implements OnInit {
   }
   }
 
+
 /** ACCIONES */
 
 colorRow(estado: string){

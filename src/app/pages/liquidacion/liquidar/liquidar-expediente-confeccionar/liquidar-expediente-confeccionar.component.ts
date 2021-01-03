@@ -2,7 +2,7 @@ import { PopupMatriculaDetalleLiquidacionComponent } from './../../popups/popup-
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { Component, OnInit } from '@angular/core';
 import { PopupLiquidacionExpedienteEditarComponent } from './../../popups/popup-liquidacion-expediente-editar/popup-liquidacion-expediente-editar.component';
-import { formatDate } from '@angular/common';
+import { formatDate, CurrencyPipe } from '@angular/common';
 import { calendarioIdioma } from 'src/app/config/config';
 import { Filter } from './../../../../shared/filter';
 import { AlertServiceService } from './../../../../services/alert-service.service';
@@ -11,6 +11,10 @@ import { LiquidacionService } from './../../../../services/liquidacion.service';
 import { PopupLiquidacionGeneradaDetalleComponent } from './../../popups/popup-liquidacion-generada-detalle/popup-liquidacion-generada-detalle.component';
 import { PopupLiquidacionLiquidacionesComponent } from './../../popups/popup-liquidacion-liquidaciones/popup-liquidacion-liquidaciones.component';
 import { ExcelService } from '../../../../services/excel.service';
+import swal from 'sweetalert2';
+declare const require: any;
+const jsPDF = require('jspdf');
+require('jspdf-autotable');
 
 @Component({
   selector: 'app-liquidar-expediente-confeccionar',
@@ -53,6 +57,7 @@ export class LiquidarExpedienteConfeccionarComponent implements OnInit {
               public dialogService: DialogService,
               private alertServiceService: AlertServiceService,
               private filter: Filter,
+              private cp: CurrencyPipe,
               private excelService: ExcelService ) {
 
                 this.cols = [
@@ -347,6 +352,52 @@ excelProveedor() {
    i++;
   });
   this.excelService.exportAsExcelFile(  exportar, 'listado_pago_banco_proveedores ' + this.selecteditems[0].mat_banco_nombre + fecha_impresion);
+
+}
+
+
+
+
+generarPdfRentas(elem: any) {
+  console.log(this.selecteditem);
+  const _fechaEmision = formatDate(this.selecteditem['os_fecha'], 'dd/MM/yyyy', 'en');
+
+  const userData = JSON.parse(localStorage.getItem('userData'));
+
+  const doc = new jsPDF();
+  /** valores de la pagina**/
+  const pageSize = doc.internal.pageSize;
+  const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+  doc.setFontSize(9);
+  doc.text('DIRECCION GENERAL  DE RENTAS', 10, 15 );
+  doc.text('CERTIFICADO DE RETENCION Nº ' + this.selecteditem['os_num_ing_bruto'], pageWidth - 80, 15 );
+  doc.text('SAN JUAN', 10, 20);
+  doc.text('FECHA: ' + _fechaEmision, pageWidth - 80, 20 );
+  doc.line(10, 25, pageWidth - 10, 25);
+  doc.setFontSize(8);
+  doc.text('Impuestos sobre los ingresos brutos', 10, 30 );
+  doc.text('COLEGIO DE PSICOLOGOS DE SAN JUAN', 10, 35 );
+  doc.text('GRAL. ACHA 1056 SUR', 10, 40 );
+
+  doc.text('AGENTE DE RETENCION 000-39646-7 77', pageWidth - 80, 30 );
+  doc.text('C.U.I.T 30-63561825-2', pageWidth - 80, 35 );
+  doc.line(10, 43, pageWidth - 10, 43);
+  doc.text('VENDEDOR (Apellido y Nombre)', 10, 50 );
+  doc.text(this.selecteditem['mat_apellidoynombre'], 10, 55 );
+
+  doc.text('ACTIVIDAD: Psicologia', pageWidth - 80, 50 );
+  doc.text('C.U.I.T: ' + this.selecteditem['mat_cuit'], pageWidth - 80, 55 );
+  doc.text('Nº ing. brutos: ' + this.selecteditem['mat_ning_bto'], pageWidth - 80, 60 );
+  doc.text('Domicilio: ' + this.selecteditem['mat_domicilio_particular'], pageWidth - 80, 65 );
+  doc.line(10, 70, pageWidth - 10, 70);
+  const imp_retenido = Number(this.selecteditem['os_ing_brutos']) + Number(this.selecteditem['os_lote_hogar']);
+  doc.text('Monto imponible: ' + this.cp.transform(this.selecteditem['os_liq_bruto'], '', 'symbol-narrow', '1.2-2') , 10, 75 );
+  doc.text('Ing. brutos: ' + this.cp.transform(this.selecteditem['os_ing_brutos'], '', 'symbol-narrow', '1.2-2') , 60, 75 );
+  doc.text('Lote hogar: ' + this.cp.transform(this.selecteditem['os_lote_hogar'], '', 'symbol-narrow', '1.2-2') , 90, 75 );
+  doc.text('Importe retenido: ' + this.cp.transform(imp_retenido, '', 'symbol-narrow', '1.2-2') , 130, 75 );
+  doc.line(10, 80, pageWidth - 10, 80);
+  doc.text('DUPLICADO', pageWidth / 2, 85, null, null, 'center');
+ window.open(doc.output('bloburl'));
 
 }
 

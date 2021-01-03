@@ -212,6 +212,7 @@ public exportarExcelDetallado(){
     seleccionados['os_precio_total'] = Number(element.os_precio_total);
     seleccionados['pac_nombre'] = element.pac_nombre;
     seleccionados['pac_dni'] = element.pac_dni;
+    seleccionados['nro_afiliado'] = element.nro_afiliado;
    // exportar.push(seleccionados);
     exportar[i] = seleccionados;
 
@@ -243,6 +244,7 @@ public exportarExcel(){
     seleccionados['os_precio_total'] = Number(element.os_precio_total);
     seleccionados['pac_nombre'] = element.pac_nombre;
     seleccionados['pac_dni'] = element.pac_dni;
+    seleccionados['nro_afiliado'] = element.nro_afiliado;
    // exportar.push(seleccionados);
     exportar[i] = seleccionados;
   //  console.log(element);

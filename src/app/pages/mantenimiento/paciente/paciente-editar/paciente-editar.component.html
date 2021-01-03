@@ -22,10 +22,19 @@
                         <div class="form-group ">
                           <label class="mr-1" >Sexo</label>
                           <div class="row">
-                              <div class="col-3"><p-radioButton name="groupname"  formControlName="pac_sexo"   value="F" label="FEMENINO"  inputId="opt2"></p-radioButton></div>
-                              <div class="col-3"><p-radioButton name="groupname"  formControlName="pac_sexo"   value="M" label="MASCULINO"  inputId="opt1"></p-radioButton></div>
+                              <div class="col-3"><p-radioButton name="groupname"  formControlName="pac_sexo"   value="FEMENINO" label="FEMENINO"  inputId="opt2"></p-radioButton></div>
+                              <div class="col-3"><p-radioButton name="groupname"  formControlName="pac_sexo"   value="MASCULINO" label="MASCULINO"  inputId="opt1"></p-radioButton></div>
                             </div>
                       </div>
+
+                      <div class="form-group ">
+                        <label  >Nº afiliado</label>
+                        <input class="form-control col-md-12 form-control-sm" formControlName="nro_afiliado"  type="text"  />
+                        <div *ngIf="updateDataForm.controls['nro_afiliado'].errors?.required && updateDataForm.controls['nro_afiliado'].touched" class="alert alert-warning">
+                                * Este campo es requerido
+                        </div>
+                    </div>
+
                         <div class="form-group ">
                           <label  >Diagnostico</label>
                           <input class="form-control col-md-12 form-control-sm" formControlName="pac_diagnostico"  type="text"  />
@@ -33,6 +42,8 @@
                                   * Este campo es requerido
                           </div>
                       </div>
+
+
 
                     </div>
         </div>

@@ -4,7 +4,7 @@ import { PopupMatriculaDetalleLiquidacionComponent } from './../../popups/popup-
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { Component, OnInit } from '@angular/core';
 import { PopupLiquidacionExpedienteEditarComponent } from './../../popups/popup-liquidacion-expediente-editar/popup-liquidacion-expediente-editar.component';
-import { formatDate } from '@angular/common';
+import { formatDate, CurrencyPipe } from '@angular/common';
 import { calendarioIdioma } from 'src/app/config/config';
 import { Filter } from './../../../../shared/filter';
 import { AlertServiceService } from './../../../../services/alert-service.service';
@@ -13,6 +13,10 @@ import { LiquidacionService } from './../../../../services/liquidacion.service';
 import { PopupLiquidacionGeneradaDetalleComponent } from './../../popups/popup-liquidacion-generada-detalle/popup-liquidacion-generada-detalle.component';
 import { PopupLiquidacionLiquidacionesComponent } from './../../popups/popup-liquidacion-liquidaciones/popup-liquidacion-liquidaciones.component';
 import { ExcelService } from '../../../../services/excel.service';
+import swal from 'sweetalert2';
+declare const require: any;
+const jsPDF = require('jspdf');
+require('jspdf-autotable');
 
 @Component({
   selector: 'app-liquidar-acciones',
@@ -22,7 +26,7 @@ import { ExcelService } from '../../../../services/excel.service';
 export class LiquidarAccionesComponent implements OnInit {
 
 
-
+  columns: any[] = [];
   _os_liq_numero: any[] = [];
   _os_nombre: any[] = [];
   elementos: any[] = [];
@@ -56,6 +60,7 @@ export class LiquidarAccionesComponent implements OnInit {
               public dialogService: DialogService,
               private alertServiceService: AlertServiceService,
               private filter: Filter,
+              private cp: CurrencyPipe,
               private excelService: ExcelService ) {
 
                 this.cols = [
@@ -77,6 +82,22 @@ export class LiquidarAccionesComponent implements OnInit {
                   {field: 'mat_banco_nombre', header: 'Banco', width: '12%' },
                   {field: 'id_liquidacion', header: 'ID', width: '6%' },
                   ];
+
+                  this.columns = [
+                    {title: 'Liq.', dataKey: 'id_liquidacion_generada'},
+                    {title: 'Bruto', dataKey: 'os_liq_bruto'},
+                    {title: 'I.B.', dataKey: 'os_ing_brutos'},
+                    {title: 'L. H.', dataKey: 'os_lote_hogar'},
+                    {title: 'G. A.', dataKey: 'os_gasto_admin'},
+                    {title: 'Imp. CH', dataKey: 'os_imp_cheque'},
+                    {title: 'Matrícula', dataKey: 'os_desc_matricula'},
+                    {title: 'F. solidario', dataKey: 'os_desc_fondo_sol'},
+                    {title: 'Otros In Eg', dataKey: 'os_otros_ing_eg'},
+                    {title: 'Neto', dataKey: 'os_liq_neto'},
+                    {title: 'Comprobante', dataKey: 'num_comprobante'},
+                    {title: 'Nº Ing. Bruto', dataKey: 'os_num_ing_bruto'},
+                    {title: 'Fecha', dataKey: 'os_fecha'},
+                ];
                }
 
 
@@ -459,6 +480,56 @@ colorRow(estado: string){
 }
 
 
+imprimirActuacionProfesional(){
+  let _obra_social = '';
+  let _fechaEmision = formatDate(new Date(), 'dd/MM/yyyy HH:mm', 'en');
+  if(!this.selecteditems){
+    this.selecteditems = [];
+  }
+
+  //if (!this.selecteditems) {
+
+    //let fecha = formatDate(this.fec, 'dd/MM/yyyy', 'en');
+  var doc = new jsPDF();
+
+  const pageSize = doc.internal.pageSize;
+  const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+  let img = new Image();
+  img.src = './assets/images/user-default.png';
+  doc.addImage(img, 'PNG', 5, 5, 18, 18, undefined, 'FAST');
+  doc.setFontSize(10);
+  doc.text('Colegio de psicólgos', 30, 10, null, null);
+  doc.text('de san juan', 30, 13, null, null);
+  doc.setFontSize(10);
+  doc.text('Detalle de actuación profesional', pageWidth / 2, 10, null, null, 'center');
+  doc.setLineWidth(0.4);
+
+  doc.setFontSize(8);
+ // doc.text('Liquidación Nro : ' + this.config.data.id_liquidacion, pageWidth -60, 10, null, null);
+ // doc.text('Fecha de liq. : ' +  formatDate(this.config.data.os_fecha , 'dd/MM/yyyy', 'en'), pageWidth -60, 13, null, null);
+  doc.text( 'Matricula : ' +this.selecteditems[0].mat_matricula , pageWidth -60, 10, null, null);
+  doc.text( this.selecteditems[0].mat_apellidoynombre, pageWidth -60,16 , null, null);
+
+
+ // ORDENES
+  doc.setFontSize(9);
+  doc.setFontSize(8);
+  doc.autoTable(this.columns, this.selecteditems,
+        {
+          showHead: 'firstPage',
+          margin: {horizontal: 5, vertical: 30},
+          bodyStyles: {valign: 'top'},
+          styles: {fontSize: 7,cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify'},
+          columnStyles: {text: {cellWidth: 'auto'}}
+        }
+        );
+
+  window.open(doc.output('bloburl'));
+
+
+}
+
+
 excelPsicologo() {
   const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
   let seleccionados: any[] = [];
@@ -509,6 +580,52 @@ excelProveedor() {
    i++;
   });
   this.excelService.exportAsExcelFile(  exportar, 'listado_pago_banco_proveedores ' + this.selecteditems[0].mat_banco_nombre + fecha_impresion);
+
+}
+
+
+
+
+generarPdfRentas(elem: any) {
+  console.log(this.selecteditem);
+  const _fechaEmision = formatDate(this.selecteditem['os_fecha'], 'dd/MM/yyyy', 'en');
+
+  const userData = JSON.parse(localStorage.getItem('userData'));
+
+  const doc = new jsPDF();
+  /** valores de la pagina**/
+  const pageSize = doc.internal.pageSize;
+  const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+  doc.setFontSize(9);
+  doc.text('DIRECCION GENERAL  DE RENTAS', 10, 15 );
+  doc.text('CERTIFICADO DE RETENCION Nº ' + this.selecteditem['os_num_ing_bruto'], pageWidth - 80, 15 );
+  doc.text('SAN JUAN', 10, 20);
+  doc.text('FECHA: ' + _fechaEmision, pageWidth - 80, 20 );
+  doc.line(10, 25, pageWidth - 10, 25);
+  doc.setFontSize(8);
+  doc.text('Impuestos sobre los ingresos brutos', 10, 30 );
+  doc.text('COLEGIO DE PSICOLOGOS DE SAN JUAN', 10, 35 );
+  doc.text('GRAL. ACHA 1056 SUR', 10, 40 );
+
+  doc.text('AGENTE DE RETENCION 000-39646-7 77', pageWidth - 80, 30 );
+  doc.text('C.U.I.T 30-63561825-2', pageWidth - 80, 35 );
+  doc.line(10, 43, pageWidth - 10, 43);
+  doc.text('VENDEDOR (Apellido y Nombre)', 10, 50 );
+  doc.text(this.selecteditem['mat_apellidoynombre'], 10, 55 );
+
+  doc.text('ACTIVIDAD: Psicologia', pageWidth - 80, 50 );
+  doc.text('C.U.I.T: ' + this.selecteditem['mat_cuit'], pageWidth - 80, 55 );
+  doc.text('Nº ing. brutos: ' + this.selecteditem['mat_ning_bto'], pageWidth - 80, 60 );
+  doc.text('Domicilio: ' + this.selecteditem['mat_domicilio_particular'], pageWidth - 80, 65 );
+  doc.line(10, 70, pageWidth - 10, 70);
+  const imp_retenido = Number(this.selecteditem['os_ing_brutos']) + Number(this.selecteditem['os_lote_hogar']);
+  doc.text('Monto imponible: ' + this.cp.transform(this.selecteditem['os_liq_bruto'], '', 'symbol-narrow', '1.2-2') , 10, 75 );
+  doc.text('Ing. brutos: ' + this.cp.transform(this.selecteditem['os_ing_brutos'], '', 'symbol-narrow', '1.2-2') , 60, 75 );
+  doc.text('Lote hogar: ' + this.cp.transform(this.selecteditem['os_lote_hogar'], '', 'symbol-narrow', '1.2-2') , 90, 75 );
+  doc.text('Importe retenido: ' + this.cp.transform(imp_retenido, '', 'symbol-narrow', '1.2-2') , 130, 75 );
+  doc.line(10, 80, pageWidth - 10, 80);
+  doc.text('DUPLICADO', pageWidth / 2, 85, null, null, 'center');
+ window.open(doc.output('bloburl'));
 
 }
 

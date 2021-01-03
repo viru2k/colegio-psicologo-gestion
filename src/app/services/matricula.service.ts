@@ -23,6 +23,10 @@ getMatricula(matriculaId: string) {
   return this.http.get<any>(this.url + 'paciente/by/condicion?pac_dni=' + pacDni + '&condicion=' + condicion);
   }
 
+  getPacientes() {
+    return this.http.get<any>(this.url + 'paciente/todos/limite' );
+    }
+
 
 
 getMatriculaObraSocial(matriculaId: string) {
@@ -52,6 +56,11 @@ setObraSocialModulo(val: any[], id: string) {
   setPaciente(val: any[]) {
 
     return this.http.post<any>(this.url + 'paciente/nuevo', val);
+  }
+
+  putPaciente(val: any, id: string) {
+
+    return this.http.put<any>(this.url + 'paciente/' + id, val);
   }
 
 }

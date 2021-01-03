@@ -1,3 +1,4 @@
+import { PacienteComponent } from './pages/mantenimiento/paciente/paciente.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MatriculaGeneralComponent } from './pages/matricula/matricula-general/matricula-general.component';
@@ -79,6 +80,7 @@ const routes: Routes = [
 
     { path: 'configuracion/usuario', component: UsuarioComponent },
     { path: 'configuracion/obra/social', component: ObraSocialComponent },
+    { path: 'configuracion/paciente', component: PacienteComponent },
     { path: 'configuracion/pmo', component: PmoComponent },
     { path: 'configuracion/convenio', component: ConvenioComponent },
     { path: 'configuracion/concepto', component: ConceptoMatriculaComponent },
@@ -87,11 +89,11 @@ const routes: Routes = [
     { path: 'configuracion/caja/concepto/cuenta', component: MovimientoConceptoCuentaComponent },
     { path: 'configuracion/caja/comprobante', component: MovimientoTipoComprobanteComponent },
     { path: 'configuracion/caja/moneda', component: MovimientoTipoMonedaComponent },
-    
+
 /* -------------------------------------------------------------------------- */
 /*                                 NOVEDEADES                                 */
 /* -------------------------------------------------------------------------- */
-{ path: 'novedades', component: NovedadesComponent }, 
+{ path: 'novedades', component: NovedadesComponent },
 
 /* -------------------------------------------------------------------------- */
 /*                                    CAJA                                    */
