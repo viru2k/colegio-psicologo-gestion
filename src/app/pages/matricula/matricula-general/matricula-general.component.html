@@ -1,10 +1,21 @@
 
 <div class="card p-2">
-  <div  class="d-flex justify-content-start ">
- <div class="mr-2 "> <button    class="btn  btn-info btn-sm float-right mr-2 pr-2"  (click)="nuevo()" > <i class="fas fa-plus mr-2"></i> Matricula</button>    </div>
-  <div class="ml-2 mr-2 "> <button    class="btn  btn-success btn-sm float-right mr-2 pr-2"  (click)="accionesmatricula()" > <i class="fas fa-search mr-2"></i> Acciones sobre padron</button>    </div>
-  <div class="ml-2 mr-2 "> <button    class="btn  btn-danger btn-sm float-right mr-2 pr-2"  (click)="generarDeuda('todos')" > <i class="fas fa-file-invoice-dollar mr-2"></i> Generar deuda  a todos</button>    </div>
+  <div  class="d-flex justify-content-between d-flex align-items-center ">
+    <div  class="d-flex justify-content-start ">
+      <div class="mr-2 "> <button    class="btn  btn-info btn-sm float-right mr-2 pr-2"  (click)="nuevo()" > <i class="fas fa-plus mr-2"></i> Matricula</button>    </div>
+       <!-- <div class="ml-2 mr-2 "> <button    class="btn  btn-success btn-sm float-right mr-2 pr-2"  (click)="accionesmatricula()" > <i class="fas fa-search mr-2"></i> Acciones sobre padron</button>    </div> -->
+       </div>
+       <div  class="d-flex justify-content-center ">
+         <div class="mr-1 ml-2">
+           <p-dropdown [options]="elementosObraSocial" appendTo="body" [(ngModel)]="os_nombre" (onChange)="changeElementoObraSocial($event)" placeholder="Obra social" optionLabel="os_nombre" [showClear]="true" [filter]="true" autofocus></p-dropdown >
+       </div>
+       </div>
+       <div  class="d-flex justify-content-end ">
+         <div class="mr-2 "> <button    class="btn  btn-excel btn-sm float-right mr-2 pr-2"  (click)="exportarExcelObraSocial()" > <i class="far fa-file-excel mr-2"></i>Padron OS excel</button>    </div>
+         <div class="ml-2 mr-2 "> <button    class="btn  btn-pdf btn-sm float-right mr-2 pr-2"  (click)="exportarPdfObraSocial()" > <i class="far fa-file-excel mr-2"></i>Padron OS pdf</button>    </div>
+          </div>
   </div>
+
 </div>
 
 

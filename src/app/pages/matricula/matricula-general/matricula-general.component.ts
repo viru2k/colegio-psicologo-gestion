@@ -1,3 +1,4 @@
+import { ObraSocialService } from './../../../services/obra-social.service';
 import { PopupGenerarDeudaComponent } from './../matricula-cobro/popup-generar-deuda/popup-generar-deuda.component';
 import { ExcelService } from './../../../services/excel.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -11,7 +12,9 @@ import { calendarioIdioma } from './../../../config/config';
 import { formatDate } from '@angular/common';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { PopupMatriculaObraSocialComponent } from '../popups/popup-matricula-obra-social/popup-matricula-obra-social.component';
-
+declare const require: any;
+const jsPDF = require('jspdf');
+require('jspdf-autotable');
 
 @Component({
   selector: 'app-matricula-general',
@@ -26,6 +29,10 @@ export class MatriculaGeneralComponent implements OnInit {
   elementos: any[];
   selecteditem: any;
   selecteditems: any;
+  selecteditemsObraSocial: any = [];
+  elementoObraSocial: any = null;
+  elementosObraSocial: any[] = [];
+  os_nombre: string;
   loading;
   dateFilters: any;
   _mat_sexo: any[] = [];
@@ -35,6 +42,7 @@ export class MatriculaGeneralComponent implements OnInit {
   @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private userService: MatriculaService,
+              private obraSocialService: ObraSocialService,
               private alertServiceService: AlertServiceService,
               public dialogService: DialogService,
               private messageService: MessageService,
@@ -54,9 +62,20 @@ export class MatriculaGeneralComponent implements OnInit {
       { field: 'mat_fecha_egreso', header: 'F. Egreso',  width: '10%' },
       { field: 'mat_fecha_matricula', header: 'F. Matricula',  width: '10%' },
       { field: '', header: '',  width: '6%' },
-
-
    ];
+
+   this.columns = [
+    {title: 'Matrícula', dataKey: 'mat_matricula_psicologo'},
+    {title: 'Apellido', dataKey: 'mat_apellido'},
+    {title: 'Nombre', dataKey: 'mat_nombre'},
+    {title: 'Especialidad', dataKey: 'mat_especialidad'},
+    {title: 'Orientación', dataKey: 'mat_orientacion'},
+    {title: 'Abordaje', dataKey: 'mat_abordaje'},
+    {title: 'Domicilio', dataKey: 'mat_domicilio_laboral'},
+    {title: 'Telefono', dataKey: 'mat_telefono_laboral'},
+
+
+];
   }
 
   ngOnInit() {
@@ -64,6 +83,7 @@ export class MatriculaGeneralComponent implements OnInit {
     console.log('cargando insumo');
 
     this.loadlist();
+
   }
 
 
@@ -84,6 +104,7 @@ export class MatriculaGeneralComponent implements OnInit {
             this.elementos = resp;
             console.log(this.elementos);
             console.log(resp);
+            this.getObraSocial();
           }
           this.loading = false;
         },
@@ -94,6 +115,37 @@ export class MatriculaGeneralComponent implements OnInit {
     } catch (error) {
       this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', '', '500');
     }
+}
+
+
+getObraSocial() {
+  try {
+    this.loading = true;
+    this.obraSocialService.getObraSocialHabilitado()
+    .subscribe(resp => {
+    if (resp[0]) {
+      this.elementosObraSocial = resp;
+      console.log(resp);
+    }
+
+    this.loading = false;
+    },
+    error => { // error path
+      this.loading = false;
+      console.log(error.message);
+      console.log(error.status);
+      this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+    });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+}
+
+
+changeElementoObraSocial(event) {
+  console.log(event.value);
+  this.elementoObraSocial = event.value;
+  //this.getConvenioByObraSocial(event.value);
 }
 
 buscar(elemento: any) {
@@ -192,6 +244,8 @@ realizarFiltroBusqueda(resp: any[]){
 
 
 public exportarExcel(){
+
+
   const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
   let seleccionados: any[] = [];
   let exportar:any[] = [];
@@ -232,8 +286,120 @@ public exportarExcel(){
   this.excelService.exportAsExcelFile(  exportar, 'listado_presentacion_resumido'+fecha_impresion);
 }
 
+exportarExcelObraSocial(){
 
 
+  this.loading = true;
+  try {
+      this.userService.getPadronObraSocial(this.elementoObraSocial.id)
+      .subscribe(resp => {
+        if(resp[0]){
+          this.realizarFiltroBusqueda(resp);
+         this.selecteditemsObraSocial = resp;
+
+
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
+  let seleccionados: any[] = [];
+  let exportar:any[] = [];
+  let i = 0;
+  this.selecteditemsObraSocial.forEach(element => {
+   // console.log(element['operacion_cobro_id']);
+   const regex = '.';
+
+    seleccionados['mat_matricula_psicologo'] = element.mat_matricula_psicologo ;
+    seleccionados['mat_apellido'] = element.mat_apellido;
+    seleccionados['mat_nombre'] = element.mat_nombre;
+    seleccionados['mat_dni'] = element.mat_dni;
+    seleccionados['mat_especialidad'] = element.mat_especialidad;
+    seleccionados['mat_orientacion'] = element.mat_orientacion;
+    seleccionados['mat_abordaje'] = element.mat_abordaje;
+    seleccionados['mat_domicilio_particular'] = element.mat_domicilio_particular;
+    seleccionados['mat_tel_particular'] = element.mat_tel_particular;
+    seleccionados['mat_cuit'] = element.mat_cuit;
+   // seleccionados['mat_lugar_laboral'] = element.mat_lugar_laboral;
+    seleccionados['mat_ning_bto'] = element.mat_ning_bto;
+    seleccionados['mat_domicilio_laboral'] = element.mat_domicilio_laboral;
+    seleccionados['mat_tel_laboral'] = element.mat_tel_laboral;
+    seleccionados['mat_fecha_egreso'] = formatDate(element['mat_fecha_egreso'], 'dd/MM/yyyy', 'es-Ar');
+    seleccionados['mat_fecha_matricula'] = formatDate(element['mat_fecha_matricula'], 'dd/MM/yyyy', 'es-Ar');
+
+
+   // exportar.push(seleccionados);
+    exportar[i] = seleccionados;
+  //  console.log(element);
+   // console.log(seleccionados);
+    seleccionados = [];
+    i++;
+  });
+  this.excelService.exportAsExcelFile(  exportar, 'padron_obra_social_'+this.elementoObraSocial.os_nombre);
+        }
+        this.loading = false;
+      },
+      error => { // error path
+          console.log(error);
+          this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', '', '500');
+       });
+  } catch (error) {
+    this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', '', '500');
+  }
+}
+
+exportarPdfObraSocial(){
+
+
+  this.loading = true;
+  try {
+      this.userService.getPadronObraSocial(this.elementoObraSocial.id)
+      .subscribe(resp => {
+        if(resp[0]){
+          console.log(resp);
+          this.selecteditemsObraSocial = resp;
+
+  let _fechaEmision = formatDate(new Date(), 'dd/MM/yyyy HH:mm', 'en');
+  console.log(this.selecteditems);
+  //if (!this.selecteditems) {
+
+    //let fecha = formatDate(this.fec, 'dd/MM/yyyy', 'en');
+        var doc = new jsPDF('landscape');
+
+        const pageSize = doc.internal.pageSize;
+        const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+        let img = new Image();
+        img.src = './assets/images/user-default.png';
+        doc.addImage(img, 'PNG', 5, 5, 18, 18, undefined, 'FAST');
+        doc.setFontSize(10);
+        doc.text('Colegio de psicólgos', 30, 10, null, null);
+        doc.text('de san juan', 30, 23, null, null);
+        doc.setLineWidth(0.4);
+        doc.line(10, 30, pageWidth - 10, 30);
+        doc.setFontSize(12);
+        doc.text('Listado de obra social', pageWidth / 2, 15, null, null, 'center');
+        doc.text( this.elementoObraSocial.os_nombre, pageWidth / 2, 24, null, null, 'center');
+        doc.setFontSize(8);
+        //doc.text(pageWidth-60, 20, 'Agenda del dia :' + fecha);
+        doc.autoTable(this.columns, this.selecteditemsObraSocial,
+        {
+          margin: {horizontal: 5, vertical: 35},
+          bodyStyles: {valign: 'top'},
+          styles: {fontSize: 7,cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify'},
+          columnStyles: {text: {cellWidth: 'auto'}}
+        }
+        );
+  window.open(doc.output('bloburl'));
+        }
+        this.loading = false;
+      },
+      error => { // error path
+          console.log(error);
+          this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', '', '500');
+       });
+  } catch (error) {
+    this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', '', '500');
+  }
+
+
+
+}
 
 generarDeuda(val: string){
   let data: any = null

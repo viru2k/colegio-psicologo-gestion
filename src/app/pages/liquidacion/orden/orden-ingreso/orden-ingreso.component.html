@@ -99,6 +99,7 @@
                         <p-multiSelect [style]="{'height':'28px', 'width': '100%', 'font-size': '10px'}" [options]="_os_sesion_codigo" appendTo="body" defaultLabel="Buscar"	 *ngIf='col.field =="os_sesion_codigo"' (onChange)="dt.filter($event.value,col.field,'in')"></p-multiSelect>
                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'pac_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                        <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'nro_afiliado'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                         <input class="form-control form-control-sm col-md-12" *ngSwitchCase="'os_estado_liquidacion'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
                     </th>
                     <th></th>
@@ -128,6 +129,7 @@
                         <td style="width: 12%">{{elemento.os_precio_total}}</td>
                         <td style="width: 15%">{{elemento.pac_nombre}}</td>
                         <td style="width: 10%">{{elemento.pac_dni}}</td>
+                        <td style="width: 12%">{{elemento.nro_afiliado}}</td>
                         <td style="width: 10%">{{elemento.os_estado_liquidacion}}</td>
                            <td style="width: 3em">
                               <p-tableCheckbox [value]="elemento"></p-tableCheckbox>

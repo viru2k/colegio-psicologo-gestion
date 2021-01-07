@@ -33,6 +33,11 @@ getMatriculaObraSocial(matriculaId: string) {
     return this.http.get<any[]>(this.url + 'matricula/obra/social?matricula_id=' + matriculaId);
 }
 
+getPadronObraSocial(obra_social_id: string) {
+  return this.http.get<any[]>(this.url + 'padron/obra/social?obra_social_id=' + obra_social_id);
+}
+
+
 
 putMatricula(val: any, id: string) {
 

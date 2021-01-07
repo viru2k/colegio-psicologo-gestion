@@ -66,6 +66,7 @@ this.cols = [
 {field: 'os_precio_total', header: 'Total', width: '12%' },
 {field: 'pac_nombre', header: 'Paciente', width: '15%' },
 {field: 'pac_dni', header: 'DNI' , width: '10%'},
+{field: 'nro_afiliado', header: 'Afiliado' , width: '12%'},
 ];
 
 this.columns = [

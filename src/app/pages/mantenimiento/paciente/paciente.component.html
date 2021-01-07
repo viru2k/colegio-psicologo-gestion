@@ -22,9 +22,11 @@
     <tr>
     <th *ngFor="let col of columns" [ngSwitch]="col.field"  >
 
-        <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'os_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
-        <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'mat_obra_social'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
-        <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'es_habilitada'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_nombre'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_dni'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_sexo'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'nro_afiliado'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+        <input style=" font-size: 12px;" class="form-control col-md-12 form-control-sm" *ngSwitchCase="'pac_diagnostico'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
     </th>
     <th></th>
 </tr>

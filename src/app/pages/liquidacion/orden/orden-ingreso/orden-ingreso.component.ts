@@ -81,6 +81,8 @@ export class OrdenIngresoComponent implements OnInit {
         {field: 'os_precio_total', header: 'Total', width: '12%' },
         {field: 'pac_nombre', header: 'Paciente', width: '15%' },
         {field: 'pac_dni', header: 'DNI' , width: '10%'},
+        {field: 'nro_afiliado', header: 'Afiliado' , width: '12%'},
+
         {field: 'os_estado_liquidacion', header: 'Est.' , width: '10%'},
         ];
 
@@ -466,6 +468,7 @@ public exportarExcelDetallado(){
     seleccionados['os_precio_total'] = Number(element.os_precio_total);
     seleccionados['pac_nombre'] = element.pac_nombre;
     seleccionados['pac_dni'] = element.pac_dni;
+    seleccionados['nro_afiliado'] = element.nro_afiliado;
    // exportar.push(seleccionados);
     exportar[i] = seleccionados;
 
@@ -497,6 +500,7 @@ public exportarExcel(){
     seleccionados['os_precio_total'] = Number(element.os_precio_total);
     seleccionados['pac_nombre'] = element.pac_nombre;
     seleccionados['pac_dni'] = element.pac_dni;
+    seleccionados['nro_afiliado'] = element.nro_afiliado;
    // exportar.push(seleccionados);
     exportar[i] = seleccionados;
   //  console.log(element);
