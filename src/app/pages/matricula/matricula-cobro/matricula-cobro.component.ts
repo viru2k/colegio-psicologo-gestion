@@ -43,6 +43,7 @@ export class MatriculaCobroComponent implements OnInit {
   DateForm1: FormGroup;
   loading = false;
   elemento: any[] = null;
+  selecteditem: any= null;
   selecteditems: any[] = [];
   elementosFiltrados: any[] = [];
   elementosFiltradosImpresion: any[] = [];
@@ -212,7 +213,7 @@ public exportarExcelDetallado(){
 
   editarRegistro(event) {
 
-  const data: any = event;
+  const data: any = this.selecteditem;
 
   const ref = this.dialogService.open(PopupConceptoEditarComponent, {
   data,
@@ -457,7 +458,6 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string) {
   this.total = 0;
   this.total_seleccionado = 0;
   console.log(userData['id']);
-
   try {
       this.cobroService.getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado)
       .subscribe(resp => {
@@ -471,8 +471,6 @@ getDeudaByMatriculaAndEstado(mat_matricula_psicologo, estado: string) {
           if(resp[i]['id_concepto'] === 1){
             console.log(resp[i]['mat_fecha_vencimiento'] + '     '+ this.filter.monthDiffByDates(  new Date(resp[i]['mat_fecha_vencimiento']), this.hoy));
           }
-
-
           if (Number(this.filter.monthDiffByDates(  new Date(resp[i]['mat_fecha_vencimiento']), this.hoy)) > 2) {
             resp[i]['mat_monto_final'] = Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
             this.total =  this.total + Number(resp[i]['mat_monto']) * Number(resp[i]['mat_interes']);
@@ -690,6 +688,56 @@ findMatricula() {
 
   }
 
+  detalle(evt: any, overlaypanel: OverlayPanel , event: any) {
+    console.log(event);
+    this.selecteditem = event;
+    overlaypanel.toggle(evt);
+  }
+
+  eliminarRegistro(){
+
+    swal({
+      title: '¿Desea eliminar el registro?',
+      text: 'Va a eliminar un registro',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!'
+    }).then((result) => {
+      if (result.value) {
+
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    this.es = calendarioIdioma;
+    this.loading = true;
+    this.total = 0;
+    this.total_seleccionado = 0;
+    console.log(userData['id']);
+
+    try {
+        this.cobroService.putRegistroCobroEliminado(this.selecteditem.id_pago_historico, userData['id'])
+        .subscribe(resp => {
+
+        if (resp[0]) {
+          console.log(resp);
+          }
+        this.loading = false;
+        },
+        error => { // error path
+          this.loading = false;
+          console.log(error.message);
+          console.log(error.status);
+          this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+         });
+    } catch (error) {
+    this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+    }
+      }
+    })
+
+
+  }
+
 
 generarPdf() {
 
@@ -787,6 +835,7 @@ colorString(estado: string) {
 }
 
 }
+
 
 
 

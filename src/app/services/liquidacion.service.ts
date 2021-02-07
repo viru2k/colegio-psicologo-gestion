@@ -88,6 +88,11 @@ export class LiquidacionService {
         return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/detalle/by/matricula?mat_matricula=' + mat_matricula );
         }
 
+        getActuacionProfesionalByMatricula(mat_matricula: string) {
+          // tslint:disable-next-line: max-line-length
+          return this.http.get<any[]>(URL_SERVICIOS + 'liquidacion/actuacion/profesional?mat_matricula=' + mat_matricula );
+          }
+
     getLiquidacionByMatriculaAndEstado(matMatricula: string, estado: string) {
       // tslint:disable-next-line: max-line-length
       return this.http.get<any>(URL_SERVICIOS + 'liquidacion/orden/by/estado/matricula?mat_matricula=' + matMatricula + '&estado=' + estado);
@@ -194,5 +199,10 @@ export class LiquidacionService {
       return this.http.post(URL_SERVICIOS + 'liquidacion/actualizar/recibo?proximo_numero='+proximoNumero, elem);
 
     }
+
+    createTextFileDos(elementos: any) {
+      return this.http.post<any[]>(URL_SERVICIOS + 'files/dos/by/excel', elementos);
+      }
+
 
 }

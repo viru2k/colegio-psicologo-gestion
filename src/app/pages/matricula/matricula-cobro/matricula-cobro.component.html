@@ -114,7 +114,7 @@
 
                 <tr style="height:28px" [ngClass]="colorRow(elemento.estado)" >
                     <td style="width: 6%">
-                        <a   (click)="editarRegistro(elemento)" ><i class="far fa-edit fa-lg icon-color-info  my-hover" ></i></a>
+                      <a  (click)="detalle($event,op,elemento)"><i class="fas fa-bars icon-color-informacion fa-lg icon-hover"></i></a>
                       </td>
                      <!--    <td [ngClass]="colorString(elemento.operacion_cobro_id)" style="width: 5%"><a class="my-hover" (click)="verDetalle(elemento)">{{elemento.operacion_cobro_id}}</a></td>    -->
                      <td style="width: 8%">{{elemento.mat_matricula}}</td>
@@ -147,14 +147,13 @@
 
                     </ng-template>
 
+
+                    <p-overlayPanel #op appendTo="body"  [showTransitionOptions]="'400ms'" [hideTransitionOptions]="'300ms'"  [dismissable]="true" [showCloseIcon]="true" >
+                        <div class="mt-2 mb-2"> <span> <a class="text-info icon-hover"  (click)="editarRegistro(elemento)" >Editar registro</a></span></div>
+                        <div class="mb-2"> <span> <a  class="text-danger icon-hover" (click)="eliminarRegistro()" >Marcar como eliminado</a></span></div>
+                 </p-overlayPanel>
           </p-table>
 
-          <!--       <p-overlayPanel #op [showTransitionOptions]="'400ms'" [hideTransitionOptions]="'300ms'"  [dismissable]="true" >
-                        <span>   <a class="nav-link azul my-hover " (click)="editarRegistro('historia')"> historia clínica</a></span>
-                        <span>   <a class="nav-link azul my-hover" (click)="editarRegistro('turno')">  Dar turno</a></span>
-                        <hr>
-                        <span>   <a class="nav-link azul my-hover" (click)="editarRegistro('observacion')">  Ver observación</a></span>
-                </p-overlayPanel>   -->
 
         </div>
 

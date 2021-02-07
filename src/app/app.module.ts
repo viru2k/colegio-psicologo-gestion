@@ -159,6 +159,7 @@ import { PopupMatriculaDetalleLiquidacionComponent } from './pages/liquidacion/p
 import { PopupLiquidacionRegistroEditarComponent } from './pages/liquidacion/popups/popup-liquidacion-registro-editar/popup-liquidacion-registro-editar.component';
 import { PopupLiquidacionRegistroDetalleComponent } from './pages/liquidacion/popups/popup-liquidacion-registro-detalle/popup-liquidacion-registro-detalle.component';
 import { PopupLiquidacionGenerarDeudaComponent } from './pages/liquidacion/popups/popup-liquidacion-generar-deuda/popup-liquidacion-generar-deuda.component';
+import { PopupArchivoDosComponent } from './pages/liquidacion/popups/popup-archivo-dos/popup-archivo-dos.component';
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -252,7 +253,8 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupMatriculaDetalleLiquidacionComponent,
     PopupLiquidacionRegistroEditarComponent,
     PopupLiquidacionRegistroDetalleComponent,
-    PopupLiquidacionGenerarDeudaComponent
+    PopupLiquidacionGenerarDeudaComponent,
+    PopupArchivoDosComponent
 
   ],
   imports: [
@@ -343,7 +345,8 @@ registerLocaleData(localeEsAR, 'es-Ar');
     PopupMatriculaDetalleLiquidacionComponent,
     PopupLiquidacionRegistroEditarComponent,
     PopupLiquidacionRegistroDetalleComponent,
-    PopupLiquidacionGenerarDeudaComponent
+    PopupLiquidacionGenerarDeudaComponent,
+    PopupArchivoDosComponent
 
 
   ],

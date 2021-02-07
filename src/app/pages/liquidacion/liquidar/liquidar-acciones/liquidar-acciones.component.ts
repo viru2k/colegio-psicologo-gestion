@@ -1,3 +1,4 @@
+import { PopupArchivoDosComponent } from './../../popups/popup-archivo-dos/popup-archivo-dos.component';
 import { PopupFindMatriculaComponent } from './../../../../shared/popups/popup-find-matricula/popup-find-matricula.component';
 import { PopupLiquidacionGenerarDeudaComponent } from './../../popups/popup-liquidacion-generar-deuda/popup-liquidacion-generar-deuda.component';
 import { PopupMatriculaDetalleLiquidacionComponent } from './../../popups/popup-matricula-detalle-liquidacion/popup-matricula-detalle-liquidacion.component';
@@ -302,6 +303,22 @@ listarLiquidacionByMatricula() {
       });
   }
 
+  archivotxtDos(){
+    const data: any = event;
+
+    const ref = this.dialogService.open(PopupArchivoDosComponent, {
+    data,
+     header: 'Generar archivo txt',
+     width: '90%',
+     height: '95%'
+    });
+
+    ref.onClose.subscribe((PopupArchivoDosComponent: any) => {
+      if(PopupArchivoDosComponent) {
+
+      }
+    });
+  }
 
   getExpedienteByIdLiquidacion() {
     this.loading = true;
@@ -374,6 +391,17 @@ listarLiquidacionByMatricula() {
   }
 
   GenerarRecibo() {
+    swal({
+    title: '¿Generar recibos para la liquidación?',
+    text: 'Generar recibos de la liquidación',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, guardar!'
+  }).then((result) => {
+    if (result.value) {
+
     this.loading = true;
     try {
       this.liquidacionService.putActualizarNroRecibo(this.selecteditems, this.proximo_numero_recibo)
@@ -391,29 +419,45 @@ listarLiquidacionByMatricula() {
   } catch (error) {
   this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
   }
+    }
+  }) ;
 
   }
 
 
 
   GenerarIngresosBrutos() {
-    this.loading = true;
-    try {
-      this.liquidacionService.putActualizarNroIngBrutos(this.selecteditems, this.proximo_numero)
-      .subscribe(resp => {
-        console.log(resp);
-      this.loading = false;
-      this.getExpedienteByIdLiquidacion();
-      },
-      error => { // error path
-        this.loading = false;
-        console.log(error.message);
-        console.log(error.status);
-        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
-       });
-  } catch (error) {
-  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
-  }
+
+    swal({
+      title: '¿Generar ingresos brutos para la liquidacion?',
+      text: 'Generación de registros de ingresos brutos',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, guardar!'
+    }).then((result) => {
+      if (result.value) {
+        this.loading = true;
+        try {
+          this.liquidacionService.putActualizarNroIngBrutos(this.selecteditems, this.proximo_numero)
+          .subscribe(resp => {
+            console.log(resp);
+          this.loading = false;
+          this.getExpedienteByIdLiquidacion();
+          },
+          error => { // error path
+            this.loading = false;
+            console.log(error.message);
+            console.log(error.status);
+            this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+           });
+      } catch (error) {
+      this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+      }
+      }
+    });
+
 
   }
 
@@ -421,11 +465,12 @@ listarLiquidacionByMatricula() {
 
   liquidacionByMatricula(psicologo: any) {
   //  console.log(psicologo);
+  let listado: any[] = [];
     try {
-      this.liquidacionService.getLiquidacionDetalleByMatricula(psicologo.mat_matricula_psicologo)
+      this.liquidacionService.getActuacionProfesionalByMatricula(psicologo.mat_matricula_psicologo)
       .subscribe(resp => {
      console.log(resp);
-     this.elementos = resp;
+     this.excelService.exportAsExcelFile(  resp, 'certificado_actuacion_profesional');
       this.loading = false;
       },
       error => { // error path

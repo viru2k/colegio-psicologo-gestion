@@ -437,6 +437,7 @@ imprimirResumen(){
   doc.text('Ing. brutos: ' + this.cp.transform(this.config.data.os_ing_brutos, '', 'symbol-narrow', '1.2-2'),15 , currentY + 20, null, null);
   doc.text('Lote hogar: ' + this.cp.transform(this.config.data.os_lote_hogar, '', 'symbol-narrow', '1.2-2'), 65, currentY + 20, null, null);
   doc.text('Gastos adm.: ' + this.cp.transform(this.config.data.os_gasto_admin, '', 'symbol-narrow', '1.2-2'), 105, currentY + 20, null);
+  doc.text('Imp. cheque: ' + this.cp.transform(this.config.data.os_imp_cheque, '', 'symbol-narrow', '1.2-2'), 155, currentY + 20, null);
   doc.text('Matricula: ' + this.cp.transform(this.config.data.os_desc_matricula, '', 'symbol-narrow', '1.2-2'), 15, currentY + 24, null, null);
   doc.text('Fondo solidario: ' + this.cp.transform(this.config.data.os_desc_fondo_sol, '', 'symbol-narrow', '1.2-2'), 65, currentY + 24, null, null);
   doc.text('Otros descuentos: ' + this.cp.transform(this.config.data.os_descuentos, '', '', '1.2-2'), 105,currentY + 24, null, null);
