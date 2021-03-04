@@ -63,12 +63,12 @@ export class ListadoCajaComponent implements OnInit {
               private alertServiceService: AlertServiceService,
               public dialogService: DialogService,  private route: ActivatedRoute,
               private excelService: ExcelService,    private router: Router, private filter: Filter ) {
-   
+
     this.cols = [
         {field: 'boton', header: '' , width: '6%'},
         {field: 'boton', header: '' , width: '6%'},
-        {field: 'fecha_carga', header: 'Fecha', width: '10%' }, 
-        {field: 'cuenta_nombre', header: 'Cuenta', width: '16%' }, 
+        {field: 'fecha_carga', header: 'Fecha', width: '10%' },
+        {field: 'cuenta_nombre', header: 'Cuenta', width: '16%' },
         {field: 'tipo_comprobante', header: 'Comprobante', width: '12%' },
         {field: 'concepto_cuenta', header: 'Concepto', width: '16%' },
         {field: 'proveedor_nombre', header: 'A nombre', width: '20%' },
@@ -79,9 +79,9 @@ export class ListadoCajaComponent implements OnInit {
         {field: 'importe', header: 'Importe', width: '10%' },
         {field: 'cotizacion', header: 'Cotización', width: '10%' },
         {field: 'total', header: 'Total', width: '10%' },
-        
+
         ];
-   
+
       }
 
   ngOnInit() {
@@ -108,14 +108,14 @@ export class ListadoCajaComponent implements OnInit {
        width: '98%',
        height: '98%'
       });
-      
+
       ref.onClose.subscribe((PopupRealizarFacturaComponent: any) => {
          if (PopupRealizarFacturaComponent) {
-        
+
          }
       });
-   
-      
+
+
     } else {
       this.loading = false;
       this.alertServiceService.throwAlert('warning', 'No se ha seleccionado ningun registro', 'sin registros', '400');
@@ -125,7 +125,7 @@ export class ListadoCajaComponent implements OnInit {
 exportarExcel(){
 let result = this.elementosFiltrados as any;
 if (this.selecteditems.length > 0) {
-       
+
 }else{
   swal({
     title: 'TURNOS NO SELECCIONADOS' ,
@@ -133,7 +133,7 @@ if (this.selecteditems.length > 0) {
     type: 'warning',
     showConfirmButton: false,
     timer: 4000
-       
+
   })
 }
 
@@ -146,7 +146,7 @@ nuevo() {
 
   const ref = this.dialogService.open(PopupMovimientoComponent, {
   data,
-   header: 'Agregar ingreso',
+   header: 'Registrar movimiento',
    width: '98%',
    height: '95%'
   });
@@ -162,7 +162,7 @@ nuevo() {
 
 
 public exportarExcelDetallado(){
-  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');  
+  const fecha_impresion = formatDate(new Date(), 'dd-MM-yyyy-mm', 'es-Ar');
   let seleccionados: any[] = [];
   let exportar:any[] = [];
   let i = 0;
@@ -195,7 +195,7 @@ public exportarExcelDetallado(){
 
 
   editarRegistro(event) {
-    
+
   const data: any = event;
 
   const ref = this.dialogService.open(PopupMovimientoComponent, {
@@ -277,28 +277,28 @@ actualizarFechaHasta(event) {
 
 
 verDetalle(agendaTurno: any) {
-/* 
+/*
   console.log(agendaTurno);
   let liquidacion:Liquidacion;
   liquidacion = new Liquidacion(agendaTurno['operacion_cobro_id'],'','','','','','',0,0,'','',[],'','','',0);
-  let data:any; 
+  let data:any;
   data = liquidacion;
   const ref = this.dialogService.open(PopupOperacionCobroDetalleComponent, {
   data,
-   header: 'Ver detalle de presentación', 
+   header: 'Ver detalle de presentación',
    width: '98%',
    height: '100%'
   });
-  
+
   ref.onClose.subscribe((PopupOperacionCobroDetalleComponent:any) => {
-     
+
   });
    */
   }
 
 
 generarPdf() {
-  /* 
+  /*
   let _fechaEmision = formatDate(new Date(), 'dd/MM/yyyy HH:mm', 'en');
   console.log(this.elementos);
   if(!this.elementosFiltrados){
@@ -308,8 +308,8 @@ generarPdf() {
   }
   let fecha = formatDate(this.fechaHoy, 'dd/MM/yyyy', 'en');
   var doc = new jsPDF('landscape');
-  
- 
+
+
   const pageSize = doc.internal.pageSize;
   const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
 doc.addImage(logo_clinica, 'PNG', 10, 10, 40, 11,undefined,'FAST');
@@ -324,7 +324,7 @@ doc.addImage(logo_clinica, 'PNG', 10, 10, 40, 11,undefined,'FAST');
 
    doc.autoTable(this.columns, this.elementosFiltradosImpresion,
       {
-        margin: {horizontal: 5, vertical: 35},    
+        margin: {horizontal: 5, vertical: 35},
         bodyStyles: {valign: 'top'},
         styles: {fontSize: 7,cellWidth: 'wrap', rowPageBreak: 'auto', halign: 'justify'},
         columnStyles: {text: {cellWidth: 'auto'}}
@@ -338,12 +338,12 @@ doc.addImage(logo_clinica, 'PNG', 10, 10, 40, 11,undefined,'FAST');
 /** ACCIONES */
 
 colorRow(estado: string){
- 
-    if(estado == 'INGRESO') {  
+
+    if(estado == 'INGRESO') {
         return {'es-ingreso'  :'null' };
     }
-    
-    if(estado == 'EGRESO') {  
+
+    if(estado == 'EGRESO') {
         return {'es-egreso'  :'null' };
     }
 
@@ -390,9 +390,9 @@ realizarFiltroBusqueda(resp: any[]) {
     this._movimiento_tipo.push(element['movimiento_tipo']);
     this._tipo_moneda.push(element['tipo_moneda']);
   });
-  
+
   // ELIMINO DUPLICADOS
-  this._cuenta_nombre = this.filter.filterArray(this._cuenta_nombre);  
+  this._cuenta_nombre = this.filter.filterArray(this._cuenta_nombre);
   this._tipo_comprobante = this.filter.filterArray(this._tipo_comprobante);
   this._concepto_cuenta = this.filter.filterArray(this._concepto_cuenta);
   this._movimiento_tipo = this.filter.filterArray(this._movimiento_tipo);
@@ -402,7 +402,7 @@ realizarFiltroBusqueda(resp: any[]) {
 
 
 colorString(estado:string){
-  
+
   if((estado === 'INGRESO')||(estado === null)) {
     return {'es-ingreso'  :'null' };
   }else{

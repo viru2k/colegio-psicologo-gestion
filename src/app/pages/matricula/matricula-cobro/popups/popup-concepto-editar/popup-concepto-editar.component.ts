@@ -29,6 +29,7 @@ export class PopupConceptoEditarComponent implements OnInit {
       this.es = calendarioIdioma;
       this.updateDataForm = new FormGroup({
       'id_concepto': new FormControl(''),
+      'id_liquidacion_detalle': new FormControl(''),
       'id_pago_historico': new FormControl(''),
       'id_usuario': new FormControl(''),
       'mat_concepto': new FormControl(''),
@@ -67,6 +68,7 @@ export class PopupConceptoEditarComponent implements OnInit {
 
     this.updateDataForm.patchValue({mat_fecha_pago: new Date(this.config.data.mat_fecha_pago)});
     this.updateDataForm.patchValue({mat_fecha_vencimiento: new Date(this.config.data.mat_fecha_vencimiento)});
+    this.updateDataForm.patchValue({id_liquidacion_detalle: this.config.data.id_liquidacion_detalle});
     this.updateDataForm.patchValue({mat_concepto: this.config.data.mat_concepto});
     this.updateDataForm.patchValue({mat_descripcion: this.config.data.mat_descripcion});
     this.updateDataForm.patchValue({mat_matricula: this.config.data.mat_matricula});

@@ -1,10 +1,10 @@
 <p-scrollPanel [style]="{width: '100%', height: '450px'}">
             <form class='col-md-12'  [formGroup]='updateDataForm' >
+
+
+
                 <div class='row'>
                     <div class='col-md-6'>
-                      <div class='form-group '>
-                        <h5 class=' col-md-12 form-control-sm mt-2 mb-2'>ID PAGO HISTORICO : {{config.data.id_pago_historico}}</h5>
-                      </div>
 
                       <div class='form-group '>
                         <div class=' input-group input-group-sm mb-3'>
@@ -13,6 +13,15 @@
                         </div>
                     </div>
 
+                    <div class='form-group '>
+                      <div >
+                          <label  >Id número registro de liquidación</label>
+                        </div>
+                      <div class=' input-group input-group-sm mb-3'>
+                          <input  placeholder='Ingrese una descripción' class='form-control col-md-12 form-control-sm' formControlName='id_liquidacion_detalle'   />
+
+                      </div>
+                  </div>
 
                         <div class='form-group'>
                           <label  >Fecha pago</label>

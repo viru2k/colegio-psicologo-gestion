@@ -1,3 +1,4 @@
+import { PopupArchivoIngBrutosComponent } from './../../popups/popup-archivo-ing-brutos/popup-archivo-ing-brutos.component';
 import { PopupArchivoDosComponent } from './../../popups/popup-archivo-dos/popup-archivo-dos.component';
 import { PopupFindMatriculaComponent } from './../../../../shared/popups/popup-find-matricula/popup-find-matricula.component';
 import { PopupLiquidacionGenerarDeudaComponent } from './../../popups/popup-liquidacion-generar-deuda/popup-liquidacion-generar-deuda.component';
@@ -46,6 +47,8 @@ export class LiquidarAccionesComponent implements OnInit {
   fechaDesde: Date;
   _os_fecha: string;
   os_fecha: Date;
+  fecha: Date;
+  _fecha: string;
   id_liquidacion = 0;
   descuenta_matricula = 'SI';
   TOTAL_CONCEPTOS = 0;
@@ -108,6 +111,9 @@ export class LiquidarAccionesComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.es = calendarioIdioma;
     this.os_fecha = new Date();
+    this.fecha = new Date();
+
+
 
   }
 
@@ -318,6 +324,56 @@ listarLiquidacionByMatricula() {
 
       }
     });
+  }
+
+  archivotxtIngBrutos(){
+    const data: any = this.id_liquidacion;
+
+    const ref = this.dialogService.open(PopupArchivoIngBrutosComponent, {
+    data,
+     header: 'Generar archivo txt ingresos brutos',
+     width: '90%',
+     height: '30%'
+    });
+
+    ref.onClose.subscribe((PopupArchivoIngBrutosComponent: any) => {
+      if(PopupArchivoIngBrutosComponent) {
+
+      }
+    });
+  }
+
+  generarInformes(): void {
+    this.loading = true;
+    this._fecha = formatDate(new Date(this.fecha), 'yyyy-MM-dd', 'en');
+    try {
+      this.liquidacionService.getPadronDeudaByDate(this._fecha,'deudores' )
+      .subscribe(resp => {
+        let seleccionados: any[] = [];
+        let exportar:any[] = [];
+        let i = 0;
+        resp.forEach(element => {
+
+         seleccionados['APELLIDO'] = element.mat_apellido ;
+         seleccionados['NOMBRE'] = element.mat_nombre;
+         seleccionados['MATRICULA'] = element.mat_matricula_psicologo;
+         exportar[i] = seleccionados;
+         seleccionados = [];
+         i++;
+        });
+        this.excelService.exportAsExcelFile(  exportar, 'listado_deudores_al_' + this._fecha);
+      this.loading = false;
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+
   }
 
   getExpedienteByIdLiquidacion() {
