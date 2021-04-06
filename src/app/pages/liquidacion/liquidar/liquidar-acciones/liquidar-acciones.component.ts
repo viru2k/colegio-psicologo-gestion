@@ -45,9 +45,14 @@ export class LiquidarAccionesComponent implements OnInit {
   ordenes = 0;
   liquidacionNumero = 0;
   fechaDesde: Date;
+  _fechaDesde: string;
+  fechaHasta: Date;
+  _fechaHasta: string;
   _os_fecha: string;
   os_fecha: Date;
   fecha: Date;
+  fecha_vencimiento: Date;
+  _fecha_vencimiento: string;
   _fecha: string;
   id_liquidacion = 0;
   descuenta_matricula = 'SI';
@@ -112,6 +117,8 @@ export class LiquidarAccionesComponent implements OnInit {
     this.es = calendarioIdioma;
     this.os_fecha = new Date();
     this.fecha = new Date();
+    this.fechaDesde = new Date();
+    this.fechaHasta = new Date();
 
 
 
@@ -343,11 +350,13 @@ listarLiquidacionByMatricula() {
     });
   }
 
-  generarInformes(): void {
+  generarInformesDeuda(): void {
     this.loading = true;
     this._fecha = formatDate(new Date(this.fecha), 'yyyy-MM-dd', 'en');
+    this._fechaDesde = formatDate(new Date(this.fechaDesde), 'yyyy-MM-dd', 'en');
+    this._fechaHasta = formatDate(new Date(this.fechaHasta), 'yyyy-MM-dd', 'en');
     try {
-      this.liquidacionService.getPadronDeudaByDate(this._fecha,'deudores' )
+      this.liquidacionService.getPadronDeudaByDate(this._fecha, this._fechaDesde, this._fechaHasta, 'deudoresxfecha' )
       .subscribe(resp => {
         let seleccionados: any[] = [];
         let exportar:any[] = [];
@@ -374,6 +383,75 @@ listarLiquidacionByMatricula() {
   this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
   }
 
+  }
+
+  generarInformesDeudaPeriodo(): void {
+    this.loading = true;
+    this._fecha = formatDate(new Date(this.fecha), 'yyyy-MM-dd', 'en');
+    this._fechaDesde = formatDate(new Date(this.fechaDesde), 'yyyy-MM-dd', 'en');
+    this._fechaHasta = formatDate(new Date(this.fechaHasta), 'yyyy-MM-dd', 'en');
+    try {
+      this.liquidacionService.getPadronDeudaByDate(this._fecha, this._fechaDesde, this._fechaHasta, 'deudoresxfecha' )
+      .subscribe(resp => {
+        let seleccionados: any[] = [];
+        let exportar:any[] = [];
+        let i = 0;
+        resp.forEach(element => {
+
+         seleccionados['APELLIDO'] = element.mat_apellido ;
+         seleccionados['NOMBRE'] = element.mat_nombre;
+         seleccionados['MATRICULA'] = element.mat_matricula_psicologo;
+         exportar[i] = seleccionados;
+         seleccionados = [];
+         i++;
+        });
+        this.excelService.exportAsExcelFile(  exportar, 'listado_deudores_al_' + this._fecha);
+      this.loading = false;
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
+
+  }
+
+  generarInformesAlDia(): void{
+    this.loading = true;
+    this._fecha = formatDate(new Date(this.fecha), 'yyyy-MM-dd', 'en');
+    this._fechaDesde = formatDate(new Date(this.fechaDesde), 'yyyy-MM-dd', 'en');
+    this._fechaHasta = formatDate(new Date(this.fechaHasta), 'yyyy-MM-dd', 'en');
+    try {
+      this.liquidacionService.getPadronDeudaByDate(this._fecha, this._fechaDesde, this._fechaHasta, 'deudoresxfecha' )
+      .subscribe(resp => {
+        let seleccionados: any[] = [];
+        let exportar:any[] = [];
+        let i = 0;
+        resp.forEach(element => {
+
+         seleccionados['APELLIDO'] = element.mat_apellido ;
+         seleccionados['NOMBRE'] = element.mat_nombre;
+         seleccionados['MATRICULA'] = element.mat_matricula_psicologo;
+         exportar[i] = seleccionados;
+         seleccionados = [];
+         i++;
+        });
+        this.excelService.exportAsExcelFile(  exportar, 'listado_al_dia_al_' + this._fecha);
+      this.loading = false;
+      },
+      error => { // error path
+        this.loading = false;
+        console.log(error.message);
+        console.log(error.status);
+        this.alertServiceService.throwAlert('error', 'Error: ' + error.status + '  Error al cargar los registros', error.message, '');
+       });
+  } catch (error) {
+  this.alertServiceService.throwAlert('error', 'Error al cargar los registros' , error, ' ');
+  }
   }
 
   getExpedienteByIdLiquidacion() {

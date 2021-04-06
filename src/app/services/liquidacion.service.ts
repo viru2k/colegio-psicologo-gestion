@@ -360,12 +360,12 @@ export class LiquidacionService {
 
 
 
-  getPadronDeudaByDate(fecha: string, condicion: string) {
+  getPadronDeudaByDate(fecha: string,fecha_desde: string,fecha_hasta: string, condicion: string) {
     // tslint:disable-next-line: max-line-length
     return this.http.get<any>(
       URL_SERVICIOS +
         "informe/deuda/psicologo?fecha=" +
-        fecha + '&condicion=' + condicion
+        fecha + '&fecha_desde=' + fecha_desde+ '&fecha_hasta=' + fecha_hasta+ '&condicion=' + condicion
     );
   }
 }
