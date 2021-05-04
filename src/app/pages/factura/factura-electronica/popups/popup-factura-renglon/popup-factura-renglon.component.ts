@@ -37,16 +37,16 @@ export class PopupFacturaRenglonComponent implements OnInit {
   }
 
 
-  
+
   Alicuota(){
 
     try {
       this.facturacionService.Alicuota()
-      .subscribe(resp => {      
+      .subscribe(resp => {
           this.elementosAlicuota = resp;
           this.loading = false;
           console.log( this.elementosAlicuota);
-          this.elementoAlicuota  = this.elementosAlicuota[2];
+          this.elementoAlicuota  = this.elementosAlicuota[0];
       },
       error => { // error path
           console.log(error.message);
@@ -59,24 +59,24 @@ export class PopupFacturaRenglonComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-       });    
+       });
   } catch (error) {
-  
-  }  
+
+  }
   }
 
 
 
   buscarConcepto(){
-    let data:any; 
+    let data:any;
     //data = this.selecteditemRegistro;
     const ref = this.dialogService.open(BuscarConceptoFacturaComponent, {
     data,
-     header: 'Buscar concepto', 
+     header: 'Buscar concepto',
      width: '98%',
      height: '90%'
     });
-  
+
     ref.onClose.subscribe((BuscarConceptoFacturaComponent:any) => {
         if (BuscarConceptoFacturaComponent) {
           console.log(BuscarConceptoFacturaComponent);
@@ -91,7 +91,7 @@ export class PopupFacturaRenglonComponent implements OnInit {
   }
 
 
-  
+
 
 
   calcularRenglon(){

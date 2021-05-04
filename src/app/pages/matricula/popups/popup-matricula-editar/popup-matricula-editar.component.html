@@ -324,18 +324,6 @@
                           </div>
 
                           <div class="row d-flex justify-content-center">
-                              <div class="col-12">
-                                  <div class="form-group ">
-                                          <label  >Historia de psicólogo</label>
-                                          <input type="text" class="form-control col-sm-12 form-control-sm" formControlName="mat_historial"    />
-                                          <div *ngIf="updateDataForm.controls['mat_historial'].errors?.required && updateDataForm.controls['mat_historial'].touched" class="alert alert-warning">
-                                                  * Este campo es requerido
-                                          </div>
-                                  </div>
-                              </div>
-                          </div>
-
-                          <div class="row d-flex justify-content-center">
                             <div class="col-12">
                                 <div class="form-group ">
                                         <label  >Nùmero afiliado</label>
@@ -346,6 +334,19 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row d-flex justify-content-center">
+                          <div class="col-12">
+                              <div class="form-group ">
+                                      <label  >Historia de psicólogo</label>
+                                      <textarea  type="text" class="form-control col-sm-12 form-control-sm" formControlName="mat_historial" rows="5" cols="30" pInputTextarea></textarea>
+
+                                      <div *ngIf="updateDataForm.controls['mat_historial'].errors?.required && updateDataForm.controls['mat_historial'].touched" class="alert alert-warning">
+                                              * Este campo es requerido
+                                      </div>
+                              </div>
+                          </div>
+                      </div>
 
                       </div>
                   </div>
@@ -397,6 +398,20 @@
                                   </div>
                               </div>
                           </div>
+
+                          <div class="row d-flex justify-content-center">
+                            <div class="col-12">
+                                <div class="form-group ">
+                                        <label  >Fecha Pasividad</label>
+                                        <div class="form-group ">
+                                        <p-calendar [inputStyle]="{'height':'29.1px'}" [readonlyInput]="false"  formControlName="mat_fecha_pasivo"     [locale]="es" dateFormat="dd/mm/yy"   [readonlyInput]="false">              </p-calendar>
+                                        <div *ngIf="updateDataForm.controls['mat_fecha_pasivo'].errors?.required && updateDataForm.controls['mat_fecha_pasivo'].touched" class="alert alert-warning">
+                                                * Este campo es requerido
+                                        </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
                       </div>
                       <div class="col-6">
 

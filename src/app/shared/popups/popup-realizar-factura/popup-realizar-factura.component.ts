@@ -340,8 +340,18 @@ export class PopupRealizarFacturaComponent implements OnInit {
           this.loading = false;
           this.peticion = '';
           console.log( this.elementosComprobante);
-          //this.elementoComprobante = this.elementosComprobante[3];
-          this.elementoComprobante =  this.elementosComprobante.find(x => x.id === this.elementoMedicos['factura_comprobante_id']);
+          console.log(this.config.data.mov_tipo_comprobante_id);
+          // SI ES INGRESO SU ID ES 11 Y EL CODIGO ES 16, SI ES EGRESO EL ID ES 13 Y CODIGO 17
+          if(this.config.data.mov_tipo_comprobante_id === 11){
+            this.elementoComprobante =  this.elementosComprobante.find(x => x.id === 16);
+          }
+          if(this.config.data.mov_tipo_comprobante_id === 13 ){
+            this.elementoComprobante =  this.elementosComprobante.find(x => x.id === 17);
+          }
+          if(this.config.data.mov_tipo_comprobante_id === undefined){
+            this.elementoComprobante =  this.elementosComprobante.find(x => x.id === this.elementoMedicos['factura_comprobante_id']);
+          }
+
           console.log(this.elementoComprobante);
 
           if(this.elementoPtoVta){
@@ -456,6 +466,7 @@ export class PopupRealizarFacturaComponent implements OnInit {
             this.peticion = '';
             console.log(this.elementosPtoVta);
             this.Comprobante();
+            this.obtenerMedico();
       },
       error => { // error path
         this.loading = false;
@@ -657,7 +668,7 @@ obtenerMedico(){
   console.log(this.elementoComprobante);
   try {
 
-    this.facturacionService.getDatoMedico(this.medico_id)
+    this.facturacionService.getDatoMedico( this.userData['id'])
     .subscribe(resp => {
 
       this.loading = false;

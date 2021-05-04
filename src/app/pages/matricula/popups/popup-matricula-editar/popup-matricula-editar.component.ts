@@ -43,6 +43,7 @@ export class PopupMatriculaEditarComponent implements OnInit {
       'mat_fecha_nacimiento': new FormControl(new Date()),
       'mat_fecha_egreso': new FormControl(new Date()),
       'mat_fecha_matricula': new FormControl(new Date()),
+      'mat_fecha_pasivo': new FormControl(new Date('2099-12-31')),
       'mat_estado_matricula': new FormControl('A'),
       'mat_especialidad': new FormControl(''),
       'mat_orientacion': new FormControl(''),
@@ -80,9 +81,14 @@ export class PopupMatriculaEditarComponent implements OnInit {
    dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));
   this.config.data.mat_fecha_matricula = dateFix;
 
+  _fecha = new Date(this.config.data.mat_fecha_pasivo);
+  dateFix = new Date(_fecha.getTime() + (_fecha.getTimezoneOffset() * 60 * 1000));
+ this.config.data.mat_fecha_pasivo = dateFix;
+
     this.updateDataForm.patchValue({mat_fecha_nacimiento: new Date(this.config.data.mat_fecha_nacimiento)});
     this.updateDataForm.patchValue({mat_fecha_egreso: new Date(this.config.data.mat_fecha_egreso)});
     this.updateDataForm.patchValue({mat_fecha_matricula: new Date(this.config.data.mat_fecha_matricula)});
+    this.updateDataForm.patchValue({mat_fecha_pasivo: new Date(this.config.data.mat_fecha_pasivo)});
     console.log(this.updateDataForm.value);
 
   }
