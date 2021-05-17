@@ -196,6 +196,7 @@ public exportarExcelDetallado(){
 
   editarRegistro(event) {
 
+  event.es_cierre = false;
   const data: any = event;
 
   const ref = this.dialogService.open(PopupMovimientoComponent, {

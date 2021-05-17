@@ -384,10 +384,11 @@ cerrarCaja(){
     data.cantidad = 1;
     data.cotizacion = 1;
     data.descripcion = this.selecteditems[0].mat_concepto;
+    data.es_cierre = true;
 
     const ref = this.dialogService.open(PopupMovimientoComponent, {
     data,
-     header: 'Agregar ingreso',
+     header: 'Cerrar caja',
      width: '98%',
      height: '95%'
     });

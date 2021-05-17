@@ -73,8 +73,12 @@ export class PopupMovimientoComponent implements OnInit {
     console.log((new Date()).getFullYear() - (new Date(dateFix)).getFullYear());
     console.log(dateFix);
     this.config.data.fecha_carga = dateFix;
+    if(this.config.data.es_cierre){
+      this.esEditar = false;
+    }else{
+      this.esEditar = true;
+    }
 
-    this.esEditar = true;
     this.updateDataForm.patchValue(this.config.data);
     this.updateDataForm.patchValue({fecha_carga: new Date(this.config.data.fecha_carga)});
     console.log(this.updateDataForm.value);
