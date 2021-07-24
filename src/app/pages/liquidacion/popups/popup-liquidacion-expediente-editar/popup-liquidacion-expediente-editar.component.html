@@ -1,137 +1,169 @@
-<p-scrollPanel [style]="{width: '100%', height: '400px'}">
-            <form class="col-12 mt-3"  [formGroup]="updateDataForm">
-              <div class="row">
+<p-scrollPanel [style]="{ width: '100%', height: '400px' }">
+  <form class="col-12 mt-3" [formGroup]="updateDataForm">
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <h5>
+            <b>ID {{ updateDataForm.value.id_os_liquidacion }}</b>
+          </h5>
+        </div>
 
-                  <div class="col-6">
+        <div class="form-group">
+          <label>Obra Social</label>
+          <div class="input-group input-group-sm mb-3">
+            <p-dropdown
+              [options]="elementoObraSocial"
+              formControlName="os_nombre"
+              (onChange)="changeElementoObraSocial($event)"
+              placeholder="Obra social"
+              optionLabel="os_nombre"
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+        </div>
 
+        <div class="form-group">
+          <label>Liquidacion Nº</label>
+          <input
+            class="form-control col-md-12 form-control-sm"
+            formControlName="os_liq_numero"
+          />
+          <div
+            *ngIf="
+              updateDataForm.controls['os_liq_numero'].errors?.required &&
+              updateDataForm.controls['os_liq_numero'].touched
+            "
+            class="alert alert-warning"
+          >
+            * Este campo es requerido
+          </div>
+        </div>
 
-                    <div class="form-group ">
-                      <label  >Nùmero de registro</label>
-                      <input class="form-control col-md-12 form-control-sm" formControlName="id_liquidacion_detalle"    />
-                      <div *ngIf="updateDataForm.controls['id_liquidacion_detalle'].errors?.required && updateDataForm.controls['id_liquidacion_detalle'].touched" class="alert alert-warning">
-                              * Este campo es requerido
-                      </div>
-                   </div>
+        <div class="form-group">
+          <label>Fecha Desde</label>
+          <div class="input-group input-group-sm mb-3">
+            <p-calendar
+              appendTo="body"
+              [inputStyle]="{ height: '29.1px' }"
+              class="mr-2"
+              formControlName="os_fecha_desde"
+              tabindex="0"
+              [locale]="es"
+              dateFormat="dd/mm/yy"
+              [readonlyInput]="false"
+            >
+              <ng-template pTemplate="date" let-date>
+                <span
+                  style="
+                    border-radius: 50%;
+                    padding: 0.25em;
+                    width: 1.75em;
+                    height: 1.75em;
+                    display: block;
+                  "
+                  >{{ date.day }}</span
+                >
+              </ng-template>
+            </p-calendar>
+          </div>
+        </div>
 
-
-                    <div class="form-group ">
-                      <label  >Bruto</label>
-                      <input class="form-control col-md-12 form-control-sm" formControlName="os_liq_bruto"  (change)="sumarDeuda()"  />
-                      <div *ngIf="updateDataForm.controls['os_liq_bruto'].errors?.required && updateDataForm.controls['os_liq_bruto'].touched" class="alert alert-warning">
-                              * Este campo es requerido
-                      </div>
-                   </div>
-
-
-                       <div class="form-group ">
-                        <label  >Ingresos brutos</label>
-                        <input class="form-control col-md-12 form-control-sm" formControlName="os_ing_brutos" (change)="sumarDeuda()"   />
-                        <div *ngIf="updateDataForm.controls['os_ing_brutos'].errors?.required && updateDataForm.controls['os_ing_brutos'].touched" class="alert alert-warning">
-                                * Este campo es requerido
-                        </div>
-                    </div>
-
-                    <div class="form-group ">
-                      <label  >Lote hogar</label>
-                      <input class="form-control col-md-12 form-control-sm" formControlName="os_lote_hogar"  (change)="sumarDeuda()"  />
-                      <div *ngIf="updateDataForm.controls['os_lote_hogar'].errors?.required && updateDataForm.controls['os_lote_hogar'].touched" class="alert alert-warning">
-                              * Este campo es requerido
-                      </div>
-                  </div>
-
-                  <div class="form-group ">
-                    <label  >Gastos administrativos</label>
-                    <input class="form-control col-md-12 form-control-sm" formControlName="os_gasto_admin"  (change)="sumarDeuda()"  />
-                    <div *ngIf="updateDataForm.controls['os_gasto_admin'].errors?.required && updateDataForm.controls['os_gasto_admin'].touched" class="alert alert-warning">
-                            * Este campo es requerido
-                    </div>
-                </div>
-
-                <div class="form-group ">
-                  <label  >Impuesto al cheque</label>
-                  <input class="form-control col-md-12 form-control-sm" formControlName="os_imp_cheque"  (change)="sumarDeuda()"  />
-                  <div *ngIf="updateDataForm.controls['os_imp_cheque'].errors?.required && updateDataForm.controls['os_imp_cheque'].touched" class="alert alert-warning">
-                          * Este campo es requerido
-                  </div>
-              </div>
-
-                  </div>
-
-
-
-
-
-
-
-
-                  <div class="col-6">
-
-                    <div class="form-group ">
-                      <label  >Descuento de matricula</label>
-                      <input class="form-control col-md-12 form-control-sm" formControlName="os_desc_matricula" (change)="sumarDeuda()"   />
-                      <div *ngIf="updateDataForm.controls['os_desc_matricula'].errors?.required && updateDataForm.controls['os_desc_matricula'].touched" class="alert alert-warning">
-                              * Este campo es requerido
-                      </div>
-                    </div>
-
-                    <div class="form-group ">
-                        <label  >Descuento de fondo solidario</label>
-                        <input class="form-control col-md-12 form-control-sm" formControlName="os_desc_fondo_sol"  (change)="sumarDeuda()"  />
-                        <div *ngIf="updateDataForm.controls['os_desc_fondo_sol'].errors?.required && updateDataForm.controls['os_desc_fondo_sol'].touched" class="alert alert-warning">
-                                * Este campo es requerido
-                        </div>
-                    </div>
-
-                  <div class="form-group ">
-                      <label  >Descuento otros ingresos y egresos</label>
-                      <input class="form-control col-md-12 form-control-sm" formControlName="os_otros_ing_eg"  (change)="sumarDeuda()"  />
-                      <div *ngIf="updateDataForm.controls['os_otros_ing_eg'].errors?.required && updateDataForm.controls['os_otros_ing_eg'].touched" class="alert alert-warning">
-                              * Este campo es requerido
-                      </div>
-                  </div>
-
-                <div class="form-group ">
-                    <label  >Total descuentos</label>
-                    <input class="form-control col-md-12 form-control-sm" formControlName="os_descuentos"  (change)="sumarDeuda()"  />
-                    <div *ngIf="updateDataForm.controls['os_descuentos'].errors?.required && updateDataForm.controls['os_descuentos'].touched" class="alert alert-warning">
-                            * Este campo es requerido
-                    </div>
-                </div>
-
-              <div class="form-group ">
-                  <label  >Neto a cobrar</label>
-                  <input class="form-control col-md-12 form-control-sm" formControlName="os_liq_neto"    />
-                  <div *ngIf="updateDataForm.controls['os_liq_neto'].errors?.required && updateDataForm.controls['os_liq_neto'].touched" class="alert alert-warning">
-                          * Este campo es requerido
-                  </div>
-              </div>
-
-            <div class="form-group ">
-                <label  >Número de ingresos brutos</label>
-                <input class="form-control col-md-12 form-control-sm" formControlName="os_num_ing_bruto"    />
-                <div *ngIf="updateDataForm.controls['os_num_ing_bruto'].errors?.required && updateDataForm.controls['os_num_ing_bruto'].touched" class="alert alert-warning">
-                        * Este campo es requerido
-                </div>
-            </div>
-
-            <div class="form-group ">
-              <label  >Número de recibo</label>
-              <input class="form-control col-md-12 form-control-sm" formControlName="num_comprobante"    />
-              <div *ngIf="updateDataForm.controls['num_comprobante'].errors?.required && updateDataForm.controls['num_comprobante'].touched" class="alert alert-warning">
-                      * Este campo es requerido
-              </div>
-            </div>
-
-                </div>
-
+        <div class="form-group">
+          <label>Fecha Hasta</label>
+          <div class="input-group input-group-sm mb-3">
+            <p-calendar
+              appendTo="body"
+              [inputStyle]="{ height: '29.1px' }"
+              class="mr-2"
+              formControlName="os_fecha_hasta"
+              tabindex="0"
+              [locale]="es"
+              dateFormat="dd/mm/yy"
+              [readonlyInput]="false"
+            >
+              <ng-template pTemplate="date" let-date>
+                <span
+                  style="
+                    border-radius: 50%;
+                    padding: 0.25em;
+                    width: 1.75em;
+                    height: 1.75em;
+                    display: block;
+                  "
+                  >{{ date.day }}</span
+                >
+              </ng-template>
+            </p-calendar>
+          </div>
+        </div>
       </div>
 
-          </form>
-        </p-scrollPanel>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Estado liquidación - P / L / G / E</label>
+          <input
+            class="form-control col-md-12 form-control-sm"
+            formControlName="os_estado"
+          />
+          <div
+            *ngIf="
+              updateDataForm.controls['os_estado'].errors?.required &&
+              updateDataForm.controls['os_estado'].touched
+            "
+            class="alert alert-warning"
+          >
+            * Este campo es requerido
+          </div>
+        </div>
 
-          <p-footer>
-                  <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                          <button  [disabled]="!updateDataForm.valid" class="btn btn-info texto-roboto btn-block" type="submit" (click)="guardarDatos()" >Guardar</button>
+        <div class="form-group">
+          <label>Cantidad de ordenes</label>
+          <input
+            class="form-control col-md-12 form-control-sm"
+            formControlName="os_cant_ordenes"
+          />
+          <div
+            *ngIf="
+              updateDataForm.controls['os_cant_ordenes'].errors?.required &&
+              updateDataForm.controls['os_cant_ordenes'].touched
+            "
+            class="alert alert-warning"
+          >
+            * Este campo es requerido
+          </div>
+        </div>
 
-                  </div>
-              </p-footer>
+        <div class="form-group">
+          <label>Monto total</label>
+          <input
+            class="form-control col-md-12 form-control-sm"
+            formControlName="os_monto_total"
+          />
+          <div
+            *ngIf="
+              updateDataForm.controls['os_monto_total'].errors?.required &&
+              updateDataForm.controls['os_monto_total'].touched
+            "
+            class="alert alert-warning"
+          >
+            * Este campo es requerido
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</p-scrollPanel>
+
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix pt-1">
+    <button
+      [disabled]="!updateDataForm.valid"
+      class="btn btn-info texto-roboto btn-block"
+      type="submit"
+      (click)="guardarDatos()"
+    >
+      Guardar
+    </button>
+  </div>
+</p-footer>

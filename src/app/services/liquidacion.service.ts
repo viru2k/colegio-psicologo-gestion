@@ -95,6 +95,14 @@ export class LiquidacionService {
     );
   }
 
+  getLiquidacionOrdenByExpediente(id_os_liquidacion: string) {
+    return this.http.get<any>(
+      URL_SERVICIOS +
+        "liquidacion/orden/by/expediente?id_os_liquidacion=" +
+        id_os_liquidacion
+    );
+  }
+
   getLiquidacionNumero(id: string) {
     return this.http.get<any>(
       URL_SERVICIOS + "operacioncobro/liquidacion/generdada?id=" + id
@@ -211,6 +219,21 @@ export class LiquidacionService {
     return this.http.put<any>(
       URL_SERVICIOS + "liquidacion/registro/detalle/" + id_liquidacion_detalle,
       elementos
+    );
+  }
+
+  putLiquidacion(elementos: any, id_os_liquidacion: string) {
+    return this.http.put<any>(
+      URL_SERVICIOS + "liquidacion/registro/liquidacion/" + id_os_liquidacion,
+      elementos
+    );
+  }
+
+  putActualizarValoresExpediente(id_os_liquidacion: string) {
+    return this.http.get<any>(
+      URL_SERVICIOS +
+        "liquidacion/expediente/valores?id_os_liquidacion=" +
+        id_os_liquidacion
     );
   }
 
@@ -354,18 +377,29 @@ export class LiquidacionService {
 
   createTextFileIngBrutos(id_liquidacion_generada: string) {
     return this.http.get<any>(
-      URL_SERVICIOS + 'files/rentas/by/liquidacion?id_liquidacion_generada='+ id_liquidacion_generada
+      URL_SERVICIOS +
+        "files/rentas/by/liquidacion?id_liquidacion_generada=" +
+        id_liquidacion_generada
     );
   }
 
-
-
-  getPadronDeudaByDate(fecha: string,fecha_desde: string,fecha_hasta: string, condicion: string) {
+  getPadronDeudaByDate(
+    fecha: string,
+    fecha_desde: string,
+    fecha_hasta: string,
+    condicion: string
+  ) {
     // tslint:disable-next-line: max-line-length
     return this.http.get<any>(
       URL_SERVICIOS +
         "informe/deuda/psicologo?fecha=" +
-        fecha + '&fecha_desde=' + fecha_desde+ '&fecha_hasta=' + fecha_hasta+ '&condicion=' + condicion
+        fecha +
+        "&fecha_desde=" +
+        fecha_desde +
+        "&fecha_hasta=" +
+        fecha_hasta +
+        "&condicion=" +
+        condicion
     );
   }
 }
