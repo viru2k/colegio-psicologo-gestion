@@ -230,7 +230,7 @@ export class LiquidarExpedienteComponent implements OnInit {
     });
   }
 
-  actualizarValores() {
+  actualizarValores(event) {
     swal({
       title: "¿Desea actualizar los valores para este expediente?",
       text: "Modificar registros",

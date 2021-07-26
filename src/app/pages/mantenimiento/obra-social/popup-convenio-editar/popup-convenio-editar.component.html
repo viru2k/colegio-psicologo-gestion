@@ -1,69 +1,108 @@
-
-            <form class="col-12"  [formGroup]="updateDataForm">
-              <div class="row">
-                  <div class="col-6">
-
-                    <div class="mt-3 b">
-                      <label>Obra social</label>
-                      <div class="d-flex align-items-center">
-                        <label  >{{updateDataForm.value.os_nombre}} </label>
-                    </div>
-                    </div>
-
-                    <div class="mt-3 b">
-                      <label>Sesión</label>
-                      <div class="d-flex align-items-center">
-                        <label  >{{updateDataForm.value.os_sesion}} </label>
-                            <button (click)="buscarSesion()" class="btn btn-info btn-sm ml-2"> <i class="fas fa-search"></i></button>
-                    </div>
-                    </div>
-
-                    <div class="mt-3 b">
-                      <label>PMO</label>
-                      <div class="d-flex align-items-center">
-                        <label  >{{updateDataForm.value.os_sesion_codigo}} </label>
-                            <button (click)="buscarPMO()" class="btn btn-info btn-sm ml-2"> <i class="fas fa-search"></i></button>
-                    </div>
-                    </div>
-
-
-                  </div>
-
-
-                  <div class="col-6">
-                    <div class="form-group ">
-                      <label  >Valor</label>
-                      <input class="form-control col-md-12 form-control-sm" formControlName="id_precio"    />
-                      <div *ngIf="updateDataForm.controls['id_precio'].errors?.required && updateDataForm.controls['id_precio'].touched" class="alert alert-warning">
-                              * Este campo es requerido
-                      </div>
-                   </div>
-
-                    <div class="form-group ">
-                        <label  >Sesiones anuales</label>
-                        <input class="form-control col-md-12 form-control-sm" formControlName="os_sesion_anual"    />
-                        <div *ngIf="updateDataForm.controls['os_sesion_anual'].errors?.required && updateDataForm.controls['os_sesion_anual'].touched" class="alert alert-warning">
-                                * Este campo es requerido
-                        </div>
-                     </div>
-
-                     <div class="form-group ">
-                      <label  >Sesiones mensuales</label>
-                      <input class="form-control col-md-12 form-control-sm" formControlName="os_sesion_mes"    />
-                      <div *ngIf="updateDataForm.controls['os_sesion_mes'].errors?.required && updateDataForm.controls['os_sesion_mes'].touched" class="alert alert-warning">
-                              * Este campo es requerido
-                      </div>
-                   </div>
-                </div>
-
+<form class="col-12" [formGroup]="updateDataForm">
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <label>Obra Social</label>
+        <div class="input-group input-group-sm mb-3">
+          <p-dropdown
+            [options]="elementoObraSocial"
+            formControlName="os_nombre"
+            (onChange)="changeElementoObraSocial($event)"
+            placeholder="Obra social"
+            optionLabel="os_nombre"
+            [showClear]="true"
+            [filter]="true"
+          ></p-dropdown>
+        </div>
       </div>
 
-          </form>
+      <div class="form-group">
+        <label>Sesión</label>
+        <div class="input-group input-group-sm mb-3">
+          <p-dropdown
+            [options]="elementoSesionTipo"
+            formControlName="os_sesion"
+            (onChange)="changeElementoSesionTipo($event)"
+            placeholder="Sesión"
+            optionLabel="os_sesion"
+            [showClear]="true"
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+      </div>
 
+      <div class="mt-3 b">
+        <label>PMO</label>
+        <div class="d-flex align-items-center">
+          <label>{{ updateDataForm.value.os_sesion_codigo }} </label>
+        </div>
+      </div>
+    </div>
 
-          <p-footer>
-                  <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                          <button  [disabled]="!updateDataForm.valid" class="btn btn-info texto-roboto btn-block" type="submit" (click)="guardarDatos()" >Guardar</button>
+    <div class="col-6">
+      <div class="form-group">
+        <label>Valor</label>
+        <input
+          class="form-control col-md-12 form-control-sm"
+          formControlName="id_precio"
+        />
+        <div
+          *ngIf="
+            updateDataForm.controls['id_precio'].errors?.required &&
+            updateDataForm.controls['id_precio'].touched
+          "
+          class="alert alert-warning"
+        >
+          * Este campo es requerido
+        </div>
+      </div>
 
-                  </div>
-              </p-footer>
+      <div class="form-group">
+        <label>Sesiones anuales</label>
+        <input
+          class="form-control col-md-12 form-control-sm"
+          formControlName="os_sesion_anual"
+        />
+        <div
+          *ngIf="
+            updateDataForm.controls['os_sesion_anual'].errors?.required &&
+            updateDataForm.controls['os_sesion_anual'].touched
+          "
+          class="alert alert-warning"
+        >
+          * Este campo es requerido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Sesiones mensuales</label>
+        <input
+          class="form-control col-md-12 form-control-sm"
+          formControlName="os_sesion_mes"
+        />
+        <div
+          *ngIf="
+            updateDataForm.controls['os_sesion_mes'].errors?.required &&
+            updateDataForm.controls['os_sesion_mes'].touched
+          "
+          class="alert alert-warning"
+        >
+          * Este campo es requerido
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+    <button
+      [disabled]="!updateDataForm.valid"
+      class="btn btn-info texto-roboto btn-block"
+      type="submit"
+      (click)="guardarDatos()"
+    >
+      Guardar
+    </button>
+  </div>
+</p-footer>
