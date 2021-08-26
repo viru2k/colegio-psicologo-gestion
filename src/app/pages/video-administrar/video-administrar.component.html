@@ -1,0 +1,91 @@
+<div class="faq-title text-center pb-3 pt-2">
+  <h5>GESTION DE VIDEOS</h5>
+</div>
+
+<div class="m-2">
+  <div class="m-2 d-flex justfiy-content-between">
+    <div class="mr-auto">
+      <button class="btn btn-success btn-block" (click)="nuevo()">
+        Subir nuevo
+      </button>
+    </div>
+    <div class="d-flex justify-content-center"></div>
+  </div>
+  <p-scrollPanel [style]="{ width: '100%', height: '500px' }">
+    <p-orderList
+      [value]="elementos"
+      [listStyle]="{ height: 'auto' }"
+      [(selection)]="selecteditems"
+      header="Archivos multimedia"
+      filterBy="Titulo"
+      filterPlaceholder="Buscar por titulo"
+      dragdrop="false"
+    >
+      <ng-template let-product pTemplate="item">
+        <div class="card d-flex justfiy-content-between row p-2">
+          <div class="image-container">
+            <img
+              *ngIf="product.tiene_imagen === 'SI'"
+              src="{{ product.ruta + product.imagen }}"
+              onerror="this.onerror=null; this.src='../../../assets/images/no-imagen.png'"
+              class="product-image"
+              width="32px"
+              height="32px"
+            />
+            <img
+              *ngIf="product.es_video === 'SI'"
+              src="{{ product.ruta + product.imagen }}"
+              onerror="this.onerror=null; this.src='../../../assets/images/multimedia-imagen.png'"
+              class="product-image"
+              width="32px"
+              height="32px"
+            />
+            <img
+              *ngIf="product.tiene_enlace === 'SI'"
+              src="{{ product.ruta + product.imagen }}"
+              onerror="this.onerror=null; this.src='../../../assets/images/doc-imagen.png'"
+              class="product-image"
+              width="32px"
+              height="32px"
+            />
+          </div>
+          <div class="p-2">
+            <label class="ml-2 mr-2 text-info bold"
+              >Página : {{ product.pagina }}</label
+            >
+          </div>
+          <div class="p-2" *ngIf="!!product?.titulo">
+            <label class="ml-2 mr-2">Título : {{ product.titulo }}</label>
+          </div>
+          <div class="p-2" *ngIf="!!product?.descripcion">
+            <label class="ml-2 mr-2"
+              >Descripciôn : {{ product.descripcion }}</label
+            >
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="p-1">
+              <label class="ml-2 mr-2"
+                >Creado :
+                {{
+                  product.fecha_creacion | date: "dd/MM/yyyy hh:mm:ss"
+                }}</label
+              >
+            </div>
+            <div class="p-2">
+              <label class="ml-2 mr-2"> Estado: {{ product.estado }}</label>
+            </div>
+
+            <div class="ml-auto p-2">
+              <a (click)="buscar(product)" class="icon-hover">
+                <i class="fas fa-pen icon-color-info fa-lg"></i
+              ></a>
+              <a (click)="eliminar(product)" class="icon-hover ml-3 mr-3">
+                <i class="fas fa-trash-alt icon-color-danger fa-lg"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-orderList>
+  </p-scrollPanel>
+</div>

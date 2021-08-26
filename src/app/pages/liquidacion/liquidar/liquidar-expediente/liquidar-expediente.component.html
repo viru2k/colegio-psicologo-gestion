@@ -104,7 +104,9 @@
           ></p-sortIcon>
         </th>
         <th style="width: 3em">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          <p-tableHeaderCheckbox
+            (click)="sumarValores(selecteditems)"
+          ></p-tableHeaderCheckbox>
         </th>
       </tr>
       <tr>
@@ -205,7 +207,10 @@
         <td style="width: 8%">{{ elemento.os_estado }}</td>
         <td style="width: 8%">{{ elemento.id_liquidacion }}</td>
         <td style="width: 3em">
-          <p-tableCheckbox [value]="elemento"></p-tableCheckbox>
+          <p-tableCheckbox
+            [value]="elemento"
+            (click)="sumarValores(selecteditems)"
+          ></p-tableCheckbox>
         </td>
       </tr>
     </ng-template>

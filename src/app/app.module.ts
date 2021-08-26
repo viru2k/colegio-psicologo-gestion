@@ -1,3 +1,4 @@
+import { PopupVideoComponent } from "./pages/video-administrar/popup-video/popup-video.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, Injector, LOCALE_ID } from "@angular/core";
 
@@ -160,6 +161,8 @@ import { PopupLiquidacionGenerarDeudaComponent } from "./pages/liquidacion/popup
 import { PopupArchivoDosComponent } from "./pages/liquidacion/popups/popup-archivo-dos/popup-archivo-dos.component";
 import { PopupArchivoIngBrutosComponent } from "./pages/liquidacion/popups/popup-archivo-ing-brutos/popup-archivo-ing-brutos.component";
 import { PopupLiquidacionExpedienteDetalleComponent } from "./pages/liquidacion/popups/popup-liquidacion-expediente-detalle/popup-liquidacion-expediente-detalle.component";
+import { VideoAdministrarComponent } from "./pages/video-administrar/video-administrar.component";
+import { PopupExpedienteOrdenesComponent } from "./pages/liquidacion/popups/popup-expediente-ordenes/popup-expediente-ordenes.component";
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -256,6 +259,9 @@ registerLocaleData(localeEsAR, "es-Ar");
     PopupArchivoDosComponent,
     PopupArchivoIngBrutosComponent,
     PopupLiquidacionExpedienteDetalleComponent,
+    VideoAdministrarComponent,
+    PopupVideoComponent,
+    PopupExpedienteOrdenesComponent,
   ],
   imports: [
     BrowserModule,
@@ -340,8 +346,10 @@ registerLocaleData(localeEsAR, "es-Ar");
     PopupLiquidacionRegistroEditarComponent,
     PopupLiquidacionRegistroDetalleComponent,
     PopupLiquidacionGenerarDeudaComponent,
+    PopupExpedienteOrdenesComponent,
     PopupArchivoDosComponent,
     PopupArchivoIngBrutosComponent,
+    PopupVideoComponent,
   ],
   providers: [
     CurrencyPipe,

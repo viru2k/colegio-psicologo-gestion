@@ -1,0 +1,173 @@
+<form class="col-md-12" [formGroup]="updateDataForm">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Fecha Creaciôn</label>
+        <div class="input-group input-group-sm mb-3">
+          <p-calendar
+            [inputStyle]="{ height: '29.1px' }"
+            [showTime]="true"
+            class="mr-2"
+            formControlName="fecha_creacion"
+            tabindex="0"
+            [locale]="es"
+            dateFormat="dd/mm/yy H:m"
+            [readonlyInput]="false"
+          >
+            <ng-template pTemplate="date" let-date>
+              <span
+                style="
+                  border-radius: 50%;
+                  padding: 0.25em;
+                  width: 1.75em;
+                  height: 1.75em;
+                  display: block;
+                "
+                >{{ date.day }}</span
+              >
+            </ng-template>
+          </p-calendar>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div>
+          <label>Titulo</label>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+          <input
+            placeholder="Ingrese un titulo"
+            class="form-control col-md-12 form-control-sm"
+            formControlName="titulo"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div>
+          <label>Descripción</label>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+          <input
+            placeholder="Ingrese una descripción"
+            class="form-control col-md-12 form-control-sm"
+            formControlName="descripcion"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div>
+        <label>Es Imagen</label>
+      </div>
+      <div class="input-group input-group-sm mb-3">
+        <div class="ui-g" style="width: 250px; margin-bottom: 10px">
+          <div class="ui-g-12">
+            <p-radioButton
+              name="group2"
+              value="SI"
+              label="SI"
+              formControlName="tiene_imagen"
+              inputId="preopt4"
+            ></p-radioButton>
+          </div>
+          <div class="ui-g-12">
+            <p-radioButton
+              name="group2"
+              value="NO"
+              label="NO"
+              formControlName="tiene_imagen"
+              inputId="preopt3"
+            ></p-radioButton>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <div>
+          <label>Tipo enlace</label>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+          <p-dropdown
+            [options]="elementoPagina"
+            formControlName="pagina"
+            (onChange)="changeElementoPagina($event)"
+            placeholder="Pagina"
+            optionLabel="pagina"
+            [showClear]="true"
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+      </div>
+      <div class="form-group">
+        <div>
+          <label>Estado</label>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+          <div class="ui-g" style="width: 250px; margin-bottom: 10px">
+            <div class="ui-g-12">
+              <p-radioButton
+                name="group2"
+                value="ACTIVO"
+                label="ACTIVO"
+                formControlName="estado"
+                inputId="preopt1"
+              ></p-radioButton>
+            </div>
+            <div class="ui-g-12">
+              <p-radioButton
+                name="group2"
+                value="INACTIVO"
+                label="INACTIVO"
+                formControlName="estado"
+                inputId="preopt2"
+              ></p-radioButton>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div>
+          <label>Es Importante</label>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+          <div class="ui-g" style="width: 250px; margin-bottom: 10px">
+            <div class="ui-g-12">
+              <p-radioButton
+                name="group2"
+                value="SI"
+                label="SI"
+                formControlName="es_importante"
+                inputId="preopt5"
+              ></p-radioButton>
+            </div>
+            <div class="ui-g-12">
+              <p-radioButton
+                name="group2"
+                value="NO"
+                label="NO"
+                formControlName="es_importante"
+                inputId="preopt6"
+              ></p-radioButton>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix mt-2">
+    <button
+      class="ml-2 btn btn-info btn-md btn-block"
+      type="submit"
+      (click)="actualizarDatos()"
+    >
+      <i class="fas fa-plus fa-lg mr-2"></i>Guardar
+    </button>
+  </div>
+</p-footer>

@@ -15,6 +15,7 @@ import { formatDate } from "@angular/common";
 import { PopupLiquidacionLiquidacionesComponent } from "./../../popups/popup-liquidacion-liquidaciones/popup-liquidacion-liquidaciones.component";
 import { OverlayPanel } from "primeng/overlaypanel";
 import { PopupLiquidacionExpedienteDetalleComponent } from "../../popups/popup-liquidacion-expediente-detalle/popup-liquidacion-expediente-detalle.component";
+import { PopupExpedienteOrdenesComponent } from "../../popups/popup-expediente-ordenes/popup-expediente-ordenes.component";
 
 @Component({
   selector: "app-liquidar-expediente",
@@ -26,6 +27,7 @@ export class LiquidarExpedienteComponent implements OnInit {
   _os_nombre: any[] = [];
   elementos: any[] = [];
   conceptoSeleccionado: any = [];
+  elementosFiltrados: any[] = [];
   cols: any[];
   es: any;
   display: boolean;
@@ -72,7 +74,9 @@ export class LiquidarExpedienteComponent implements OnInit {
   }
 
   filtered(event) {
-    this.sumarTotal(event.filteredValue);
+    console.log(event.filteredValue);
+    this.elementosFiltrados = event.filteredValue;
+    this.sumarTotal(this.elementosFiltrados);
   }
 
   actualizarFechaDesde(event) {
@@ -88,7 +92,7 @@ export class LiquidarExpedienteComponent implements OnInit {
         (resp) => {
           this.elementos = resp;
           this.realizarFiltroBusqueda(this.elementos);
-          this.sumarTotal(this.elementos);
+          //   this.sumarTotal(this.elementos);
           this.loading = false;
         },
         (error) => {
@@ -123,7 +127,7 @@ export class LiquidarExpedienteComponent implements OnInit {
           (resp) => {
             this.elementos = resp;
             this.realizarFiltroBusqueda(this.elementos);
-            this.sumarTotal(this.elementos);
+            //   this.sumarTotal(this.elementos);
             this.loading = false;
           },
           (error) => {
@@ -184,6 +188,20 @@ export class LiquidarExpedienteComponent implements OnInit {
     }
   }
 
+  sumarValores(vals: any) {
+    let i: number;
+    console.log(vals);
+    //console.log(vals[1]['valor_facturado']);
+    console.log(vals !== undefined);
+    this.ordenes = 0;
+    this.total = 0;
+
+    for (i = 0; i < vals.length; i++) {
+      this.total = this.total + Number(vals[i]["os_monto_total"]);
+      this.ordenes = this.ordenes + Number(vals[i]["os_cant_ordenes"]);
+    }
+  }
+
   detalle(evt: any, overlaypanel: OverlayPanel, event: any) {
     console.log(event);
     this.selecteditem = event;
@@ -193,15 +211,12 @@ export class LiquidarExpedienteComponent implements OnInit {
   editarRegistro(event) {
     const data: any = this.selecteditem;
 
-    const ref = this.dialogService.open(
-      PopupLiquidacionExpedienteEditarComponent,
-      {
-        data,
-        header: "Editar expediente",
-        width: "98%",
-        height: "95%",
-      }
-    );
+    const ref = this.dialogService.open(PopupExpedienteOrdenesComponent, {
+      data,
+      header: "Editar orden",
+      width: "98%",
+      height: "95%",
+    });
 
     ref.onClose.subscribe((data: any) => {
       if (!!data) {
