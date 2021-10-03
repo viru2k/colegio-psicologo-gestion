@@ -1,3 +1,4 @@
+import { ReciboEncabezado } from "./../models/recibo-encabezado.model";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
@@ -254,9 +255,16 @@ export class FacturacionService {
         medico_id
     );
   }
-  crearReciboCobro(reciboElectronico: ReciboElectronico) {
+  crearReciboCobro(reciboElectronico: ReciboEncabezado) {
     return this.http.post<any>(
       this.url + "afip/recibo/cobrar",
+      reciboElectronico
+    );
+  }
+
+  crearCajaCobro(reciboElectronico: ReciboEncabezado) {
+    return this.http.post<any>(
+      this.url + "afip/caja/cobrar",
       reciboElectronico
     );
   }

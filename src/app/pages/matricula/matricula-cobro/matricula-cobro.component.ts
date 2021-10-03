@@ -1041,28 +1041,29 @@ export class MatriculaCobroComponent implements OnInit {
     //falta punto de venta
     const _reciboEncabezado = new ReciboEncabezado(
       "0",
-      this.psicologo['mat_matricula_psicologo'], 
-      this.psicologo['mat_apellido']+' '+ this.psicologo['mat_nombre'],
+      this.psicologo["mat_matricula_psicologo"],
+      this.psicologo["mat_apellido"] + " " + this.psicologo["mat_nombre"],
       this.total_seleccionado,
       this.selectedPago["code"],
       formatDate(this.fecha, "yyyy-MM-dd", "en"),
       this.userData["id"],
       this.recibo_registros,
-      this.elementoPtoVta["id"]
+      this.elementoPtoVta["id"],
+      "MATRICULA"
     );
     console.log(_reciboEncabezado);
-    /*  this.facturacionService
-      .crearReciboCobro(this.reciboEncabezado)
-      .subscribe(() => {
-        this.generarPDFrecibo();
-      }); */
+    this.facturacionService
+      .crearReciboCobro(_reciboEncabezado)
+      .subscribe((response) => {
+        this.generarPDFrecibo(response);
+      });
   }
 
   /*****************************************************************************/
   /*******************************PDF RECIBO ***********************************/
   /*****************************************************************************/
 
-  generarPDFrecibo() {
+  generarPDFrecibo(datosRecibo: any) {
     // GENERO EL FORMATO DE LOS COBROS
 
     this.elementosPDF = this.selecteditems;
@@ -1118,7 +1119,7 @@ export class MatriculaCobroComponent implements OnInit {
     /* -------------------------------------------------------------------------- */
     doc.setFontStyle("bold");
     doc.setFontSize(11);
-    doc.text("RECIBO NUMERO:", pageWidth / 2 + 10, 18);
+    doc.text("RECIBO NUMERO: " + datosRecibo, pageWidth / 2 + 10, 18);
     doc.setFontStyle("normal");
     doc.setFontSize(9);
 
@@ -1216,6 +1217,15 @@ export class MatriculaCobroComponent implements OnInit {
   }
 
   limpiarDatos() {
+    this.getDeudaByMatriculaAndEstado(
+      this.psicologo["mat_matricula_psicologo"],
+      "A"
+    );
+    this.selecteditems = [];
+    this.reciboEncabezado = null;
+
+    this.elementoComprobante = null;
+    this.recibo_registros = [];
     this.elementosPDF = [];
     this.total = 0;
   }
