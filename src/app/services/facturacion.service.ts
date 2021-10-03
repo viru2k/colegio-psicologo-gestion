@@ -1,10 +1,10 @@
+import { ReciboEncabezadoCaja } from "./../models/recibo-encabezado-caja-model";
 import { ReciboEncabezado } from "./../models/recibo-encabezado.model";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 import { URL_SERVICIOS, PARAMS } from "../config/config";
 import { FacturaElectronica } from "./../models/factura-electronica.model";
-import { ReciboElectronico } from "../models/recibo-electronico.model";
 
 @Injectable({
   providedIn: "root",
@@ -262,7 +262,7 @@ export class FacturacionService {
     );
   }
 
-  crearCajaCobro(reciboElectronico: ReciboEncabezado) {
+  crearCajaCobro(reciboElectronico: ReciboEncabezadoCaja) {
     return this.http.post<any>(
       this.url + "afip/caja/cobrar",
       reciboElectronico

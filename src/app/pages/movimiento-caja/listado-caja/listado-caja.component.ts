@@ -1,3 +1,7 @@
+import { ReciboEncabezadoCaja } from "./../../../models/recibo-encabezado-caja-model";
+import { FacturacionService } from "./../../../services/facturacion.service";
+import { ReciboElectronicoCaja } from "./../../../models/recibo-electronica-caja.model";
+import { ReciboElectronico } from "./../../../models/recibo-electronico.model";
 import { DialogService, MessageService } from "primeng/api";
 import { formatDate, DatePipe, CurrencyPipe } from "@angular/common";
 import { Component, OnInit, ViewChild } from "@angular/core";
@@ -53,6 +57,10 @@ export class ListadoCajaComponent implements OnInit {
   _concepto_cuenta: any[] = [];
   _movimiento_tipo: any[] = [];
   _tipo_moneda: any[] = [];
+  elementosPtoVta: any[] = null;
+  elementoPtoVta: number = null;
+  pto_vta: string = "0";
+  _pto_vta: string = "0";
 
   constructor(
     private movimientoCajaService: MovimientoCajaService,
@@ -63,7 +71,8 @@ export class ListadoCajaComponent implements OnInit {
     private excelService: ExcelService,
     private router: Router,
     private filter: Filter,
-    private cp: CurrencyPipe
+    private cp: CurrencyPipe,
+    private facturacionService: FacturacionService
   ) {
     this.cols = [
       { field: "boton", header: "", width: "6%" },
@@ -96,6 +105,34 @@ export class ListadoCajaComponent implements OnInit {
 
     this.fechaDesde = new Date();
     this.fechaHasta = new Date();
+    this.obtenerPerfilCobro();
+  }
+
+  obtenerPerfilCobro() {
+    try {
+      this.loading = true;
+      this.facturacionService.getDatoMedico(this.userData["id"]).subscribe(
+        (resp) => {
+          this.loading = false;
+          console.log(resp);
+          console.log(resp[0]["pto_vta_id"]);
+          this.pto_vta = resp[0]["pto_vta_id"];
+        },
+        (error) => {
+          // error path
+          this.loading = false;
+          console.log(error);
+          console.log(error.status);
+          swal({
+            toast: false,
+            type: "error",
+            text: error,
+            title: "Algo no esta bien....",
+            showConfirmButton: true,
+          });
+        }
+      );
+    } catch (error) {}
   }
 
   crearFactura(element: any) {
@@ -127,6 +164,36 @@ export class ListadoCajaComponent implements OnInit {
         "400"
       );
     }
+  }
+  realizarCobro(elemento: any): void {
+    const renglon = new ReciboElectronicoCaja(
+      elemento["descripcion"],
+      elemento["total"]
+    );
+
+    const recibo = new ReciboEncabezadoCaja(
+      this.pto_vta,
+      elemento["proveedor_cuit"],
+      elemento["proveedor_nombre"],
+      formatDate(elemento["fecha_carga"], "yyyy-MM-dd", "en"),
+
+      elemento["total"],
+      this.userData["id"],
+      elemento["cuenta_nombre"],
+      elemento["movimiento_tipo"],
+      renglon,
+      elemento["id"]
+    );
+
+    console.log(recibo);
+    this.facturacionService.crearCajaCobro(recibo).subscribe((response) => {
+      this.loadMovimientoRegistro();
+      swal({
+        type: "success",
+        title: "Exito",
+        text: "Registro generado",
+      });
+    });
   }
 
   exportarExcel() {

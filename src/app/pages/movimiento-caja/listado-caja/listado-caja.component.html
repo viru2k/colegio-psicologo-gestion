@@ -12,7 +12,6 @@
               <span class="pr-1 pt-1"><h6>Desde:</h6></span>
               <p-calendar
                 [inputStyle]="{ height: '29.1px' }"
-                [showTime]="true"
                 class="mr-2"
                 [(ngModel)]="fechaDesde"
                 (onSelect)="actualizarFechaDesde($event)"
@@ -37,7 +36,6 @@
               <span class="pr-1 pt-1"><h6>Hasta:</h6></span>
               <p-calendar
                 [inputStyle]="{ height: '29.1px' }"
-                [showTime]="true"
                 class="mr-2"
                 [(ngModel)]="fechaHasta"
                 (onSelect)="actualizarFechaHasta($event)"
@@ -278,7 +276,7 @@
               <td style="width: 6%">
                 <a
                   *ngIf="elemento.factura_numero === 0"
-                  (click)="crearFactura(elemento)"
+                  (click)="realizarCobro(elemento)"
                   ><i
                     class="
                       fas
