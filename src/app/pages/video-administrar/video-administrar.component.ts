@@ -19,6 +19,11 @@ export class VideoAdministrarComponent implements OnInit {
   selecteditems: any = [];
   loading;
   ruta_archivo = "";
+  texto: boolean = true;
+  video: boolean = false;
+  imagen: boolean = false;
+  documento: boolean = false;
+  youtube: boolean = false;
 
   constructor(
     private turnoService: TurnoService,
@@ -31,6 +36,43 @@ export class VideoAdministrarComponent implements OnInit {
 
   ngOnInit() {
     this.loadlist();
+  }
+
+  handleChangeVideo(e) {
+    let isChecked = e.checked;
+    if (this.video) {
+      console.log("video");
+
+      this.imagen = false;
+      this.documento = false;
+      this.texto = false;
+      this.youtube = false;
+    }
+  }
+  handleChangeImagen(e) {
+    this.video = false;
+    this.documento = false;
+    this.texto = false;
+    this.youtube = false;
+  }
+  handleChangeDocumento(e) {
+    this.video = false;
+    this.imagen = false;
+    this.documento = true;
+    this.texto = false;
+    this.youtube = false;
+  }
+  handleChangeTexto(e) {
+    this.video = false;
+    this.imagen = false;
+    this.documento = false;
+    this.youtube = false;
+  }
+  handleChangeYotube(e) {
+    this.video = false;
+    this.imagen = false;
+    this.documento = false;
+    this.texto = false;
   }
 
   loadlist() {

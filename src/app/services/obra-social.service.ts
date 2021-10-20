@@ -15,7 +15,7 @@ export class ObraSocialService {
   }
 
   getObraSocialHabilitado() {
-    return this.http.get<any[]>(this.url + "obra/social/habilitada");
+    return this.http.get<any[]>(this.url + "obra/social/private/habilitada");
   }
 
   putObraSocial(val: any, id: string) {
@@ -33,11 +33,13 @@ export class ObraSocialService {
   }
 
   getConvenioByObraSocialHabilitada() {
-    return this.http.get<any[]>(this.url + "obra/social/convenio/habilitada");
+    return this.http.get<any[]>(
+      this.url + "obra/social/convenio/private/habilitada"
+    );
   }
 
   getConvenioHabilitada() {
-    return this.http.get<any[]>(this.url + "convenio/habilitada");
+    return this.http.get<any[]>(this.url + "convenio/private/habilitada");
   }
 
   putConvenio(val: any, id: string) {

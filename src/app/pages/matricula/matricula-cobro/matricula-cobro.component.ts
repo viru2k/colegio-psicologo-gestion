@@ -1106,7 +1106,7 @@ export class MatriculaCobroComponent implements OnInit {
     doc.setFontSize(7);
     doc.text("GRAL. ACHA 1056 SUR", 15, 33);
     doc.text("5400 - SAN JUAN", 15, 36);
-    doc.text("IVA EXCENTO", 15, 39);
+    doc.text("IVA EXENTO", 15, 39);
     doc.text("C.U.I.T: 3063561825", 50, 33);
     doc.text("ING. BRUTOS: 000-039645-7", 50, 36);
     doc.text("FECHA INICIO ACT: 02/03/86", 50, 39);
@@ -1126,7 +1126,7 @@ export class MatriculaCobroComponent implements OnInit {
     doc.setFontStyle("normal");
     doc.setFontSize(9);
     doc.text(
-      "Fecha Emisión: " + formatDate(this.fecha, "yyyy-MM-dd", "en"),
+      "Fecha Emisión: " + formatDate(this.fecha, "dd/MM/yyyy", "en"),
       pageWidth / 2 + 10,
       28
     );
@@ -1173,6 +1173,21 @@ export class MatriculaCobroComponent implements OnInit {
 
     doc.setFontStyle("normal");
     console.log(this.elementosPDF);
+    let i = 0;
+    this.elementosPDF.forEach((element) => {
+      (this.elementosPDF[i]["mat_fecha_vencimiento"] = formatDate(
+        element["mat_fecha_vencimiento"],
+        "dd/MM/yyyy",
+        "en"
+      )),
+        (this.elementosPDF[i]["mat_monto_final"] = this.cp.transform(
+          element["mat_monto_final"],
+          "",
+          "symbol-narrow",
+          "1.2-2"
+        ));
+      i++;
+    });
 
     doc.autoTable(this.colsRecibo, this.elementosPDF, {
       margin: { vertical: 53, right: 10, horizontal: 0 },

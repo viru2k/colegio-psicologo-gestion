@@ -2,6 +2,43 @@
   <h5>GESTION DE VIDEOS</h5>
 </div>
 
+<div>
+  <div>
+    <h6>Texto</h6>
+    <p-inputSwitch
+      (onChange)="handleChangeTexto($event)"
+      [(ngModel)]="texto"
+    ></p-inputSwitch>
+  </div>
+  <div>
+    <h6>Video</h6>
+    <p-inputSwitch
+      (onChange)="handleChangeVideo($event)"
+      [(ngModel)]="video"
+    ></p-inputSwitch>
+  </div>
+  <div>
+    <h6>Imagen</h6>
+    <p-inputSwitch
+      (onChange)="handleChangeImagen($event)"
+      [(ngModel)]="imagen"
+    ></p-inputSwitch>
+  </div>
+  <div>
+    <h6>eDocumento</h6>
+    <p-inputSwitch
+      (onChange)="handleChangeDocumento($event)"
+      [(ngModel)]="documento"
+    ></p-inputSwitch>
+  </div>
+  <div>
+    <h6>Yotube</h6>
+    <p-inputSwitch
+      (onChange)="handleChangeYotube($event)"
+      [(ngModel)]="youtube"
+    ></p-inputSwitch>
+  </div>
+</div>
 <div class="m-2">
   <div class="m-2 d-flex justfiy-content-between">
     <div class="mr-auto">
