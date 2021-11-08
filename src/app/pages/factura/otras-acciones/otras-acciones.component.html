@@ -5,14 +5,14 @@
 <div class="card p-1">
   <div class="d-flex justify-content-between m-1">
     <div class="d-flex justify-content-start d-flex align-items-center">
-      <p-dropdown
+      <!--       <p-dropdown
         class="mr-2 mt-2"
         [options]="elementosMedicos"
         [(ngModel)]="elementoMedicos"
         optionLabel="nombreyapellido"
         (onHide)="obtenerMedico()"
         placeholder="Medico / Clínica"
-      ></p-dropdown>
+      ></p-dropdown> -->
       <div class="btn-group" role="group">
         <span class="pr-1 pt-1"><label>Desde:</label></span>
         <p-calendar
@@ -65,82 +65,53 @@
             >
           </ng-template>
         </p-calendar>
+
+        <button class="btn btn-sm btn-success mr-2" (click)="buscar()">
+          Buscar facturas
+        </button>
+
+        <button class="btn btn-sm btn-success mr-2" (click)="buscarMatricula()">
+          Buscar Matricula
+        </button>
+        <button
+          class="btn btn-excel btn-sm float-right mr-2 pr-2"
+          (click)="exportarExcelDetallado()"
+        >
+          <i class="far fa-file-excel mr-2"></i> Exportar
+        </button>
       </div>
     </div>
   </div>
 
   <div class="d-flex justify-content-between m-1 mt-2">
     <div class="d-flex justify-content-start d-flex align-items-center">
-      <button class="btn btn-sm btn-success mr-2" (click)="buscar()">
-        Buscar facturas
-      </button>
-      <button class="btn btn-sm btn-excel mr-2" (click)="generarLibroIva()">
+      <!--    <button class="btn btn-sm btn-excel mr-2" (click)="generarLibroIva()">
         <i class="fa fa-file-excel-o mr-1" aria-hidden="true"> </i>Generar libro
         IVA
       </button>
       <button class="btn btn-sm btn-info" (click)="generarLibroIvaPdf()">
         Generar libro IVA PDF
-      </button>
+      </button> -->
     </div>
   </div>
 </div>
 
 <p-table
   #dt
-  class="pt-2 m-2"
+  class="pt-2"
   tableStyleClass="prime-table"
   selectionMode="single"
   [columns]="cols"
-  [value]="elementos"
+  [value]="elemento"
   [(selection)]="selecteditems"
   columnResizeMode="expand"
   [responsive]="true"
   scrollHeight="500px"
   [scrollable]="true"
   (onFilter)="filtered($event)"
+  [loading]="loading"
+  loadingIcon=" icon-color-loader-new fas fa-spinner fa-3x "
 >
-  <ng-template pTemplate="caption">
-    <div class="d-flex justify-content-between m-1 mt-2">
-      <div class="d-flex justify-content-start d-flex align-items-center">
-        <input
-          (keyup.enter)="buscarPaciente()"
-          class="form-control form-control-sm ml-2"
-          [(ngModel)]="paciente_nombre"
-          placeholder="Buscar por cliente o dni"
-        />
-      </div>
-      <div class="d-flex justify-content-end d-flex align-items-center">
-        <small>
-          <label class="mt-1 ml-2 mr-1 text-sm">Busqueda : </label></small
-        >
-        <div class="mr-1 mt-1 ml-1">
-          <small
-            ><p-radioButton
-              name="groupname12"
-              class="text-info text-sm"
-              [(ngModel)]="tipo_busqueda"
-              value="paciente"
-              label="Paciente"
-              inputId="opt12"
-            ></p-radioButton
-          ></small>
-        </div>
-        <div class="ml-1 mt-1 mr-2">
-          <small
-            ><p-radioButton
-              name="groupname22"
-              class="text-info text-sm"
-              [(ngModel)]="tipo_busqueda"
-              value="fecha"
-              label="Fecha"
-              inputId="opt22"
-            ></p-radioButton
-          ></small>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th
@@ -156,33 +127,31 @@
           ariaLabelAsc="Activate to sort in ascending order"
         ></p-sortIcon>
       </th>
+      <th style="width: 3em">
+        <p-tableHeaderCheckbox
+          (click)="sumarValoresSeleccionados(selecteditems)"
+        ></p-tableHeaderCheckbox>
+      </th>
     </tr>
     <tr>
       <th *ngFor="let col of columns" [ngSwitch]="col.field">
-        <input
-          style="font-size: 12px"
-          class="form-control col-md-12 form-control-sm"
-          *ngSwitchCase="'nombreyapellido'"
-          pInputText
-          type="text"
-          (input)="dt.filter($event.target.value, col.field, 'contains')"
-        />
-        <input
-          style="font-size: 12px"
-          class="form-control col-md-12 form-control-sm"
-          *ngSwitchCase="'descripcion'"
-          pInputText
-          type="text"
-          (input)="dt.filter($event.target.value, col.field, 'contains')"
-        />
-        <input
-          style="font-size: 12px"
-          class="form-control col-md-12 form-control-sm"
-          *ngSwitchCase="'punto_vta'"
-          pInputText
-          type="text"
-          (input)="dt.filter($event.target.value, col.field, 'contains')"
-        />
+        <p-multiSelect
+          [style]="{ height: '28px', width: '100%', 'font-size': '10px' }"
+          [options]="_descripcion"
+          appendTo="body"
+          defaultLabel="Filtrar"
+          *ngIf="col.field == 'descripcion'"
+          (onChange)="dt.filter($event.value, col.field, 'in')"
+        ></p-multiSelect>
+
+        <p-multiSelect
+          [style]="{ height: '28px', width: '100%', 'font-size': '10px' }"
+          [options]="_punto_vta"
+          appendTo="body"
+          defaultLabel="Filtrar"
+          *ngIf="col.field == 'punto_vta'"
+          (onChange)="dt.filter($event.value, col.field, 'in')"
+        ></p-multiSelect>
         <input
           style="font-size: 12px"
           class="form-control col-md-12 form-control-sm"
@@ -199,54 +168,32 @@
           type="text"
           (input)="dt.filter($event.target.value, col.field, 'contains')"
         />
-        <input
-          style="font-size: 12px"
-          class="form-control col-md-12 form-control-sm"
-          *ngSwitchCase="'factura_cliente'"
-          pInputText
-          type="text"
-          (input)="dt.filter($event.target.value, col.field, 'contains')"
-        />
-        <input
-          style="font-size: 12px"
-          class="form-control col-md-12 form-control-sm"
-          *ngSwitchCase="'factura_documento_comprador_descripcion'"
-          pInputText
-          type="text"
-          (input)="dt.filter($event.target.value, col.field, 'contains')"
-        />
-        <input
-          style="font-size: 12px"
-          class="form-control col-md-12 form-control-sm"
-          *ngSwitchCase="'factura_documento'"
-          pInputText
-          type="text"
-          (input)="dt.filter($event.target.value, col.field, 'contains')"
-        />
-        <input
-          style="font-size: 12px"
-          class="form-control col-md-12 form-control-sm"
-          *ngSwitchCase="'importe_exento_iva'"
-          pInputText
-          type="text"
-          (input)="dt.filter($event.target.value, col.field, 'contains')"
-        />
-        <input
-          style="font-size: 12px"
-          class="form-control col-md-12 form-control-sm"
-          *ngSwitchCase="'importe_gravado'"
-          pInputText
-          type="text"
-          (input)="dt.filter($event.target.value, col.field, 'contains')"
-        />
-        <input
-          style="font-size: 12px"
-          class="form-control col-md-12 form-control-sm"
-          *ngSwitchCase="'importe_iva'"
-          pInputText
-          type="text"
-          (input)="dt.filter($event.target.value, col.field, 'contains')"
-        />
+        <p-multiSelect
+          [style]="{ height: '28px', width: '100%', 'font-size': '10px' }"
+          [options]="_factura_cliente"
+          appendTo="body"
+          defaultLabel="Filtrar"
+          *ngIf="col.field == 'factura_cliente'"
+          (onChange)="dt.filter($event.value, col.field, 'in')"
+        ></p-multiSelect>
+
+        <p-multiSelect
+          [style]="{ height: '28px', width: '100%', 'font-size': '10px' }"
+          [options]="_factura_documento"
+          appendTo="body"
+          defaultLabel="Filtrar"
+          *ngIf="col.field == 'factura_documento'"
+          (onChange)="dt.filter($event.value, col.field, 'in')"
+        ></p-multiSelect>
+
+        <p-multiSelect
+          [style]="{ height: '28px', width: '100%', 'font-size': '10px' }"
+          [options]="_metodo_pago"
+          appendTo="body"
+          defaultLabel="Filtrar"
+          *ngIf="col.field == 'metodo_pago'"
+          (onChange)="dt.filter($event.value, col.field, 'in')"
+        ></p-multiSelect>
         <input
           style="font-size: 12px"
           class="form-control col-md-12 form-control-sm"
@@ -255,37 +202,58 @@
           type="text"
           (input)="dt.filter($event.target.value, col.field, 'contains')"
         />
+        <p-multiSelect
+          [style]="{ height: '28px', width: '100%', 'font-size': '10px' }"
+          [options]="_creado"
+          appendTo="body"
+          defaultLabel="Filtrar"
+          *ngIf="col.field == 'creado'"
+          (onChange)="dt.filter($event.value, col.field, 'in')"
+        ></p-multiSelect>
       </th>
       <th></th>
     </tr>
   </ng-template>
 
-  <ng-template pTemplate="body" let-elementos>
+  <ng-template pTemplate="body" let-elemento>
     <tr style="height: 28px">
       <td style="width: 6%">
-        <a (click)="accion($event, op, elementos)"
+        <a (click)="accion($event, op, elemento)"
           ><i class="far fa-edit fa-2x icon-color-purple my-hover"></i
         ></a>
       </td>
-      <td style="width: 15%">{{ elementos.nombreyapellido }}</td>
-      <td style="width: 8%">{{ elementos.descripcion }}</td>
-      <td style="width: 5%">{{ elementos.punto_vta }}</td>
-      <td style="width: 8%">{{ elementos.factura_numero }}</td>
-      <td style="width: 7%">{{ elementos.fecha }}</td>
-      <td style="width: 20%">{{ elementos.factura_cliente }}</td>
-      <td style="width: 5%">
-        {{ elementos.factura_documento_comprador_descripcion }}
+
+      <td style="width: 8%; font-size: 8px">{{ elemento.descripcion }}</td>
+      <td style="width: 5%">{{ elemento.punto_vta }}</td>
+      <td style="width: 8%">{{ elemento.factura_numero }}</td>
+      <td style="width: 10%">{{ elemento.fecha | date: "dd/MM/yyyy" }}</td>
+      <td style="width: 20%; font-size: 8px">
+        {{ elemento.factura_cliente }}
       </td>
-      <td style="width: 8%">{{ elementos.factura_documento }}</td>
-      <td style="width: 8%">
-        {{ elementos.importe_exento_iva | number: "1.2-2" }}
+      <td style="width: 10%; font-size: 8px">
+        {{ elemento.factura_documento }}
       </td>
       <td style="width: 10%">
-        {{ elementos.importe_gravado | number: "1.2-2" }}
+        {{ elemento.importe_total | number: "1.2-2" }}
       </td>
-      <td style="width: 8%">{{ elementos.importe_iva | number: "1.2-2" }}</td>
-      <td style="width: 10%">
-        {{ elementos.importe_total | number: "1.2-2" }}
+      <td style="width: 8%; font-size: 8px">{{ elemento.metodo_pago }}</td>
+      <td style="width: 15%; font-size: 8px">{{ elemento.creado }}</td>
+      <td style="width: 3em">
+        <p-tableCheckbox
+          [value]="elemento"
+          (click)="sumarValoresSeleccionados(selecteditems)"
+        ></p-tableCheckbox>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <tr class="mt-3">
+      <td style="width: 52%"></td>
+      <td style="width: 16%" class="es-ingreso">
+        TOTAL SELECCIONADO: {{ total_seleccionado | number: "1.2-2" }}
+      </td>
+      <td style="width: 24%" class="es-egreso">
+        TOTAL: {{ total_sumado | number: "1.2-2" }}
       </td>
     </tr>
   </ng-template>

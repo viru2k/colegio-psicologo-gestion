@@ -144,7 +144,6 @@ import { LiquidarExpedienteConfeccionarComponent } from "./pages/liquidacion/liq
 import { LiquidarAccionesComponent } from "./pages/liquidacion/liquidar/liquidar-acciones/liquidar-acciones.component";
 import { PopupLiquidacionGeneradaDetalleComponent } from "./pages/liquidacion/popups/popup-liquidacion-generada-detalle/popup-liquidacion-generada-detalle.component";
 import { PopupLiquidacionExpedienteEditarComponent } from "./pages/liquidacion/popups/popup-liquidacion-expediente-editar/popup-liquidacion-expediente-editar.component";
-import { LiquidarLiquidacionComponent } from "./pages/liquidacion/liquidar/liquidar-liquidacion/liquidar-liquidacion.component";
 import { PopupConceptoPlanPagoComponent } from "./pages/matricula/matricula-cobro/popups/popup-concepto-plan-pago/popup-concepto-plan-pago.component";
 import { ProveedorComponent } from "./pages/mantenimiento/proveedor/proveedor.component";
 import { PopupProveedorEditarComponent } from "./pages/mantenimiento/proveedor-editar/popup-proveedor-editar.component";
@@ -240,7 +239,6 @@ registerLocaleData(localeEsAR, "es-Ar");
     LiquidarExpedienteComponent,
     LiquidarExpedienteConfeccionarComponent,
     LiquidarAccionesComponent,
-    LiquidarLiquidacionComponent,
     ProveedorComponent,
     PopupLiquidacionGeneradaDetalleComponent,
     PopupLiquidacionExpedienteEditarComponent,

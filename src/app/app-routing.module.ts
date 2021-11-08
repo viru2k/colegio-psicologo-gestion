@@ -32,7 +32,6 @@ import { ProveedorComponent } from "./pages/mantenimiento/proveedor/proveedor.co
 import { LiquidarAccionesComponent } from "./pages/liquidacion/liquidar/liquidar-acciones/liquidar-acciones.component";
 import { LiquidarExpedienteConfeccionarComponent } from "./pages/liquidacion/liquidar/liquidar-expediente-confeccionar/liquidar-expediente-confeccionar.component";
 import { LiquidarExpedienteComponent } from "./pages/liquidacion/liquidar/liquidar-expediente/liquidar-expediente.component";
-import { LiquidarLiquidacionComponent } from "./pages/liquidacion/liquidar/liquidar-liquidacion/liquidar-liquidacion.component";
 import { VideoAdministrarComponent } from "./pages/video-administrar/video-administrar.component";
 
 const routes: Routes = [
@@ -75,7 +74,6 @@ const routes: Routes = [
         component: LiquidarExpedienteConfeccionarComponent,
       },
       { path: "liquidacion/acciones", component: LiquidarAccionesComponent },
-      { path: "liquidacion/liquidar", component: LiquidarLiquidacionComponent },
 
       /* -------------------------------------------------------------------------- */
       /*                                MANTENIMIENTO                               */

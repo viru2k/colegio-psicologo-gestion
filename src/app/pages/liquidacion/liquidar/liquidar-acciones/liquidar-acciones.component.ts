@@ -62,6 +62,10 @@ export class LiquidarAccionesComponent implements OnInit {
   proximo_numero_recibo = 0;
   psicologo = null;
 
+  _matricula: any[] = [];
+  _fondo_solidario: any[] = [];
+  _otras_acciones: any[] = [];
+
   constructor(
     private liquidacionService: LiquidacionService,
     public dialogService: DialogService,
@@ -550,6 +554,7 @@ export class LiquidarAccionesComponent implements OnInit {
           (resp) => {
             this.elementos = resp;
             this.sumarTotal(this.elementos);
+            this.realizarFiltroBusqueda(resp);
             this.loading = false;
             this.getProximoNumeroLiquidacion();
           },
@@ -754,6 +759,7 @@ export class LiquidarAccionesComponent implements OnInit {
               "certificado_actuacion_profesional"
             );
             this.loading = false;
+            this.realizarFiltroBusqueda(resp);
           },
           (error) => {
             // error path
@@ -854,8 +860,6 @@ export class LiquidarAccionesComponent implements OnInit {
     doc.setLineWidth(0.4);
 
     doc.setFontSize(8);
-    // doc.text('Liquidación Nro : ' + this.config.data.id_liquidacion, pageWidth -60, 10, null, null);
-    // doc.text('Fecha de liq. : ' +  formatDate(this.config.data.os_fecha , 'dd/MM/yyyy', 'en'), pageWidth -60, 13, null, null);
     doc.text(
       "Matricula : " + this.selecteditems[0].mat_matricula,
       pageWidth - 60,
@@ -1064,5 +1068,24 @@ export class LiquidarAccionesComponent implements OnInit {
     } else {
       return { "es-egreso": "null" };
     }
+  }
+
+  realizarFiltroBusqueda(resp: any[]) {
+    // FILTRO LOS ELEMENTOS QUE SE VAN USAR PARA FILTRAR LA LISTA
+
+    this._matricula = [];
+    this._fondo_solidario = [];
+    this._otras_acciones = [];
+
+    resp.forEach((element) => {
+      this._matricula.push(element["os_desc_matricula"]);
+      this._fondo_solidario.push(element["os_desc_fondo_sol"]);
+      this._otras_acciones.push(element["os_otros_ing_eg"]);
+    });
+
+    // ELIMINO DUPLICADOS
+    this._matricula = this.filter.filterArray(this._matricula);
+    this._fondo_solidario = this.filter.filterArray(this._fondo_solidario);
+    this._otras_acciones = this.filter.filterArray(this._otras_acciones);
   }
 }

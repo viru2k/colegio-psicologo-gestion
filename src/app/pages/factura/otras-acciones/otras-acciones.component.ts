@@ -25,6 +25,8 @@ import { OverlayPanelModule, OverlayPanel } from "primeng/overlaypanel";
 import { FacturacionService } from "./../../../services/facturacion.service";
 import { LiquidacionService } from "./../../../services/liquidacion.service";
 import { FacturaElectronicaComponent } from "./../factura-electronica/factura-electronica.component";
+import { Filter } from "../../../shared/filter";
+import { ExcelService } from "../../../services/excel.service";
 
 @Component({
   selector: "app-otras-acciones",
@@ -39,13 +41,14 @@ export class OtrasAccionesComponent implements OnInit {
   columnsIva: any[];
   colsRecibo: any[];
   selecteditemRegistro: FacturaElectronica;
-  selecteditems: FacturaElectronica[];
-  elementos: FacturaElectronica[] = [];
-  elemento: FacturaElectronica = null;
-  elementosFiltrados: FacturaElectronica[] = [];
+  selecteditems: any[] = [];
+  elemento: any[] = null;
+  elementosFiltrados: any[] = [];
   elementosPDF: any[] = [];
   elementosMatricula: any[] = [];
   elementosCobro: any[] = [];
+  total_seleccionado = 0;
+  total_sumado = 0;
   cols: any;
   fecha: Date;
   _fecha: string;
@@ -53,6 +56,15 @@ export class OtrasAccionesComponent implements OnInit {
   _fechaDesde: string;
   fechaHasta: Date;
   _fechaHasta: string;
+  //filters
+  _descripcion: any[] = [];
+  _punto_vta: any[] = [];
+  _factura_numero: any[] = [];
+  _factura_cliente: any[] = [];
+  _factura_documento: any[] = [];
+  _metodo_pago: any[] = [];
+  _creado: any[] = [];
+
   es: any;
   loading: boolean;
   paciente_nombre: string;
@@ -65,6 +77,7 @@ export class OtrasAccionesComponent implements OnInit {
   elementoComprobante = null;
   recibo_registros = [];
   total = 0;
+  regex = "/./gi";
 
   // tslint:disable-next-line: max-line-length
   constructor(
@@ -73,26 +86,21 @@ export class OtrasAccionesComponent implements OnInit {
     public dialogService: DialogService,
     private cp: CurrencyPipe,
     private dp: DecimalPipe,
-    private liquidacionService: LiquidacionService
+    private liquidacionService: LiquidacionService,
+    private excelService: ExcelService,
+    private filter: Filter
   ) {
     this.cols = [
       { field: "accion", header: "Accion", width: "6%" },
-      { field: "nombreyapellido", header: "Facturar a ", width: "15%" },
       { field: "descripcion", header: "Tipo Fac.", width: "8%" },
       { field: "punto_vta", header: "Pto. Vta.", width: "5%" },
       { field: "factura_numero", header: "factura nº", width: "8%" },
-      { field: "fecha", header: "Fecha", width: "7%" },
+      { field: "fecha", header: "Fecha", width: "10%" },
       { field: "factura_cliente", header: "Cliente", width: "20%" },
-      {
-        field: "factura_documento_comprador_descripcion",
-        header: "Tipo",
-        width: "5%",
-      },
-      { field: "factura_documento", header: "Documento", width: "8%" },
-      { field: "importe_exento_iva", header: "Imp. exc", width: "8%" },
-      { field: "importe_gravado", header: "Imp. grav", width: "10%" },
-      { field: "importe_iva", header: "IVA", width: "8%" },
+      { field: "factura_documento", header: "CUIT/Mat", width: "10%" },
       { field: "importe_total", header: "Total", width: "10%" },
+      { field: "metodo_pago", header: "Pago", width: "8%" },
+      { field: "creado", header: "Realizo", width: "15%" },
     ];
 
     this.columns = [
@@ -149,10 +157,10 @@ export class OtrasAccionesComponent implements OnInit {
   accion(
     event: FacturaElectronica,
     overlaypanel: OverlayPanel,
-    elementos: FacturaElectronica
+    elemento: FacturaElectronica
   ) {
-    if (elementos) {
-      this.selecteditemRegistro = elementos;
+    if (elemento) {
+      this.selecteditemRegistro = elemento;
     }
 
     console.log(this.selecteditemRegistro);
@@ -162,6 +170,29 @@ export class OtrasAccionesComponent implements OnInit {
   filtered(event) {
     console.log(event.filteredValue);
     this.elementosFiltrados = event.filteredValue;
+    console.log("llamando desde filter");
+    this.sumarValoresSeleccionados(this.elementosFiltrados);
+  }
+
+  sumarValoresSeleccionados(vals: any) {
+    console.log(this.selecteditems);
+    // SUMO LO FILTRADO
+    console.log(vals);
+    this.total_seleccionado = 0;
+    let i: number;
+    for (i = 0; i < vals.length; i++) {
+      this.total_seleccionado =
+        this.total_seleccionado + Number(vals[i]["importe_total"]);
+    }
+  }
+
+  sumarValores(resp: any[]): void {
+    this.total_sumado = 0;
+    this.total = 0;
+    let i = 0;
+    for (i = 0; i < resp.length; i++) {
+      this.total_sumado = this.total_sumado + Number(resp[i]["importe_total"]);
+    }
   }
 
   getMedicosFacturan() {
@@ -200,57 +231,9 @@ export class OtrasAccionesComponent implements OnInit {
     this.medico_nombre = this.elementoMedicos["nombreyapellido"];
   }
 
-  buscarPaciente() {
-    this.loading = true;
-    try {
-      this.facturacionService
-        .GetFacturaByNameOrDocumento(this.paciente_nombre)
-        .subscribe(
-          (resp) => {
-            let i: number = 0;
-            let resultado = resp;
-            resultado.forEach((element) => {
-              resp[i]["factura_numero"] = this.padLeft(
-                resp[i]["factura_numero"],
-                "0",
-                8
-              );
-              resp[i]["punto_vta"] = this.padLeft(resp[i]["punto_vta"], "0", 4);
-              i++;
-            });
-            this.elementos = resp;
-            this.loading = false;
-            console.log(this.elementos);
-          },
-          (error) => {
-            // error path
-            console.log(error.message);
-            console.log(error.status);
-            swal({
-              toast: false,
-              type: "error",
-              title: "Algo salio mal...",
-              text: error.status + " " + error.message,
-              showConfirmButton: false,
-              timer: 2000,
-            });
-            this.loading = false;
-          }
-        );
-    } catch (error) {
-      swal({
-        toast: false,
-        type: "error",
-        title: "Algo salio mal...",
-        text: error.status + " " + error.message,
-        showConfirmButton: false,
-        timer: 2000,
-      });
-    }
-  }
-
   buscar() {
-    this.elementos = [];
+    this.elemento = [];
+    this.selecteditems = [];
     this._fechaDesde = formatDate(this.fechaDesde, "yyyy-MM-dd", "en");
     this._fechaHasta = formatDate(this.fechaHasta, "yyyy-MM-dd", "en");
     this.loading = true;
@@ -275,9 +258,11 @@ export class OtrasAccionesComponent implements OnInit {
                 );
                 i++;
               });
-              this.elementos = resp;
+              this.realizarFiltroBusqueda(resp);
+              this.sumarValores(resp);
+              this.elemento = resp;
               this.loading = false;
-              console.log(this.elementos);
+              console.log(this.elemento);
             },
             (error) => {
               // error path
@@ -304,14 +289,74 @@ export class OtrasAccionesComponent implements OnInit {
           timer: 2000,
         });
       }
-    } else {
-      this.buscarPaciente();
+    }
+  }
+
+  buscarMatricula() {
+    this.elemento = [];
+    this.selecteditems = [];
+    this._fechaDesde = formatDate(this.fechaDesde, "yyyy-MM-dd", "en");
+    this._fechaHasta = formatDate(this.fechaHasta, "yyyy-MM-dd", "en");
+    this.loading = true;
+    if (this.tipo_busqueda === "fecha") {
+      try {
+        this.facturacionService
+          .GetFacturaBetweenDatesMatricula(this._fechaDesde, this._fechaHasta)
+          .subscribe(
+            (resp) => {
+              let i: number = 0;
+              let resultado = resp;
+              resultado.forEach((element) => {
+                resp[i]["metodo_pago"] = resp[i]["mat_tipo_pago"];
+                resp[i]["factura_numero"] = this.padLeft(
+                  resp[i]["factura_numero"],
+                  "0",
+                  8
+                );
+                resp[i]["punto_vta"] = this.padLeft(
+                  resp[i]["punto_vta"],
+                  "0",
+                  4
+                );
+                i++;
+              });
+              this.elemento = resp;
+              this.loading = false;
+              console.log(this.elemento);
+              this.realizarFiltroBusqueda(resp);
+              this.sumarValores(resp);
+            },
+            (error) => {
+              // error path
+              console.log(error.message);
+              console.log(error.status);
+              swal({
+                toast: false,
+                type: "error",
+                title: "Algo salio mal...",
+                text: error.status + " " + error.message,
+                showConfirmButton: false,
+                timer: 2000,
+              });
+              this.loading = false;
+            }
+          );
+      } catch (error) {
+        swal({
+          toast: false,
+          type: "error",
+          title: "Algo salio mal...",
+          text: error.status + " " + error.message,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     }
   }
 
   generarLibroIva() {
     this.estado = "Buscando libro iva para " + this.medico_nombre;
-    this.elementos = [];
+    this.elemento = [];
     this._fechaDesde = formatDate(this.fechaDesde, "yyyy-MM-dd", "en");
     this._fechaHasta = formatDate(this.fechaHasta, "yyyy-MM-dd", "en");
     this.loading = true;
@@ -396,9 +441,9 @@ export class OtrasAccionesComponent implements OnInit {
                 fecha_hasta
             );
             this.estado = "";
-            //  this.elementos = resp;
+            //  this.elemento = resp;
             this.loading = false;
-            // console.log(this.elementos);
+            // console.log(this.elemento);
           },
           (error) => {
             // error path
@@ -440,7 +485,7 @@ export class OtrasAccionesComponent implements OnInit {
   generarLibroIvaPdf() {
     this.estado = "Buscando libro iva para " + this.medico_nombre;
     console.log(this.estado);
-    this.elementos = [];
+    this.elemento = [];
     this._fechaDesde = formatDate(this.fechaDesde, "yyyy-MM-dd", "en");
     this._fechaHasta = formatDate(this.fechaHasta, "yyyy-MM-dd", "en");
 
@@ -507,7 +552,7 @@ export class OtrasAccionesComponent implements OnInit {
             });
             resp = resultado;
 
-            // this.elementos = resp;
+            // this.elemento = resp;
             this.loading = false;
             //   this.estado = '';
             console.log(resp);
@@ -543,9 +588,9 @@ export class OtrasAccionesComponent implements OnInit {
   }
 
   ImprimirPdf(ele) {
-    const elementos = ele;
-    console.log(elementos);
-    if (elementos) {
+    const elemento = ele;
+    console.log(elemento);
+    if (elemento) {
       this.estado = "Generando PDF";
       this._fechaDesde = formatDate(this.fechaDesde, "dd/MM/yyyy", "en");
       this._fechaHasta = formatDate(this.fechaHasta, "dd/MM/yyyy", "en");
@@ -575,7 +620,7 @@ export class OtrasAccionesComponent implements OnInit {
       doc.setFontSize(8);
       let pageNumber = doc.internal.getNumberOfPages();
       const totalPagesExp = "{total_pages_count_string}";
-      doc.autoTable(this.columnsIva, elementos, {
+      doc.autoTable(this.columnsIva, elemento, {
         startY: 30,
         margin: { right: 5, bottom: 12, left: 5 },
         bodyStyles: { valign: "top" },
@@ -995,6 +1040,70 @@ export class OtrasAccionesComponent implements OnInit {
     this.recibo_registros = [];
     this.elementosPDF = [];
     this.total = 0;
+  }
+
+  realizarFiltroBusqueda(resp: any[]) {
+    // FILTRO LOS ELEMENTOS QUE SE VAN USAR PARA FILTRAR LA LISTA
+    this._descripcion = [];
+    this._punto_vta = [];
+    this._factura_numero = [];
+    this._factura_cliente = [];
+    this._factura_documento = [];
+    this._metodo_pago = [];
+    this._creado = [];
+
+    resp.forEach((element) => {
+      this._descripcion.push(element["descripcion"]);
+      this._punto_vta.push(element["punto_vta"]);
+      this._factura_numero.push(element["factura_numero"]);
+      this._factura_cliente.push(element["factura_cliente"]);
+      this._factura_documento.push(element["factura_documento"]);
+      this._metodo_pago.push(element["metodo_pago"]);
+      this._creado.push(element["creado"]);
+
+      /** SUMO LO FILTRADO */
+    });
+
+    // ELIMINO DUPLICADOS
+    this._descripcion = this.filter.filterArray(this._descripcion);
+    this._punto_vta = this.filter.filterArray(this._punto_vta);
+    this._factura_numero = this.filter.filterArray(this._factura_numero);
+    this._factura_cliente = this.filter.filterArray(this._factura_cliente);
+    this._factura_documento = this.filter.filterArray(this._factura_documento);
+    this._metodo_pago = this.filter.filterArray(this._metodo_pago);
+    this._creado = this.filter.filterArray(this._creado);
+  }
+
+  public exportarExcelDetallado() {
+    const fecha_impresion = formatDate(new Date(), "dd-MM-yyyy-mm", "es-Ar");
+    let seleccionados: any[] = [];
+    let exportar: any[] = [];
+    let i = 0;
+    this.selecteditems.forEach((element) => {
+      seleccionados["descripcion"] = element.descripcion;
+      seleccionados["punto_vta"] = element.punto_vta;
+      seleccionados["factura_numero"] = element.factura_numero;
+      seleccionados["fecha"] = formatDate(
+        element["fecha"],
+        "dd/MM/yyyy",
+        "es-Ar"
+      );
+      seleccionados["factura_cliente"] = element.factura_cliente;
+      seleccionados["factura_documento"] = element.factura_documento;
+      let _importe_total: "";
+      _importe_total = element.importe_total.toString();
+      seleccionados["importe_total"] = _importe_total.replace(".", ",");
+      seleccionados["metodo_pago"] = element.metodo_pago;
+      seleccionados["creado"] = element.creado;
+      exportar[i] = seleccionados;
+      seleccionados = [];
+      i++;
+    });
+    console.log(exportar);
+    this.excelService.exportAsExcelFile(
+      exportar,
+      "listado_pagos_" + fecha_impresion
+    );
   }
 
   /* generarPDF(){

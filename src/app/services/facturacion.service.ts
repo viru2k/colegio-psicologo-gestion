@@ -228,6 +228,18 @@ export class FacturacionService {
     );
   }
 
+  GetFacturaBetweenDatesMatricula(fecha_desde: string, fecha_hasta: string) {
+    return this.http.get<any[]>(
+      this.url +
+        "afip/elementos/factura/by/fecha?fecha_desde=" +
+        fecha_desde +
+        "&fecha_hasta=" +
+        fecha_hasta +
+        "&filtro=" +
+        "MATRICULA"
+    );
+  }
+
   GetFacturaByNameOrDocumento(factura_documento: string) {
     return this.http.get<any[]>(
       this.url +
