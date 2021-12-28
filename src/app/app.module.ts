@@ -162,6 +162,8 @@ import { PopupArchivoIngBrutosComponent } from "./pages/liquidacion/popups/popup
 import { PopupLiquidacionExpedienteDetalleComponent } from "./pages/liquidacion/popups/popup-liquidacion-expediente-detalle/popup-liquidacion-expediente-detalle.component";
 import { VideoAdministrarComponent } from "./pages/video-administrar/video-administrar.component";
 import { PopupExpedienteOrdenesComponent } from "./pages/liquidacion/popups/popup-expediente-ordenes/popup-expediente-ordenes.component";
+import { CobroTercerosComponent } from "./pages/matricula/cobro-terceros/cobro-terceros.component";
+import { PopupCobroTercerosComponent } from "./pages/matricula/cobro-terceros/popup-cobro-terceros/popup-cobro-terceros.component";
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -260,6 +262,8 @@ registerLocaleData(localeEsAR, "es-Ar");
     VideoAdministrarComponent,
     PopupVideoComponent,
     PopupExpedienteOrdenesComponent,
+    CobroTercerosComponent,
+    PopupCobroTercerosComponent,
   ],
   imports: [
     BrowserModule,
@@ -348,6 +352,7 @@ registerLocaleData(localeEsAR, "es-Ar");
     PopupArchivoDosComponent,
     PopupArchivoIngBrutosComponent,
     PopupVideoComponent,
+    PopupCobroTercerosComponent,
   ],
   providers: [
     CurrencyPipe,

@@ -1,3 +1,4 @@
+import { CobroTercerosComponent } from "./pages/matricula/cobro-terceros/cobro-terceros.component";
 import { PacienteComponent } from "./pages/mantenimiento/paciente/paciente.component";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
@@ -51,6 +52,7 @@ const routes: Routes = [
       { path: "obrasocial/convenio", component: ConvenioComponent },
       { path: "matricula", component: MatriculaGeneralComponent },
       { path: "matricula/cobro", component: MatriculaCobroComponent },
+      { path: "matricula/cobro/terceros", component: CobroTercerosComponent },
       { path: "matricula/caja", component: MatriculaCajaComponent },
 
       /* -------------------------------------------------------------------------- */

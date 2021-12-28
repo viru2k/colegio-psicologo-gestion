@@ -9,7 +9,7 @@ import { FormControl, Validators, FormGroup } from "@angular/forms";
 import swal from "sweetalert2";
 import { OverlayPanelModule, OverlayPanel } from "primeng/overlaypanel";
 import { ActivatedRoute, Route, Router } from "@angular/router";
-import { PopupMovimientoComponent } from "../popup-movimiento/popup-movimiento.component";
+import { PopupCobroTercerosComponent } from "./popup-cobro-terceros/popup-cobro-terceros.component";
 import { MovimientoCajaService } from "./../../../services/movimiento-caja.service";
 import { calendarioIdioma } from "./../../../config/config";
 import { ExcelService } from "./../../../services/excel.service";
@@ -23,11 +23,11 @@ const jsPDF = require("jspdf");
 require("jspdf-autotable");
 
 @Component({
-  selector: "app-listado-caja",
-  templateUrl: "./listado-caja.component.html",
-  styleUrls: ["./listado-caja.component.css"],
+  selector: "app-cobro-terceros",
+  templateUrl: "./cobro-terceros.component.html",
+  styleUrls: ["./cobro-terceros.component.scss"],
 })
-export class ListadoCajaComponent implements OnInit {
+export class CobroTercerosComponent implements OnInit {
   cols: any[];
   colsRecibo: any[];
   es: any;
@@ -81,18 +81,15 @@ export class ListadoCajaComponent implements OnInit {
       { field: "cuenta_nombre", header: "Cuenta", width: "16%" },
       { field: "tipo_comprobante", header: "Comprobante", width: "12%" },
       { field: "concepto_cuenta", header: "Concepto", width: "16%" },
-      { field: "proveedor_nombre", header: "A nombre", width: "20%" },
+      { field: "proveedor_registro_nombre", header: "A nombre", width: "20%" },
       { field: "comprobante_numero", header: "Número", width: "10%" },
       { field: "descripcion", header: "Descripción", width: "20%" },
       { field: "movimiento_tipo", header: "Tipo", width: "10%" },
       { field: "tipo_moneda", header: "Moneda", width: "10%" },
-      { field: "importe", header: "Importe", width: "10%" },
-      { field: "cotizacion", header: "Cotización", width: "10%" },
       { field: "total", header: "Total", width: "10%" },
     ];
 
     this.colsRecibo = [
-      { title: "A Nombre", dataKey: "nombreyapellido_paciente" },
       { title: "Concepto", dataKey: "concepto_cuenta" },
       { title: "Descripcion", dataKey: "descripcion" },
       { title: "Total", dataKey: "total" },
@@ -117,6 +114,7 @@ export class ListadoCajaComponent implements OnInit {
           console.log(resp);
           console.log(resp[0]["pto_vta_id"]);
           this.pto_vta = resp[0]["pto_vta_id"];
+          this.loadMovimientoRegistro();
         },
         (error) => {
           // error path
@@ -213,15 +211,15 @@ export class ListadoCajaComponent implements OnInit {
   nuevo() {
     const data: any = null;
 
-    const ref = this.dialogService.open(PopupMovimientoComponent, {
+    const ref = this.dialogService.open(PopupCobroTercerosComponent, {
       data,
       header: "Registrar movimiento",
       width: "98%",
       height: "95%",
     });
 
-    ref.onClose.subscribe((PopupMovimientoComponent: any) => {
-      if (PopupMovimientoComponent) {
+    ref.onClose.subscribe((PopupCobroTercerosComponent: any) => {
+      if (PopupCobroTercerosComponent) {
         this.loadMovimientoRegistro();
       }
     });
@@ -268,15 +266,15 @@ export class ListadoCajaComponent implements OnInit {
     event.es_cierre = false;
     const data: any = event;
 
-    const ref = this.dialogService.open(PopupMovimientoComponent, {
+    const ref = this.dialogService.open(PopupCobroTercerosComponent, {
       data,
       header: "Editar ingreso",
       width: "98%",
       height: "95%",
     });
 
-    ref.onClose.subscribe((PopupMovimientoComponent: any) => {
-      if (PopupMovimientoComponent) {
+    ref.onClose.subscribe((PopupCobroTercerosComponent: any) => {
+      if (PopupCobroTercerosComponent) {
         this.loadMovimientoRegistro();
       }
     });
@@ -298,7 +296,7 @@ export class ListadoCajaComponent implements OnInit {
 
     try {
       this.movimientoCajaService
-        .geRegistroMovimientoBydate(this._fechaDesde, this._fechaHasta)
+        .geRegistroMovimientoBydatev2(this._fechaDesde, this._fechaHasta)
         .subscribe(
           (resp) => {
             if (resp[0]) {
@@ -522,17 +520,13 @@ doc.addImage(logo_clinica, 'PNG', 10, 10, 40, 11,undefined,'FAST');
       28
     );
     doc.text(
-      "Concepto: " + datosRecibo["concepto_cuenta"],
+      "A nombre: " + datosRecibo["proveedor_registro_nombre"],
       pageWidth / 2 + 10,
-      32
+      34
     );
     doc.setFontSize(8);
-    doc.text("Detalle: " + datosRecibo["descripcion"], pageWidth / 2 + 10, 36);
     doc.text(
-      "Cuenta: " +
-        datosRecibo["cuenta_nombre"] +
-        " " +
-        datosRecibo["movimiento_tipo"],
+      "Forma pago: " + datosRecibo["cuenta_nombre"],
       pageWidth / 2 + 10,
       40
     );
@@ -568,9 +562,8 @@ doc.addImage(logo_clinica, 'PNG', 10, 10, 40, 11,undefined,'FAST');
         overflow: "linebreak",
       },
       columnStyles: {
-        nombreyapellido_paciente: { columnWidth: 50 },
         concepto_cuenta: { columnWidth: 70 },
-        descripcion: { columnWidth: 45 },
+        descripcion: { columnWidth: 90 },
         total: { columnWidth: 20 },
       },
     });
