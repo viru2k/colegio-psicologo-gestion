@@ -1,44 +1,13 @@
 <div class="faq-title text-center pb-3 pt-2">
   <h5>GESTION DE VIDEOS</h5>
 </div>
+<h5>Publicar en</h5>
+<p-selectButton
+  [options]="types"
+  [(ngModel)]="selectedType"
+  (onChange)="loadlist()"
+></p-selectButton>
 
-<div>
-  <div>
-    <h6>Texto</h6>
-    <p-inputSwitch
-      (onChange)="handleChangeTexto($event)"
-      [(ngModel)]="texto"
-    ></p-inputSwitch>
-  </div>
-  <div>
-    <h6>Video</h6>
-    <p-inputSwitch
-      (onChange)="handleChangeVideo($event)"
-      [(ngModel)]="video"
-    ></p-inputSwitch>
-  </div>
-  <div>
-    <h6>Imagen</h6>
-    <p-inputSwitch
-      (onChange)="handleChangeImagen($event)"
-      [(ngModel)]="imagen"
-    ></p-inputSwitch>
-  </div>
-  <div>
-    <h6>eDocumento</h6>
-    <p-inputSwitch
-      (onChange)="handleChangeDocumento($event)"
-      [(ngModel)]="documento"
-    ></p-inputSwitch>
-  </div>
-  <div>
-    <h6>Yotube</h6>
-    <p-inputSwitch
-      (onChange)="handleChangeYotube($event)"
-      [(ngModel)]="youtube"
-    ></p-inputSwitch>
-  </div>
-</div>
 <div class="m-2">
   <div class="m-2 d-flex justfiy-content-between">
     <div class="mr-auto">
@@ -48,7 +17,10 @@
     </div>
     <div class="d-flex justify-content-center"></div>
   </div>
-  <p-scrollPanel [style]="{ width: '100%', height: '500px' }">
+  <p-scrollPanel
+    [style]="{ width: '100%', height: '500px' }"
+    *ngIf="elementos.length > 0"
+  >
     <p-orderList
       [value]="elementos"
       [listStyle]="{ height: 'auto' }"
@@ -60,10 +32,10 @@
     >
       <ng-template let-product pTemplate="item">
         <div class="card d-flex justfiy-content-between row p-2">
-          <div class="image-container">
+          <div class="image-container ml-2">
             <img
               *ngIf="product.tiene_imagen === 'SI'"
-              src="{{ product.ruta + product.imagen }}"
+              src="{{ product.ruta + 'uploads/imagenes/' + product.imagen }}"
               onerror="this.onerror=null; this.src='../../../assets/images/no-imagen.png'"
               class="product-image"
               width="32px"
@@ -71,7 +43,7 @@
             />
             <img
               *ngIf="product.es_video === 'SI'"
-              src="{{ product.ruta + product.imagen }}"
+              src="{{ product.ruta + 'uploads/videos/' + product.imagen }}"
               onerror="this.onerror=null; this.src='../../../assets/images/multimedia-imagen.png'"
               class="product-image"
               width="32px"
@@ -79,7 +51,7 @@
             />
             <img
               *ngIf="product.tiene_enlace === 'SI'"
-              src="{{ product.ruta + product.imagen }}"
+              src="this.src='../../../assets/images/doc-imagen.png"
               onerror="this.onerror=null; this.src='../../../assets/images/doc-imagen.png'"
               class="product-image"
               width="32px"

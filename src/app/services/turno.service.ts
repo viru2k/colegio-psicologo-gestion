@@ -5,6 +5,7 @@ import { URL_SERVICIOS } from "./../config/config";
 import { PARAMS } from "../config/config";
 import { User } from "../models/user.model";
 import { UsuarioModulo } from "../models/user-modulo.model";
+import { StringMap } from "@angular/compiler/src/compiler_facade_interface";
 
 @Injectable({
   providedIn: "root",
@@ -198,8 +199,16 @@ export class TurnoService {
   /*                                   VIDEOS                                   */
   /* -------------------------------------------------------------------------- */
 
-  getMultimedia() {
-    return this.http.get<any[]>(this.url + "multimedia/ordenado");
+  getMultimedia(seccion: string) {
+    if (seccion === "privado") {
+      return this.http.get<any[]>(
+        this.url + "multimedia/ordenado?tipo_noticias=privado"
+      );
+    } else {
+      return this.http.get<any[]>(
+        this.url + "multimedia/ordenado?tipo_noticias=publico"
+      );
+    }
   }
 
   UploadFileDatos(archivos: any) {
@@ -216,7 +225,21 @@ export class TurnoService {
     );
   }
 
-  delMultimedia(id: string) {
-    return this.http.delete<string>(this.url + "multimedia/" + id);
+  delMultimedia(id: string, ruta: string) {
+    const aborrar = { id: id };
+    return this.http.post<any>(this.url + "multimedia/remover/" + ruta, {
+      id: id,
+    });
+  }
+
+  uploadNoticia(archivo: any, destino: string) {
+    return this.http.post<any>(
+      this.url + "multimedia/noticia?destino=" + destino,
+      archivo
+    );
+  }
+
+  uploadNoticiaBody(body: any) {
+    return this.http.post<any>(this.url + "multimedia/noticia/body", body);
   }
 }

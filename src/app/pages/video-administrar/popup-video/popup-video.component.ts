@@ -1,3 +1,4 @@
+import { TurnoService } from "./../../../services/turno.service";
 import { AlertServiceService } from "./../../../services/alert-service.service";
 import {
   DynamicDialogConfig,
@@ -7,8 +8,9 @@ import {
 } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
-import { TurnoService } from "../../../../../../turnos-llamador/src/app/services/turno.service";
+
 import { calendarioIdioma } from "src/app/config/config";
+import { take } from "rxjs/operators";
 
 @Component({
   selector: "app-popup-video",
@@ -23,18 +25,23 @@ export class PopupVideoComponent implements OnInit {
   updateDataForm: FormGroup;
   forma_pago: string;
   _fechaHoy: string;
-  selectedPagina: string;
+
   estado: "ACTIVO";
   elementoTipo: any[] = [];
   elementoPagina: any[] = [];
-  elementoTipoComprobante: any[] = [];
-  elementoMoneda: any[] = [];
+  selectedPagina = "INICIO";
+
+  texto: boolean = true;
+  video: boolean = false;
+  imagen: boolean = false;
+  documento: boolean = false;
+  youtube: boolean = false;
+  file_data: any;
 
   constructor(
     public config: DynamicDialogConfig,
     private turnoService: TurnoService,
     private alertServiceService: AlertServiceService,
-    private messageService: MessageService,
     public ref: DynamicDialogRef,
     public dialogService: DialogService
   ) {
@@ -50,37 +57,38 @@ export class PopupVideoComponent implements OnInit {
     ];
 
     this.elementoPagina = [
-      { pagina: "ASUNTOSPROFESIONALES", code: "ASUNTOSPROFESIONALES" },
-      { pagina: "INCIO", code: "INCIO" },
+      { pagina: "ASUNTOS PROFESIONALES", code: "ASUNTOSPROFESIONALES" },
+      { pagina: "INICIO", code: "INICIO" },
       { pagina: "REVISORES", code: "REVISORES" },
-      { pagina: "SECRETARIAGENERAL", code: "SECRETARIAGENERAL" },
+      { pagina: "SECRETARIA GENERAL", code: "SECRETARIAGENERAL" },
       { pagina: "SOCIAL", code: "SOCIAL" },
       { pagina: "TESORERIA", code: "TESORERIA" },
     ];
 
     this.updateDataForm = new FormGroup({
       descripcion: new FormControl(),
-      enlace: new FormControl(""),
       enlace_video: new FormControl(null),
       enlace_video_youtube: new FormControl(null),
-      es_curso: new FormControl("NO"),
-      es_importante: new FormControl("NO"),
+      es_curso: new FormControl("NO"), // no se usa mas
       es_video: new FormControl("NO"),
       es_youtube: new FormControl("NO"),
-      estado: new FormControl("ACTIVO"), // debe concatenarsecon movimiento tipo 'movimiento_tipo': new FormControl(),
+      tiene_imagen: new FormControl("NO"),
+      imagen: new FormControl(""),
+      tiene_enlace: new FormControl("NO"),
+      enlace: new FormControl(""),
+      es_importante: new FormControl("NO"),
+      estado: new FormControl("ACTIVO"),
       fecha_creacion: new FormControl(new Date()),
       id: new FormControl(),
-      imagen: new FormControl(""),
       pagina: new FormControl("INICIO"),
+      code: new FormControl("INICIO"),
       ruta: new FormControl(""),
-      tiene_enlace: new FormControl("NO"),
-      tiene_imagen: new FormControl("NO"),
       titulo: new FormControl(""),
       updated_at: new FormControl(new Date()),
+      file_data: new FormControl(""),
     });
 
-    console.log(this.config.data);
-    if (!!this.config.data) {
+    /*  if (!!this.config.data) {
       let _fecha: Date = new Date(this.config.data.fecha_creacion);
       let dateFix = new Date(
         _fecha.getTime() + _fecha.getTimezoneOffset() * 60 * 1000
@@ -99,42 +107,164 @@ export class PopupVideoComponent implements OnInit {
         fecha_creacion: new Date(this.config.data.fecha_creacion),
       });
       console.log(this.updateDataForm.value);
-    }
+    } */
   }
 
   ngOnInit() {
-    this.getPagina();
+    console.log(this.config.data);
+    //this.getPagina();
+    this.updateDataForm.patchValue({ code: "INICIO" });
   }
 
-  buscarFactura() {}
+  handleChangeVideo(e) {
+    let isChecked = e.checked;
+    if (this.video) {
+      console.log("video");
 
-  calcularTotal() {
-    this.updateDataForm.patchValue({
-      total:
-        this.updateDataForm.value.importe *
-        this.updateDataForm.value.cotizacion,
-    });
+      this.imagen = false;
+      this.documento = false;
+      this.texto = false;
+      this.youtube = false;
+      this.updateDataForm.patchValue({ es_video: "SI" });
+      this.updateDataForm.patchValue({ es_youtube: "NO" });
+      this.updateDataForm.patchValue({ tiene_imagen: "NO" });
+      this.updateDataForm.patchValue({ tiene_enlace: "NO" });
+    }
+  }
+  handleChangeImagen(e) {
+    this.video = false;
+    this.documento = false;
+    this.texto = false;
+    this.youtube = false;
+    this.updateDataForm.patchValue({ es_video: "NO" });
+    this.updateDataForm.patchValue({ es_youtube: "NO" });
+    this.updateDataForm.patchValue({ tiene_imagen: "SI" });
+    this.updateDataForm.patchValue({ tiene_enlace: "NO" });
+  }
+  handleChangeDocumento(e) {
+    this.video = false;
+    this.imagen = false;
+    this.documento = true;
+    this.texto = false;
+    this.youtube = false;
+    this.updateDataForm.patchValue({ es_video: "NO" });
+    this.updateDataForm.patchValue({ es_youtube: "NO" });
+    this.updateDataForm.patchValue({ tiene_imagen: "NO" });
+    this.updateDataForm.patchValue({ tiene_enlace: "SI" });
+  }
+  handleChangeTexto(e) {
+    this.video = false;
+    this.imagen = false;
+    this.documento = false;
+    this.youtube = false;
+    this.updateDataForm.patchValue({ es_video: "NO" });
+    this.updateDataForm.patchValue({ es_youtube: "NO" });
+    this.updateDataForm.patchValue({ tiene_imagen: "NO" });
+    this.updateDataForm.patchValue({ tiene_enlace: "NO" });
+  }
+  handleChangeYotube(e) {
+    this.video = false;
+    this.imagen = false;
+    this.documento = false;
+    this.texto = false;
+    this.updateDataForm.patchValue({ es_video: "NO" });
+    this.updateDataForm.patchValue({ es_youtube: "SI" });
+    this.updateDataForm.patchValue({ tiene_imagen: "NO" });
+    this.updateDataForm.patchValue({ tiene_enlace: "NO" });
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                             CONCEPTO DE CUENTA                             */
+  /*                             GESTION DE ARCHIVOS                          */
   /* -------------------------------------------------------------------------- */
 
-  changeElementoPagina(event) {
-    console.log(event.value);
-    this.updateDataForm.patchValue({ mov_concepto_cuenta_id: event.value.id });
+  changeElementoPagina(event): void {
+    this.updateDataForm.patchValue({ pagina: event.value.code });
   }
 
-  changeElementoTipoDocumento(event) {
-    console.log(event.value);
-    this.updateDataForm.patchValue({ mov_tipo_comprobante_id: event.value.id });
+  fileChange(event): void {
+    let file_data_image = event.target.files[0];
+    //get file information such as name, size and type
+    //max file size is 4 mb
+    if (file_data_image.size / 1048576 <= 20) {
+      var myFormData = new FormData();
+
+      myFormData.append("file_data", file_data_image);
+      this.file_data = myFormData;
+      this.updateDataForm.patchValue({ file_data: file_data_image.name });
+    } else {
+      this.alertServiceService.throwAlert(
+        "warning",
+        "Atención: " + " El tamaño del archivo es mayor a 20 Mb",
+        "",
+        "Interno"
+      );
+    }
   }
 
-  actualizarDatos() {
+  getDestino(): string {
+    if (this.documento) {
+      return "documentos";
+    }
+
+    if (this.video) {
+      return "videos";
+    }
+
+    if (this.imagen) {
+      return "imagenes";
+    }
+  }
+
+  actualizarDatos(): void {
+    if (this.texto) {
+      this.actualizarDatosBody();
+    } else {
+      this.actualizarDatosFile();
+    }
+  }
+
+  actualizarDatosFile() {
     console.log(this.updateDataForm.value);
-    if (this.esEditar) {
-      try {
-        this.turnoService.UploadFileDatos(this.updateDataForm.value).subscribe(
+
+    try {
+      this.turnoService
+        .uploadNoticia(this.file_data, this.getDestino())
+        .pipe(take(1))
+        .subscribe(
+          (resp) => {
+            this.actualizarDatosBody();
+          },
+          (error) => {
+            // error path
+            console.log(error.message);
+            console.log(error.status);
+            this.alertServiceService.throwAlert(
+              "error",
+              "Error: " + error.status + "  Error al cargar los registros",
+              error.message,
+              error.status
+            );
+          }
+        );
+    } catch (error) {
+      this.alertServiceService.throwAlert(
+        "error",
+        "Error: " + error.status + "  Error al cargar los registros",
+        error.message,
+        error.status
+      );
+    }
+  }
+
+  actualizarDatosBody() {
+    this.updateDataForm.patchValue({ ruta: this.config.data });
+    console.log(this.updateDataForm.value);
+    console.log(this.file_data);
+    try {
+      this.turnoService
+        .uploadNoticiaBody(this.updateDataForm.value)
+        .pipe(take(1))
+        .subscribe(
           (resp) => {
             this.alertServiceService.throwAlert(
               "success",
@@ -156,18 +286,18 @@ export class PopupVideoComponent implements OnInit {
             );
           }
         );
-      } catch (error) {
-        this.alertServiceService.throwAlert(
-          "error",
-          "Error: " + error.status + "  Error al cargar los registros",
-          error.message,
-          error.status
-        );
-      }
+    } catch (error) {
+      this.alertServiceService.throwAlert(
+        "error",
+        "Error: " + error.status + "  Error al cargar los registros",
+        error.message,
+        error.status
+      );
     }
   }
 
-  async getPagina() {
+  /* 
+  getPagina() {
     this.updateDataForm
       .get("pagina")
       .setValue(
@@ -175,5 +305,5 @@ export class PopupVideoComponent implements OnInit {
           (elem) => elem.pagina === this.config.data.pagina
         )
       );
-  }
+  } */
 }

@@ -7,6 +7,11 @@ export const URL_SERVICIOS =
 export const URL_ARCHIVO =
   "https://colegiodepsicologossj.com.ar/api-psicologo-gestion/public/";
 
+/* export const URL_SERVICIOS =
+  "http://sd-1881122-h00001.ferozo.net/api-psicologo-gestion/public/api/";
+export const URL_ARCHIVO =
+  "http://sd-1881122-h00001.ferozo.net/api-psicologo-gestion/public/"; */
+
 /***********SERVER DE PRUEBAS ********************** */
 
 export const PARAMS = "json=";

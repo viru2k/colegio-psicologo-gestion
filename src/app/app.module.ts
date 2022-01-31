@@ -1,4 +1,3 @@
-import { PopupVideoComponent } from "./pages/video-administrar/popup-video/popup-video.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, Injector, LOCALE_ID } from "@angular/core";
 
@@ -59,6 +58,7 @@ import { StepsModule } from "primeng/steps";
 import { ColorPickerModule } from "primeng/colorpicker";
 import { TabViewModule } from "primeng/tabview";
 import { EditorModule } from "primeng/editor";
+import { SelectButtonModule } from "primeng/selectbutton";
 
 /* -------------------------------------------------------------------------- */
 /*                            LIBRERIAS DE TERCEROS                           */
@@ -164,6 +164,7 @@ import { VideoAdministrarComponent } from "./pages/video-administrar/video-admin
 import { PopupExpedienteOrdenesComponent } from "./pages/liquidacion/popups/popup-expediente-ordenes/popup-expediente-ordenes.component";
 import { CobroTercerosComponent } from "./pages/matricula/cobro-terceros/cobro-terceros.component";
 import { PopupCobroTercerosComponent } from "./pages/matricula/cobro-terceros/popup-cobro-terceros/popup-cobro-terceros.component";
+import { PopupVideoComponent } from "./pages/video-administrar/popup-video/popup-video.component";
 /* -------------------------------------------------------------------------- */
 /*                                 DIRECTIVAS                                 */
 /* -------------------------------------------------------------------------- */
@@ -289,6 +290,7 @@ registerLocaleData(localeEsAR, "es-Ar");
     DynamicDialogModule,
     OrderListModule,
     InputTextareaModule,
+    SelectButtonModule,
     ScrollPanelModule,
     ProgressSpinnerModule,
     InputSwitchModule,

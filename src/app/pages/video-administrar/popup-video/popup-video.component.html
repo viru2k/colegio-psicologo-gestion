@@ -11,7 +11,7 @@
             formControlName="fecha_creacion"
             tabindex="0"
             [locale]="es"
-            dateFormat="dd/mm/yy H:m"
+            dateFormat="dd/mm/yy"
             [readonlyInput]="false"
           >
             <ng-template pTemplate="date" let-date>
@@ -55,32 +55,21 @@
           />
         </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <div>
-        <label>Es Imagen</label>
-      </div>
-      <div class="input-group input-group-sm mb-3">
-        <div class="ui-g" style="width: 250px; margin-bottom: 10px">
-          <div class="ui-g-12">
-            <p-radioButton
-              name="group2"
-              value="SI"
-              label="SI"
-              formControlName="tiene_imagen"
-              inputId="preopt4"
-            ></p-radioButton>
-          </div>
-          <div class="ui-g-12">
-            <p-radioButton
-              name="group2"
-              value="NO"
-              label="NO"
-              formControlName="tiene_imagen"
-              inputId="preopt3"
-            ></p-radioButton>
-          </div>
+      <div class="form-group">
+        <div>
+          <label>Archivo a subir</label>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+          <input
+            #imageInput
+            placeholder="Seleccione una imagen"
+            class="form-control col-md-12 form-control-sm"
+            (change)="fileChange($event)"
+            type="file"
+            placeholder="File"
+            accept="image/*,.pdf ,.PDF , .doc, .docx, .xls, .xlsx, .mp4, .mpeg"
+          />
         </div>
       </div>
     </div>
@@ -93,12 +82,12 @@
         <div class="input-group input-group-sm mb-3">
           <p-dropdown
             [options]="elementoPagina"
-            formControlName="pagina"
+            formControlName="code"
             (onChange)="changeElementoPagina($event)"
-            placeholder="Pagina"
+            placeholder="Seleccione una pagina"
             optionLabel="pagina"
             [showClear]="true"
-            [filter]="true"
+            [filter]="false"
           ></p-dropdown>
         </div>
       </div>
@@ -110,7 +99,7 @@
           <div class="ui-g" style="width: 250px; margin-bottom: 10px">
             <div class="ui-g-12">
               <p-radioButton
-                name="group2"
+                name="group44"
                 value="ACTIVO"
                 label="ACTIVO"
                 formControlName="estado"
@@ -119,7 +108,7 @@
             </div>
             <div class="ui-g-12">
               <p-radioButton
-                name="group2"
+                name="group44"
                 value="INACTIVO"
                 label="INACTIVO"
                 formControlName="estado"
@@ -160,6 +149,50 @@
     </div>
   </div>
 </form>
+<label><b> Tipo de archivo </b></label>
+<div class="row ml-5">
+  <div class="row mr-2">
+    <div class="mr-2 ml-2">
+      <h6>Texto (sin archivo)</h6>
+      <p-inputSwitch
+        (onChange)="handleChangeTexto($event)"
+        [(ngModel)]="texto"
+      ></p-inputSwitch>
+    </div>
+    <div class="mr-2 ml-2">
+      <h6>Video</h6>
+      <p-inputSwitch
+        (onChange)="handleChangeVideo($event)"
+        [(ngModel)]="video"
+      ></p-inputSwitch>
+    </div>
+  </div>
+  <div class="row mr-2">
+    <div class="mr-2 ml-2">
+      <h6>Imagen</h6>
+      <p-inputSwitch
+        (onChange)="handleChangeImagen($event)"
+        [(ngModel)]="imagen"
+      ></p-inputSwitch>
+    </div>
+    <div class="mr-2 ml-2">
+      <h6>Yotube</h6>
+      <p-inputSwitch
+        (onChange)="handleChangeYotube($event)"
+        [(ngModel)]="youtube"
+      ></p-inputSwitch>
+    </div>
+  </div>
+  <div class="row">
+    <div class="mr-2 ml-2">
+      <h6>Documento</h6>
+      <p-inputSwitch
+        (onChange)="handleChangeDocumento($event)"
+        [(ngModel)]="documento"
+      ></p-inputSwitch>
+    </div>
+  </div>
+</div>
 <p-footer>
   <div class="ui-dialog-buttonpane ui-helper-clearfix mt-2">
     <button
